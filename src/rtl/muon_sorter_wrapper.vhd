@@ -31,13 +31,8 @@ entity muon_sorter_top is
 
   generic (output_number : integer := 2);  -- number of sorted candidates
 
-  port (clk          : in  std_logic;
-        rst          : in  std_logic;
-        sink_valid   : in  std_logic;
-        source_valid : out std_logic;
-        veto_mul     : in  std_logic_vector(CandidateNumber-1 downto 0);
-        muon_cand    : in  MuonCandidateArray(0 to CandidateNumber-1);
-        top_cand     : out MuonCandidateArray(0 to output_number-1));
+  port (clk : in std_logic;
+        rst : in std_logic);
 
 end entity muon_sorter_top;
 
@@ -45,9 +40,21 @@ end entity muon_sorter_top;
 
 architecture behavior of muon_sorter_top is
 
+  attribute dont_touch : string;  
+
+
+  signal sink_valid   : std_logic;
+  
+  signal source_valid : std_logic;
+  signal veto_mul     : std_logic_vector(CandidateNumber-1 downto 0);
+  signal muon_cand    : MuonCandidateArray(0 to CandidateNumber-1);
+  signal top_cand     : MuonCandidateArray(0 to output_number-1);
+
   signal muon_cand_reg       : MuonCandidateArray(muon_cand'range);
   signal muon_pos_veto_data  : MuonCandidateArray(muon_cand'range);
   signal muon_pos_veto_valid : std_logic;
+
+  attribute dont_touch of sink_valid, source_valid, veto_mul, muon_cand, top_cand: signal is "true";  
 
 begin  -- architecture behavior
 

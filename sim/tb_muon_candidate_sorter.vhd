@@ -51,6 +51,7 @@ architecture testbench of tb_muon_candidate_sorter is
   signal source_valid : std_logic;
   signal muon_cand    : MuonCandidateArray(0 to CandidateNumber-1);
   signal top_cand     : MuonCandidateArray(0 to output_number-1);
+  signal veto_mul     : std_logic_vector(CandidateNumber-1 downto 0) := (others => '0');
 
   procedure Message (str : string) is   -- prints string argument to the console
     variable buf : line;
@@ -68,6 +69,7 @@ begin  -- architecture testbench
               rst          => rst,
               sink_valid   => sink_valid,
               source_valid => source_valid,
+              veto_mul     => veto_mul,
               muon_cand    => muon_cand,
               top_cand     => top_cand);
 
@@ -110,6 +112,7 @@ begin  -- architecture testbench
 --          max_idx(1) := i;
 --        end if;
 --      end loop;  -- i
+      wait until rising_edge(clk);
       wait until rising_edge(clk);
       wait until rising_edge(clk);
       wait until rising_edge(clk);

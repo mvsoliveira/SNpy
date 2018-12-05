@@ -25,11 +25,11 @@ use ieee.numeric_std_unsigned.all;
 
 package MuctpiDataTypes is
 
-  constant CandidateNumber : natural := 26;
+  constant CandidateNumber : natural := 52;
   subtype CandidateIndex is natural range 0 to CandidateNumber-1;
   subtype CandidateIndexValue is std_logic_vector(4 downto 0);
 
-  subtype CandidatePtValue is std_logic_vector(2 downto 0);
+  subtype CandidatePtValue is std_logic_vector(3 downto 0);
 
   constant SectorNumber : natural := 13;
   subtype SectorIndex is integer range 0 to SectorNumber-1;

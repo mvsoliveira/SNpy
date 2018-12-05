@@ -28,7 +28,7 @@ use work.MuctpiFunctions.all;
 entity muon_sorter is
   
   generic (num_in  : integer := CandidateNumber;  -- Number of candidates to be sorted
-           num_out : integer := 2);     -- Number of sorted muons
+           num_out : integer := 16);     -- Number of sorted muons
 
   port (clk          : in  std_logic;
         rst          : in  std_logic;
@@ -97,7 +97,7 @@ begin
     --wait until rising_edge(clk);
     -- assign the highset pt candidate index to the corresponding output
     for k in top_cand'range loop
-      muon := (sector => X"0", pt => O"0", roi => X"00");
+      muon := (sector => X"0", pt => X"0", roi => X"00");
       for i in muon_cand'range loop
         -- there can only be one highest pt candidate, so ne can use a logical OR to implement a multiplexer
 --        enable := pt_compare(k)(i) ?= all_greater;
