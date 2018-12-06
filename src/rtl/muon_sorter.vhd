@@ -6,7 +6,7 @@
 -- Author     : Stefan Haas
 -- Company    : CERN PH-ATE
 -- Created    : 12-07-13
--- Last update: 2013-11-05
+-- Last update: 2018-12-06
 -- Platform   : Windows XP
 -- Standard   : VHDL-2008
 -------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ entity muon_sorter is
         rst          : in  std_logic;
         sink_valid   : in  std_logic;
         source_valid : out std_logic;
-        muon_cand    : in  MuonCandidateArray(0 to CandidateNumber-1);
+        muon_cand    : in  MuonCandidateArray(0 to num_in-1);
         top_cand     : out MuonCandidateArray(0 to num_out-1));
 
 end muon_sorter;

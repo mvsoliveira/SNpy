@@ -7,7 +7,7 @@
 -- Author     : Marcos Oliveira
 -- Company    : CERN
 -- Created    : 2018-12-05
--- Last update: 2018-12-05
+-- Last update: 2018-12-06
 -- Platform   : Vivado 2017.2 and Mentor Modelsim SE-64 10.4a
 -- Standard   : VHDL'93/02
 ----------------------------------------------------------------------------------------------------------------------
@@ -22,11 +22,16 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use IEEE.math_real.all;
+
+use work.MuctpiDataTypes.all;
+use work.MuctpiFunctions.all;
 
 entity wrapper is
 
   generic (
-    N : natural := 0);
+    N : natural := 2;
+    O : natural := 2);
 
   port (
     clk_wrapper : in  std_logic;
@@ -37,6 +42,14 @@ entity wrapper is
 end entity wrapper;
 
 architecture rtl of wrapper is
+
+  --constants
+  constant i_width         : integer := N*MuonCandidateLength;
+  constant o_width_desired : integer := O*MuonCandidateLength;
+  constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
+  constant o_width         : integer := 4**log4_o_width;
+
+  --components
 
   component lfsr is
     generic (
@@ -56,22 +69,30 @@ architecture rtl of wrapper is
       output_bit   : out std_logic);
   end component reducer;
 
-  signal input_vector  : std_logic_vector(16-1 downto 0);
-  signal output_vector : std_logic_vector(16-1 downto 0);
+  signal input_vector  : std_logic_vector(i_width-1 downto 0) := (others => '0');
+  signal output_vector : std_logic_vector(o_width-1 downto 0) := (others => '0');
 
-  attribute DONT_TOUCH              : string;
-  attribute DONT_TOUCH of lsfr_1    : label is "TRUE";
-  attribute DONT_TOUCH of reducer_1 : label is "TRUE";
+  signal muon_cand    : MuonCandidateArray(0 to N-1);
+  signal muon_cand_c  : MuonCandidateArray(0 to N-1);
+  signal top_cand     : MuonCandidateArray(0 to O-1);
+  signal source_valid : std_logic;
+
+  attribute DONT_TOUCH                  : string;
+  attribute DONT_TOUCH of lsfr_1        : label is "TRUE";
+  attribute DONT_TOUCH of reducer_1     : label is "TRUE";
+  attribute DONT_TOUCH of muon_sorter_1 : label is "TRUE";
 
 
-
+--  attribute KEEP              : string;
+--  attribute KEEP of muon_cand : signal is "TRUE";
+--  attribute KEEP of top_cand : signal is "TRUE";
 
 
 begin  -- architecture rtl
 
   lsfr_1 : lfsr
     generic map (
-      WIDTH => 16)
+      WIDTH => i_width)
     port map (
       clock         => clk_wrapper,
       input_bit     => input,
@@ -79,7 +100,7 @@ begin  -- architecture rtl
 
   reducer_1 : reducer
     generic map (
-      input_width_log4 => 2)
+      input_width_log4 => log4_o_width)
     port map (
       clock        => clk_wrapper,
       input_vector => output_vector,
@@ -92,9 +113,25 @@ begin  -- architecture rtl
   process (clk_user) is
   begin
     if rising_edge(clk_user) then
-      output_vector <= input_vector;
+      muon_cand <= muon_cand_c;
     end if;
   end process;
+
+  muon_cand_c                                     <= to_muon(input_vector, N);
+  --output_vector <= (others => '0');
+  output_vector(O*MuonCandidateLength-1 downto 0) <= to_stdv(top_cand, O);
+
+  muon_sorter_1 : entity work.muon_sorter
+    generic map (
+      num_in  => N,
+      num_out => O)
+    port map (
+      clk          => clk_user,
+      rst          => '0',
+      sink_valid   => '1',
+      source_valid => source_valid,
+      muon_cand    => muon_cand,
+      top_cand     => top_cand);
 
 
 end architecture rtl;

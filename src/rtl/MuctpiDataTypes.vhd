@@ -6,7 +6,7 @@
 -- Author     : Stefan Haas
 -- Company    : CERN PH-ATE
 -- Created    : 12-07-13
--- Last update: 2018-11-08
+-- Last update: 2018-12-06
 -- Platform   : Windows XP
 -- Standard   : VHDL-2008
 -------------------------------------------------------------------------------
@@ -37,6 +37,8 @@ package MuctpiDataTypes is
 
   subtype RoiNumber is integer range 0 to 255;
   subtype RoiNumberValue is std_logic_vector(7 downto 0);
+
+  constant MuonCandidateLength : integer := 16;
 
   type MuonCandidate is record
     sector : SectorIndexValue;
