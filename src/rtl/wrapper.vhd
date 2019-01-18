@@ -7,7 +7,7 @@
 -- Author     : Marcos Oliveira
 -- Company    : CERN
 -- Created    : 2018-12-05
--- Last update: 2018-12-06
+-- Last update: 2018-12-12
 -- Platform   : Vivado 2017.2 and Mentor Modelsim SE-64 10.4a
 -- Standard   : VHDL'93/02
 ----------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ use work.MuctpiFunctions.all;
 entity wrapper is
 
   generic (
-    N : natural := 2;
+    I : natural := 2;
     O : natural := 2);
 
   port (
@@ -44,7 +44,7 @@ end entity wrapper;
 architecture rtl of wrapper is
 
   --constants
-  constant i_width         : integer := N*MuonCandidateLength;
+  constant i_width         : integer := I*MuonCandidateLength;
   constant o_width_desired : integer := O*MuonCandidateLength;
   constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
   constant o_width         : integer := 4**log4_o_width;
@@ -70,10 +70,13 @@ architecture rtl of wrapper is
   end component reducer;
 
   signal input_vector  : std_logic_vector(i_width-1 downto 0) := (others => '0');
+  signal input_slr     : std_logic;
   signal output_vector : std_logic_vector(o_width-1 downto 0) := (others => '0');
+  signal output_slr    : std_logic;
 
-  signal muon_cand    : MuonCandidateArray(0 to N-1);
-  signal muon_cand_c  : MuonCandidateArray(0 to N-1);
+
+  signal muon_cand    : MuonCandidateArray(0 to I-1);
+  signal muon_cand_c  : MuonCandidateArray(0 to I-1);
   signal top_cand     : MuonCandidateArray(0 to O-1);
   signal source_valid : std_logic;
 
@@ -90,12 +93,23 @@ architecture rtl of wrapper is
 
 begin  -- architecture rtl
 
+  shift_reg_tap_i : entity work.shift_reg_tap
+    generic map (
+      dw => 1,
+      tw => 3)
+    port map (
+      clk    => clk_wrapper,
+      ce     => '1',
+      tap    => (others => '1'),
+      input(0)  => input,
+      output(0) => input_slr);
+
   lsfr_1 : lfsr
     generic map (
       WIDTH => i_width)
     port map (
       clock         => clk_wrapper,
-      input_bit     => input,
+      input_bit     => input_slr,
       output_vector => input_vector);
 
   reducer_1 : reducer
@@ -104,7 +118,18 @@ begin  -- architecture rtl
     port map (
       clock        => clk_wrapper,
       input_vector => output_vector,
-      output_bit   => output);
+      output_bit   => output_slr);
+
+  shift_reg_tap_o : entity work.shift_reg_tap
+    generic map (
+      dw => 1,
+      tw => 3)
+    port map (
+      clk    => clk_wrapper,
+      ce     => '1',
+      tap    => (others => '1'),
+      input(0)  => output_slr,
+      output(0) => output);
 
   ----------------------------------------------------------------------------------------------------------------------
   -- Logic being tested
@@ -117,13 +142,12 @@ begin  -- architecture rtl
     end if;
   end process;
 
-  muon_cand_c                                     <= to_muon(input_vector, N);
-  --output_vector <= (others => '0');
+  muon_cand_c                                     <= to_muon(input_vector, I);
   output_vector(O*MuonCandidateLength-1 downto 0) <= to_stdv(top_cand, O);
 
   muon_sorter_1 : entity work.muon_sorter
     generic map (
-      num_in  => N,
+      num_in  => I,
       num_out => O)
     port map (
       clk          => clk_user,
