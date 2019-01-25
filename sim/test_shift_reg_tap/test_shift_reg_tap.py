@@ -1,5 +1,5 @@
 import cocotb
-from cocotb.triggers import *
+from cocotb.triggers import RisingEdge, Timer, ReadOnly
 from cocotb.clock import Clock
 from cocotb.result import TestFailure, TestSuccess
 from cocotb.regression import TestFactory
@@ -19,17 +19,15 @@ def write_stim(clk, ce, signal, data):
 
 @cocotb.coroutine
 def check_resp(clk, signal, data, tap):
-    for r in range(tap):
+    for t in range(tap):
         yield RisingEdge(clk)
     for d in data:
         yield RisingEdge(clk)
         yield ReadOnly()
         # signal._log.info('Expected = {e:d}. Found = {f:d}.'.format(e=d,f=int(signal.value)))
-        if int(signal.value) == d:
-            raise TestSuccess()
-        else:
+        if int(signal.value) != d:
             raise TestFailure("Output didn't match. Expected = {e:d}. Found = {f:d}.".format(e=d, f=int(signal.value)))
-
+    raise TestSuccess()
 
 @cocotb.coroutine
 def run_test(dut, tap=0, n=1):
@@ -54,7 +52,7 @@ def run_test(dut, tap=0, n=1):
     yield stim_thread.join()
     yield check_thread.join()
 
-    # yield Timer(200)
+    yield Timer(200)
 
     dut._log.info("Finished")
 

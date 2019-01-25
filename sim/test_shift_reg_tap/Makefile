@@ -13,7 +13,7 @@ VCOM_ARGS=-2008
 # set generics
 VSIM_ARGS+=-gdw=16 -gtw=5
 # vhdl files
-VHDL_SOURCES = $(PWD)/../src/rtl/shift_reg_tap.vhd
+VHDL_SOURCES = $(PWD)/../../src/rtl/shift_reg_tap.vhd
 # top-level entity name
 TOPLEVEL=shift_reg_tap
 # python test name
