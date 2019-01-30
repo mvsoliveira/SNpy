@@ -32,7 +32,6 @@ entity muon_sorter is
 	        delay   : positive := 1);   -- delay in clock cycles for pipeline register
 
 	port(clk          : in  std_logic;
-	     rst          : in  std_logic;
 	     sink_valid   : in  std_logic;
 	     source_valid : out std_logic;
 	     muon_cand    : in  MuonCandidateArray(0 to num_in - 1);
