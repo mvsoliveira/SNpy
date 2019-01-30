@@ -6,7 +6,7 @@
 -- Author     : Stefan Haas
 -- Company    : CERN PH-ATE
 -- Created    : 12-07-13
--- Last update: 2018-12-06
+-- Last update: 2019-01-29
 -- Platform   : Windows XP
 -- Standard   : VHDL-2008
 -------------------------------------------------------------------------------
