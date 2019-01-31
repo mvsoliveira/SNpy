@@ -61,7 +61,7 @@ architecture behavior of muon_sorter_hierarchical is
 begin
 
 	-- compare pt
-	mh_compare_pt_and_find_max_pt : entity work.mh_compare_pt_and_find_max_pt
+	mh_compare_pt_and_find_max_pt_hierarchical_0 : entity work.mh_compare_pt_and_find_max_pt_hierarchical
 		generic map(
 			num_in  => num_in,
 			num_out => num_out)

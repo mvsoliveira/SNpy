@@ -1,5 +1,5 @@
 # number of clock cycles with data
-export SIM_LEN=1000
+export SIM_LEN=100
 # always generate the same random sequence
 export RANDOM_SEED=1377424946
 # raise an error when trying to read
