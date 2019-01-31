@@ -30,10 +30,6 @@ begin
         -- comparison matrix for the top candidate
           pt_compare(0, i)(j) <= compare_pt(muon_cand(i).pt, muon_cand(j).pt);
         -- derive the 2nd half from the 1st
-        elsif j > i then
-          for k in 0 to 0 loop
-            pt_compare(k, i)(j - 1) <= not pt_compare(k, j)(i);
-          end loop;  -- k
         end if;
       end loop;  -- j
     end loop;  -- i

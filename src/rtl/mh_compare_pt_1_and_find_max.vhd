@@ -37,10 +37,7 @@ begin
           end loop;  -- k
                                       -- derive the 2nd half from the 1st
         elsif j > i then
-          for k in 0 to 0 loop
-            pt_compare(k, i)(j - 1) <= not pt_compare_0(k, j)(i);
-          end loop;
-          for k in 1 to num_out - 1 loop
+          for k in 0 to num_out - 1 loop
             pt_compare(k, i)(j - 1) <= not pt_compare(k, j)(i);
           end loop;  -- k
         end if;
