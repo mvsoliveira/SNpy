@@ -27,9 +27,9 @@ use work.MuctpiFunctions.all;
 
 entity muon_sorter is
 
-	generic(num_in  : integer  := CandidateNumber; -- Number of candidates to be sorted
+	generic(num_in  : integer  := 32;   -- candidates to be sorted
 	        num_out : integer  := 16;   -- Number of sorted muons
-	        delay   : positive := 1);   -- delay in clock cycles for pipeline register
+	        delay   : positive := 3);   -- delay in clock cycles for pipeline register
 
 	port(clk          : in  std_logic;
 	     sink_valid   : in  std_logic;

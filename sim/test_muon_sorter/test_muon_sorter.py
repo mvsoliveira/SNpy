@@ -92,7 +92,7 @@ class MyTB(object):
             for muon, name, len in ((self.muon_cand, 'non sorted', self.num_in) , (self.py_sorted_muon, 'py  sorted', self.num_out), (self.sim_sorted_muon, 'sim sorted', self.num_out)):
                 self.dut._log.info('Printing {name:s} data for clock cycle {i:04d}'.format(i=i, name=name))
                 for j in range(len):
-                    self.dut._log.info("In: {input:03d} | pt: 0x{pt:01x} | sector: 0x{sector:01x} | roi: 0x{roi:02x}".format(
+                    self.dut._log.info("Id: {input:03d} | pt: 0x{pt:01x} | sector: 0x{sector:01x} | roi: 0x{roi:02x}".format(
                         pt=muon[i][j]['pt'], sector=muon[i][j]['sector'], roi=muon[i][j]['roi'], input=j))
 
 

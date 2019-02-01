@@ -17,12 +17,12 @@ VCOM_ARGS=-2008
 # sets timescale to ps if desired, default ns
 #VSIM_ARGS+	=-t 1ps
 # set generics
-VSIM_ARGS+=-gnum_in=12 -gnum_out=2 -gdelay=2 -gint_reg=True
+VSIM_ARGS+=-gnum_in=64 -gnum_out=16 -gdelay=10 -gint_reg=True
 # vhdl files
 include ../RTLFiles.inc
 # top-level entity name
-#TOPLEVEL=muon_sorter
-TOPLEVEL=muon_sorter_hierarchical
+TOPLEVEL=muon_sorter
+#TOPLEVEL=muon_sorter_hierarchical
 # python test name
 MODULE=test_muon_sorter
 # include to cocotb makefiles

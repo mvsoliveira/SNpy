@@ -29,15 +29,17 @@ use work.MuctpiFunctions.all;
 
 entity wrapper is
 
-  generic (
-    I : natural := 2;
-    O : natural := 2);
+	generic(
+		I     : natural  := 16;
+		O     : natural  := 16;
+		delay : positive := 3           -- delay in clock cycles for pipeline register
+	);
 
-  port (
-    clk_wrapper : in  std_logic;
-    clk_user    : in  std_logic;
-    input       : in  std_logic;
-    output      : out std_logic);
+	port(
+		clk_wrapper : in  std_logic;
+		clk_user    : in  std_logic;
+		input       : in  std_logic;
+		output      : out std_logic);
 
 end entity wrapper;
 
@@ -83,7 +85,7 @@ architecture rtl of wrapper is
   attribute DONT_TOUCH                  : string;
   attribute DONT_TOUCH of lsfr_1        : label is "TRUE";
   attribute DONT_TOUCH of reducer_1     : label is "TRUE";
-  attribute DONT_TOUCH of muon_sorter_1 : label is "TRUE";
+  --attribute DONT_TOUCH of muon_sorter_1 : label is "TRUE";
 
 
 --  attribute KEEP              : string;
@@ -91,7 +93,7 @@ architecture rtl of wrapper is
 --  attribute KEEP of top_cand : signal is "TRUE";
 
 
-begin  -- architecture rtl
+begin                                   -- architecture rtl
 
   shift_reg_tap_i : entity work.shift_reg_tap
     generic map (
@@ -148,10 +150,10 @@ begin  -- architecture rtl
   muon_sorter_1 : entity work.muon_sorter
     generic map (
       num_in  => I,
-      num_out => O)
+      num_out => O,
+      delay => delay)
     port map (
       clk          => clk_user,
-      rst          => '0',
       sink_valid   => '1',
       source_valid => source_valid,
       muon_cand    => muon_cand,
