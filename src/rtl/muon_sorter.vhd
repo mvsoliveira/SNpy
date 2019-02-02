@@ -27,9 +27,9 @@ use work.MuctpiFunctions.all;
 
 entity muon_sorter is
 
-	generic(num_in  : integer  := 32;   -- candidates to be sorted
-	        num_out : integer  := 16;   -- Number of sorted muons
-	        delay   : positive := 3);   -- delay in clock cycles for pipeline register
+	generic(num_in  : natural;   -- candidates to be sorted
+	        num_out : natural;   -- Number of sorted muons
+	        delay   : natural);   -- delay in clock cycles for pipeline register
 
 	port(clk          : in  std_logic;
 	     sink_valid   : in  std_logic;
@@ -61,6 +61,8 @@ architecture behavior of muon_sorter is
 	
 
 	-- pipeline
+	
+	
 	type sr_t is array (integer range <>) of MuonCandidateArray(0 to num_out - 1);
 	signal sr : sr_t(0 to delay);
 	signal sr_v : std_logic_vector(0 to delay);
@@ -68,6 +70,10 @@ architecture behavior of muon_sorter is
 	attribute shreg_extract : string;
 	attribute shreg_extract of sr : signal is "no";
 	attribute shreg_extract of sr_v : signal is "no";
+	
+	attribute syn_srlstyle: string;  
+    attribute syn_srlstyle of sr : signal is "registers";
+    attribute syn_srlstyle of sr_v : signal is "registers";
 
 begin
 

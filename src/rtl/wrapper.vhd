@@ -32,7 +32,7 @@ entity wrapper is
 	generic(
 		I     : natural  := 16;
 		O     : natural  := 16;
-		delay : positive := 3           -- delay in clock cycles for pipeline register
+		delay : natural := 3           -- delay in clock cycles for pipeline register
 	);
 
 	port(
@@ -72,9 +72,9 @@ architecture rtl of wrapper is
   end component reducer;
 
   signal input_vector  : std_logic_vector(i_width-1 downto 0) := (others => '0');
-  signal input_slr     : std_logic;
+  signal input_slr     : std_logic_vector(i_width-1 downto 0) := (others => '0');
   signal output_vector : std_logic_vector(o_width-1 downto 0) := (others => '0');
-  signal output_slr    : std_logic;
+  signal output_slr    : std_logic_vector(o_width-1 downto 0) := (others => '0');
 
 
   signal muon_cand    : MuonCandidateArray(0 to I-1);
@@ -95,43 +95,45 @@ architecture rtl of wrapper is
 
 begin                                   -- architecture rtl
 
-  shift_reg_tap_i : entity work.shift_reg_tap
-    generic map (
-      dw => 1,
-      tw => 3)
-    port map (
-      clk    => clk_wrapper,
-      ce     => '1',
-      tap    => (others => '1'),
-      input(0)  => input,
-      output(0) => input_slr);
-
   lsfr_1 : lfsr
     generic map (
       WIDTH => i_width)
     port map (
       clock         => clk_wrapper,
-      input_bit     => input_slr,
+      input_bit     => input,
       output_vector => input_vector);
+      
+        shift_reg_tap_i : entity work.shift_reg_tap
+    generic map (
+      dw => i_width,
+      tw => 4)
+    port map (
+      clk    => clk_user,
+      ce     => '1',
+      tap    => (others => '1'),
+      input  => input_vector,
+      output => input_slr);
+      
+        shift_reg_tap_o : entity work.shift_reg_tap
+    generic map (
+      dw => o_width,
+      tw => 4)
+    port map (
+      clk    => clk_user,
+      ce     => '1',
+      tap    => (others => '1'),
+      input  => output_vector,
+      output => output_slr);
+
 
   reducer_1 : reducer
     generic map (
       input_width_log4 => log4_o_width)
     port map (
       clock        => clk_wrapper,
-      input_vector => output_vector,
-      output_bit   => output_slr);
+      input_vector => output_slr,
+      output_bit   => output);
 
-  shift_reg_tap_o : entity work.shift_reg_tap
-    generic map (
-      dw => 1,
-      tw => 3)
-    port map (
-      clk    => clk_wrapper,
-      ce     => '1',
-      tap    => (others => '1'),
-      input(0)  => output_slr,
-      output(0) => output);
 
   ----------------------------------------------------------------------------------------------------------------------
   -- Logic being tested
@@ -144,7 +146,7 @@ begin                                   -- architecture rtl
     end if;
   end process;
 
-  muon_cand_c                                     <= to_muon(input_vector, I);
+  muon_cand_c                                     <= to_muon(input_slr, I);
   output_vector(O*MuonCandidateLength-1 downto 0) <= to_stdv(top_cand, O);
 
   muon_sorter_1 : entity work.muon_sorter
@@ -161,4 +163,3 @@ begin                                   -- architecture rtl
 
 
 end architecture rtl;
-

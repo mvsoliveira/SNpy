@@ -46,6 +46,9 @@ architecture rtl of shift_reg_tap is
   
   attribute shreg_extract : string;
   attribute shreg_extract of sr : signal is "no";
+  
+  attribute syn_srlstyle: string;  
+  attribute syn_srlstyle of sr : signal is "registers";
 
 begin  -- architecture rtl
 
