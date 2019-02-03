@@ -1,4 +1,4 @@
-proc create_run {I O D} {
+proc create_run {I O D {run 0}} {
 	puts "Creating run with I = $I, O = $O, D = $D"
 	set prjname [format "prj_I%03d_O%03d_D%03d" $I $O $D]
 	set basepath "D:/mygitlab/sorting"
@@ -24,7 +24,8 @@ proc create_run {I O D} {
 	hdl_param -set O $O
 	hdl_param -set delay $D
 	project -save $prjpath
-	project -run compile 
+	project -run compile
+	cd ${basepath}/syn
 	export_project -instance muon_sorter_1 -add_file {../src/rtl/MuctpiDataTypes.vhd ../src/rtl/MuctpiFunctions.vhd ../src/rtl/muon_sorter.vhd} -no_default_hdl -project $subprjpath
 
 	project_data -active $subprjpath
@@ -47,15 +48,32 @@ proc create_run {I O D} {
 	project_data -active $prjpath
 	set_option -job par_1 -option enable_run 1
 	#impl -active rev_1
-	project -run
+	if {$run == 1} {project -run}  
+	project -save $prjpath
 }
 
 
+proc range {from to {step 1}} {
+	set res $from; while {$to>$from} {lappend res [incr from $step]}; return $res
+}
 
-create_run 16 16 0
-create_run 16 16 1
-create_run 16 16 2
-create_run 16 16 3
+set cfgs [] 
+lappend cfgs [list 16 16 [range 0 4]]
+lappend cfgs [list 32 16 [range 0 7]]
+#lappend cfgs [list 48 16 [range 0 8]]
+#lappend cfgs [list 64 16 [range 0 10]]
+
+foreach cfg $cfgs {
+	foreach {I O Dr} $cfg {
+		foreach {D} $Dr {
+			puts "$I $O $D"
+			create_run $I $O $D 1
+			
+		}
+	}
+}
+
+
 
 #run_tcl D:/mygitlab/sorting/src/tcl/generate_syn_runs.tcl
 
