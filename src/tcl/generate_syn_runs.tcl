@@ -58,9 +58,9 @@ proc range {from to {step 1}} {
 }
 
 set cfgs [] 
-lappend cfgs [list 16 16 [range 0 4]]
-lappend cfgs [list 32 16 [range 0 7]]
-#lappend cfgs [list 48 16 [range 0 8]]
+#lappend cfgs [list 16 16 [range 0 5]]
+#lappend cfgs [list 32 16 [range 0 7]]
+lappend cfgs [list 48 16 [range 0 8]]
 #lappend cfgs [list 64 16 [range 0 10]]
 
 foreach cfg $cfgs {
