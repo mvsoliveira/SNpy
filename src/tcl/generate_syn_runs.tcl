@@ -20,6 +20,8 @@ proc create_run {I O D {run 0}} {
 	set_option -package FLGC2104
 	set_option -vhdl2008 1
 	set_option -retiming 0
+	set_option -frequency 160
+	set_option -fanout_limit 16	
 	hdl_param -set I $I
 	hdl_param -set O $O
 	hdl_param -set delay $D
@@ -35,6 +37,8 @@ proc create_run {I O D {run 0}} {
 	set_option -package FLGC2104
 	set_option -vhdl2008 1
 	set_option -retiming 1
+	set_option -frequency 160
+	set_option -fanout_limit 16
 	hdl_param -set num_in $I
 	hdl_param -set num_out $O
 	hdl_param -set delay $D
@@ -58,9 +62,9 @@ proc range {from to {step 1}} {
 }
 
 set cfgs [] 
-#lappend cfgs [list 16 16 [range 0 5]]
-#lappend cfgs [list 32 16 [range 0 7]]
-lappend cfgs [list 48 16 [range 0 8]]
+lappend cfgs [list 16 16 [range 0 5]]
+lappend cfgs [list 32 16 [range 0 7]]
+#lappend cfgs [list 48 16 [range 0 8]]
 #lappend cfgs [list 64 16 [range 0 10]]
 
 foreach cfg $cfgs {
