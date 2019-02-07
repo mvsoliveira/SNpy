@@ -37,9 +37,19 @@ entity wrapper is
 
 	port(
 		clk_wrapper : in  std_logic;
-		clk_user    : in  std_logic;
+		clk    : in  std_logic;
 		input       : in  std_logic;
 		output      : out std_logic);
+		attribute syn_loc : string;
+		attribute syn_pad_type : string;				
+		attribute syn_loc of clk_wrapper :signal is"AU33"; 
+		attribute syn_loc of clk :signal is"AV33";
+		attribute syn_loc of input :signal is"AN32";
+		attribute syn_loc of output :signal is"AU31";
+		attribute syn_pad_type of clk_wrapper : signal is "LVCMOS18";						
+		attribute syn_pad_type of clk : signal is "LVCMOS18";						
+		attribute syn_pad_type of input : signal is "LVCMOS18";						
+		attribute syn_pad_type of output  : signal is "LVCMOS18";						
 
 end entity wrapper;
 
@@ -108,7 +118,7 @@ begin                                   -- architecture rtl
       dw => i_width,
       tw => 4)
     port map (
-      clk    => clk_user,
+      clk    => clk,
       ce     => '1',
       tap    => (others => '1'),
       input  => input_vector,
@@ -119,7 +129,7 @@ begin                                   -- architecture rtl
       dw => o_width,
       tw => 4)
     port map (
-      clk    => clk_user,
+      clk    => clk,
       ce     => '1',
       tap    => (others => '1'),
       input  => output_vector,
@@ -139,9 +149,9 @@ begin                                   -- architecture rtl
   -- Logic being tested
   ----------------------------------------------------------------------------------------------------------------------
 
-  process (clk_user) is
+  process (clk) is
   begin
-    if rising_edge(clk_user) then
+    if rising_edge(clk) then
       muon_cand <= muon_cand_c;
     end if;
   end process;
@@ -155,7 +165,7 @@ begin                                   -- architecture rtl
       num_out => O,
       delay => delay)
     port map (
-      clk          => clk_user,
+      clk          => clk,
       sink_valid   => '1',
       source_valid => source_valid,
       muon_cand    => muon_cand,
