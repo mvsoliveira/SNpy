@@ -2,7 +2,7 @@ import glob
 import re
 import csv
 
-basepaths = glob.glob('../syn/prj*')
+basepaths = glob.glob('../syn/*')
 basepaths.sort()
 
 extract_info = []
