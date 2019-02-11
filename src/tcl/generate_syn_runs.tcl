@@ -56,6 +56,18 @@ proc create_run {I O D {run 1} opt} {
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
 		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+	}
+	freq40retfan10000 {
+	    set_option -frequency 40
+	    set_option -fanout_limit 10000
+		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
+		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+	}
+	freq40retfan16 {
+	    set_option -frequency 40
+	    set_option -fanout_limit 16
+		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
+		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
 	}	
 	default {
 	    puts "Invalid opt option!"
@@ -109,7 +121,7 @@ proc create_run {I O D {run 1} opt} {
 		add_file -constraint ${basepath}/src/xdc/clock_80.sdc
 		add_file -constraint ${basepath}/src/xdc/muon_sorter.sdc
 	}	
-		freq320retfan10000 {
+	freq320retfan10000 {
 	    set_option -retiming 1
 	    set_option -frequency 320
 	    set_option -fanout_limit 10000
@@ -121,6 +133,20 @@ proc create_run {I O D {run 1} opt} {
 	    set_option -frequency 320
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
+		add_file -constraint ${basepath}/src/xdc/muon_sorter.sdc
+	}
+	freq40retfan10000 {
+	    set_option -retiming 1
+	    set_option -frequency 40
+	    set_option -fanout_limit 10000
+		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
+		add_file -constraint ${basepath}/src/xdc/muon_sorter.sdc
+	}
+	freq40retfan16 {
+	    set_option -retiming 1
+	    set_option -frequency 40
+	    set_option -fanout_limit 16
+		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
 		add_file -constraint ${basepath}/src/xdc/muon_sorter.sdc
 	}	
 	default {
@@ -144,11 +170,12 @@ proc range {from to {step 1}} {
 }
 
 set cfgs []
-set opts [list freq320retfan10000 freq320retfan16 freq160retfan10000 freq160retfan16 freq80retfan10000 freq80retfan16]
+set opts [list freq320retfan10000 freq320retfan16 freq160retfan10000 freq160retfan16 freq80retfan10000 freq80retfan16 freq40retfan10000 freq40retfan16]
 #lappend cfgs [list 16 16 [range 0 2]]
-lappend cfgs [list 16 2 [range 0 2]]
+#lappend cfgs [list 16 2 [range 0 2]]
 #lappend cfgs [list 16 16 [range 0 5]]
-#lappend cfgs [list 32 16 [range 0 7]]
+lappend cfgs [list 32 16 [range 0 5]]
+lappend cfgs [list 32 4 [range 0 5]]
 #lappend cfgs [list 48 16 [range 0 8]]
 #lappend cfgs [list 64 16 [range 0 10]]
 
