@@ -23,7 +23,7 @@ class MyTB(object):
         self.dut._log.info('Address width: {AW:d} | Data width: {DW:d}'.format(AW=self.AW,DW=self.DW))
         self.dut._log.info('#' * 50)
         self.gen_input()
-        self.py_sel_input()
+        self.gen_py_sel_input()
 
     
     @cocotb.coroutine
@@ -60,7 +60,7 @@ class MyTB(object):
             self.addr.append(random.randint(0,2**self.AW-1))
 
 
-    def py_sel_input(self):
+    def gen_py_sel_input(self):
         self.py_sel_input = []
         for i in range(self.n):
             self.py_sel_input.append(self.input[self.addr[i]])
