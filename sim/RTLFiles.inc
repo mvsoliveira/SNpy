@@ -1,11 +1,19 @@
-VHDL_SOURCES += $(PWD)/../../src/rtl/MuctpiDataTypes.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/muon_sorter_hierarchical.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/wrapper.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/mh_compare_pt_1_and_find_max.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/shift_reg_tap.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/mh_multiplexor.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/mh_compare_pt_0.vhd
 VHDL_SOURCES += $(PWD)/../../src/rtl/MuctpiFunctions.vhd
 VHDL_SOURCES += $(PWD)/../../src/rtl/SortingHierarchical.vhd
-#VHDL_SOURCES += $(PWD)/../../src/rtl/mh_compare_pt_and_find_max_pt.vhd
-VHDL_SOURCES += $(PWD)/../../src/rtl/mh_compare_pt_0.vhd
-VHDL_SOURCES += $(PWD)/../../src/rtl/mh_compare_pt_1_and_find_max.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/MuctpiDataTypes.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/candidate_veto.vhd
 VHDL_SOURCES += $(PWD)/../../src/rtl/mh_compare_pt_and_find_max_pt_hierarchical.vhd
-VHDL_SOURCES += $(PWD)/../../src/rtl/mh_multiplexor.vhd
-VHDL_SOURCES += $(PWD)/../../src/rtl/muon_sorter_hierarchical.vhd
 VHDL_SOURCES += $(PWD)/../../src/rtl/muon_sorter.vhd
-
+VHDL_SOURCES += $(PWD)/../../src/rtl/wrapper_hierarchical.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/mh_compare_pt_and_find_max_pt.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/mux/wrapper_mux.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/mux/mux.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/mux/mux_pkg.vhd
+VERILOG_SOURCES += $(PWD)/../../src/rtl/reducer.sv
+VERILOG_SOURCES += $(PWD)/../../src/rtl/lfsr.sv

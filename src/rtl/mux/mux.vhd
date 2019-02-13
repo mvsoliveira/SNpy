@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use work.mux_pkg.all;
 
 entity mux is
 	generic(
@@ -10,8 +11,8 @@ entity mux is
 	);
 	port(
 		clk          : in  std_logic;
-		sel          : out std_logic_vector(AW - 1 downto 0);
-		input        : in  std_logic_vector(DW * (2**AW) - 1 downto 0);
+		sel          : in  std_logic_vector(AW - 1 downto 0);
+		input        : in  array2d(0 to 2**AW - 1)(DW - 1 downto 0);
 		sink_valid   : in  std_logic;
 		source_valid : out std_logic;
 		output       : out std_logic_vector(DW - 1 downto 0)
@@ -20,7 +21,6 @@ end entity mux;
 
 architecture RTL of mux is
 
-	signal sel_int     : integer range 0 to 2**AW - 1;
 	signal output_comb : std_logic_vector(DW - 1 downto 0);
 
 	-- pipeline
@@ -39,8 +39,7 @@ architecture RTL of mux is
 
 begin
 
-	sel_int     <= to_integer(unsigned(sel));
-	output_comb <= input((sel_int + 1) * DW - 1 downto sel_int * DW);
+	output_comb <= input(to_integer(unsigned(sel)));
 
 	sr_p : process(all) is
 	begin

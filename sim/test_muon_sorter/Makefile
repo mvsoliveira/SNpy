@@ -19,7 +19,7 @@ VCOM_ARGS=-2008
 # set generics
 VSIM_ARGS+=-gnum_in=64 -gnum_out=16 -gdelay=10 -gint_reg=True
 # vhdl files
-include ../RTLFiles.inc
+include ./RTLFiles.inc
 # top-level entity name
 TOPLEVEL=muon_sorter
 #TOPLEVEL=muon_sorter_hierarchical

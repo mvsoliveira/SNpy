@@ -40,6 +40,19 @@ extract_info.append({'name': 'HF+1',
                      'file': '/rev_1/par_1/design_analysis.txt',
                      'indx': 0})
 
+extract_info.append({'name': 'Cumulative Fanout',
+                     'rexp': ur"Cumulative Fanout\s+(?:\|[^\|]+){1}\|\s+(\d+)",
+                     'file': '/rev_1/par_1/design_analysis.txt',
+                     'indx': 0})
+extract_info.append({'name': 'CF-1',
+                     'rexp': ur"Cumulative Fanout\s+(?:\|[^\|]+){0}\|\s+(\d+)",
+                     'file': '/rev_1/par_1/design_analysis.txt',
+                     'indx': 0})
+extract_info.append({'name': 'CF+1',
+                     'rexp': ur"Cumulative Fanout\s+(?:\|[^\|]+){2}\|\s+(\d+)",
+                     'file': '/rev_1/par_1/design_analysis.txt',
+                     'indx': 0})
+
 extract_info.append({'name': 'Routes',
                      'rexp': ur"Routes\s+(?:\|[^\|]+){1}\|\s+(\d+)",
                      'file': '/rev_1/par_1/design_analysis.txt',
