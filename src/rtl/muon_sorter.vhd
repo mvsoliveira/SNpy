@@ -60,7 +60,7 @@ architecture behavior of muon_sorter is
 	signal top_cand_comb : MuonCandidateArray(0 to num_out - 1);
 	
 
-	-- pipeline
+	-- pipeline output
 	
 	
 	type sr_t is array (integer range <>) of MuonCandidateArray(0 to num_out - 1);
@@ -74,18 +74,35 @@ architecture behavior of muon_sorter is
 	attribute syn_srlstyle: string;  
     attribute syn_srlstyle of sr : signal is "registers";
     attribute syn_srlstyle of sr_v : signal is "registers";
+    
+   -- pipeline input
+   
+   	type in_sr_t is array (integer range <>) of MuonCandidateArray(0 to num_in - 1);
+	signal in_sr : sr_t(0 to delay);
+	signal in_sr_v : std_logic_vector(0 to delay);
+
+	attribute shreg_extract : string;
+	attribute shreg_extract of in_sr : signal is "no";
+	attribute shreg_extract of in_sr_v : signal is "no";
+	
+	attribute syn_srlstyle: string;  
+    attribute syn_srlstyle of in_sr : signal is "registers";
+    attribute syn_srlstyle of in_sr_v : signal is "registers";
+    
+    signal muon_cand_sr    : MuonCandidateArray(0 to num_in - 1);
+    signal sink_valid_sr : std_logic;
 
 begin
 
 	compare_p : process(all) is
 	begin                               -- process
 	-- generate a comparison matrix
-		for i in muon_cand'range loop
-			for j in muon_cand'range loop
+		for i in muon_cand_sr'range loop
+			for j in muon_cand_sr'range loop
 				-- generate the first half of the comparison matrix
 				if j < i then
 					-- comparison matrix for the top candidate
-					pt_compare(0)(i)(j) <= compare_pt(muon_cand(i).pt, muon_cand(j).pt);
+					pt_compare(0)(i)(j) <= compare_pt(muon_cand_sr(i).pt, muon_cand_sr(j).pt);
 					-- derive the matrices for the next higher candidates
 					for k in 1 to num_out - 1 loop
 						-- invert the comparison result if either candidate is the highest one
@@ -113,13 +130,13 @@ begin
 	-- assign the highset pt candidate index to the corresponding output
 		for k in top_cand'range loop
 			muon             := (sector => X"0", pt => X"0", roi => X"00");
-			for i in muon_cand'range loop
+			for i in muon_cand_sr'range loop
 				-- there can only be one highest pt candidate, so ne can use a logical OR to implement a multiplexer
 				--        enable := pt_compare(k)(i) ?= all_greater;
 				enable      := max_pt(k)(i);
-				muon.pt     := muon.pt or (enable and muon_cand(i).pt);
-				muon.sector := muon.sector or (enable and muon_cand(i).sector);
-				muon.roi    := muon.roi or (enable and muon_cand(i).roi);
+				muon.pt     := muon.pt or (enable and muon_cand_sr(i).pt);
+				muon.sector := muon.sector or (enable and muon_cand_sr(i).sector);
+				muon.roi    := muon.roi or (enable and muon_cand_sr(i).roi);
 			end loop;
 			top_cand_comb(k) <= muon;
 		end loop;                       -- k
@@ -128,17 +145,33 @@ begin
 
 	sr_p : process(all) is
 	begin
-		sr(0)   <= top_cand_comb;
-		sr_v(0) <= sink_valid;
 		if rising_edge(clk) then
 			for i in 1 to delay loop
 				sr(i)   <= sr(i - 1);
 				sr_v(i) <= sr_v(i - 1);
 			end loop;
 		end if;
-	end process sr_p;
 
+
+
+		if rising_edge(clk) then
+			for i in 1 to delay loop
+				in_sr(i)   <= sr(i - 1);
+				in_sr_v(i) <= sr_v(i - 1);
+			end loop;
+		end if;
+	end process sr_p;
+	
+	sr(0)   <= top_cand_comb;
+	sr_v(0) <= sink_valid_sr;
+		
+	in_sr(0)   <= muon_cand;
+	in_sr_v(0) <= sink_valid;
+	
 	top_cand     <= sr(delay);
 	source_valid <= sr_v(delay);
+
+	muon_cand_sr     <= in_sr(delay);
+	sink_valid_sr <= in_sr_v(delay);
 
 end behavior;
