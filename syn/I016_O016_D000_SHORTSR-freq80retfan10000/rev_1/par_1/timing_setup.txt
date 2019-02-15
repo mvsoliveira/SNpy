@@ -1,0 +1,1329 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
+| Date              : Thu Feb 14 12:51:17 2019
+| Host              : PCPHESEBE02 running 64-bit Service Pack 1  (build 7601)
+| Command           : report_timing_summary -setup -nworst 5 -max_paths 5 -file timing_setup.txt
+| Design            : wrapper
+| Device            : xcvu9p-flgc2104
+| Speed File        : -1  PRODUCTION 1.20 05-21-2018
+| Temperature Grade : E
+-------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  false
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock
+2. checking constant_clock
+3. checking pulse_width_clock
+4. checking unconstrained_internal_endpoints
+5. checking no_input_delay
+6. checking no_output_delay
+7. checking multiple_clock
+8. checking generated_clocks
+9. checking loops
+10. checking partial_input_delay
+11. checking partial_output_delay
+12. checking latch_loops
+
+1. checking no_clock
+--------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock
+--------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock
+-----------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints
+--------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay
+--------------------------
+ There is 1 input port with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay
+---------------------------
+ There is 1 port with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock
+--------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks
+----------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops
+-----------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay
+--------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay
+---------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops
+------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+     -7.680     -543.997                    128                 1714        5.975        0.000                       0                  2570  
+
+
+Timing constraints are not met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock        Waveform(ns)         Period(ns)      Frequency(MHz)
+-----        ------------         ----------      --------------
+clk          {0.000 6.250}        12.500          80.000          
+clk_wrapper  {0.000 500.000}      1000.000        1.000           
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk                -7.680     -543.997                    128                 1714        5.975        0.000                       0                  1971  
+clk_wrapper                                                                             498.562        0.000                       0                   599  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk
+  To Clock:  clk
+
+Setup :          128  Failing Endpoints,  Worst Slack       -7.680ns,  Total Violation     -543.997ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack        5.975ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -7.680ns  (required time - arrival time)
+  Source:                 muon_cand_1.pt_1_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[240]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.500ns  (clk rise@12.500ns - clk rise@0.000ns)
+  Data Path Delay:        20.251ns  (logic 5.878ns (29.026%)  route 14.373ns (70.974%))
+  Logic Levels:           49  (LUT3=1 LUT4=7 LUT5=17 LUT6=24)
+  Clock Path Skew:        0.079ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.365ns = ( 15.865 - 12.500 ) 
+    Source Clock Delay      (SCD):    3.775ns
+    Clock Pessimism Removal (CPR):    0.490ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.634ns (routing 1.460ns, distribution 1.174ns)
+  Clock Net Delay (Destination): 2.535ns (routing 1.334ns, distribution 1.201ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.634     3.775    clk_c
+    SLICE_X108Y373       FDRE                                         r  muon_cand_1.pt_1_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X108Y373       FDRE (Prop_BFF_SLICEM_C_Q)
+                                                      0.095     3.870 f  muon_cand_1.pt_1_rep1/Q
+                         net (fo=8, routed)           0.260     4.130    muon_sorter_1/pt_1_rep1_8
+    SLICE_X109Y374       LUT4 (Prop_F6LUT_SLICEL_I0_O)
+                                                      0.148     4.278 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c2/O
+                         net (fo=1, routed)           0.100     4.378    muon_sorter_1/un9576_pt_compare_c2
+    SLICE_X109Y375       LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098     4.476 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c4/O
+                         net (fo=6, routed)           0.348     4.824    muon_sorter_1/un9576_pt_compare
+    SLICE_X104Y373       LUT5 (Prop_B6LUT_SLICEM_I3_O)
+                                                      0.116     4.940 r  muon_sorter_1/max_pt_0_0_x[9]/O
+                         net (fo=2, routed)           0.239     5.179    muon_sorter_1/max_pt_0_0_x[9]
+    SLICE_X105Y375       LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.177     5.356 r  muon_sorter_1/compare_p.9.6.compare_pt.op_qge.op_qge.un10186_pt_compare_c4_RNIF58D2/O
+                         net (fo=16, routed)          0.496     5.852    muon_sorter_1/max_pt_0[9]
+    SLICE_X109Y382       LUT5 (Prop_B6LUT_SLICEL_I2_O)
+                                                      0.100     5.952 r  muon_sorter_1/max_pt_1_0_4[8]/O
+                         net (fo=2, routed)           0.234     6.186    muon_sorter_1/max_pt_1_0_4[8]
+    SLICE_X109Y381       LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147     6.333 r  muon_sorter_1/max_pt_1_3[8]/O
+                         net (fo=14, routed)          0.461     6.794    muon_sorter_1/max_pt_1_3[8]
+    SLICE_X105Y380       LUT6 (Prop_B6LUT_SLICEL_I5_O)
+                                                      0.177     6.971 f  muon_sorter_1/pt_compare_2_9_0_a2[8]/O
+                         net (fo=6, routed)           0.111     7.082    muon_sorter_1/N_188
+    SLICE_X105Y381       LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116     7.198 r  muon_sorter_1/max_pt_2_3_N_8L17/O
+                         net (fo=1, routed)           0.112     7.310    muon_sorter_1/max_pt_2_3_N_8L17
+    SLICE_X104Y381       LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151     7.461 f  muon_sorter_1/max_pt_2_3_N_9L20/O
+                         net (fo=1, routed)           0.104     7.565    muon_sorter_1/max_pt_2_3_N_9L20
+    SLICE_X103Y381       LUT4 (Prop_F6LUT_SLICEL_I2_O)
+                                                      0.098     7.663 r  muon_sorter_1/max_pt_2_3[9]/O
+                         net (fo=13, routed)          0.262     7.925    muon_sorter_1/max_pt_2_3[9]
+    SLICE_X102Y380       LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179     8.104 f  muon_sorter_1/pt_compare_3_9_0_a2[4]/O
+                         net (fo=6, routed)           0.256     8.360    muon_sorter_1/pt_compare_3_9_0_a2[4]
+    SLICE_X102Y375       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.100     8.460 r  muon_sorter_1/max_pt_3_3_N_2L1_1/O
+                         net (fo=1, routed)           0.072     8.532    muon_sorter_1/max_pt_3_3_N_2L1_1
+    SLICE_X102Y375       LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.177     8.709 r  muon_sorter_1/max_pt_3_3[9]/O
+                         net (fo=13, routed)          0.451     9.160    muon_sorter_1/max_pt_3_3[9]
+    SLICE_X101Y374       LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.063     9.223 f  muon_sorter_1/pt_compare_12_9_23_0_a2[1]/O
+                         net (fo=9, routed)           0.452     9.675    muon_sorter_1/pt_compare_12_9_23_0_a2[1]
+    SLICE_X99Y374        LUT4 (Prop_H5LUT_SLICEM_I0_O)
+                                                      0.118     9.793 r  muon_sorter_1/max_pt_4_3_N_3L3_0_lut6_2_o6_lut6_2_o5/O
+                         net (fo=2, routed)           0.579    10.372    muon_sorter_1/max_pt_4_0_3[9]
+    SLICE_X94Y374        LUT6 (Prop_C6LUT_SLICEL_I1_O)
+                                                      0.038    10.410 r  muon_sorter_1/pt_compare_13_13_25_0_a2[9]/O
+                         net (fo=6, routed)           0.242    10.652    muon_sorter_1/pt_compare_13_13_25_0_a2[9]
+    SLICE_X95Y375        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100    10.752 r  muon_sorter_1/max_pt_5_1[9]/O
+                         net (fo=9, routed)           0.551    11.303    muon_sorter_1/max_pt_5_1[9]
+    SLICE_X100Y381       LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    11.401 r  muon_sorter_1/max_pt_5_x_lut6_2_o5_lut6_2_o5[9]/O
+                         net (fo=2, routed)           0.288    11.689    muon_sorter_1/max_pt_5_x[9]
+    SLICE_X99Y382        LUT6 (Prop_C6LUT_SLICEM_I1_O)
+                                                      0.174    11.863 r  muon_sorter_1/max_pt_6_1_3[4]/O
+                         net (fo=2, routed)           0.166    12.029    muon_sorter_1/max_pt_6_1_3[4]
+    SLICE_X98Y382        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.116    12.145 r  muon_sorter_1/max_pt_6_3[4]/O
+                         net (fo=17, routed)          0.367    12.512    muon_sorter_1/max_pt_6_3[4]
+    SLICE_X99Y383        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179    12.691 f  muon_sorter_1/pt_compare_15_5_29_0_a2[4]/O
+                         net (fo=9, routed)           0.258    12.949    muon_sorter_1/pt_compare_15_5_29_0_a2[4]
+    SLICE_X96Y384        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    13.065 r  muon_sorter_1/max_pt_7_0_x[5]/O
+                         net (fo=1, routed)           0.167    13.232    muon_sorter_1/max_pt_7_0_x[5]
+    SLICE_X96Y385        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.099    13.331 r  muon_sorter_1/max_pt_7_3[5]/O
+                         net (fo=8, routed)           0.285    13.616    muon_sorter_1/max_pt_7_3[5]
+    SLICE_X95Y385        LUT6 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.150    13.766 r  muon_sorter_1/pt_compare_8_9_0_a2[5]/O
+                         net (fo=6, routed)           0.506    14.272    muon_sorter_1/N_410
+    SLICE_X100Y385       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.150    14.422 r  muon_sorter_1/max_pt_8_3_N_4L6_1/O
+                         net (fo=1, routed)           0.106    14.528    muon_sorter_1/max_pt_8_3_N_4L6_1
+    SLICE_X100Y385       LUT5 (Prop_F6LUT_SLICEM_I3_O)
+                                                      0.098    14.626 r  muon_sorter_1/max_pt_8_3[5]/O
+                         net (fo=17, routed)          0.412    15.038    muon_sorter_1/max_pt_8_3[5]
+    SLICE_X98Y387        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    15.102 r  muon_sorter_1/pt_compare_9_5_0_a2[0]/O
+                         net (fo=4, routed)           0.249    15.351    muon_sorter_1/pt_compare_9_5_0_a2[0]
+    SLICE_X96Y389        LUT5 (Prop_G6LUT_SLICEL_I2_O)
+                                                      0.100    15.451 r  muon_sorter_1/max_pt_9_0_x[0]/O
+                         net (fo=1, routed)           0.359    15.810    muon_sorter_1/max_pt_9_0_x[0]
+    SLICE_X95Y390        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.174    15.984 r  muon_sorter_1/max_pt_9_3[0]/O
+                         net (fo=16, routed)          0.464    16.448    muon_sorter_1/max_pt_9_3[0]
+    SLICE_X96Y391        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038    16.486 f  muon_sorter_1/pt_compare_10_15_0_a2[0]/O
+                         net (fo=6, routed)           0.614    17.100    muon_sorter_1/pt_compare_10_15_0_a2[0]
+    SLICE_X92Y397        LUT4 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.062    17.162 r  muon_sorter_1/max_pt_10_3_N_8L15_0/O
+                         net (fo=1, routed)           0.159    17.321    muon_sorter_1/max_pt_10_3_N_8L15_0
+    SLICE_X93Y397        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.062    17.383 r  muon_sorter_1/max_pt_10_3[15]/O
+                         net (fo=11, routed)          0.125    17.508    muon_sorter_1/max_pt_10_3[15]
+    SLICE_X93Y397        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    17.606 r  muon_sorter_1/pt_compare_11_15_0_a2[10]/O
+                         net (fo=4, routed)           0.334    17.940    muon_sorter_1/pt_compare_11_15_0_a2[10]
+    SLICE_X96Y397        LUT5 (Prop_C6LUT_SLICEL_I2_O)
+                                                      0.148    18.088 r  muon_sorter_1/max_pt_11_1[10]/O
+                         net (fo=16, routed)          0.745    18.833    muon_sorter_1/max_pt_11_1[10]
+    SLICE_X100Y394       LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.117    18.950 r  muon_sorter_1/pt_compare_12_10_0_a2[5]/O
+                         net (fo=4, routed)           0.229    19.179    muon_sorter_1/N_881
+    SLICE_X102Y391       LUT5 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.113    19.292 r  muon_sorter_1/max_pt_12_1[5]/O
+                         net (fo=10, routed)          0.241    19.533    muon_sorter_1/max_pt_12_1[5]
+    SLICE_X102Y387       LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    19.712 r  muon_sorter_1/max_pt_12_x[5]/O
+                         net (fo=1, routed)           0.232    19.944    muon_sorter_1/max_pt_12_x[5]
+    SLICE_X105Y387       LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.063    20.007 f  muon_sorter_1/pt_compare_13_6_0_a2[5]/O
+                         net (fo=4, routed)           0.298    20.305    muon_sorter_1/pt_compare_13_6_0_a2[5]
+    SLICE_X105Y391       LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.177    20.482 f  muon_sorter_1/max_pt_13_3_N_3L4/O
+                         net (fo=1, routed)           0.047    20.529    muon_sorter_1/max_pt_13_3_N_3L4
+    SLICE_X105Y391       LUT4 (Prop_E6LUT_SLICEL_I3_O)
+                                                      0.100    20.629 r  muon_sorter_1/max_pt_13_3[6]/O
+                         net (fo=16, routed)          0.265    20.894    muon_sorter_1/max_pt_13_3[6]
+    SLICE_X104Y388       LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    21.071 f  muon_sorter_1/pt_compare_14_7_0_a2[6]/O
+                         net (fo=11, routed)          0.389    21.460    muon_sorter_1/pt_compare_15_7_0_a2_0[6]
+    SLICE_X108Y390       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.098    21.558 r  muon_sorter_1/max_pt_14_0[7]/O
+                         net (fo=1, routed)           0.269    21.827    muon_sorter_1/max_pt_14_0[7]
+    SLICE_X108Y391       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    21.865 r  muon_sorter_1/max_pt_14[7]/O
+                         net (fo=42, routed)          0.493    22.358    muon_sorter_1/max_pt_14[7]
+    SLICE_X106Y399       LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.100    22.458 f  muon_sorter_1/pt_compare_15_11_0_a2[7]/O
+                         net (fo=2, routed)           0.280    22.738    muon_sorter_1/pt_compare_15_11_0_a2[7]
+    SLICE_X108Y400       LUT3 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.064    22.802 r  muon_sorter_1/max_pt_15_2_x[11]/O
+                         net (fo=1, routed)           0.072    22.874    muon_sorter_1/max_pt_15_2_x[11]
+    SLICE_X108Y400       LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.177    23.051 r  muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]/O
+                         net (fo=1, routed)           0.122    23.173    muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]
+    SLICE_X108Y399       LUT6 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.174    23.347 r  muon_sorter_1/max_pt_15_N_4L7_0_RNI998DO/O
+                         net (fo=13, routed)          0.144    23.491    muon_sorter_1/max_pt_15[11]
+    SLICE_X109Y399       LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.115    23.606 r  muon_sorter_1/top_cand_comb_15.sector_2_1[0]/O
+                         net (fo=1, routed)           0.276    23.882    muon_sorter_1/sector_2_1_14[0]
+    SLICE_X110Y398       LUT6 (Prop_D6LUT_SLICEM_I5_O)
+                                                      0.062    23.944 r  muon_sorter_1/top_cand_comb_15.sector[0]/O
+                         net (fo=1, routed)           0.082    24.026    shift_reg_tap_o/sector[0]
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       12.500    12.500 r  
+    AV33                                              0.000    12.500 r  clk (IN)
+                         net (fo=0)                   0.000    12.500    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510    13.010 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000    13.010    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000    13.010 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296    13.306    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024    13.330 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.535    15.865    shift_reg_tap_o/clk_c
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/C
+                         clock pessimism              0.490    16.354    
+                         clock uncertainty           -0.035    16.319    
+    SLICE_X110Y398       FDRE (Setup_DFF_SLICEM_C_D)
+                                                      0.027    16.346    shift_reg_tap_o/sr_p.sr_1[240]
+  -------------------------------------------------------------------
+                         required time                         16.346    
+                         arrival time                         -24.026    
+  -------------------------------------------------------------------
+                         slack                                 -7.680    
+
+Slack (VIOLATED) :        -7.680ns  (required time - arrival time)
+  Source:                 muon_cand_1.pt_1_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[240]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.500ns  (clk rise@12.500ns - clk rise@0.000ns)
+  Data Path Delay:        20.251ns  (logic 5.878ns (29.026%)  route 14.373ns (70.974%))
+  Logic Levels:           49  (LUT3=1 LUT4=7 LUT5=17 LUT6=24)
+  Clock Path Skew:        0.079ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.365ns = ( 15.865 - 12.500 ) 
+    Source Clock Delay      (SCD):    3.775ns
+    Clock Pessimism Removal (CPR):    0.490ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.634ns (routing 1.460ns, distribution 1.174ns)
+  Clock Net Delay (Destination): 2.535ns (routing 1.334ns, distribution 1.201ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.634     3.775    clk_c
+    SLICE_X108Y373       FDRE                                         r  muon_cand_1.pt_1_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X108Y373       FDRE (Prop_BFF_SLICEM_C_Q)
+                                                      0.095     3.870 f  muon_cand_1.pt_1_rep1/Q
+                         net (fo=8, routed)           0.260     4.130    muon_sorter_1/pt_1_rep1_8
+    SLICE_X109Y374       LUT4 (Prop_F6LUT_SLICEL_I0_O)
+                                                      0.148     4.278 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c2/O
+                         net (fo=1, routed)           0.100     4.378    muon_sorter_1/un9576_pt_compare_c2
+    SLICE_X109Y375       LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098     4.476 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c4/O
+                         net (fo=6, routed)           0.348     4.824    muon_sorter_1/un9576_pt_compare
+    SLICE_X104Y373       LUT5 (Prop_B6LUT_SLICEM_I3_O)
+                                                      0.116     4.940 r  muon_sorter_1/max_pt_0_0_x[9]/O
+                         net (fo=2, routed)           0.239     5.179    muon_sorter_1/max_pt_0_0_x[9]
+    SLICE_X105Y375       LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.177     5.356 r  muon_sorter_1/compare_p.9.6.compare_pt.op_qge.op_qge.un10186_pt_compare_c4_RNIF58D2/O
+                         net (fo=16, routed)          0.496     5.852    muon_sorter_1/max_pt_0[9]
+    SLICE_X109Y382       LUT5 (Prop_B6LUT_SLICEL_I2_O)
+                                                      0.100     5.952 f  muon_sorter_1/max_pt_1_0_4[8]/O
+                         net (fo=2, routed)           0.234     6.186    muon_sorter_1/max_pt_1_0_4[8]
+    SLICE_X109Y381       LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147     6.333 f  muon_sorter_1/max_pt_1_3[8]/O
+                         net (fo=14, routed)          0.461     6.794    muon_sorter_1/max_pt_1_3[8]
+    SLICE_X105Y380       LUT6 (Prop_B6LUT_SLICEL_I5_O)
+                                                      0.177     6.971 f  muon_sorter_1/pt_compare_2_9_0_a2[8]/O
+                         net (fo=6, routed)           0.111     7.082    muon_sorter_1/N_188
+    SLICE_X105Y381       LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116     7.198 r  muon_sorter_1/max_pt_2_3_N_8L17/O
+                         net (fo=1, routed)           0.112     7.310    muon_sorter_1/max_pt_2_3_N_8L17
+    SLICE_X104Y381       LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151     7.461 f  muon_sorter_1/max_pt_2_3_N_9L20/O
+                         net (fo=1, routed)           0.104     7.565    muon_sorter_1/max_pt_2_3_N_9L20
+    SLICE_X103Y381       LUT4 (Prop_F6LUT_SLICEL_I2_O)
+                                                      0.098     7.663 r  muon_sorter_1/max_pt_2_3[9]/O
+                         net (fo=13, routed)          0.262     7.925    muon_sorter_1/max_pt_2_3[9]
+    SLICE_X102Y380       LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179     8.104 f  muon_sorter_1/pt_compare_3_9_0_a2[4]/O
+                         net (fo=6, routed)           0.256     8.360    muon_sorter_1/pt_compare_3_9_0_a2[4]
+    SLICE_X102Y375       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.100     8.460 r  muon_sorter_1/max_pt_3_3_N_2L1_1/O
+                         net (fo=1, routed)           0.072     8.532    muon_sorter_1/max_pt_3_3_N_2L1_1
+    SLICE_X102Y375       LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.177     8.709 r  muon_sorter_1/max_pt_3_3[9]/O
+                         net (fo=13, routed)          0.451     9.160    muon_sorter_1/max_pt_3_3[9]
+    SLICE_X101Y374       LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.063     9.223 f  muon_sorter_1/pt_compare_12_9_23_0_a2[1]/O
+                         net (fo=9, routed)           0.452     9.675    muon_sorter_1/pt_compare_12_9_23_0_a2[1]
+    SLICE_X99Y374        LUT4 (Prop_H5LUT_SLICEM_I0_O)
+                                                      0.118     9.793 r  muon_sorter_1/max_pt_4_3_N_3L3_0_lut6_2_o6_lut6_2_o5/O
+                         net (fo=2, routed)           0.579    10.372    muon_sorter_1/max_pt_4_0_3[9]
+    SLICE_X94Y374        LUT6 (Prop_C6LUT_SLICEL_I1_O)
+                                                      0.038    10.410 r  muon_sorter_1/pt_compare_13_13_25_0_a2[9]/O
+                         net (fo=6, routed)           0.242    10.652    muon_sorter_1/pt_compare_13_13_25_0_a2[9]
+    SLICE_X95Y375        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100    10.752 r  muon_sorter_1/max_pt_5_1[9]/O
+                         net (fo=9, routed)           0.551    11.303    muon_sorter_1/max_pt_5_1[9]
+    SLICE_X100Y381       LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    11.401 r  muon_sorter_1/max_pt_5_x_lut6_2_o5_lut6_2_o5[9]/O
+                         net (fo=2, routed)           0.288    11.689    muon_sorter_1/max_pt_5_x[9]
+    SLICE_X99Y382        LUT6 (Prop_C6LUT_SLICEM_I1_O)
+                                                      0.174    11.863 r  muon_sorter_1/max_pt_6_1_3[4]/O
+                         net (fo=2, routed)           0.166    12.029    muon_sorter_1/max_pt_6_1_3[4]
+    SLICE_X98Y382        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.116    12.145 r  muon_sorter_1/max_pt_6_3[4]/O
+                         net (fo=17, routed)          0.367    12.512    muon_sorter_1/max_pt_6_3[4]
+    SLICE_X99Y383        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179    12.691 f  muon_sorter_1/pt_compare_15_5_29_0_a2[4]/O
+                         net (fo=9, routed)           0.258    12.949    muon_sorter_1/pt_compare_15_5_29_0_a2[4]
+    SLICE_X96Y384        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    13.065 r  muon_sorter_1/max_pt_7_0_x[5]/O
+                         net (fo=1, routed)           0.167    13.232    muon_sorter_1/max_pt_7_0_x[5]
+    SLICE_X96Y385        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.099    13.331 r  muon_sorter_1/max_pt_7_3[5]/O
+                         net (fo=8, routed)           0.285    13.616    muon_sorter_1/max_pt_7_3[5]
+    SLICE_X95Y385        LUT6 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.150    13.766 r  muon_sorter_1/pt_compare_8_9_0_a2[5]/O
+                         net (fo=6, routed)           0.506    14.272    muon_sorter_1/N_410
+    SLICE_X100Y385       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.150    14.422 r  muon_sorter_1/max_pt_8_3_N_4L6_1/O
+                         net (fo=1, routed)           0.106    14.528    muon_sorter_1/max_pt_8_3_N_4L6_1
+    SLICE_X100Y385       LUT5 (Prop_F6LUT_SLICEM_I3_O)
+                                                      0.098    14.626 r  muon_sorter_1/max_pt_8_3[5]/O
+                         net (fo=17, routed)          0.412    15.038    muon_sorter_1/max_pt_8_3[5]
+    SLICE_X98Y387        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    15.102 r  muon_sorter_1/pt_compare_9_5_0_a2[0]/O
+                         net (fo=4, routed)           0.249    15.351    muon_sorter_1/pt_compare_9_5_0_a2[0]
+    SLICE_X96Y389        LUT5 (Prop_G6LUT_SLICEL_I2_O)
+                                                      0.100    15.451 r  muon_sorter_1/max_pt_9_0_x[0]/O
+                         net (fo=1, routed)           0.359    15.810    muon_sorter_1/max_pt_9_0_x[0]
+    SLICE_X95Y390        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.174    15.984 r  muon_sorter_1/max_pt_9_3[0]/O
+                         net (fo=16, routed)          0.464    16.448    muon_sorter_1/max_pt_9_3[0]
+    SLICE_X96Y391        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038    16.486 f  muon_sorter_1/pt_compare_10_15_0_a2[0]/O
+                         net (fo=6, routed)           0.614    17.100    muon_sorter_1/pt_compare_10_15_0_a2[0]
+    SLICE_X92Y397        LUT4 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.062    17.162 r  muon_sorter_1/max_pt_10_3_N_8L15_0/O
+                         net (fo=1, routed)           0.159    17.321    muon_sorter_1/max_pt_10_3_N_8L15_0
+    SLICE_X93Y397        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.062    17.383 r  muon_sorter_1/max_pt_10_3[15]/O
+                         net (fo=11, routed)          0.125    17.508    muon_sorter_1/max_pt_10_3[15]
+    SLICE_X93Y397        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    17.606 r  muon_sorter_1/pt_compare_11_15_0_a2[10]/O
+                         net (fo=4, routed)           0.334    17.940    muon_sorter_1/pt_compare_11_15_0_a2[10]
+    SLICE_X96Y397        LUT5 (Prop_C6LUT_SLICEL_I2_O)
+                                                      0.148    18.088 r  muon_sorter_1/max_pt_11_1[10]/O
+                         net (fo=16, routed)          0.745    18.833    muon_sorter_1/max_pt_11_1[10]
+    SLICE_X100Y394       LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.117    18.950 r  muon_sorter_1/pt_compare_12_10_0_a2[5]/O
+                         net (fo=4, routed)           0.229    19.179    muon_sorter_1/N_881
+    SLICE_X102Y391       LUT5 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.113    19.292 r  muon_sorter_1/max_pt_12_1[5]/O
+                         net (fo=10, routed)          0.241    19.533    muon_sorter_1/max_pt_12_1[5]
+    SLICE_X102Y387       LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    19.712 r  muon_sorter_1/max_pt_12_x[5]/O
+                         net (fo=1, routed)           0.232    19.944    muon_sorter_1/max_pt_12_x[5]
+    SLICE_X105Y387       LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.063    20.007 f  muon_sorter_1/pt_compare_13_6_0_a2[5]/O
+                         net (fo=4, routed)           0.298    20.305    muon_sorter_1/pt_compare_13_6_0_a2[5]
+    SLICE_X105Y391       LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.177    20.482 f  muon_sorter_1/max_pt_13_3_N_3L4/O
+                         net (fo=1, routed)           0.047    20.529    muon_sorter_1/max_pt_13_3_N_3L4
+    SLICE_X105Y391       LUT4 (Prop_E6LUT_SLICEL_I3_O)
+                                                      0.100    20.629 r  muon_sorter_1/max_pt_13_3[6]/O
+                         net (fo=16, routed)          0.265    20.894    muon_sorter_1/max_pt_13_3[6]
+    SLICE_X104Y388       LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    21.071 f  muon_sorter_1/pt_compare_14_7_0_a2[6]/O
+                         net (fo=11, routed)          0.389    21.460    muon_sorter_1/pt_compare_15_7_0_a2_0[6]
+    SLICE_X108Y390       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.098    21.558 r  muon_sorter_1/max_pt_14_0[7]/O
+                         net (fo=1, routed)           0.269    21.827    muon_sorter_1/max_pt_14_0[7]
+    SLICE_X108Y391       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    21.865 r  muon_sorter_1/max_pt_14[7]/O
+                         net (fo=42, routed)          0.493    22.358    muon_sorter_1/max_pt_14[7]
+    SLICE_X106Y399       LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.100    22.458 f  muon_sorter_1/pt_compare_15_11_0_a2[7]/O
+                         net (fo=2, routed)           0.280    22.738    muon_sorter_1/pt_compare_15_11_0_a2[7]
+    SLICE_X108Y400       LUT3 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.064    22.802 r  muon_sorter_1/max_pt_15_2_x[11]/O
+                         net (fo=1, routed)           0.072    22.874    muon_sorter_1/max_pt_15_2_x[11]
+    SLICE_X108Y400       LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.177    23.051 r  muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]/O
+                         net (fo=1, routed)           0.122    23.173    muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]
+    SLICE_X108Y399       LUT6 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.174    23.347 r  muon_sorter_1/max_pt_15_N_4L7_0_RNI998DO/O
+                         net (fo=13, routed)          0.144    23.491    muon_sorter_1/max_pt_15[11]
+    SLICE_X109Y399       LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.115    23.606 r  muon_sorter_1/top_cand_comb_15.sector_2_1[0]/O
+                         net (fo=1, routed)           0.276    23.882    muon_sorter_1/sector_2_1_14[0]
+    SLICE_X110Y398       LUT6 (Prop_D6LUT_SLICEM_I5_O)
+                                                      0.062    23.944 r  muon_sorter_1/top_cand_comb_15.sector[0]/O
+                         net (fo=1, routed)           0.082    24.026    shift_reg_tap_o/sector[0]
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       12.500    12.500 r  
+    AV33                                              0.000    12.500 r  clk (IN)
+                         net (fo=0)                   0.000    12.500    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510    13.010 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000    13.010    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000    13.010 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296    13.306    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024    13.330 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.535    15.865    shift_reg_tap_o/clk_c
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/C
+                         clock pessimism              0.490    16.354    
+                         clock uncertainty           -0.035    16.319    
+    SLICE_X110Y398       FDRE (Setup_DFF_SLICEM_C_D)
+                                                      0.027    16.346    shift_reg_tap_o/sr_p.sr_1[240]
+  -------------------------------------------------------------------
+                         required time                         16.346    
+                         arrival time                         -24.026    
+  -------------------------------------------------------------------
+                         slack                                 -7.680    
+
+Slack (VIOLATED) :        -7.680ns  (required time - arrival time)
+  Source:                 muon_cand_1.pt_1_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[240]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.500ns  (clk rise@12.500ns - clk rise@0.000ns)
+  Data Path Delay:        20.251ns  (logic 5.878ns (29.026%)  route 14.373ns (70.974%))
+  Logic Levels:           49  (LUT3=1 LUT4=7 LUT5=17 LUT6=24)
+  Clock Path Skew:        0.079ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.365ns = ( 15.865 - 12.500 ) 
+    Source Clock Delay      (SCD):    3.775ns
+    Clock Pessimism Removal (CPR):    0.490ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.634ns (routing 1.460ns, distribution 1.174ns)
+  Clock Net Delay (Destination): 2.535ns (routing 1.334ns, distribution 1.201ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.634     3.775    clk_c
+    SLICE_X108Y373       FDRE                                         r  muon_cand_1.pt_1_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X108Y373       FDRE (Prop_BFF_SLICEM_C_Q)
+                                                      0.095     3.870 f  muon_cand_1.pt_1_rep1/Q
+                         net (fo=8, routed)           0.260     4.130    muon_sorter_1/pt_1_rep1_8
+    SLICE_X109Y374       LUT4 (Prop_F6LUT_SLICEL_I0_O)
+                                                      0.148     4.278 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c2/O
+                         net (fo=1, routed)           0.100     4.378    muon_sorter_1/un9576_pt_compare_c2
+    SLICE_X109Y375       LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098     4.476 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c4/O
+                         net (fo=6, routed)           0.348     4.824    muon_sorter_1/un9576_pt_compare
+    SLICE_X104Y373       LUT5 (Prop_B6LUT_SLICEM_I3_O)
+                                                      0.116     4.940 r  muon_sorter_1/max_pt_0_0_x[9]/O
+                         net (fo=2, routed)           0.239     5.179    muon_sorter_1/max_pt_0_0_x[9]
+    SLICE_X105Y375       LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.177     5.356 r  muon_sorter_1/compare_p.9.6.compare_pt.op_qge.op_qge.un10186_pt_compare_c4_RNIF58D2/O
+                         net (fo=16, routed)          0.496     5.852    muon_sorter_1/max_pt_0[9]
+    SLICE_X109Y382       LUT5 (Prop_B6LUT_SLICEL_I2_O)
+                                                      0.100     5.952 r  muon_sorter_1/max_pt_1_0_4[8]/O
+                         net (fo=2, routed)           0.234     6.186    muon_sorter_1/max_pt_1_0_4[8]
+    SLICE_X109Y381       LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147     6.333 r  muon_sorter_1/max_pt_1_3[8]/O
+                         net (fo=14, routed)          0.461     6.794    muon_sorter_1/max_pt_1_3[8]
+    SLICE_X105Y380       LUT6 (Prop_B6LUT_SLICEL_I5_O)
+                                                      0.177     6.971 r  muon_sorter_1/pt_compare_2_9_0_a2[8]/O
+                         net (fo=6, routed)           0.111     7.082    muon_sorter_1/N_188
+    SLICE_X105Y381       LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116     7.198 f  muon_sorter_1/max_pt_2_3_N_8L17/O
+                         net (fo=1, routed)           0.112     7.310    muon_sorter_1/max_pt_2_3_N_8L17
+    SLICE_X104Y381       LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151     7.461 r  muon_sorter_1/max_pt_2_3_N_9L20/O
+                         net (fo=1, routed)           0.104     7.565    muon_sorter_1/max_pt_2_3_N_9L20
+    SLICE_X103Y381       LUT4 (Prop_F6LUT_SLICEL_I2_O)
+                                                      0.098     7.663 f  muon_sorter_1/max_pt_2_3[9]/O
+                         net (fo=13, routed)          0.262     7.925    muon_sorter_1/max_pt_2_3[9]
+    SLICE_X102Y380       LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179     8.104 f  muon_sorter_1/pt_compare_3_9_0_a2[4]/O
+                         net (fo=6, routed)           0.256     8.360    muon_sorter_1/pt_compare_3_9_0_a2[4]
+    SLICE_X102Y375       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.100     8.460 r  muon_sorter_1/max_pt_3_3_N_2L1_1/O
+                         net (fo=1, routed)           0.072     8.532    muon_sorter_1/max_pt_3_3_N_2L1_1
+    SLICE_X102Y375       LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.177     8.709 r  muon_sorter_1/max_pt_3_3[9]/O
+                         net (fo=13, routed)          0.451     9.160    muon_sorter_1/max_pt_3_3[9]
+    SLICE_X101Y374       LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.063     9.223 f  muon_sorter_1/pt_compare_12_9_23_0_a2[1]/O
+                         net (fo=9, routed)           0.452     9.675    muon_sorter_1/pt_compare_12_9_23_0_a2[1]
+    SLICE_X99Y374        LUT4 (Prop_H5LUT_SLICEM_I0_O)
+                                                      0.118     9.793 r  muon_sorter_1/max_pt_4_3_N_3L3_0_lut6_2_o6_lut6_2_o5/O
+                         net (fo=2, routed)           0.579    10.372    muon_sorter_1/max_pt_4_0_3[9]
+    SLICE_X94Y374        LUT6 (Prop_C6LUT_SLICEL_I1_O)
+                                                      0.038    10.410 r  muon_sorter_1/pt_compare_13_13_25_0_a2[9]/O
+                         net (fo=6, routed)           0.242    10.652    muon_sorter_1/pt_compare_13_13_25_0_a2[9]
+    SLICE_X95Y375        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100    10.752 r  muon_sorter_1/max_pt_5_1[9]/O
+                         net (fo=9, routed)           0.551    11.303    muon_sorter_1/max_pt_5_1[9]
+    SLICE_X100Y381       LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    11.401 r  muon_sorter_1/max_pt_5_x_lut6_2_o5_lut6_2_o5[9]/O
+                         net (fo=2, routed)           0.288    11.689    muon_sorter_1/max_pt_5_x[9]
+    SLICE_X99Y382        LUT6 (Prop_C6LUT_SLICEM_I1_O)
+                                                      0.174    11.863 r  muon_sorter_1/max_pt_6_1_3[4]/O
+                         net (fo=2, routed)           0.166    12.029    muon_sorter_1/max_pt_6_1_3[4]
+    SLICE_X98Y382        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.116    12.145 r  muon_sorter_1/max_pt_6_3[4]/O
+                         net (fo=17, routed)          0.367    12.512    muon_sorter_1/max_pt_6_3[4]
+    SLICE_X99Y383        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179    12.691 f  muon_sorter_1/pt_compare_15_5_29_0_a2[4]/O
+                         net (fo=9, routed)           0.258    12.949    muon_sorter_1/pt_compare_15_5_29_0_a2[4]
+    SLICE_X96Y384        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    13.065 r  muon_sorter_1/max_pt_7_0_x[5]/O
+                         net (fo=1, routed)           0.167    13.232    muon_sorter_1/max_pt_7_0_x[5]
+    SLICE_X96Y385        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.099    13.331 r  muon_sorter_1/max_pt_7_3[5]/O
+                         net (fo=8, routed)           0.285    13.616    muon_sorter_1/max_pt_7_3[5]
+    SLICE_X95Y385        LUT6 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.150    13.766 r  muon_sorter_1/pt_compare_8_9_0_a2[5]/O
+                         net (fo=6, routed)           0.506    14.272    muon_sorter_1/N_410
+    SLICE_X100Y385       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.150    14.422 r  muon_sorter_1/max_pt_8_3_N_4L6_1/O
+                         net (fo=1, routed)           0.106    14.528    muon_sorter_1/max_pt_8_3_N_4L6_1
+    SLICE_X100Y385       LUT5 (Prop_F6LUT_SLICEM_I3_O)
+                                                      0.098    14.626 r  muon_sorter_1/max_pt_8_3[5]/O
+                         net (fo=17, routed)          0.412    15.038    muon_sorter_1/max_pt_8_3[5]
+    SLICE_X98Y387        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    15.102 r  muon_sorter_1/pt_compare_9_5_0_a2[0]/O
+                         net (fo=4, routed)           0.249    15.351    muon_sorter_1/pt_compare_9_5_0_a2[0]
+    SLICE_X96Y389        LUT5 (Prop_G6LUT_SLICEL_I2_O)
+                                                      0.100    15.451 r  muon_sorter_1/max_pt_9_0_x[0]/O
+                         net (fo=1, routed)           0.359    15.810    muon_sorter_1/max_pt_9_0_x[0]
+    SLICE_X95Y390        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.174    15.984 r  muon_sorter_1/max_pt_9_3[0]/O
+                         net (fo=16, routed)          0.464    16.448    muon_sorter_1/max_pt_9_3[0]
+    SLICE_X96Y391        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038    16.486 f  muon_sorter_1/pt_compare_10_15_0_a2[0]/O
+                         net (fo=6, routed)           0.614    17.100    muon_sorter_1/pt_compare_10_15_0_a2[0]
+    SLICE_X92Y397        LUT4 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.062    17.162 r  muon_sorter_1/max_pt_10_3_N_8L15_0/O
+                         net (fo=1, routed)           0.159    17.321    muon_sorter_1/max_pt_10_3_N_8L15_0
+    SLICE_X93Y397        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.062    17.383 r  muon_sorter_1/max_pt_10_3[15]/O
+                         net (fo=11, routed)          0.125    17.508    muon_sorter_1/max_pt_10_3[15]
+    SLICE_X93Y397        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    17.606 r  muon_sorter_1/pt_compare_11_15_0_a2[10]/O
+                         net (fo=4, routed)           0.334    17.940    muon_sorter_1/pt_compare_11_15_0_a2[10]
+    SLICE_X96Y397        LUT5 (Prop_C6LUT_SLICEL_I2_O)
+                                                      0.148    18.088 r  muon_sorter_1/max_pt_11_1[10]/O
+                         net (fo=16, routed)          0.745    18.833    muon_sorter_1/max_pt_11_1[10]
+    SLICE_X100Y394       LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.117    18.950 r  muon_sorter_1/pt_compare_12_10_0_a2[5]/O
+                         net (fo=4, routed)           0.229    19.179    muon_sorter_1/N_881
+    SLICE_X102Y391       LUT5 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.113    19.292 r  muon_sorter_1/max_pt_12_1[5]/O
+                         net (fo=10, routed)          0.241    19.533    muon_sorter_1/max_pt_12_1[5]
+    SLICE_X102Y387       LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    19.712 r  muon_sorter_1/max_pt_12_x[5]/O
+                         net (fo=1, routed)           0.232    19.944    muon_sorter_1/max_pt_12_x[5]
+    SLICE_X105Y387       LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.063    20.007 f  muon_sorter_1/pt_compare_13_6_0_a2[5]/O
+                         net (fo=4, routed)           0.298    20.305    muon_sorter_1/pt_compare_13_6_0_a2[5]
+    SLICE_X105Y391       LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.177    20.482 f  muon_sorter_1/max_pt_13_3_N_3L4/O
+                         net (fo=1, routed)           0.047    20.529    muon_sorter_1/max_pt_13_3_N_3L4
+    SLICE_X105Y391       LUT4 (Prop_E6LUT_SLICEL_I3_O)
+                                                      0.100    20.629 r  muon_sorter_1/max_pt_13_3[6]/O
+                         net (fo=16, routed)          0.265    20.894    muon_sorter_1/max_pt_13_3[6]
+    SLICE_X104Y388       LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    21.071 f  muon_sorter_1/pt_compare_14_7_0_a2[6]/O
+                         net (fo=11, routed)          0.389    21.460    muon_sorter_1/pt_compare_15_7_0_a2_0[6]
+    SLICE_X108Y390       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.098    21.558 r  muon_sorter_1/max_pt_14_0[7]/O
+                         net (fo=1, routed)           0.269    21.827    muon_sorter_1/max_pt_14_0[7]
+    SLICE_X108Y391       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    21.865 r  muon_sorter_1/max_pt_14[7]/O
+                         net (fo=42, routed)          0.493    22.358    muon_sorter_1/max_pt_14[7]
+    SLICE_X106Y399       LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.100    22.458 f  muon_sorter_1/pt_compare_15_11_0_a2[7]/O
+                         net (fo=2, routed)           0.280    22.738    muon_sorter_1/pt_compare_15_11_0_a2[7]
+    SLICE_X108Y400       LUT3 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.064    22.802 r  muon_sorter_1/max_pt_15_2_x[11]/O
+                         net (fo=1, routed)           0.072    22.874    muon_sorter_1/max_pt_15_2_x[11]
+    SLICE_X108Y400       LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.177    23.051 r  muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]/O
+                         net (fo=1, routed)           0.122    23.173    muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]
+    SLICE_X108Y399       LUT6 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.174    23.347 r  muon_sorter_1/max_pt_15_N_4L7_0_RNI998DO/O
+                         net (fo=13, routed)          0.144    23.491    muon_sorter_1/max_pt_15[11]
+    SLICE_X109Y399       LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.115    23.606 r  muon_sorter_1/top_cand_comb_15.sector_2_1[0]/O
+                         net (fo=1, routed)           0.276    23.882    muon_sorter_1/sector_2_1_14[0]
+    SLICE_X110Y398       LUT6 (Prop_D6LUT_SLICEM_I5_O)
+                                                      0.062    23.944 r  muon_sorter_1/top_cand_comb_15.sector[0]/O
+                         net (fo=1, routed)           0.082    24.026    shift_reg_tap_o/sector[0]
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       12.500    12.500 r  
+    AV33                                              0.000    12.500 r  clk (IN)
+                         net (fo=0)                   0.000    12.500    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510    13.010 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000    13.010    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000    13.010 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296    13.306    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024    13.330 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.535    15.865    shift_reg_tap_o/clk_c
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/C
+                         clock pessimism              0.490    16.354    
+                         clock uncertainty           -0.035    16.319    
+    SLICE_X110Y398       FDRE (Setup_DFF_SLICEM_C_D)
+                                                      0.027    16.346    shift_reg_tap_o/sr_p.sr_1[240]
+  -------------------------------------------------------------------
+                         required time                         16.346    
+                         arrival time                         -24.026    
+  -------------------------------------------------------------------
+                         slack                                 -7.680    
+
+Slack (VIOLATED) :        -7.680ns  (required time - arrival time)
+  Source:                 muon_cand_1.pt_1_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[240]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.500ns  (clk rise@12.500ns - clk rise@0.000ns)
+  Data Path Delay:        20.251ns  (logic 5.878ns (29.026%)  route 14.373ns (70.974%))
+  Logic Levels:           49  (LUT3=1 LUT4=7 LUT5=17 LUT6=24)
+  Clock Path Skew:        0.079ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.365ns = ( 15.865 - 12.500 ) 
+    Source Clock Delay      (SCD):    3.775ns
+    Clock Pessimism Removal (CPR):    0.490ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.634ns (routing 1.460ns, distribution 1.174ns)
+  Clock Net Delay (Destination): 2.535ns (routing 1.334ns, distribution 1.201ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.634     3.775    clk_c
+    SLICE_X108Y373       FDRE                                         r  muon_cand_1.pt_1_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X108Y373       FDRE (Prop_BFF_SLICEM_C_Q)
+                                                      0.095     3.870 f  muon_cand_1.pt_1_rep1/Q
+                         net (fo=8, routed)           0.260     4.130    muon_sorter_1/pt_1_rep1_8
+    SLICE_X109Y374       LUT4 (Prop_F6LUT_SLICEL_I0_O)
+                                                      0.148     4.278 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c2/O
+                         net (fo=1, routed)           0.100     4.378    muon_sorter_1/un9576_pt_compare_c2
+    SLICE_X109Y375       LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098     4.476 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c4/O
+                         net (fo=6, routed)           0.348     4.824    muon_sorter_1/un9576_pt_compare
+    SLICE_X104Y373       LUT5 (Prop_B6LUT_SLICEM_I3_O)
+                                                      0.116     4.940 r  muon_sorter_1/max_pt_0_0_x[9]/O
+                         net (fo=2, routed)           0.239     5.179    muon_sorter_1/max_pt_0_0_x[9]
+    SLICE_X105Y375       LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.177     5.356 r  muon_sorter_1/compare_p.9.6.compare_pt.op_qge.op_qge.un10186_pt_compare_c4_RNIF58D2/O
+                         net (fo=16, routed)          0.496     5.852    muon_sorter_1/max_pt_0[9]
+    SLICE_X109Y382       LUT5 (Prop_B6LUT_SLICEL_I2_O)
+                                                      0.100     5.952 r  muon_sorter_1/max_pt_1_0_4[8]/O
+                         net (fo=2, routed)           0.234     6.186    muon_sorter_1/max_pt_1_0_4[8]
+    SLICE_X109Y381       LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147     6.333 r  muon_sorter_1/max_pt_1_3[8]/O
+                         net (fo=14, routed)          0.461     6.794    muon_sorter_1/max_pt_1_3[8]
+    SLICE_X105Y380       LUT6 (Prop_B6LUT_SLICEL_I5_O)
+                                                      0.177     6.971 f  muon_sorter_1/pt_compare_2_9_0_a2[8]/O
+                         net (fo=6, routed)           0.111     7.082    muon_sorter_1/N_188
+    SLICE_X105Y381       LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116     7.198 r  muon_sorter_1/max_pt_2_3_N_8L17/O
+                         net (fo=1, routed)           0.112     7.310    muon_sorter_1/max_pt_2_3_N_8L17
+    SLICE_X104Y381       LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151     7.461 f  muon_sorter_1/max_pt_2_3_N_9L20/O
+                         net (fo=1, routed)           0.104     7.565    muon_sorter_1/max_pt_2_3_N_9L20
+    SLICE_X103Y381       LUT4 (Prop_F6LUT_SLICEL_I2_O)
+                                                      0.098     7.663 r  muon_sorter_1/max_pt_2_3[9]/O
+                         net (fo=13, routed)          0.262     7.925    muon_sorter_1/max_pt_2_3[9]
+    SLICE_X102Y380       LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179     8.104 f  muon_sorter_1/pt_compare_3_9_0_a2[4]/O
+                         net (fo=6, routed)           0.256     8.360    muon_sorter_1/pt_compare_3_9_0_a2[4]
+    SLICE_X102Y375       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.100     8.460 r  muon_sorter_1/max_pt_3_3_N_2L1_1/O
+                         net (fo=1, routed)           0.072     8.532    muon_sorter_1/max_pt_3_3_N_2L1_1
+    SLICE_X102Y375       LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.177     8.709 r  muon_sorter_1/max_pt_3_3[9]/O
+                         net (fo=13, routed)          0.451     9.160    muon_sorter_1/max_pt_3_3[9]
+    SLICE_X101Y374       LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.063     9.223 f  muon_sorter_1/pt_compare_12_9_23_0_a2[1]/O
+                         net (fo=9, routed)           0.452     9.675    muon_sorter_1/pt_compare_12_9_23_0_a2[1]
+    SLICE_X99Y374        LUT4 (Prop_H5LUT_SLICEM_I0_O)
+                                                      0.118     9.793 r  muon_sorter_1/max_pt_4_3_N_3L3_0_lut6_2_o6_lut6_2_o5/O
+                         net (fo=2, routed)           0.579    10.372    muon_sorter_1/max_pt_4_0_3[9]
+    SLICE_X94Y374        LUT6 (Prop_C6LUT_SLICEL_I1_O)
+                                                      0.038    10.410 r  muon_sorter_1/pt_compare_13_13_25_0_a2[9]/O
+                         net (fo=6, routed)           0.242    10.652    muon_sorter_1/pt_compare_13_13_25_0_a2[9]
+    SLICE_X95Y375        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100    10.752 r  muon_sorter_1/max_pt_5_1[9]/O
+                         net (fo=9, routed)           0.551    11.303    muon_sorter_1/max_pt_5_1[9]
+    SLICE_X100Y381       LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    11.401 r  muon_sorter_1/max_pt_5_x_lut6_2_o5_lut6_2_o5[9]/O
+                         net (fo=2, routed)           0.288    11.689    muon_sorter_1/max_pt_5_x[9]
+    SLICE_X99Y382        LUT6 (Prop_C6LUT_SLICEM_I1_O)
+                                                      0.174    11.863 r  muon_sorter_1/max_pt_6_1_3[4]/O
+                         net (fo=2, routed)           0.166    12.029    muon_sorter_1/max_pt_6_1_3[4]
+    SLICE_X98Y382        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.116    12.145 r  muon_sorter_1/max_pt_6_3[4]/O
+                         net (fo=17, routed)          0.367    12.512    muon_sorter_1/max_pt_6_3[4]
+    SLICE_X99Y383        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179    12.691 f  muon_sorter_1/pt_compare_15_5_29_0_a2[4]/O
+                         net (fo=9, routed)           0.258    12.949    muon_sorter_1/pt_compare_15_5_29_0_a2[4]
+    SLICE_X96Y384        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    13.065 r  muon_sorter_1/max_pt_7_0_x[5]/O
+                         net (fo=1, routed)           0.167    13.232    muon_sorter_1/max_pt_7_0_x[5]
+    SLICE_X96Y385        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.099    13.331 r  muon_sorter_1/max_pt_7_3[5]/O
+                         net (fo=8, routed)           0.285    13.616    muon_sorter_1/max_pt_7_3[5]
+    SLICE_X95Y385        LUT6 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.150    13.766 r  muon_sorter_1/pt_compare_8_9_0_a2[5]/O
+                         net (fo=6, routed)           0.506    14.272    muon_sorter_1/N_410
+    SLICE_X100Y385       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.150    14.422 r  muon_sorter_1/max_pt_8_3_N_4L6_1/O
+                         net (fo=1, routed)           0.106    14.528    muon_sorter_1/max_pt_8_3_N_4L6_1
+    SLICE_X100Y385       LUT5 (Prop_F6LUT_SLICEM_I3_O)
+                                                      0.098    14.626 r  muon_sorter_1/max_pt_8_3[5]/O
+                         net (fo=17, routed)          0.412    15.038    muon_sorter_1/max_pt_8_3[5]
+    SLICE_X98Y387        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    15.102 r  muon_sorter_1/pt_compare_9_5_0_a2[0]/O
+                         net (fo=4, routed)           0.249    15.351    muon_sorter_1/pt_compare_9_5_0_a2[0]
+    SLICE_X96Y389        LUT5 (Prop_G6LUT_SLICEL_I2_O)
+                                                      0.100    15.451 r  muon_sorter_1/max_pt_9_0_x[0]/O
+                         net (fo=1, routed)           0.359    15.810    muon_sorter_1/max_pt_9_0_x[0]
+    SLICE_X95Y390        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.174    15.984 r  muon_sorter_1/max_pt_9_3[0]/O
+                         net (fo=16, routed)          0.464    16.448    muon_sorter_1/max_pt_9_3[0]
+    SLICE_X96Y391        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038    16.486 f  muon_sorter_1/pt_compare_10_15_0_a2[0]/O
+                         net (fo=6, routed)           0.614    17.100    muon_sorter_1/pt_compare_10_15_0_a2[0]
+    SLICE_X92Y397        LUT4 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.062    17.162 r  muon_sorter_1/max_pt_10_3_N_8L15_0/O
+                         net (fo=1, routed)           0.159    17.321    muon_sorter_1/max_pt_10_3_N_8L15_0
+    SLICE_X93Y397        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.062    17.383 r  muon_sorter_1/max_pt_10_3[15]/O
+                         net (fo=11, routed)          0.125    17.508    muon_sorter_1/max_pt_10_3[15]
+    SLICE_X93Y397        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    17.606 f  muon_sorter_1/pt_compare_11_15_0_a2[10]/O
+                         net (fo=4, routed)           0.334    17.940    muon_sorter_1/pt_compare_11_15_0_a2[10]
+    SLICE_X96Y397        LUT5 (Prop_C6LUT_SLICEL_I2_O)
+                                                      0.148    18.088 f  muon_sorter_1/max_pt_11_1[10]/O
+                         net (fo=16, routed)          0.745    18.833    muon_sorter_1/max_pt_11_1[10]
+    SLICE_X100Y394       LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.117    18.950 r  muon_sorter_1/pt_compare_12_10_0_a2[5]/O
+                         net (fo=4, routed)           0.229    19.179    muon_sorter_1/N_881
+    SLICE_X102Y391       LUT5 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.113    19.292 r  muon_sorter_1/max_pt_12_1[5]/O
+                         net (fo=10, routed)          0.241    19.533    muon_sorter_1/max_pt_12_1[5]
+    SLICE_X102Y387       LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    19.712 r  muon_sorter_1/max_pt_12_x[5]/O
+                         net (fo=1, routed)           0.232    19.944    muon_sorter_1/max_pt_12_x[5]
+    SLICE_X105Y387       LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.063    20.007 f  muon_sorter_1/pt_compare_13_6_0_a2[5]/O
+                         net (fo=4, routed)           0.298    20.305    muon_sorter_1/pt_compare_13_6_0_a2[5]
+    SLICE_X105Y391       LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.177    20.482 f  muon_sorter_1/max_pt_13_3_N_3L4/O
+                         net (fo=1, routed)           0.047    20.529    muon_sorter_1/max_pt_13_3_N_3L4
+    SLICE_X105Y391       LUT4 (Prop_E6LUT_SLICEL_I3_O)
+                                                      0.100    20.629 r  muon_sorter_1/max_pt_13_3[6]/O
+                         net (fo=16, routed)          0.265    20.894    muon_sorter_1/max_pt_13_3[6]
+    SLICE_X104Y388       LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    21.071 f  muon_sorter_1/pt_compare_14_7_0_a2[6]/O
+                         net (fo=11, routed)          0.389    21.460    muon_sorter_1/pt_compare_15_7_0_a2_0[6]
+    SLICE_X108Y390       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.098    21.558 r  muon_sorter_1/max_pt_14_0[7]/O
+                         net (fo=1, routed)           0.269    21.827    muon_sorter_1/max_pt_14_0[7]
+    SLICE_X108Y391       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    21.865 r  muon_sorter_1/max_pt_14[7]/O
+                         net (fo=42, routed)          0.493    22.358    muon_sorter_1/max_pt_14[7]
+    SLICE_X106Y399       LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.100    22.458 f  muon_sorter_1/pt_compare_15_11_0_a2[7]/O
+                         net (fo=2, routed)           0.280    22.738    muon_sorter_1/pt_compare_15_11_0_a2[7]
+    SLICE_X108Y400       LUT3 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.064    22.802 r  muon_sorter_1/max_pt_15_2_x[11]/O
+                         net (fo=1, routed)           0.072    22.874    muon_sorter_1/max_pt_15_2_x[11]
+    SLICE_X108Y400       LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.177    23.051 r  muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]/O
+                         net (fo=1, routed)           0.122    23.173    muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]
+    SLICE_X108Y399       LUT6 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.174    23.347 r  muon_sorter_1/max_pt_15_N_4L7_0_RNI998DO/O
+                         net (fo=13, routed)          0.144    23.491    muon_sorter_1/max_pt_15[11]
+    SLICE_X109Y399       LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.115    23.606 r  muon_sorter_1/top_cand_comb_15.sector_2_1[0]/O
+                         net (fo=1, routed)           0.276    23.882    muon_sorter_1/sector_2_1_14[0]
+    SLICE_X110Y398       LUT6 (Prop_D6LUT_SLICEM_I5_O)
+                                                      0.062    23.944 r  muon_sorter_1/top_cand_comb_15.sector[0]/O
+                         net (fo=1, routed)           0.082    24.026    shift_reg_tap_o/sector[0]
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       12.500    12.500 r  
+    AV33                                              0.000    12.500 r  clk (IN)
+                         net (fo=0)                   0.000    12.500    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510    13.010 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000    13.010    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000    13.010 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296    13.306    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024    13.330 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.535    15.865    shift_reg_tap_o/clk_c
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/C
+                         clock pessimism              0.490    16.354    
+                         clock uncertainty           -0.035    16.319    
+    SLICE_X110Y398       FDRE (Setup_DFF_SLICEM_C_D)
+                                                      0.027    16.346    shift_reg_tap_o/sr_p.sr_1[240]
+  -------------------------------------------------------------------
+                         required time                         16.346    
+                         arrival time                         -24.026    
+  -------------------------------------------------------------------
+                         slack                                 -7.680    
+
+Slack (VIOLATED) :        -7.680ns  (required time - arrival time)
+  Source:                 muon_cand_1.pt_1_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[240]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@6.250ns period=12.500ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            12.500ns  (clk rise@12.500ns - clk rise@0.000ns)
+  Data Path Delay:        20.251ns  (logic 5.878ns (29.026%)  route 14.373ns (70.974%))
+  Logic Levels:           49  (LUT3=1 LUT4=7 LUT5=17 LUT6=24)
+  Clock Path Skew:        0.079ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.365ns = ( 15.865 - 12.500 ) 
+    Source Clock Delay      (SCD):    3.775ns
+    Clock Pessimism Removal (CPR):    0.490ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.634ns (routing 1.460ns, distribution 1.174ns)
+  Clock Net Delay (Destination): 2.535ns (routing 1.334ns, distribution 1.201ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.634     3.775    clk_c
+    SLICE_X108Y373       FDRE                                         r  muon_cand_1.pt_1_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X108Y373       FDRE (Prop_BFF_SLICEM_C_Q)
+                                                      0.095     3.870 f  muon_cand_1.pt_1_rep1/Q
+                         net (fo=8, routed)           0.260     4.130    muon_sorter_1/pt_1_rep1_8
+    SLICE_X109Y374       LUT4 (Prop_F6LUT_SLICEL_I0_O)
+                                                      0.148     4.278 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c2/O
+                         net (fo=1, routed)           0.100     4.378    muon_sorter_1/un9576_pt_compare_c2
+    SLICE_X109Y375       LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098     4.476 f  muon_sorter_1/compare_p.9.1.compare_pt.op_qge.op_qge.un9576_pt_compare_c4/O
+                         net (fo=6, routed)           0.348     4.824    muon_sorter_1/un9576_pt_compare
+    SLICE_X104Y373       LUT5 (Prop_B6LUT_SLICEM_I3_O)
+                                                      0.116     4.940 r  muon_sorter_1/max_pt_0_0_x[9]/O
+                         net (fo=2, routed)           0.239     5.179    muon_sorter_1/max_pt_0_0_x[9]
+    SLICE_X105Y375       LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.177     5.356 r  muon_sorter_1/compare_p.9.6.compare_pt.op_qge.op_qge.un10186_pt_compare_c4_RNIF58D2/O
+                         net (fo=16, routed)          0.496     5.852    muon_sorter_1/max_pt_0[9]
+    SLICE_X109Y382       LUT5 (Prop_B6LUT_SLICEL_I2_O)
+                                                      0.100     5.952 f  muon_sorter_1/max_pt_1_0_4[8]/O
+                         net (fo=2, routed)           0.234     6.186    muon_sorter_1/max_pt_1_0_4[8]
+    SLICE_X109Y381       LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147     6.333 f  muon_sorter_1/max_pt_1_3[8]/O
+                         net (fo=14, routed)          0.461     6.794    muon_sorter_1/max_pt_1_3[8]
+    SLICE_X105Y380       LUT6 (Prop_B6LUT_SLICEL_I5_O)
+                                                      0.177     6.971 f  muon_sorter_1/pt_compare_2_9_0_a2[8]/O
+                         net (fo=6, routed)           0.111     7.082    muon_sorter_1/N_188
+    SLICE_X105Y381       LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116     7.198 r  muon_sorter_1/max_pt_2_3_N_8L17/O
+                         net (fo=1, routed)           0.112     7.310    muon_sorter_1/max_pt_2_3_N_8L17
+    SLICE_X104Y381       LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151     7.461 f  muon_sorter_1/max_pt_2_3_N_9L20/O
+                         net (fo=1, routed)           0.104     7.565    muon_sorter_1/max_pt_2_3_N_9L20
+    SLICE_X103Y381       LUT4 (Prop_F6LUT_SLICEL_I2_O)
+                                                      0.098     7.663 r  muon_sorter_1/max_pt_2_3[9]/O
+                         net (fo=13, routed)          0.262     7.925    muon_sorter_1/max_pt_2_3[9]
+    SLICE_X102Y380       LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179     8.104 f  muon_sorter_1/pt_compare_3_9_0_a2[4]/O
+                         net (fo=6, routed)           0.256     8.360    muon_sorter_1/pt_compare_3_9_0_a2[4]
+    SLICE_X102Y375       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.100     8.460 r  muon_sorter_1/max_pt_3_3_N_2L1_1/O
+                         net (fo=1, routed)           0.072     8.532    muon_sorter_1/max_pt_3_3_N_2L1_1
+    SLICE_X102Y375       LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.177     8.709 r  muon_sorter_1/max_pt_3_3[9]/O
+                         net (fo=13, routed)          0.451     9.160    muon_sorter_1/max_pt_3_3[9]
+    SLICE_X101Y374       LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.063     9.223 f  muon_sorter_1/pt_compare_12_9_23_0_a2[1]/O
+                         net (fo=9, routed)           0.452     9.675    muon_sorter_1/pt_compare_12_9_23_0_a2[1]
+    SLICE_X99Y374        LUT4 (Prop_H5LUT_SLICEM_I0_O)
+                                                      0.118     9.793 r  muon_sorter_1/max_pt_4_3_N_3L3_0_lut6_2_o6_lut6_2_o5/O
+                         net (fo=2, routed)           0.579    10.372    muon_sorter_1/max_pt_4_0_3[9]
+    SLICE_X94Y374        LUT6 (Prop_C6LUT_SLICEL_I1_O)
+                                                      0.038    10.410 r  muon_sorter_1/pt_compare_13_13_25_0_a2[9]/O
+                         net (fo=6, routed)           0.242    10.652    muon_sorter_1/pt_compare_13_13_25_0_a2[9]
+    SLICE_X95Y375        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100    10.752 r  muon_sorter_1/max_pt_5_1[9]/O
+                         net (fo=9, routed)           0.551    11.303    muon_sorter_1/max_pt_5_1[9]
+    SLICE_X100Y381       LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    11.401 r  muon_sorter_1/max_pt_5_x_lut6_2_o5_lut6_2_o5[9]/O
+                         net (fo=2, routed)           0.288    11.689    muon_sorter_1/max_pt_5_x[9]
+    SLICE_X99Y382        LUT6 (Prop_C6LUT_SLICEM_I1_O)
+                                                      0.174    11.863 r  muon_sorter_1/max_pt_6_1_3[4]/O
+                         net (fo=2, routed)           0.166    12.029    muon_sorter_1/max_pt_6_1_3[4]
+    SLICE_X98Y382        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.116    12.145 r  muon_sorter_1/max_pt_6_3[4]/O
+                         net (fo=17, routed)          0.367    12.512    muon_sorter_1/max_pt_6_3[4]
+    SLICE_X99Y383        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.179    12.691 f  muon_sorter_1/pt_compare_15_5_29_0_a2[4]/O
+                         net (fo=9, routed)           0.258    12.949    muon_sorter_1/pt_compare_15_5_29_0_a2[4]
+    SLICE_X96Y384        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    13.065 r  muon_sorter_1/max_pt_7_0_x[5]/O
+                         net (fo=1, routed)           0.167    13.232    muon_sorter_1/max_pt_7_0_x[5]
+    SLICE_X96Y385        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.099    13.331 r  muon_sorter_1/max_pt_7_3[5]/O
+                         net (fo=8, routed)           0.285    13.616    muon_sorter_1/max_pt_7_3[5]
+    SLICE_X95Y385        LUT6 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.150    13.766 r  muon_sorter_1/pt_compare_8_9_0_a2[5]/O
+                         net (fo=6, routed)           0.506    14.272    muon_sorter_1/N_410
+    SLICE_X100Y385       LUT4 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.150    14.422 r  muon_sorter_1/max_pt_8_3_N_4L6_1/O
+                         net (fo=1, routed)           0.106    14.528    muon_sorter_1/max_pt_8_3_N_4L6_1
+    SLICE_X100Y385       LUT5 (Prop_F6LUT_SLICEM_I3_O)
+                                                      0.098    14.626 r  muon_sorter_1/max_pt_8_3[5]/O
+                         net (fo=17, routed)          0.412    15.038    muon_sorter_1/max_pt_8_3[5]
+    SLICE_X98Y387        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    15.102 r  muon_sorter_1/pt_compare_9_5_0_a2[0]/O
+                         net (fo=4, routed)           0.249    15.351    muon_sorter_1/pt_compare_9_5_0_a2[0]
+    SLICE_X96Y389        LUT5 (Prop_G6LUT_SLICEL_I2_O)
+                                                      0.100    15.451 r  muon_sorter_1/max_pt_9_0_x[0]/O
+                         net (fo=1, routed)           0.359    15.810    muon_sorter_1/max_pt_9_0_x[0]
+    SLICE_X95Y390        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.174    15.984 r  muon_sorter_1/max_pt_9_3[0]/O
+                         net (fo=16, routed)          0.464    16.448    muon_sorter_1/max_pt_9_3[0]
+    SLICE_X96Y391        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038    16.486 f  muon_sorter_1/pt_compare_10_15_0_a2[0]/O
+                         net (fo=6, routed)           0.614    17.100    muon_sorter_1/pt_compare_10_15_0_a2[0]
+    SLICE_X92Y397        LUT4 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.062    17.162 r  muon_sorter_1/max_pt_10_3_N_8L15_0/O
+                         net (fo=1, routed)           0.159    17.321    muon_sorter_1/max_pt_10_3_N_8L15_0
+    SLICE_X93Y397        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.062    17.383 r  muon_sorter_1/max_pt_10_3[15]/O
+                         net (fo=11, routed)          0.125    17.508    muon_sorter_1/max_pt_10_3[15]
+    SLICE_X93Y397        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.098    17.606 f  muon_sorter_1/pt_compare_11_15_0_a2[10]/O
+                         net (fo=4, routed)           0.334    17.940    muon_sorter_1/pt_compare_11_15_0_a2[10]
+    SLICE_X96Y397        LUT5 (Prop_C6LUT_SLICEL_I2_O)
+                                                      0.148    18.088 f  muon_sorter_1/max_pt_11_1[10]/O
+                         net (fo=16, routed)          0.745    18.833    muon_sorter_1/max_pt_11_1[10]
+    SLICE_X100Y394       LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.117    18.950 r  muon_sorter_1/pt_compare_12_10_0_a2[5]/O
+                         net (fo=4, routed)           0.229    19.179    muon_sorter_1/N_881
+    SLICE_X102Y391       LUT5 (Prop_F6LUT_SLICEM_I1_O)
+                                                      0.113    19.292 r  muon_sorter_1/max_pt_12_1[5]/O
+                         net (fo=10, routed)          0.241    19.533    muon_sorter_1/max_pt_12_1[5]
+    SLICE_X102Y387       LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    19.712 r  muon_sorter_1/max_pt_12_x[5]/O
+                         net (fo=1, routed)           0.232    19.944    muon_sorter_1/max_pt_12_x[5]
+    SLICE_X105Y387       LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.063    20.007 f  muon_sorter_1/pt_compare_13_6_0_a2[5]/O
+                         net (fo=4, routed)           0.298    20.305    muon_sorter_1/pt_compare_13_6_0_a2[5]
+    SLICE_X105Y391       LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.177    20.482 f  muon_sorter_1/max_pt_13_3_N_3L4/O
+                         net (fo=1, routed)           0.047    20.529    muon_sorter_1/max_pt_13_3_N_3L4
+    SLICE_X105Y391       LUT4 (Prop_E6LUT_SLICEL_I3_O)
+                                                      0.100    20.629 r  muon_sorter_1/max_pt_13_3[6]/O
+                         net (fo=16, routed)          0.265    20.894    muon_sorter_1/max_pt_13_3[6]
+    SLICE_X104Y388       LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    21.071 f  muon_sorter_1/pt_compare_14_7_0_a2[6]/O
+                         net (fo=11, routed)          0.389    21.460    muon_sorter_1/pt_compare_15_7_0_a2_0[6]
+    SLICE_X108Y390       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.098    21.558 r  muon_sorter_1/max_pt_14_0[7]/O
+                         net (fo=1, routed)           0.269    21.827    muon_sorter_1/max_pt_14_0[7]
+    SLICE_X108Y391       LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    21.865 r  muon_sorter_1/max_pt_14[7]/O
+                         net (fo=42, routed)          0.493    22.358    muon_sorter_1/max_pt_14[7]
+    SLICE_X106Y399       LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.100    22.458 f  muon_sorter_1/pt_compare_15_11_0_a2[7]/O
+                         net (fo=2, routed)           0.280    22.738    muon_sorter_1/pt_compare_15_11_0_a2[7]
+    SLICE_X108Y400       LUT3 (Prop_A6LUT_SLICEM_I2_O)
+                                                      0.064    22.802 r  muon_sorter_1/max_pt_15_2_x[11]/O
+                         net (fo=1, routed)           0.072    22.874    muon_sorter_1/max_pt_15_2_x[11]
+    SLICE_X108Y400       LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.177    23.051 r  muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]/O
+                         net (fo=1, routed)           0.122    23.173    muon_sorter_1/max_pt_15_2_x_RNIIMF7C[11]
+    SLICE_X108Y399       LUT6 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.174    23.347 r  muon_sorter_1/max_pt_15_N_4L7_0_RNI998DO/O
+                         net (fo=13, routed)          0.144    23.491    muon_sorter_1/max_pt_15[11]
+    SLICE_X109Y399       LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.115    23.606 r  muon_sorter_1/top_cand_comb_15.sector_2_1[0]/O
+                         net (fo=1, routed)           0.276    23.882    muon_sorter_1/sector_2_1_14[0]
+    SLICE_X110Y398       LUT6 (Prop_D6LUT_SLICEM_I5_O)
+                                                      0.062    23.944 r  muon_sorter_1/top_cand_comb_15.sector[0]/O
+                         net (fo=1, routed)           0.082    24.026    shift_reg_tap_o/sector[0]
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       12.500    12.500 r  
+    AV33                                              0.000    12.500 r  clk (IN)
+                         net (fo=0)                   0.000    12.500    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510    13.010 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000    13.010    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000    13.010 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296    13.306    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024    13.330 r  clk_ibuf/O
+    X3Y6 (CLOCK_ROOT)    net (fo=1970, routed)        2.535    15.865    shift_reg_tap_o/clk_c
+    SLICE_X110Y398       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[240]/C
+                         clock pessimism              0.490    16.354    
+                         clock uncertainty           -0.035    16.319    
+    SLICE_X110Y398       FDRE (Setup_DFF_SLICEM_C_D)
+                                                      0.027    16.346    shift_reg_tap_o/sr_p.sr_1[240]
+  -------------------------------------------------------------------
+                         required time                         16.346    
+                         arrival time                         -24.026    
+  -------------------------------------------------------------------
+                         slack                                 -7.680    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk
+Waveform(ns):       { 0.000 6.250 }
+Period(ns):         12.500
+Sources:            { clk }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     BUFGCE/I  n/a            1.499         12.500      11.001     BUFGCE_X1Y224   clk_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         12.500      11.950     SLICE_X102Y368  muon_cand_14.sector[0]/C
+Min Period        n/a     FDRE/C    n/a            0.550         12.500      11.950     SLICE_X102Y364  muon_cand_14.sector[1]/C
+Min Period        n/a     FDRE/C    n/a            0.550         12.500      11.950     SLICE_X103Y365  muon_cand_14.sector[2]/C
+Min Period        n/a     FDRE/C    n/a            0.550         12.500      11.950     SLICE_X102Y366  muon_cand_14.sector[3]/C
+Low Pulse Width   Fast    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X102Y362  shift_reg_tap_i/sr_p.sr_3[222]/C
+Low Pulse Width   Fast    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X102Y362  shift_reg_tap_i/sr_p.sr_3[224]/C
+Low Pulse Width   Fast    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X98Y412   muon_cand_15.sector[1]/C
+Low Pulse Width   Fast    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X96Y413   shift_reg_tap_i/sr_p.sr_3[235]/C
+Low Pulse Width   Fast    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X96Y409   shift_reg_tap_i/sr_p.sr_3[236]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X109Y371  muon_cand_15.pt_0_rep2/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X109Y373  muon_cand_15.pt_2_rep1/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X101Y365  shift_reg_tap_i/sr_p.sr_3[210]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X107Y385  shift_reg_tap_i/sr_p.sr_3[21]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         6.250       5.975      SLICE_X100Y401  shift_reg_tap_o/sr_p.sr_2[172]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_wrapper
+  To Clock:  clk_wrapper
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack      498.562ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_wrapper
+Waveform(ns):       { 0.000 500.000 }
+Period(ns):         1000.000
+Sources:            { clk_wrapper }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location               Pin
+Min Period        n/a     FDRE/C    n/a            3.195         1000.000    996.805    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Min Period        n/a     BUFGCE/I  n/a            1.499         1000.000    998.501    BUFGCE_X1Y230          clk_wrapper_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X103Y411         lsfr_1/output_vector_1[255]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X103Y411         lsfr_1/shiftreg_vector[0]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X100Y360         lsfr_1/shiftreg_vector[100]/C
+Low Pulse Width   Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Low Pulse Width   Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X100Y411         reducer_1/delay_block[0][156]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X100Y411         reducer_1/delay_block[0][157]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X100Y411         reducer_1/delay_block[0][158]/C
+High Pulse Width  Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+High Pulse Width  Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X97Y365          reducer_1/delay_block[0][15]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X103Y407         reducer_1/delay_block[0][160]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X103Y407         reducer_1/delay_block[0][161]/C
+
+
+
