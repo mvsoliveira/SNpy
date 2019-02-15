@@ -1,6 +1,6 @@
 proc create_run {I O D {run 1} opt} {
     puts "Creating run with I = $I, O = $O, D = $D"
-    set prjpre [format "I%03d_O%03d_D%03d_IORET" $I $O $D]
+    set prjpre [format "I%03d_O%03d_D%03d_SHORTSR" $I $O $D]
     set prjname [format "%s-%s" $prjpre $opt]
     set basepath "D:/mygitlab/sorting"
     set prjpath [format "%s/syn/%s/wrapper_%s.prj" $basepath $prjname $prjname]
@@ -170,7 +170,7 @@ proc range {from to {step 1}} {
 }
 
 set cfgs []
-set opts [list freq320retfan10000 freq320retfan16 freq160retfan10000 freq160retfan16 freq80retfan10000 freq80retfan16 freq40retfan10000 freq40retfan16]
+set opts [list freq320retfan10000 freq160retfan10000 freq80retfan10000 freq80retfan16 freq40retfan10000 freq40retfan16]
 #lappend cfgs [list 16 16 [range 0 2]]
 #lappend cfgs [list 16 2 [range 0 2]]
 lappend cfgs [list 16 16 [range 0 3]]

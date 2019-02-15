@@ -116,7 +116,7 @@ begin                                   -- architecture rtl
         shift_reg_tap_i : entity work.shift_reg_tap
     generic map (
       dw => i_width,
-      tw => 4)
+      tw => 2)
     port map (
       clk    => clk,
       ce     => '1',
@@ -127,7 +127,7 @@ begin                                   -- architecture rtl
         shift_reg_tap_o : entity work.shift_reg_tap
     generic map (
       dw => o_width,
-      tw => 4)
+      tw => 2)
     port map (
       clk    => clk,
       ce     => '1',
