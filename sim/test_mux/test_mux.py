@@ -28,8 +28,11 @@ class MyTB(object):
     
     @cocotb.coroutine
     def stim_mux(self):
-        yield RisingEdge(self.dut.clk)
         self.dut.sink_valid <= 0
+        self.dut.sel <= 0
+        for k in range(2 ** self.AW):
+            self.dut.input[k] <= 0
+        yield RisingEdge(self.dut.clk)
         for k in range(2 ** self.AW):
             self.dut.input[k] <= self.input[k]
         for i in range(self.n):
@@ -46,7 +49,7 @@ class MyTB(object):
         while i < self.n:
             yield RisingEdge(self.dut.clk)
             yield ReadOnly()
-            if self.dut.source_valid.value.is_resolvable and self.dut.source_valid.value.integer :
+            if self.dut.source_valid.value.is_resolvable and self.dut.source_valid.value.integer:
                 self.sim_mux_sel.append(self.dut.output.value.integer)
                 i += 1
 

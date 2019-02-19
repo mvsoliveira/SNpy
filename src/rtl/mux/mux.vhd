@@ -39,7 +39,12 @@ architecture RTL of mux is
 
 begin
 
-	output_comb <= input(to_integer(unsigned(sel)));
+	process(all) is
+	begin
+		if not is_x(sel) then
+			output_comb <= input(to_integer(unsigned(sel)));
+		end if;
+	end process;
 
 	sr_p : process(all) is
 	begin

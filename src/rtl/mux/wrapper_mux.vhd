@@ -23,6 +23,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use IEEE.math_real.all;
+use work.mux_pkg.all;
 
 entity wrapper_mux is
 
@@ -82,6 +83,7 @@ architecture rtl of wrapper_mux is
   signal input_slr     : std_logic_vector(i_width-1 downto 0) := (others => '0');
   signal output_vector : std_logic_vector(o_width-1 downto 0) := (others => '0');
   signal output_slr    : std_logic_vector(o_width-1 downto 0) := (others => '0');
+  
 
 
   attribute DONT_TOUCH                  : string;
@@ -129,11 +131,14 @@ begin                                   -- architecture rtl
       clock        => clk_wrapper,
       input_vector => output_slr,
       output_bit   => output);
+      
+    
 
 
   ----------------------------------------------------------------------------------------------------------------------
   -- Logic being tested
   ----------------------------------------------------------------------------------------------------------------------
+  
 
   mux_1 : entity work.mux
   	generic map(
@@ -143,9 +148,9 @@ begin                                   -- architecture rtl
   	)
   	port map(
   		clk          => clk,
-  		sel          => input_slr(DW * (2**AW) + AW downto DW * (2**AW) +1),
-  		input        => input_slr(DW * (2**AW) downto 1),
-  		sink_valid   => input_slr(0),
+  		sel          => input_slr(DW*2**AW+AW downto DW*2**AW+1),
+  		input        => to_array(input_slr(0 to DW*2**AW-1), AW, DW),
+  		sink_valid   => input_slr(DW*2**AW),
   		source_valid => output_vector(0),
   		output       => output_vector(DW downto 1)
   	);
