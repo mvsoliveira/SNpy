@@ -1,0 +1,1050 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
+| Date              : Sat Feb 23 12:38:46 2019
+| Host              : PCPHESEBE02 running 64-bit Service Pack 1  (build 7601)
+| Command           : report_timing_summary -setup -nworst 5 -max_paths 5 -file timing_setup.txt
+| Design            : wrapper_mux
+| Device            : xcvu9p-flgc2104
+| Speed File        : -1  PRODUCTION 1.20 05-21-2018
+| Temperature Grade : E
+-------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  false
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock
+2. checking constant_clock
+3. checking pulse_width_clock
+4. checking unconstrained_internal_endpoints
+5. checking no_input_delay
+6. checking no_output_delay
+7. checking multiple_clock
+8. checking generated_clocks
+9. checking loops
+10. checking partial_input_delay
+11. checking partial_output_delay
+12. checking latch_loops
+
+1. checking no_clock
+--------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock
+--------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock
+-----------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints
+--------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay
+--------------------------
+ There is 1 input port with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay
+---------------------------
+ There is 1 port with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock
+--------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks
+----------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops
+-----------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay
+--------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay
+---------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops
+------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+     -2.088     -281.841                    811                98714       -0.231       -0.462                       2                131528  
+
+
+Timing constraints are not met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock                    Waveform(ns)         Period(ns)      Frequency(MHz)
+-----                    ------------         ----------      --------------
+wrapper_mux|clk          {0.000 0.634}        1.268           788.644         
+wrapper_mux|clk_wrapper  {0.000 0.634}        1.268           788.644         
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock                        WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----                        -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+wrapper_mux|clk               -2.088     -264.143                    610                65921       -0.231       -0.231                       1                 98701  
+wrapper_mux|clk_wrapper       -0.222      -17.698                    201                32793       -0.231       -0.231                       1                 32827  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  wrapper_mux|clk
+  To Clock:  wrapper_mux|clk
+
+Setup :          610  Failing Endpoints,  Worst Slack       -2.088ns,  Total Violation     -264.143ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            1  Failing Endpoint ,  Worst Slack       -0.231ns,  Total Violation       -0.231ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -2.088ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[26]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk rise@1.268ns - wrapper_mux|clk rise@0.000ns)
+  Data Path Delay:        3.061ns  (logic 0.534ns (17.445%)  route 2.527ns (82.555%))
+  Logic Levels:           5  (LUT6=5)
+  Clock Path Skew:        -0.287ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.088ns = ( 5.356 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.890ns
+    Clock Pessimism Removal (CPR):    0.515ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.749ns (routing 2.377ns, distribution 1.372ns)
+  Clock Net Delay (Destination): 3.258ns (routing 2.173ns, distribution 1.085ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk rise edge)
+                                                      0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.749     4.890    shift_reg_tap_i/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X134Y119       FDRE                                         r  shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X134Y119       FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     4.986 r  shift_reg_tap_i/sr_3_rep_rep_141[32769]/Q
+                         net (fo=215, routed)         0.607     5.593    mux_1/input_slr_rep_rep_141_0
+    SLICE_X129Y137       LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     5.741 r  mux_1/output_825[25]/O
+                         net (fo=1, routed)           0.601     6.342    mux_1/output_825[25]
+    SLICE_X117Y151       LUT6 (Prop_A6LUT_SLICEM_I3_O)
+                                                      0.064     6.406 r  mux_1/output_827[25]/O
+                         net (fo=1, routed)           0.795     7.201    mux_1/output_827[25]
+    SLICE_X111Y168       LUT6 (Prop_C6LUT_SLICEL_I3_O)
+                                                      0.038     7.239 r  mux_1/output_829[25]/O
+                         net (fo=1, routed)           0.351     7.590    mux_1/output_829[25]
+    SLICE_X111Y181       LUT6 (Prop_A6LUT_SLICEL_I0_O)
+                                                      0.149     7.739 r  mux_1/output_1021[25]/O
+                         net (fo=1, routed)           0.115     7.854    mux_1/output_1021[25]
+    SLICE_X111Y181       LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.039     7.893 r  mux_1/output_1023[25]/O
+                         net (fo=1, routed)           0.058     7.951    shift_reg_tap_o/output_vector[26]
+    SLICE_X111Y181       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[26]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk rise edge)
+                                                      1.268     1.268 r  
+    AV33                                              0.000     1.268 r  clk (IN)
+                         net (fo=0)                   0.000     1.268    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     1.778 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.778    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.778 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.074    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.098 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.258     5.356    shift_reg_tap_o/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X111Y181       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[26]/C
+                         clock pessimism              0.515     5.871    
+                         clock uncertainty           -0.035     5.836    
+    SLICE_X111Y181       FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.027     5.863    shift_reg_tap_o/sr_p.sr_1[26]
+  -------------------------------------------------------------------
+                         required time                          5.863    
+                         arrival time                          -7.951    
+  -------------------------------------------------------------------
+                         slack                                 -2.088    
+
+Slack (VIOLATED) :        -2.088ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[26]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk rise@1.268ns - wrapper_mux|clk rise@0.000ns)
+  Data Path Delay:        3.061ns  (logic 0.534ns (17.445%)  route 2.527ns (82.555%))
+  Logic Levels:           5  (LUT6=5)
+  Clock Path Skew:        -0.287ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.088ns = ( 5.356 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.890ns
+    Clock Pessimism Removal (CPR):    0.515ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.749ns (routing 2.377ns, distribution 1.372ns)
+  Clock Net Delay (Destination): 3.258ns (routing 2.173ns, distribution 1.085ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk rise edge)
+                                                      0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.749     4.890    shift_reg_tap_i/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X134Y119       FDRE                                         r  shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X134Y119       FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     4.986 f  shift_reg_tap_i/sr_3_rep_rep_141[32769]/Q
+                         net (fo=215, routed)         0.607     5.593    mux_1/input_slr_rep_rep_141_0
+    SLICE_X129Y137       LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     5.741 r  mux_1/output_825[25]/O
+                         net (fo=1, routed)           0.601     6.342    mux_1/output_825[25]
+    SLICE_X117Y151       LUT6 (Prop_A6LUT_SLICEM_I3_O)
+                                                      0.064     6.406 r  mux_1/output_827[25]/O
+                         net (fo=1, routed)           0.795     7.201    mux_1/output_827[25]
+    SLICE_X111Y168       LUT6 (Prop_C6LUT_SLICEL_I3_O)
+                                                      0.038     7.239 r  mux_1/output_829[25]/O
+                         net (fo=1, routed)           0.351     7.590    mux_1/output_829[25]
+    SLICE_X111Y181       LUT6 (Prop_A6LUT_SLICEL_I0_O)
+                                                      0.149     7.739 r  mux_1/output_1021[25]/O
+                         net (fo=1, routed)           0.115     7.854    mux_1/output_1021[25]
+    SLICE_X111Y181       LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.039     7.893 r  mux_1/output_1023[25]/O
+                         net (fo=1, routed)           0.058     7.951    shift_reg_tap_o/output_vector[26]
+    SLICE_X111Y181       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[26]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk rise edge)
+                                                      1.268     1.268 r  
+    AV33                                              0.000     1.268 r  clk (IN)
+                         net (fo=0)                   0.000     1.268    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     1.778 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.778    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.778 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.074    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.098 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.258     5.356    shift_reg_tap_o/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X111Y181       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[26]/C
+                         clock pessimism              0.515     5.871    
+                         clock uncertainty           -0.035     5.836    
+    SLICE_X111Y181       FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.027     5.863    shift_reg_tap_o/sr_p.sr_1[26]
+  -------------------------------------------------------------------
+                         required time                          5.863    
+                         arrival time                          -7.951    
+  -------------------------------------------------------------------
+                         slack                                 -2.088    
+
+Slack (VIOLATED) :        -2.088ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[26]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk rise@1.268ns - wrapper_mux|clk rise@0.000ns)
+  Data Path Delay:        3.061ns  (logic 0.534ns (17.445%)  route 2.527ns (82.555%))
+  Logic Levels:           5  (LUT6=5)
+  Clock Path Skew:        -0.287ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.088ns = ( 5.356 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.890ns
+    Clock Pessimism Removal (CPR):    0.515ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.749ns (routing 2.377ns, distribution 1.372ns)
+  Clock Net Delay (Destination): 3.258ns (routing 2.173ns, distribution 1.085ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk rise edge)
+                                                      0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.749     4.890    shift_reg_tap_i/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X134Y119       FDRE                                         r  shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X134Y119       FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     4.986 r  shift_reg_tap_i/sr_3_rep_rep_141[32769]/Q
+                         net (fo=215, routed)         0.607     5.593    mux_1/input_slr_rep_rep_141_0
+    SLICE_X129Y137       LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     5.741 f  mux_1/output_825[25]/O
+                         net (fo=1, routed)           0.601     6.342    mux_1/output_825[25]
+    SLICE_X117Y151       LUT6 (Prop_A6LUT_SLICEM_I3_O)
+                                                      0.064     6.406 f  mux_1/output_827[25]/O
+                         net (fo=1, routed)           0.795     7.201    mux_1/output_827[25]
+    SLICE_X111Y168       LUT6 (Prop_C6LUT_SLICEL_I3_O)
+                                                      0.038     7.239 f  mux_1/output_829[25]/O
+                         net (fo=1, routed)           0.351     7.590    mux_1/output_829[25]
+    SLICE_X111Y181       LUT6 (Prop_A6LUT_SLICEL_I0_O)
+                                                      0.149     7.739 f  mux_1/output_1021[25]/O
+                         net (fo=1, routed)           0.115     7.854    mux_1/output_1021[25]
+    SLICE_X111Y181       LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.039     7.893 f  mux_1/output_1023[25]/O
+                         net (fo=1, routed)           0.058     7.951    shift_reg_tap_o/output_vector[26]
+    SLICE_X111Y181       FDRE                                         f  shift_reg_tap_o/sr_p.sr_1[26]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk rise edge)
+                                                      1.268     1.268 r  
+    AV33                                              0.000     1.268 r  clk (IN)
+                         net (fo=0)                   0.000     1.268    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     1.778 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.778    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.778 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.074    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.098 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.258     5.356    shift_reg_tap_o/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X111Y181       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[26]/C
+                         clock pessimism              0.515     5.871    
+                         clock uncertainty           -0.035     5.836    
+    SLICE_X111Y181       FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.027     5.863    shift_reg_tap_o/sr_p.sr_1[26]
+  -------------------------------------------------------------------
+                         required time                          5.863    
+                         arrival time                          -7.951    
+  -------------------------------------------------------------------
+                         slack                                 -2.088    
+
+Slack (VIOLATED) :        -2.088ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[26]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk rise@1.268ns - wrapper_mux|clk rise@0.000ns)
+  Data Path Delay:        3.061ns  (logic 0.534ns (17.445%)  route 2.527ns (82.555%))
+  Logic Levels:           5  (LUT6=5)
+  Clock Path Skew:        -0.287ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.088ns = ( 5.356 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.890ns
+    Clock Pessimism Removal (CPR):    0.515ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.749ns (routing 2.377ns, distribution 1.372ns)
+  Clock Net Delay (Destination): 3.258ns (routing 2.173ns, distribution 1.085ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk rise edge)
+                                                      0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.749     4.890    shift_reg_tap_i/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X134Y119       FDRE                                         r  shift_reg_tap_i/sr_3_rep_rep_141[32769]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X134Y119       FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     4.986 f  shift_reg_tap_i/sr_3_rep_rep_141[32769]/Q
+                         net (fo=215, routed)         0.607     5.593    mux_1/input_slr_rep_rep_141_0
+    SLICE_X129Y137       LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     5.741 f  mux_1/output_825[25]/O
+                         net (fo=1, routed)           0.601     6.342    mux_1/output_825[25]
+    SLICE_X117Y151       LUT6 (Prop_A6LUT_SLICEM_I3_O)
+                                                      0.064     6.406 f  mux_1/output_827[25]/O
+                         net (fo=1, routed)           0.795     7.201    mux_1/output_827[25]
+    SLICE_X111Y168       LUT6 (Prop_C6LUT_SLICEL_I3_O)
+                                                      0.038     7.239 f  mux_1/output_829[25]/O
+                         net (fo=1, routed)           0.351     7.590    mux_1/output_829[25]
+    SLICE_X111Y181       LUT6 (Prop_A6LUT_SLICEL_I0_O)
+                                                      0.149     7.739 f  mux_1/output_1021[25]/O
+                         net (fo=1, routed)           0.115     7.854    mux_1/output_1021[25]
+    SLICE_X111Y181       LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.039     7.893 f  mux_1/output_1023[25]/O
+                         net (fo=1, routed)           0.058     7.951    shift_reg_tap_o/output_vector[26]
+    SLICE_X111Y181       FDRE                                         f  shift_reg_tap_o/sr_p.sr_1[26]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk rise edge)
+                                                      1.268     1.268 r  
+    AV33                                              0.000     1.268 r  clk (IN)
+                         net (fo=0)                   0.000     1.268    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     1.778 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.778    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.778 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.074    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.098 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.258     5.356    shift_reg_tap_o/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X111Y181       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[26]/C
+                         clock pessimism              0.515     5.871    
+                         clock uncertainty           -0.035     5.836    
+    SLICE_X111Y181       FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.027     5.863    shift_reg_tap_o/sr_p.sr_1[26]
+  -------------------------------------------------------------------
+                         required time                          5.863    
+                         arrival time                          -7.951    
+  -------------------------------------------------------------------
+                         slack                                 -2.088    
+
+Slack (VIOLATED) :        -2.087ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_3_fast_rep_rep_12[32770]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[15]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk rise@1.268ns - wrapper_mux|clk rise@0.000ns)
+  Data Path Delay:        3.090ns  (logic 0.577ns (18.673%)  route 2.513ns (81.327%))
+  Logic Levels:           5  (LUT6=5)
+  Clock Path Skew:        -0.257ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.107ns = ( 5.375 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.879ns
+    Clock Pessimism Removal (CPR):    0.515ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.738ns (routing 2.377ns, distribution 1.361ns)
+  Clock Net Delay (Destination): 3.277ns (routing 2.173ns, distribution 1.104ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk rise edge)
+                                                      0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.738     4.879    shift_reg_tap_i/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X140Y206       FDRE                                         r  shift_reg_tap_i/sr_3_fast_rep_rep_12[32770]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X140Y206       FDRE (Prop_DFF2_SLICEL_C_Q)
+                                                      0.098     4.977 r  shift_reg_tap_i/sr_3_fast_rep_rep_12[32770]/Q
+                         net (fo=381, routed)         0.570     5.547    mux_1/input_slr_fast_rep_rep_12_0
+    SLICE_X143Y195       LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.040     5.587 r  mux_1/output_227[14]/O
+                         net (fo=1, routed)           0.539     6.126    mux_1/output_227[14]
+    SLICE_X119Y195       LUT6 (Prop_A6LUT_SLICEM_I1_O)
+                                                      0.116     6.242 r  mux_1/output_236[14]/O
+                         net (fo=1, routed)           0.524     6.766    mux_1/output_236[14]
+    SLICE_X112Y182       LUT6 (Prop_F6LUT_SLICEL_I2_O)
+                                                      0.062     6.828 r  mux_1/output_253[14]/O
+                         net (fo=1, routed)           0.670     7.498    mux_1/output_253[14]
+    SLICE_X111Y169       LUT6 (Prop_F6LUT_SLICEL_I3_O)
+                                                      0.114     7.612 r  mux_1/output_255[14]/O
+                         net (fo=1, routed)           0.152     7.764    mux_1/output_255[14]
+    SLICE_X111Y169       LUT6 (Prop_D6LUT_SLICEL_I0_O)
+                                                      0.147     7.911 r  mux_1/output_1023[14]/O
+                         net (fo=1, routed)           0.058     7.969    shift_reg_tap_o/output_vector[15]
+    SLICE_X111Y169       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[15]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk rise edge)
+                                                      1.268     1.268 r  
+    AV33                                              0.000     1.268 r  clk (IN)
+                         net (fo=0)                   0.000     1.268    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     1.778 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.778    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.778 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.074    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.098 r  clk_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=98700, routed)       3.277     5.375    shift_reg_tap_o/clk_c
+    SLR Crossing[1->0]   
+    SLICE_X111Y169       FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[15]/C
+                         clock pessimism              0.515     5.890    
+                         clock uncertainty           -0.035     5.855    
+    SLICE_X111Y169       FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.027     5.882    shift_reg_tap_o/sr_p.sr_1[15]
+  -------------------------------------------------------------------
+                         required time                          5.882    
+                         arrival time                          -7.969    
+  -------------------------------------------------------------------
+                         slack                                 -2.087    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         wrapper_mux|clk
+Waveform(ns):       { 0.000 0.634 }
+Period(ns):         1.268
+Sources:            { clk }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     BUFGCE/I  n/a            1.499         1.268       -0.231     BUFGCE_X1Y224   clk_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X108Y214  shift_reg_tap_i/sr_1[1153]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X67Y231   shift_reg_tap_i/sr_1[11540]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X67Y229   shift_reg_tap_i/sr_1[11541]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X71Y224   shift_reg_tap_i/sr_1[11542]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X71Y224   shift_reg_tap_i/sr_1[11542]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X68Y235   shift_reg_tap_i/sr_1[11543]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X68Y235   shift_reg_tap_i/sr_1[11544]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X73Y235   shift_reg_tap_i/sr_1[11550]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X88Y226   shift_reg_tap_i/sr_1[11552]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X67Y229   shift_reg_tap_i/sr_1[11541]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X85Y231   shift_reg_tap_i/sr_1[11553]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X86Y233   shift_reg_tap_i/sr_1[11557]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X71Y150   shift_reg_tap_i/sr_1[19477]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X70Y151   shift_reg_tap_i/sr_1[19479]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  wrapper_mux|clk_wrapper
+  To Clock:  wrapper_mux|clk_wrapper
+
+Setup :          201  Failing Endpoints,  Worst Slack       -0.222ns,  Total Violation      -17.698ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            1  Failing Endpoint ,  Worst Slack       -0.231ns,  Total Violation       -0.231ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -0.222ns  (required time - arrival time)
+  Source:                 lsfr_1/output_vector[24771]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            lsfr_1/output_vector[24772]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk_wrapper
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk_wrapper rise@1.268ns - wrapper_mux|clk_wrapper rise@0.000ns)
+  Data Path Delay:        1.471ns  (logic 0.097ns (6.594%)  route 1.374ns (93.406%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.011ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.104ns = ( 5.372 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.807ns
+    Clock Pessimism Removal (CPR):    0.693ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.639ns (routing 2.272ns, distribution 1.367ns)
+  Clock Net Delay (Destination): 3.247ns (routing 2.068ns, distribution 1.179ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      0.000     0.000 r  
+    AU33                                              0.000     0.000 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     0.000    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.806     0.806 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.806    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.806 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.140    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.168 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.639     4.807    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X112Y139       FDRE                                         r  lsfr_1/output_vector[24771]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X112Y139       FDRE (Prop_CFF_SLICEL_C_Q)
+                                                      0.097     4.904 r  lsfr_1/output_vector[24771]/Q
+                         net (fo=2, routed)           1.374     6.278    lsfr_1/input_vector[24771]
+    SLICE_X112Y139       FDRE                                         r  lsfr_1/output_vector[24772]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      1.268     1.268 r  
+    AU33                                              0.000     1.268 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     1.268    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.537     1.805 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.805    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.805 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.101    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.125 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.247     5.372    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X112Y139       FDRE                                         r  lsfr_1/output_vector[24772]/C
+                         clock pessimism              0.693     6.064    
+                         clock uncertainty           -0.035     6.029    
+    SLICE_X112Y139       FDRE (Setup_CFF2_SLICEL_C_D)
+                                                      0.027     6.056    lsfr_1/output_vector[24772]
+  -------------------------------------------------------------------
+                         required time                          6.056    
+                         arrival time                          -6.278    
+  -------------------------------------------------------------------
+                         slack                                 -0.222    
+
+Slack (VIOLATED) :        -0.222ns  (required time - arrival time)
+  Source:                 lsfr_1/output_vector[24771]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            lsfr_1/output_vector[24772]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk_wrapper
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk_wrapper rise@1.268ns - wrapper_mux|clk_wrapper rise@0.000ns)
+  Data Path Delay:        1.471ns  (logic 0.097ns (6.594%)  route 1.374ns (93.406%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.011ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.104ns = ( 5.372 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.807ns
+    Clock Pessimism Removal (CPR):    0.693ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.639ns (routing 2.272ns, distribution 1.367ns)
+  Clock Net Delay (Destination): 3.247ns (routing 2.068ns, distribution 1.179ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      0.000     0.000 r  
+    AU33                                              0.000     0.000 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     0.000    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.806     0.806 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.806    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.806 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.140    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.168 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.639     4.807    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X112Y139       FDRE                                         r  lsfr_1/output_vector[24771]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X112Y139       FDRE (Prop_CFF_SLICEL_C_Q)
+                                                      0.097     4.904 f  lsfr_1/output_vector[24771]/Q
+                         net (fo=2, routed)           1.374     6.278    lsfr_1/input_vector[24771]
+    SLICE_X112Y139       FDRE                                         f  lsfr_1/output_vector[24772]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      1.268     1.268 r  
+    AU33                                              0.000     1.268 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     1.268    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.537     1.805 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.805    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.805 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.101    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.125 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.247     5.372    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X112Y139       FDRE                                         r  lsfr_1/output_vector[24772]/C
+                         clock pessimism              0.693     6.064    
+                         clock uncertainty           -0.035     6.029    
+    SLICE_X112Y139       FDRE (Setup_CFF2_SLICEL_C_D)
+                                                      0.027     6.056    lsfr_1/output_vector[24772]
+  -------------------------------------------------------------------
+                         required time                          6.056    
+                         arrival time                          -6.278    
+  -------------------------------------------------------------------
+                         slack                                 -0.222    
+
+Slack (VIOLATED) :        -0.217ns  (required time - arrival time)
+  Source:                 lsfr_1/output_vector[10345]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            lsfr_1/output_vector[10346]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk_wrapper
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk_wrapper rise@1.268ns - wrapper_mux|clk_wrapper rise@0.000ns)
+  Data Path Delay:        1.380ns  (logic 0.096ns (6.957%)  route 1.284ns (93.043%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.097ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.057ns = ( 5.325 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.734ns
+    Clock Pessimism Removal (CPR):    0.581ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.566ns (routing 2.272ns, distribution 1.294ns)
+  Clock Net Delay (Destination): 3.200ns (routing 2.068ns, distribution 1.132ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      0.000     0.000 r  
+    AU33                                              0.000     0.000 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     0.000    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.806     0.806 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.806    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.806 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.140    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.168 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.566     4.734    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X77Y225        FDRE                                         r  lsfr_1/output_vector[10345]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X77Y225        FDRE (Prop_AFF_SLICEL_C_Q)
+                                                      0.096     4.830 r  lsfr_1/output_vector[10345]/Q
+                         net (fo=2, routed)           1.284     6.114    lsfr_1/input_vector[10345]
+    SLICE_X73Y225        FDRE                                         r  lsfr_1/output_vector[10346]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      1.268     1.268 r  
+    AU33                                              0.000     1.268 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     1.268    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.537     1.805 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.805    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.805 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.101    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.125 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.200     5.325    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X73Y225        FDRE                                         r  lsfr_1/output_vector[10346]/C
+                         clock pessimism              0.581     5.906    
+                         clock uncertainty           -0.035     5.870    
+    SLICE_X73Y225        FDRE (Setup_AFF_SLICEL_C_D)
+                                                      0.027     5.897    lsfr_1/output_vector[10346]
+  -------------------------------------------------------------------
+                         required time                          5.897    
+                         arrival time                          -6.114    
+  -------------------------------------------------------------------
+                         slack                                 -0.217    
+
+Slack (VIOLATED) :        -0.217ns  (required time - arrival time)
+  Source:                 lsfr_1/output_vector[10345]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            lsfr_1/output_vector[10346]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk_wrapper
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk_wrapper rise@1.268ns - wrapper_mux|clk_wrapper rise@0.000ns)
+  Data Path Delay:        1.380ns  (logic 0.096ns (6.957%)  route 1.284ns (93.043%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.097ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.057ns = ( 5.325 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.734ns
+    Clock Pessimism Removal (CPR):    0.581ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.566ns (routing 2.272ns, distribution 1.294ns)
+  Clock Net Delay (Destination): 3.200ns (routing 2.068ns, distribution 1.132ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      0.000     0.000 r  
+    AU33                                              0.000     0.000 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     0.000    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.806     0.806 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.806    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.806 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.140    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.168 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.566     4.734    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X77Y225        FDRE                                         r  lsfr_1/output_vector[10345]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X77Y225        FDRE (Prop_AFF_SLICEL_C_Q)
+                                                      0.096     4.830 f  lsfr_1/output_vector[10345]/Q
+                         net (fo=2, routed)           1.284     6.114    lsfr_1/input_vector[10345]
+    SLICE_X73Y225        FDRE                                         f  lsfr_1/output_vector[10346]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      1.268     1.268 r  
+    AU33                                              0.000     1.268 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     1.268    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.537     1.805 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.805    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.805 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.101    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.125 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.200     5.325    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X73Y225        FDRE                                         r  lsfr_1/output_vector[10346]/C
+                         clock pessimism              0.581     5.906    
+                         clock uncertainty           -0.035     5.870    
+    SLICE_X73Y225        FDRE (Setup_AFF_SLICEL_C_D)
+                                                      0.027     5.897    lsfr_1/output_vector[10346]
+  -------------------------------------------------------------------
+                         required time                          5.897    
+                         arrival time                          -6.114    
+  -------------------------------------------------------------------
+                         slack                                 -0.217    
+
+Slack (VIOLATED) :        -0.212ns  (required time - arrival time)
+  Source:                 lsfr_1/output_vector[10234]/C
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Destination:            lsfr_1/output_vector[10235]/D
+                            (rising edge-triggered cell FDRE clocked by wrapper_mux|clk_wrapper  {rise@0.000ns fall@0.634ns period=1.268ns})
+  Path Group:             wrapper_mux|clk_wrapper
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            1.268ns  (wrapper_mux|clk_wrapper rise@1.268ns - wrapper_mux|clk_wrapper rise@0.000ns)
+  Data Path Delay:        1.436ns  (logic 0.098ns (6.825%)  route 1.338ns (93.176%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.035ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.927ns = ( 5.195 - 1.268 ) 
+    Source Clock Delay      (SCD):    4.599ns
+    Clock Pessimism Removal (CPR):    0.637ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.431ns (routing 2.272ns, distribution 1.159ns)
+  Clock Net Delay (Destination): 3.070ns (routing 2.068ns, distribution 1.002ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      0.000     0.000 r  
+    AU33                                              0.000     0.000 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     0.000    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.806     0.806 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.806    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.806 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.140    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.168 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.431     4.599    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X111Y189       FDRE                                         r  lsfr_1/output_vector[10234]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X111Y189       FDRE (Prop_DFF2_SLICEL_C_Q)
+                                                      0.098     4.697 r  lsfr_1/output_vector[10234]/Q
+                         net (fo=2, routed)           1.338     6.035    lsfr_1/input_vector[10234]
+    SLICE_X111Y194       FDRE                                         r  lsfr_1/output_vector[10235]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock wrapper_mux|clk_wrapper rise edge)
+                                                      1.268     1.268 r  
+    AU33                                              0.000     1.268 r  clk_wrapper (IN)
+                         net (fo=0)                   0.000     1.268    clk_wrapper_ibuf_iso/I
+    AU33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.537     1.805 r  clk_wrapper_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     1.805    clk_wrapper_ibuf_iso/OUT
+    AU33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     1.805 r  clk_wrapper_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     2.101    clk_wrapper_ibuf_iso
+    BUFGCE_X1Y230        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     2.125 r  clk_wrapper_ibuf/O
+    X3Y2 (CLOCK_ROOT)    net (fo=32826, routed)       3.070     5.195    lsfr_1/clk_wrapper_c
+    SLR Crossing[1->0]   
+    SLICE_X111Y194       FDRE                                         r  lsfr_1/output_vector[10235]/C
+                         clock pessimism              0.637     5.832    
+                         clock uncertainty           -0.035     5.797    
+    SLICE_X111Y194       FDRE (Setup_AFF_SLICEL_C_D)
+                                                      0.027     5.824    lsfr_1/output_vector[10235]
+  -------------------------------------------------------------------
+                         required time                          5.824    
+                         arrival time                          -6.035    
+  -------------------------------------------------------------------
+                         slack                                 -0.212    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         wrapper_mux|clk_wrapper
+Waveform(ns):       { 0.000 0.634 }
+Period(ns):         1.268
+Sources:            { clk_wrapper }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     BUFGCE/I  n/a            1.499         1.268       -0.231     BUFGCE_X1Y230   clk_wrapper_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X112Y225  lsfr_1/output_vector[0]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X104Y193  lsfr_1/output_vector[10000]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X105Y190  lsfr_1/output_vector[10001]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1.268       0.718      SLICE_X106Y191  lsfr_1/output_vector[10002]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X105Y190  lsfr_1/output_vector[10001]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X109Y192  lsfr_1/output_vector[10006]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X109Y192  lsfr_1/output_vector[10007]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X109Y192  lsfr_1/output_vector[10008]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X109Y192  lsfr_1/output_vector[10009]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X106Y191  lsfr_1/output_vector[10002]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X106Y191  lsfr_1/output_vector[10003]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X106Y191  lsfr_1/output_vector[10004]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X106Y191  lsfr_1/output_vector[10005]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         0.634       0.359      SLICE_X111Y207  lsfr_1/output_vector[1792]/C
+
+
+
