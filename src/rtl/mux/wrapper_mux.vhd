@@ -104,7 +104,7 @@ begin                                   -- architecture rtl
         shift_reg_tap_i : entity work.shift_reg_tap
     generic map (
       dw => i_width,
-      tw => 4)
+      tw => 2)
     port map (
       clk    => clk,
       ce     => '1',
@@ -115,7 +115,7 @@ begin                                   -- architecture rtl
         shift_reg_tap_o : entity work.shift_reg_tap
     generic map (
       dw => o_width,
-      tw => 4)
+      tw => 2)
     port map (
       clk    => clk,
       ce     => '1',
@@ -149,7 +149,7 @@ begin                                   -- architecture rtl
   	port map(
   		clk          => clk,
   		sel          => input_slr(DW*2**AW+AW downto DW*2**AW+1),
-  		input        => to_array(input_slr(0 to DW*2**AW-1), AW, DW),
+  		input        => to_array(input_slr(DW*2**AW-1 downto 0), AW, DW),
   		sink_valid   => input_slr(DW*2**AW),
   		source_valid => output_vector(0),
   		output       => output_vector(DW downto 1)
