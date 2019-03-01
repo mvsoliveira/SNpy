@@ -156,7 +156,7 @@ begin                                   -- architecture rtl
     end if;
   end process;
 
-  muon_cand_c                                     <= to_muon(input_slr, I);
+  muon_cand_c                                     <= to_array(input_slr, I);
   output_vector(O*MuonCandidateLength-1 downto 0) <= to_stdv(top_cand, O);
 
   muon_sorter_1 : entity work.muon_sorter

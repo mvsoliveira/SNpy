@@ -6,13 +6,13 @@ basepaths = glob.glob('../syn/*')
 basepaths.sort()
 
 extract_info = []
-extract_info.append({'name': 'LUTs',
-                     'rexp': ur"muon_sorter_1\s+(?:\|[^\|]+){1}\|\s+(\d+)",
-                     'file': '/rev_1/par_1/hier_utilization.txt'})
-
-extract_info.append({'name': 'FFs',
-                     'rexp': ur"muon_sorter_1\s+(?:\|[^\|]+){5}\|\s+(\d+)",
-                     'file': '/rev_1/par_1/hier_utilization.txt'})
+# extract_info.append({'name': 'LUTs',
+#                      'rexp': ur"muon_sorter_1\s+(?:\|[^\|]+){1}\|\s+(\d+)",
+#                      'file': '/rev_1/par_1/hier_utilization.txt'})
+#
+# extract_info.append({'name': 'FFs',
+#                      'rexp': ur"muon_sorter_1\s+(?:\|[^\|]+){5}\|\s+(\d+)",
+#                      'file': '/rev_1/par_1/hier_utilization.txt'})
 
 extract_info.append({'name': 'Logic Levels',
                      'rexp': ur"Logic Levels\s+(?:\|[^\|]+){1}\|\s+(\d+)",
