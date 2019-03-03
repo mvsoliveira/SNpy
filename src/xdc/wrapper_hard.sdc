@@ -8,7 +8,7 @@
 #set_property IOSTANDARD LVCMOS18 [get_ports input]
 #set_property IOSTANDARD LVCMOS18 [get_ports output]
 
-#define_attribute {v:muon_sorter_16_16_2} syn_hier {hard}
+define_attribute {v:dut_inst*} syn_hier {hard}
 
 create_clock -period 1000.000 -name clk_wrapper -waveform {0.000 500.000} [get_ports clk_wrapper]
 

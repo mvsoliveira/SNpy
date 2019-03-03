@@ -24,9 +24,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use IEEE.math_real.all;
 
-use work.bitonic_sorter_vhd_pkg.all;
+use work.MuctpiDataTypes.all;
+use work.MuctpiFunctions.all;
 
-entity wrapper is
+entity wrapper_bucket is
 
 	generic(
 		I     : natural  := 16;
@@ -50,13 +51,13 @@ entity wrapper is
 		attribute syn_pad_type of input : signal is "LVCMOS18";						
 		attribute syn_pad_type of output  : signal is "LVCMOS18";						
 
-end entity wrapper;
+end entity wrapper_bucket;
 
-architecture rtl of wrapper is
+architecture rtl of wrapper_bucket is
 
   --constants
-  constant i_width         : integer := I*word_w;
-  constant o_width_desired : integer := O*word_w;
+  constant i_width         : integer := I*MuonCandidateLength;
+  constant o_width_desired : integer := O*MuonCandidateLength;
   constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
   constant o_width         : integer := 4**log4_o_width;
 
@@ -79,24 +80,16 @@ architecture rtl of wrapper is
       input_vector : in  std_logic_vector(4**input_width_log4-1 downto 0);
       output_bit   : out std_logic);
   end component reducer;
-  
-  component  bitonic_sort
-    generic (
-      WIDTH : integer;
-      DIR : integer);
-    port  (
-      m : in muon_array(0 to I-1);
-      q : out muon_array(0 to O-1));
-      end component bitonic_sort;
 
-  signal input_vector  : std_logic_vector(i_width-1 downto 0);
-  signal input_slr     : std_logic_vector(i_width-1 downto 0);
-  signal output_vector : std_logic_vector(o_width-1 downto 0);
-  signal output_slr    : std_logic_vector(o_width-1 downto 0);
+  signal input_vector  : std_logic_vector(i_width-1 downto 0) := (others => '0');
+  signal input_slr     : std_logic_vector(i_width-1 downto 0) := (others => '0');
+  signal output_vector : std_logic_vector(o_width-1 downto 0) := (others => '0');
+  signal output_slr    : std_logic_vector(o_width-1 downto 0) := (others => '0');
 
 
-  signal muon_cand    : muon_array(0 to I-1);
-  signal top_cand     : muon_array(0 to O-1);
+  signal muon_cand    : MuonCandidateArray(0 to I-1);
+  signal muon_cand_c  : MuonCandidateArray(0 to I-1);
+  signal top_cand     : MuonCandidateArray(0 to O-1);
   signal source_valid : std_logic;
 
   attribute DONT_TOUCH                  : string;
@@ -108,8 +101,6 @@ architecture rtl of wrapper is
 --  attribute KEEP              : string;
 --  attribute KEEP of muon_cand : signal is "TRUE";
 --  attribute KEEP of top_cand : signal is "TRUE";
-
-
 
 
 begin                                   -- architecture rtl
@@ -125,7 +116,7 @@ begin                                   -- architecture rtl
         shift_reg_tap_i : entity work.shift_reg_tap
     generic map (
       dw => i_width,
-      tw => 1)
+      tw => 2)
     port map (
       clk    => clk,
       ce     => '1',
@@ -136,7 +127,7 @@ begin                                   -- architecture rtl
         shift_reg_tap_o : entity work.shift_reg_tap
     generic map (
       dw => o_width,
-      tw => 1)
+      tw => 2)
     port map (
       clk    => clk,
       ce     => '1',
@@ -158,23 +149,27 @@ begin                                   -- architecture rtl
   -- Logic being tested
   ----------------------------------------------------------------------------------------------------------------------
 
+  process (clk) is
+  begin
+    if rising_edge(clk) then
+      muon_cand <= muon_cand_c;
+    end if;
+  end process;
 
-  muon_cand                                     <= to_array(input_slr, I);
-  output_vector(O*word_w-1 downto 0) <= to_stdv(top_cand, O);
-    output_vector(o_width-1 downto O*word_w) <= (others => '0');
-  
-    
-  
+  muon_cand_c                                     <= to_muon(input_slr, I);
+  output_vector(O*MuonCandidateLength-1 downto 0) <= to_stdv(top_cand, O);
 
-  dut_inst : bitonic_sort
+  muon_sorter_1 : entity work.muon_sorter_bucket
     generic map (
-      WIDTH  => I,
-      DIR => 1)
+      num_in  => I,
+      num_out => O,
+      delay => delay)
     port map (
-      m    => muon_cand,
-      q     => top_cand);
-      
-
+      clk          => clk,
+      sink_valid   => '1',
+      source_valid => source_valid,
+      muon_cand    => muon_cand,
+      top_cand     => top_cand);
 
 
 end architecture rtl;

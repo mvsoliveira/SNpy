@@ -1,6 +1,8 @@
-module bitonic_sorter_16_top (
-	input clk_int, // logic clock
-	input clk_io, // I/O clock
+module bitonic_sorter_16_top #(
+	parameter delay   = 0
+) (
+	input clk, // logic clock
+	input clk_wrapper, // I/O clock
 	input din, // serial data input
 	output logic dout // serial data output
 );
@@ -22,7 +24,7 @@ module bitonic_sorter_16_top (
 	logic lfsr_din, reducer_dout;
 
     // Register the off-chip I/O
-	always_ff @(posedge clk_io)
+	always_ff @(posedge clk_wrapper)
 	begin
 		lfsr_din <= din;
 		dout     <= reducer_dout;
@@ -30,12 +32,12 @@ module bitonic_sorter_16_top (
 
     // LFSR to generate the sorter inputs
 	lfsr #(IN_WIDTH) input_lfsr (
-		.clock(clk_io),
+		.clock(clk_wrapper),
 		.input_bit(lfsr_din),
 		.output_vector(lfsr_out));
 
 	// Register sorter input and output
-	always_ff @(posedge clk_int)
+	always_ff @(posedge clk)
 	begin
 		integer i;
 		for (i = 0; i < CAND_NUM; i += 1) begin
@@ -45,11 +47,12 @@ module bitonic_sorter_16_top (
 		sorted_muons <= sorter_out;
 	end
 
-	bitonic_sort #(
+	retiming_bitonic #(
 		.WIDTH(CAND_NUM),
-		.DIR(1)
-	) sorter_inst (
-//		.clk(clk_int),
+		.DIR(1),
+		.delay(delay)
+	) dut_inst (
+		.clk(clk),
 		.m(unsorted_muons),
 		.q(sorter_out)
 	);
@@ -65,7 +68,7 @@ module bitonic_sorter_16_top (
 	//assign reducer_in = {'d0, cand_idx_vec};
 
 	reducer #(REDUCER_LOG4) output_reducer (
-	.clock(clk_io),
+	.clock(clk_wrapper),
 	.input_vector(reducer_in),
 	.output_bit(reducer_dout));
 
