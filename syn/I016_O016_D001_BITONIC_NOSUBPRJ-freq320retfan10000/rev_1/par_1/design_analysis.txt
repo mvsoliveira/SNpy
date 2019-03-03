@@ -1,0 +1,532 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
+| Date         : Sat Mar  2 20:13:41 2019
+| Host         : PCPHESEBE02 running 64-bit Service Pack 1  (build 7601)
+| Command      : report_design_analysis -timing -setup -max_paths 10 -extend -show_all -logic_level_distribution -logic_level_dist_paths 1000 -complexity -congestion -name design_analysis_1 -file design_analysis.txt
+| Design       : bitonic_sorter_16_top
+| Device       : xcvu9p
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Design Analysis
+
+Table of Contents
+-----------------
+1. Setup Path Characteristics 1-10
+2. Logic Level Distribution
+3. Complexity Characteristics (Cells)
+4. Placed Maximum Level Congestion Reporting
+5. Initial Estimated Router Congestion Reporting
+6. Routed Maximum Level Congestion Reporting
+7. SLR Net Crossing Reporting
+8. Placed Tile Based Congestion Metric (Vertical)
+9. Placed Tile Based Congestion Metric (Horizontal)
+
+1. Setup Path Characteristics 1-10
+----------------------------------
+
+Setup Characteristics for Path #1
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                 Path #1                 |     WorstPath from Dst    |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                         1.354 |                                   2.613 |                     0.734 |
+| Logic Delay               | 0.494(37%)                    | 0.892(35%)                              | 0.093(13%)                |
+| Net Delay                 | 0.860(63%)                    | 1.721(65%)                              | 0.641(87%)                |
+| Clock Skew                |                        -0.032 |                                  -0.072 |                    -1.022 |
+| Slack                     |                         1.731 |                                   0.432 |                       inf |
+| Timing Exception          |                               |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 0% x 0%                       | 3% x 0%                                 | 3% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                            23 |                                      17 |                         1 |
+| Fixed Loc                 |                             0 |                                       0 |                         0 |
+| Fixed Route               |                             0 |                                       0 |                         0 |
+| Hold Fix Detour           |                             0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                             3 |                                       6 |                         0 |
+| Routes                    |                             3 |                                       6 |                         1 |
+| Logical Path              | FDRE LUT3 LUT5 LUT5 FDRE      | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                     | clk                       |
+| End Point Clock           | clk                           | clk                                     | clk_wrapper               |
+| DSP Block                 | None                          | None                                    | None                      |
+| BRAM                      | None                          | None                                    | None                      |
+| IO Crossings              |                             0 |                                       0 |                         0 |
+| SLR Crossings             |                             0 |                                       0 |                         0 |
+| PBlocks                   |                             0 |                                       0 |                         0 |
+| High Fanout               |                            18 |                                       4 |                         1 |
+| Dont Touch                |                             0 |                                       0 |                         0 |
+| Mark Debug                |                             0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[7].pt_ret/C    | qdelay[1][0].idx_ret_109[0]/C           | sorted_muons[3].idx[0]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_109[0]/D | sorted_muons[3].idx[0]/D                | delay_block[0][43]/D      |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #2
++---------------------------+-----------------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |             WorstPath to Src            |                 Path #2                 |     WorstPath from Dst    |
++---------------------------+-----------------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                                   3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                                   1.800 |                                   2.609 |                     0.523 |
+| Logic Delay               | 0.814(46%)                              | 0.783(31%)                              | 0.096(19%)                |
+| Net Delay                 | 0.986(54%)                              | 1.826(69%)                              | 0.427(81%)                |
+| Clock Skew                |                                  -0.111 |                                  -0.071 |                    -1.032 |
+| Slack                     |                                   1.206 |                                   0.437 |                       inf |
+| Timing Exception          |                                         |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 1% x 0%                                 | 5% x 0%                                 | 0% x 0%                   |
+| Clock Region Distance     | (0, 0)                                  | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                                      31 |                                      63 |                         1 |
+| Fixed Loc                 |                                       0 |                                       0 |                         0 |
+| Fixed Route               |                                       0 |                                       0 |                         0 |
+| Hold Fix Detour           |                                       0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                                       0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                            | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                                       6 |                                       6 |                         0 |
+| Routes                    |                                       6 |                                       6 |                         1 |
+| Logical Path              | FDRE LUT4 LUT5 LUT3 LUT6 LUT5 LUT6 FDRE | FDRE LUT4 LUT5 LUT3 LUT6 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                                     | clk                                     | clk                       |
+| End Point Clock           | clk                                     | clk                                     | clk_wrapper               |
+| DSP Block                 | None                                    | None                                    | None                      |
+| BRAM                      | None                                    | None                                    | None                      |
+| IO Crossings              |                                       0 |                                       0 |                         0 |
+| SLR Crossings             |                                       0 |                                       0 |                         0 |
+| PBlocks                   |                                       0 |                                       0 |                         0 |
+| High Fanout               |                                      15 |                                      30 |                         1 |
+| Dont Touch                |                                       0 |                                       0 |                         0 |
+| Mark Debug                |                                       0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                                  | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                                  | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[4].pt_ret_4[0]/C         | qdelay[1][0].idx_ret_1[1]/C             | sorted_muons[1].idx[6]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_1[1]/D             | sorted_muons[1].idx[6]/D                | delay_block[0][23]/D      |
++---------------------------+-----------------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #3
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                 Path #3                 |     WorstPath from Dst    |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                         1.354 |                                   2.590 |                     0.417 |
+| Logic Delay               | 0.494(37%)                    | 0.854(33%)                              | 0.096(24%)                |
+| Net Delay                 | 0.860(63%)                    | 1.736(67%)                              | 0.321(76%)                |
+| Clock Skew                |                        -0.032 |                                  -0.084 |                    -1.017 |
+| Slack                     |                         1.731 |                                   0.443 |                       inf |
+| Timing Exception          |                               |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 0% x 0%                       | 3% x 0%                                 | 0% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                            23 |                                      17 |                         1 |
+| Fixed Loc                 |                             0 |                                       0 |                         0 |
+| Fixed Route               |                             0 |                                       0 |                         0 |
+| Hold Fix Detour           |                             0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                             3 |                                       6 |                         0 |
+| Routes                    |                             3 |                                       6 |                         1 |
+| Logical Path              | FDRE LUT3 LUT5 LUT5 FDRE      | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                     | clk                       |
+| End Point Clock           | clk                           | clk                                     | clk_wrapper               |
+| DSP Block                 | None                          | None                                    | None                      |
+| BRAM                      | None                          | None                                    | None                      |
+| IO Crossings              |                             0 |                                       0 |                         0 |
+| SLR Crossings             |                             0 |                                       0 |                         0 |
+| PBlocks                   |                             0 |                                       0 |                         0 |
+| High Fanout               |                            18 |                                       4 |                         1 |
+| Dont Touch                |                             0 |                                       0 |                         0 |
+| Mark Debug                |                             0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[7].pt_ret/C    | qdelay[1][0].idx_ret_109[0]/C           | sorted_muons[6].idx[0]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_109[0]/D | sorted_muons[6].idx[0]/D                | delay_block[0][82]/D      |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #4
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                 Path #4                 |     WorstPath from Dst    |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                         1.354 |                                   2.600 |                     0.440 |
+| Logic Delay               | 0.494(37%)                    | 0.866(34%)                              | 0.094(22%)                |
+| Net Delay                 | 0.860(63%)                    | 1.734(66%)                              | 0.346(78%)                |
+| Clock Skew                |                        -0.032 |                                  -0.072 |                    -1.027 |
+| Slack                     |                         1.731 |                                   0.445 |                       inf |
+| Timing Exception          |                               |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 0% x 0%                       | 3% x 0%                                 | 0% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                            23 |                                      17 |                         1 |
+| Fixed Loc                 |                             0 |                                       0 |                         0 |
+| Fixed Route               |                             0 |                                       0 |                         0 |
+| Hold Fix Detour           |                             0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                             3 |                                       6 |                         0 |
+| Routes                    |                             3 |                                       6 |                         1 |
+| Logical Path              | FDRE LUT3 LUT5 LUT5 FDRE      | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                     | clk                       |
+| End Point Clock           | clk                           | clk                                     | clk_wrapper               |
+| DSP Block                 | None                          | None                                    | None                      |
+| BRAM                      | None                          | None                                    | None                      |
+| IO Crossings              |                             0 |                                       0 |                         0 |
+| SLR Crossings             |                             0 |                                       0 |                         0 |
+| PBlocks                   |                             0 |                                       0 |                         0 |
+| High Fanout               |                            18 |                                       4 |                         1 |
+| Dont Touch                |                             0 |                                       0 |                         0 |
+| Mark Debug                |                             0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[7].pt_ret/C    | qdelay[1][0].idx_ret_109[0]/C           | sorted_muons[2].idx[0]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_109[0]/D | sorted_muons[2].idx[0]/D                | delay_block[0][30]/D      |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #5
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                 Path #5                 |     WorstPath from Dst    |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                         1.354 |                                   2.586 |                     0.454 |
+| Logic Delay               | 0.494(37%)                    | 0.853(33%)                              | 0.097(22%)                |
+| Net Delay                 | 0.860(63%)                    | 1.733(67%)                              | 0.357(78%)                |
+| Clock Skew                |                        -0.032 |                                  -0.084 |                    -1.003 |
+| Slack                     |                         1.731 |                                   0.447 |                       inf |
+| Timing Exception          |                               |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 0% x 0%                       | 3% x 0%                                 | 0% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                            23 |                                      17 |                         1 |
+| Fixed Loc                 |                             0 |                                       0 |                         0 |
+| Fixed Route               |                             0 |                                       0 |                         0 |
+| Hold Fix Detour           |                             0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                             3 |                                       6 |                         0 |
+| Routes                    |                             3 |                                       6 |                         1 |
+| Logical Path              | FDRE LUT3 LUT5 LUT5 FDRE      | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                     | clk                       |
+| End Point Clock           | clk                           | clk                                     | clk_wrapper               |
+| DSP Block                 | None                          | None                                    | None                      |
+| BRAM                      | None                          | None                                    | None                      |
+| IO Crossings              |                             0 |                                       0 |                         0 |
+| SLR Crossings             |                             0 |                                       0 |                         0 |
+| PBlocks                   |                             0 |                                       0 |                         0 |
+| High Fanout               |                            18 |                                       4 |                         1 |
+| Dont Touch                |                             0 |                                       0 |                         0 |
+| Mark Debug                |                             0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[7].pt_ret/C    | qdelay[1][0].idx_ret_109[0]/C           | sorted_muons[7].idx[0]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_109[0]/D | sorted_muons[7].idx[0]/D                | delay_block[0][95]/D      |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #6
++---------------------------+-------------------------------+----------------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                    Path #6                   |     WorstPath from Dst    |
++---------------------------+-------------------------------+----------------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                        3.125 |                     0.000 |
+| Path Delay                |                         1.488 |                                        2.581 |                     0.505 |
+| Logic Delay               | 0.293(20%)                    | 0.966(38%)                                   | 0.096(20%)                |
+| Net Delay                 | 1.195(80%)                    | 1.615(62%)                                   | 0.409(80%)                |
+| Clock Skew                |                        -0.069 |                                       -0.081 |                    -1.049 |
+| Slack                     |                         1.560 |                                        0.454 |                       inf |
+| Timing Exception          |                               |                                              | Asynchronous Clock Groups |
+| Bounding Box Size         | 2% x 0%                       | 3% x 0%                                      | 1% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                       | (0, 0)                    |
+| Cumulative Fanout         |                            32 |                                           17 |                         1 |
+| Fixed Loc                 |                             0 |                                            0 |                         0 |
+| Fixed Route               |                             0 |                                            0 |                         0 |
+| Hold Fix Detour           |                             0 |                                            0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                            0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                                 | No Common Primary Clock   |
+| Logic Levels              |                             2 |                                            7 |                         0 |
+| Routes                    |                             2 |                                            7 |                         1 |
+| Logical Path              | FDRE LUT3 LUT5 FDRE           | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                          | clk                       |
+| End Point Clock           | clk                           | clk                                          | clk_wrapper               |
+| DSP Block                 | None                          | None                                         | None                      |
+| BRAM                      | None                          | None                                         | None                      |
+| IO Crossings              |                             0 |                                            0 |                         0 |
+| SLR Crossings             |                             0 |                                            0 |                         0 |
+| PBlocks                   |                             0 |                                            0 |                         0 |
+| High Fanout               |                            27 |                                            3 |                         1 |
+| Dont Touch                |                             0 |                                            0 |                         0 |
+| Mark Debug                |                             0 |                                            0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                       | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                       | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[5].pt_ret/C    | qdelay[1][0].idx_ret_111[4]/C                | sorted_muons[15].idx[4]/C |
+| End Point Pin             | qdelay[1][0].idx_ret_111[4]/D | sorted_muons[15].idx[4]/D                    | delay_block[0][203]/D     |
++---------------------------+-------------------------------+----------------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #7
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                 Path #7                 |     WorstPath from Dst    |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                         1.354 |                                   2.574 |                     0.341 |
+| Logic Delay               | 0.494(37%)                    | 0.874(34%)                              | 0.095(28%)                |
+| Net Delay                 | 0.860(63%)                    | 1.700(66%)                              | 0.246(72%)                |
+| Clock Skew                |                        -0.032 |                                  -0.076 |                    -1.024 |
+| Slack                     |                         1.731 |                                   0.467 |                       inf |
+| Timing Exception          |                               |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 0% x 0%                       | 3% x 0%                                 | 0% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                            23 |                                      17 |                         1 |
+| Fixed Loc                 |                             0 |                                       0 |                         0 |
+| Fixed Route               |                             0 |                                       0 |                         0 |
+| Hold Fix Detour           |                             0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                             3 |                                       6 |                         0 |
+| Routes                    |                             3 |                                       6 |                         1 |
+| Logical Path              | FDRE LUT3 LUT5 LUT5 FDRE      | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                     | clk                       |
+| End Point Clock           | clk                           | clk                                     | clk_wrapper               |
+| DSP Block                 | None                          | None                                    | None                      |
+| BRAM                      | None                          | None                                    | None                      |
+| IO Crossings              |                             0 |                                       0 |                         0 |
+| SLR Crossings             |                             0 |                                       0 |                         0 |
+| PBlocks                   |                             0 |                                       0 |                         0 |
+| High Fanout               |                            18 |                                       4 |                         1 |
+| Dont Touch                |                             0 |                                       0 |                         0 |
+| Mark Debug                |                             0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[7].pt_ret/C    | qdelay[1][0].idx_ret_109[0]/C           | sorted_muons[0].idx[0]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_109[0]/D | sorted_muons[0].idx[0]/D                | delay_block[0][4]/D       |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #8
++---------------------------+-----------------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |             WorstPath to Src            |                 Path #8                 |     WorstPath from Dst    |
++---------------------------+-----------------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                                   3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                                   1.800 |                                   2.571 |                     0.373 |
+| Logic Delay               | 0.814(46%)                              | 0.754(30%)                              | 0.097(27%)                |
+| Net Delay                 | 0.986(54%)                              | 1.817(70%)                              | 0.276(73%)                |
+| Clock Skew                |                                  -0.111 |                                  -0.071 |                    -1.016 |
+| Slack                     |                                   1.206 |                                   0.475 |                       inf |
+| Timing Exception          |                                         |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 1% x 0%                                 | 5% x 0%                                 | 1% x 0%                   |
+| Clock Region Distance     | (0, 0)                                  | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                                      31 |                                      63 |                         1 |
+| Fixed Loc                 |                                       0 |                                       0 |                         0 |
+| Fixed Route               |                                       0 |                                       0 |                         0 |
+| Hold Fix Detour           |                                       0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                                       0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                            | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                                       6 |                                       6 |                         0 |
+| Routes                    |                                       6 |                                       6 |                         1 |
+| Logical Path              | FDRE LUT4 LUT5 LUT3 LUT6 LUT5 LUT6 FDRE | FDRE LUT4 LUT5 LUT3 LUT6 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                                     | clk                                     | clk                       |
+| End Point Clock           | clk                                     | clk                                     | clk_wrapper               |
+| DSP Block                 | None                                    | None                                    | None                      |
+| BRAM                      | None                                    | None                                    | None                      |
+| IO Crossings              |                                       0 |                                       0 |                         0 |
+| SLR Crossings             |                                       0 |                                       0 |                         0 |
+| PBlocks                   |                                       0 |                                       0 |                         0 |
+| High Fanout               |                                      15 |                                      30 |                         1 |
+| Dont Touch                |                                       0 |                                       0 |                         0 |
+| Mark Debug                |                                       0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                                  | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                                  | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[4].pt_ret_4[0]/C         | qdelay[1][0].idx_ret_1[1]/C             | sorted_muons[0].idx[6]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_1[1]/D             | sorted_muons[0].idx[6]/D                | delay_block[0][10]/D      |
++---------------------------+-----------------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #9
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                 Path #9                 |     WorstPath from Dst    |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                   3.125 |                     0.000 |
+| Path Delay                |                         0.395 |                                   2.539 |                     0.403 |
+| Logic Delay               | 0.099(26%)                    | 0.916(37%)                              | 0.095(24%)                |
+| Net Delay                 | 0.296(74%)                    | 1.623(63%)                              | 0.308(76%)                |
+| Clock Skew                |                        -0.011 |                                  -0.098 |                    -1.014 |
+| Slack                     |                         2.711 |                                   0.479 |                       inf |
+| Timing Exception          |                               |                                         | Asynchronous Clock Groups |
+| Bounding Box Size         | 0% x 0%                       | 2% x 1%                                 | 0% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                  | (0, 0)                    |
+| Cumulative Fanout         |                             1 |                                      35 |                         1 |
+| Fixed Loc                 |                             0 |                                       0 |                         0 |
+| Fixed Route               |                             0 |                                       0 |                         0 |
+| Hold Fix Detour           |                             0 |                                       0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                       0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                            | No Common Primary Clock   |
+| Logic Levels              |                             0 |                                       6 |                         0 |
+| Routes                    |                             1 |                                       6 |                         1 |
+| Logical Path              | FDRE FDRE                     | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                     | clk                       |
+| End Point Clock           | clk                           | clk                                     | clk_wrapper               |
+| DSP Block                 | None                          | None                                    | None                      |
+| BRAM                      | None                          | None                                    | None                      |
+| IO Crossings              |                             0 |                                       0 |                         0 |
+| SLR Crossings             |                             0 |                                       0 |                         0 |
+| PBlocks                   |                             0 |                                       0 |                         0 |
+| High Fanout               |                             1 |                                      22 |                         1 |
+| Dont Touch                |                             0 |                                       0 |                         0 |
+| Mark Debug                |                             0 |                                       0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                  | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                  | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[12].pt_ret_0/C | qdelay[1][0].idx_ret_72/C               | sorted_muons[5].idx[2]/C  |
+| End Point Pin             | qdelay[1][0].idx_ret_72/D     | sorted_muons[5].idx[2]/D                | delay_block[0][71]/D      |
++---------------------------+-------------------------------+-----------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+Setup Characteristics for Path #10
++---------------------------+-------------------------------+----------------------------------------------+---------------------------+
+|      Characteristics      |        WorstPath to Src       |                   Path #10                   |     WorstPath from Dst    |
++---------------------------+-------------------------------+----------------------------------------------+---------------------------+
+| Requirement               |                         3.125 |                                        3.125 |                     0.000 |
+| Path Delay                |                         1.595 |                                        2.521 |                     0.574 |
+| Logic Delay               | 0.364(23%)                    | 0.810(33%)                                   | 0.096(17%)                |
+| Net Delay                 | 1.231(77%)                    | 1.711(67%)                                   | 0.478(83%)                |
+| Clock Skew                |                        -0.059 |                                       -0.099 |                    -1.053 |
+| Slack                     |                         1.463 |                                        0.496 |                       inf |
+| Timing Exception          |                               |                                              | Asynchronous Clock Groups |
+| Bounding Box Size         | 3% x 0%                       | 2% x 0%                                      | 0% x 0%                   |
+| Clock Region Distance     | (0, 0)                        | (0, 0)                                       | (0, 0)                    |
+| Cumulative Fanout         |                            32 |                                           15 |                         1 |
+| Fixed Loc                 |                             0 |                                            0 |                         0 |
+| Fixed Route               |                             0 |                                            0 |                         0 |
+| Hold Fix Detour           |                             0 |                                            0 |                         0 |
+| Combined LUT Pairs        |                             0 |                                            0 |                         0 |
+| Clock Relationship        | Safely Timed                  | Safely Timed                                 | No Common Primary Clock   |
+| Logic Levels              |                             2 |                                            7 |                         0 |
+| Routes                    |                             2 |                                            7 |                         1 |
+| Logical Path              | FDRE LUT3 LUT5 FDRE           | FDRE LUT3 LUT5 LUT5 LUT3 LUT5 LUT5 LUT5 FDRE | FDRE FDRE                 |
+| Start Point Clock         | clk                           | clk                                          | clk                       |
+| End Point Clock           | clk                           | clk                                          | clk_wrapper               |
+| DSP Block                 | None                          | None                                         | None                      |
+| BRAM                      | None                          | None                                         | None                      |
+| IO Crossings              |                             0 |                                            0 |                         0 |
+| SLR Crossings             |                             0 |                                            0 |                         0 |
+| PBlocks                   |                             0 |                                            0 |                         0 |
+| High Fanout               |                            27 |                                            2 |                         1 |
+| Dont Touch                |                             0 |                                            0 |                         0 |
+| Mark Debug                |                             0 |                                            0 |                         0 |
+| Start Point Pin Primitive | FDRE/C                        | FDRE/C                                       | FDRE/C                    |
+| End Point Pin Primitive   | FDRE/D                        | FDRE/D                                       | FDRE/D                    |
+| Start Point Pin           | unsorted_muons[5].pt_ret/C    | qdelay[1][0].idx_ret_113[3]/C                | sorted_muons[12].idx[3]/C |
+| End Point Pin             | qdelay[1][0].idx_ret_113[3]/D | sorted_muons[12].idx[3]/D                    | delay_block[0][163]/D     |
++---------------------------+-------------------------------+----------------------------------------------+---------------------------+
+* Bounding box calculated as % of dimensions for the target device (3842, 1864)
+
+
+2. Logic Level Distribution
+---------------------------
+
++-----------------+-------------+----+----+----+-----+----+----+-----+----+
+| End Point Clock | Requirement |  0 |  1 |  2 |  3  |  4 |  5 |  6  |  7 |
++-----------------+-------------+----+----+----+-----+----+----+-----+----+
+| clk             | 3.125ns     | 24 | 34 | 59 | 103 | 12 | 53 | 106 | 65 |
++-----------------+-------------+----+----+----+-----+----+----+-----+----+
+* Columns represents the logic levels per end point clock
+** Distribution is for top worst 456 paths
+
+
+3. Complexity Characteristics (Cells)
+-------------------------------------
+
++-----------+----------------------------+------+----------------+-----------------+---------+----------+------------+------------+-------------+-----------+------------+-----+------+------+------+
+|  Instance |           Module           | Rent | Average Fanout | Total Instances |   LUT1  |   LUT2   |    LUT3    |    LUT4    |     LUT5    |    LUT6   | Memory LUT | DSP | RAMB | MUXF | URAM |
++-----------+----------------------------+------+----------------+-----------------+---------+----------+------------+------------+-------------+-----------+------------+-----+------+------+------+
+| (top)     |      bitonic_sorter_16_top | 0.63 |           2.98 |            3232 | 0(0.0%) | 41(2.2%) | 431(23.1%) | 226(12.1%) | 1021(54.7%) | 149(8.0%) |         16 |   0 |    0 |    0 |    0 |
+|  dut_inst | retiming_bitonic_16s_1s_1s | 0.62 |           3.05 |            2037 | 0(0.0%) | 40(2.2%) | 431(24.1%) |  149(8.3%) | 1020(57.0%) | 149(8.3%) |          0 |   0 |    0 |    0 |    0 |
++-----------+----------------------------+------+----------------+-----------------+---------+----------+------------+------------+-------------+-----------+------------+-----+------+------+------+
+* Complexity Ranges 
+** 0.0 - 0.3 -> Very Low, 0.3 - 0.5 -> low, 0.5 - 0.65 -> normal,  0.65 - 0.85 -> high, 0.85 - 1.0 -> very high
+*** -* -> Not computable as cell size is very small
+
+
+4. Placed Maximum Level Congestion Reporting
+--------------------------------------------
+
++-----------+------------------+------------+-----------------------------+-----------------------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+| Direction | Congestion Level | Congestion |      Congestion Window      |          Cell Names         | Combined LUTs | Avg LUT Input | LUT as logic | Lut Memory | Flop | MUXF | RAMB | URAM | DSP | CARRY | SRL |
++-----------+------------------+------------+-----------------------------+-----------------------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+| North     |                0 |        91% | (CLEM_X64Y568,CLEM_X64Y568) | bitonic_sorter_16_top(100%) |            0% |         7.625 | 100%         | 0%         |  18% |   0% | NA   | NA   | NA  |    0% |  0% |
+| East      |                0 |       104% | (CLEM_X65Y567,CLEM_X65Y567) | bitonic_sorter_16_top(100%) |            0% |         8.625 | 100%         | 0%         |   6% |   0% | NA   | NA   | NA  |    0% |  0% |
+| South     |                0 |       102% | (CLEM_X66Y574,CLEM_X66Y574) | bitonic_sorter_16_top(100%) |            0% |         7.625 | 87%          | 0%         |  31% |   0% | NA   | NA   | NA  |    0% |  0% |
+| West      |                0 |        81% | (CLEM_X64Y569,CLEM_X64Y569) | bitonic_sorter_16_top(100%) |            0% |             7 | 87%          | 0%         |   6% |   0% | NA   | NA   | NA  |    0% |  0% |
++-----------+------------------+------------+-----------------------------+-----------------------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+
+
+5. Initial Estimated Router Congestion Reporting
+------------------------------------------------
+
++-----------+-------+------------------+------------------+-----------------------------+-----------------------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+| Direction |  Type | Congestion Level | Percentage Tiles |      Congestion Window      |          Cell Names         | Combined LUTs | Avg LUT Input | LUT as logic | Lut Memory | Flop | MUXF | RAMB | URAM | DSP | CARRY | SRL |
++-----------+-------+------------------+------------------+-----------------------------+-----------------------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+| North     | Short |                0 |           0.001% | (CLEM_X66Y573,CLEM_X66Y573) | bitonic_sorter_16_top(100%) |            0% |         6.375 | 87%          | 0%         |  31% |   0% | NA   | NA   | NA  |    0% |  0% |
++-----------+-------+------------------+------------------+-----------------------------+-----------------------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+
+
+6. Routed Maximum Level Congestion Reporting
+--------------------------------------------
+
++-----------+------------------+------------+-------------------+------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+| Direction | Congestion Level | Congestion | Congestion Window | Cell Names | Combined LUTs | Avg LUT Input | LUT as logic | Lut Memory | Flop | MUXF | RAMB | URAM | DSP | CARRY | SRL |
++-----------+------------------+------------+-------------------+------------+---------------+---------------+--------------+------------+------+------+------+------+-----+-------+-----+
+* No router congested regions found.
+
+
+7. SLR Net Crossing Reporting
+-----------------------------
+
++------------+-----------------------------+-------------+-------------+-------------+
+| Cell Names | Number of Nets crossing SLR | 0 - 1 Cuts  | 0 - 2 Cuts  | 1 - 2 Cuts  |
++------------+-----------------------------+-------------+-------------+-------------+
+* Information not available. There are no nets crossing SLRs.
+
+
+8. Placed Tile Based Congestion Metric (Vertical)
+-------------------------------------------------
+
++----------------+-----------------+--------------+----------------------+-----------------------------+---------------------+
+|    Tile Name   | RPM Grid Column | RPM Grid Row | Congestion in Window |          Cell Names         | Placer Max Overlap? |
++----------------+-----------------+--------------+----------------------+-----------------------------+---------------------+
+| CLEM_X64Y568   | 380             | 344          | 31%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X64Y569   | 380             | 343          | 28%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X65Y572   | 384             | 339          | 27%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X64Y567   | 380             | 345          | 27%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X64Y570   | 380             | 341          | 26%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X64Y566   | 380             | 346          | 26%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEL_R_X63Y569 | 379             | 343          | 26%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEL_R_X66Y565 | 391             | 347          | 25%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X65Y567   | 384             | 345          | 24%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X65Y569   | 384             | 343          | 24%                  | bitonic_sorter_16_top(100%) | Y                   |
++----------------+-----------------+--------------+----------------------+-----------------------------+---------------------+
+
+
+9. Placed Tile Based Congestion Metric (Horizontal)
+---------------------------------------------------
+
++----------------+-----------------+--------------+----------------------+-----------------------------+---------------------+
+|    Tile Name   | RPM Grid Column | RPM Grid Row | Congestion in Window |          Cell Names         | Placer Max Overlap? |
++----------------+-----------------+--------------+----------------------+-----------------------------+---------------------+
+| CLEM_X65Y572   | 384             | 339          | 23%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEL_R_X65Y572 | 386             | 339          | 22%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X65Y567   | 384             | 345          | 21%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X64Y574   | 380             | 337          | 21%                  | bitonic_sorter_16_top(100%) | N                   |
+| CLEM_X64Y576   | 380             | 335          | 21%                  | bitonic_sorter_16_top(100%) | N                   |
+| CLEM_X64Y567   | 380             | 345          | 20%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X64Y568   | 380             | 344          | 20%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X65Y569   | 384             | 343          | 20%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X64Y569   | 380             | 343          | 20%                  | bitonic_sorter_16_top(100%) | Y                   |
+| CLEM_X65Y568   | 384             | 344          | 20%                  | bitonic_sorter_16_top(100%) | Y                   |
++----------------+-----------------+--------------+----------------------+-----------------------------+---------------------+
+
+
