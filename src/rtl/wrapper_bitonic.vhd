@@ -29,152 +29,143 @@ use work.bitonic_sorter_vhd_pkg.all;
 entity wrapper is
 
 	generic(
-		I     : natural  := 16;
-		O     : natural  := 16;
-		delay : natural := 3           -- delay in clock cycles for pipeline register
+		I     : natural := 16;
+		O     : natural := 16;
+		delay : natural := 3            -- delay in clock cycles for pipeline register
 	);
 
 	port(
 		clk_wrapper : in  std_logic;
-		clk    : in  std_logic;
+		clk         : in  std_logic;
 		input       : in  std_logic;
 		output      : out std_logic);
-		attribute syn_loc : string;
-		attribute syn_pad_type : string;				
-		attribute syn_loc of clk_wrapper :signal is"AU33"; 
-		attribute syn_loc of clk :signal is"AV33";
-		attribute syn_loc of input :signal is"AN32";
-		attribute syn_loc of output :signal is"AU31";
-		attribute syn_pad_type of clk_wrapper : signal is "LVCMOS18";						
-		attribute syn_pad_type of clk : signal is "LVCMOS18";						
-		attribute syn_pad_type of input : signal is "LVCMOS18";						
-		attribute syn_pad_type of output  : signal is "LVCMOS18";						
+	attribute syn_loc      : string;
+	attribute syn_pad_type : string;
+	attribute syn_loc of clk_wrapper : signal is "AU33";
+	attribute syn_loc of clk : signal is "AV33";
+	attribute syn_loc of input : signal is "AN32";
+	attribute syn_loc of output : signal is "AU31";
+	attribute syn_pad_type of clk_wrapper : signal is "LVCMOS18";
+	attribute syn_pad_type of clk : signal is "LVCMOS18";
+	attribute syn_pad_type of input : signal is "LVCMOS18";
+	attribute syn_pad_type of output : signal is "LVCMOS18";
 
 end entity wrapper;
 
 architecture rtl of wrapper is
 
-  --constants
-  constant i_width         : integer := I*word_w;
-  constant o_width_desired : integer := O*word_w;
-  constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
-  constant o_width         : integer := 4**log4_o_width;
+	--constants
+	constant i_width         : integer := I * word_w;
+	constant o_width_desired : integer := O * word_w;
+	constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
+	constant o_width         : integer := 4**log4_o_width;
 
-  --components
+	--components
 
-  component lfsr is
-    generic (
-      WIDTH : natural);
-    port (
-      clock         : in  std_logic;
-      input_bit     : in  std_logic;
-      output_vector : out std_logic_vector(WIDTH-1 downto 0));
-  end component lfsr;
+	component lfsr is
+		generic(
+			WIDTH : natural);
+		port(
+			clock         : in  std_logic;
+			input_bit     : in  std_logic;
+			output_vector : out std_logic_vector(WIDTH - 1 downto 0));
+	end component lfsr;
 
-  component reducer is
-    generic (
-      input_width_log4 : natural);
-    port (
-      clock        : in  std_logic;
-      input_vector : in  std_logic_vector(4**input_width_log4-1 downto 0);
-      output_bit   : out std_logic);
-  end component reducer;
-  
-  component  bitonic_sort
-    generic (
-      WIDTH : integer;
-      DIR : integer);
-    port  (
-      m : in muon_array(0 to I-1);
-      q : out muon_array(0 to O-1));
-      end component bitonic_sort;
+	component reducer is
+		generic(
+			input_width_log4 : natural);
+		port(
+			clock        : in  std_logic;
+			input_vector : in  std_logic_vector(4**input_width_log4 - 1 downto 0);
+			output_bit   : out std_logic);
+	end component reducer;
 
-  signal input_vector  : std_logic_vector(i_width-1 downto 0);
-  signal input_slr     : std_logic_vector(i_width-1 downto 0);
-  signal output_vector : std_logic_vector(o_width-1 downto 0);
-  signal output_slr    : std_logic_vector(o_width-1 downto 0);
+	component retiming_bitonic
+		generic(
+			WIDTH : std_logic;
+			DIR   : std_logic;
+			delay : std_logic
+		);
+		port(
+			clk : in  std_logic;
+			m   : in  std_logic_vector;
+			q   : out std_logic_vector
+		);
+	end component retiming_bitonic;
 
+	signal input_vector  : std_logic_vector(i_width - 1 downto 0);
+	signal input_slr     : std_logic_vector(i_width - 1 downto 0);
+	signal output_vector : std_logic_vector(o_width - 1 downto 0);
+	signal output_slr    : std_logic_vector(o_width - 1 downto 0);
 
-  signal muon_cand    : muon_array(0 to I-1);
-  signal top_cand     : muon_array(0 to O-1);
-  signal source_valid : std_logic;
+	signal muon_cand    : muon_array(0 to I - 1);
+	signal top_cand     : muon_array(0 to O - 1);
+	signal source_valid : std_logic;
 
-  attribute DONT_TOUCH                  : string;
-  attribute DONT_TOUCH of lsfr_1        : label is "TRUE";
-  attribute DONT_TOUCH of reducer_1     : label is "TRUE";
-  --attribute DONT_TOUCH of muon_sorter_1 : label is "TRUE";
+	attribute DONT_TOUCH : string;
+	attribute DONT_TOUCH of lsfr_1 : label is "TRUE";
+	attribute DONT_TOUCH of reducer_1 : label is "TRUE";
+	--attribute DONT_TOUCH of muon_sorter_1 : label is "TRUE";
 
-
---  attribute KEEP              : string;
---  attribute KEEP of muon_cand : signal is "TRUE";
---  attribute KEEP of top_cand : signal is "TRUE";
-
-
-
+	--  attribute KEEP              : string;
+	--  attribute KEEP of muon_cand : signal is "TRUE";
+	--  attribute KEEP of top_cand : signal is "TRUE";
 
 begin                                   -- architecture rtl
 
-  lsfr_1 : lfsr
-    generic map (
-      WIDTH => i_width)
-    port map (
-      clock         => clk_wrapper,
-      input_bit     => input,
-      output_vector => input_vector);
-      
-        shift_reg_tap_i : entity work.shift_reg_tap
-    generic map (
-      dw => i_width,
-      tw => 1)
-    port map (
-      clk    => clk,
-      ce     => '1',
-      tap    => (others => '1'),
-      input  => input_vector,
-      output => input_slr);
-      
-        shift_reg_tap_o : entity work.shift_reg_tap
-    generic map (
-      dw => o_width,
-      tw => 1)
-    port map (
-      clk    => clk,
-      ce     => '1',
-      tap    => (others => '1'),
-      input  => output_vector,
-      output => output_slr);
+	lsfr_1 : lfsr
+		generic map(
+			WIDTH => i_width)
+		port map(
+			clock         => clk_wrapper,
+			input_bit     => input,
+			output_vector => input_vector);
 
+	shift_reg_tap_i : entity work.shift_reg_tap
+		generic map(
+			dw => i_width,
+			tw => 1)
+		port map(
+			clk    => clk,
+			ce     => '1',
+			tap    => (others => '1'),
+			input  => input_vector,
+			output => input_slr);
 
-  reducer_1 : reducer
-    generic map (
-      input_width_log4 => log4_o_width)
-    port map (
-      clock        => clk_wrapper,
-      input_vector => output_slr,
-      output_bit   => output);
+	shift_reg_tap_o : entity work.shift_reg_tap
+		generic map(
+			dw => o_width,
+			tw => 1)
+		port map(
+			clk    => clk,
+			ce     => '1',
+			tap    => (others => '1'),
+			input  => output_vector,
+			output => output_slr);
 
+	reducer_1 : reducer
+		generic map(
+			input_width_log4 => log4_o_width)
+		port map(
+			clock        => clk_wrapper,
+			input_vector => output_slr,
+			output_bit   => output);
 
-  ----------------------------------------------------------------------------------------------------------------------
-  -- Logic being tested
-  ----------------------------------------------------------------------------------------------------------------------
+	----------------------------------------------------------------------------------------------------------------------
+	-- Logic being tested
+	----------------------------------------------------------------------------------------------------------------------
 
+	muon_cand                                    <= to_array(input_slr, I);
+	output_vector(O * word_w - 1 downto 0)       <= to_stdv(top_cand, O);
+	output_vector(o_width - 1 downto O * word_w) <= (others => '0');
 
-  muon_cand                                     <= to_array(input_slr, I);
-  output_vector(O*word_w-1 downto 0) <= to_stdv(top_cand, O);
-    output_vector(o_width-1 downto O*word_w) <= (others => '0');
-  
-    
-  
-
-  dut_inst : bitonic_sort
-    generic map (
-      WIDTH  => I,
-      DIR => 1)
-    port map (
-      m    => muon_cand,
-      q     => top_cand);
-      
-
-
+	dut_inst : retiming_bitonic
+		generic map(
+			WIDTH => I,
+			DIR   => 1,
+			delay => delay)
+		port map(
+			m => muon_cand,
+			q => top_cand);
 
 end architecture rtl;

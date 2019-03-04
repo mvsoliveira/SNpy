@@ -6,13 +6,13 @@ basepaths = glob.glob('../syn/*')
 basepaths.sort()
 
 extract_info = []
-# extract_info.append({'name': 'LUTs',
-#                      'rexp': ur"muon_sorter_1\s+(?:\|[^\|]+){1}\|\s+(\d+)",
-#                      'file': '/rev_1/par_1/hier_utilization.txt'})
-#
-# extract_info.append({'name': 'FFs',
-#                      'rexp': ur"muon_sorter_1\s+(?:\|[^\|]+){5}\|\s+(\d+)",
-#                      'file': '/rev_1/par_1/hier_utilization.txt'})
+extract_info.append({'name': 'LUTs',
+                     'rexp': ur"dut_inst\s+(?:\|[^\|]+){1}\|\s+(\d+)",
+                     'file': '/rev_1/par_1/hier_utilization.txt'})
+
+extract_info.append({'name': 'FFs',
+                     'rexp': ur"dut_inst\s+(?:\|[^\|]+){5}\|\s+(\d+)",
+                     'file': '/rev_1/par_1/hier_utilization.txt'})
 
 extract_info.append({'name': 'Logic Levels',
                      'rexp': ur"Logic Levels\s+(?:\|[^\|]+){1}\|\s+(\d+)",
@@ -93,15 +93,15 @@ extract_info.append({'name': 'PD+1',
                      'indx': 0})
 
 extract_info.append({'name': 'Slack',
-                     'rexp': ur"Slack\s+(?:\|[^\|]+){1}\|\s+([\d\.\-]+)",
+                     'rexp': ur"Slack\s+(?:\|[^\|]+){1}\|\s+([\d\.\-inf]+)",
                      'file': '/rev_1/par_1/design_analysis.txt',
                      'indx': 0})
 extract_info.append({'name': 'Slack-1',
-                     'rexp': ur"Slack\s+(?:\|[^\|]+){0}\|\s+([\d\.\-]+)",
+                     'rexp': ur"Slack\s+(?:\|[^\|]+){0}\|\s+([\d\.\-inf]+)",
                      'file': '/rev_1/par_1/design_analysis.txt',
                      'indx': 0})
 extract_info.append({'name': 'Slack+1',
-                     'rexp': ur"Slack\s+(?:\|[^\|]+){2}\|\s+([\d\.\-]+)",
+                     'rexp': ur"Slack\s+(?:\|[^\|]+){2}\|\s+([\d\.\-inf]+)",
                      'file': '/rev_1/par_1/design_analysis.txt',
                      'indx': 0})
 
@@ -158,6 +158,7 @@ data.append(line)
 
 
 for bp in basepaths:
+    print bp
     line = [bp]
     for inf in extract_info:
         line.append(ext(inf))
