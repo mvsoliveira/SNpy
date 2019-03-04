@@ -1,0 +1,699 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
+| Date              : Mon Mar  4 16:50:46 2019
+| Host              : PCPHESEBE02 running 64-bit Service Pack 1  (build 7601)
+| Command           : report_timing_summary -setup -nworst 5 -max_paths 5 -file timing_setup.txt
+| Design            : wrapper
+| Device            : xcvu9p-flgc2104
+| Speed File        : -1  PRODUCTION 1.20 05-21-2018
+| Temperature Grade : E
+-------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  false
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock
+2. checking constant_clock
+3. checking pulse_width_clock
+4. checking unconstrained_internal_endpoints
+5. checking no_input_delay
+6. checking no_output_delay
+7. checking multiple_clock
+8. checking generated_clocks
+9. checking loops
+10. checking partial_input_delay
+11. checking partial_output_delay
+12. checking latch_loops
+
+1. checking no_clock
+--------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock
+--------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock
+-----------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints
+--------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay
+--------------------------
+ There is 1 input port with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay
+---------------------------
+ There is 1 port with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock
+--------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks
+----------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops
+-----------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay
+--------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay
+---------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops
+------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+      0.301        0.000                      0                 1008        0.989        0.000                       0                  1705  
+
+
+All user specified timing constraints are met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock        Waveform(ns)         Period(ns)      Frequency(MHz)
+-----        ------------         ----------      --------------
+clk          {0.000 1.563}        3.125           320.000         
+clk_wrapper  {0.000 500.000}      1000.000        1.000           
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk                 0.301        0.000                      0                 1008        0.989        0.000                       0                  1217  
+clk_wrapper                                                                             498.562        0.000                       0                   488  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk
+  To Clock:  clk
+
+Setup :            0  Failing Endpoints,  Worst Slack        0.301ns,  Total Violation        0.000ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack        0.989ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.301ns  (required time - arrival time)
+  Source:                 dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[135]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.125ns  (clk rise@3.125ns - clk rise@0.000ns)
+  Data Path Delay:        2.689ns  (logic 0.771ns (28.672%)  route 1.918ns (71.328%))
+  Logic Levels:           7  (LUT3=2 LUT5=5)
+  Clock Path Skew:        -0.126ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.590ns = ( 5.715 - 3.125 ) 
+    Source Clock Delay      (SCD):    3.158ns
+    Clock Pessimism Removal (CPR):    0.442ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.017ns (routing 1.014ns, distribution 1.003ns)
+  Clock Net Delay (Destination): 1.760ns (routing 0.926ns, distribution 0.834ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        2.017     3.158    dut_inst/clk_c
+    SLICE_X101Y549       FDRE                                         r  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X101Y549       FDRE (Prop_FFF_SLICEL_C_Q)
+                                                      0.096     3.254 r  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/Q
+                         net (fo=2, routed)           0.327     3.581    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/un1_bitonic_sort_high_o[50]
+    SLICE_X97Y550        LUT3 (Prop_A6LUT_SLICEM_I1_O)
+                                                      0.100     3.681 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_i_m2_i_m4_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=2, routed)           0.108     3.789    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/idx_i_m2_i_m4_lut6_2_o5_0_0
+    SLICE_X97Y550        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.098     3.887 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.478     4.365    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_3_0
+    SLICE_X95Y547        LUT5 (Prop_B5LUT_SLICEM_I4_O)
+                                                      0.089     4.454 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=3, routed)           0.163     4.617    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/idx_lut6_2_o6_17_0
+    SLICE_X95Y545        LUT3 (Prop_G5LUT_SLICEM_I2_O)
+                                                      0.138     4.755 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=2, routed)           0.373     5.128    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/idx_lut6_2_o6_15_0
+    SLICE_X96Y546        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.063     5.191 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=3, routed)           0.178     5.369    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/idx_lut6_2_o5_5_0
+    SLICE_X98Y543        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.040     5.409 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.214     5.623    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_7_0
+    SLICE_X97Y540        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.147     5.770 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=1, routed)           0.077     5.847    shift_reg_tap_o/idx_lut6_2_o5_27_0
+    SLICE_X97Y540        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[135]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.125     3.125 r  
+    AV33                                              0.000     3.125 r  clk (IN)
+                         net (fo=0)                   0.000     3.125    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     3.635 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     3.635    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     3.635 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     3.931    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     3.955 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        1.760     5.715    shift_reg_tap_o/clk_c
+    SLICE_X97Y540        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[135]/C
+                         clock pessimism              0.442     6.157    
+                         clock uncertainty           -0.035     6.121    
+    SLICE_X97Y540        FDRE (Setup_CFF_SLICEM_C_D)
+                                                      0.027     6.148    shift_reg_tap_o/sr_p.sr_1[135]
+  -------------------------------------------------------------------
+                         required time                          6.148    
+                         arrival time                          -5.847    
+  -------------------------------------------------------------------
+                         slack                                  0.301    
+
+Slack (MET) :             0.301ns  (required time - arrival time)
+  Source:                 dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[135]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.125ns  (clk rise@3.125ns - clk rise@0.000ns)
+  Data Path Delay:        2.689ns  (logic 0.771ns (28.672%)  route 1.918ns (71.328%))
+  Logic Levels:           7  (LUT3=2 LUT5=5)
+  Clock Path Skew:        -0.126ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.590ns = ( 5.715 - 3.125 ) 
+    Source Clock Delay      (SCD):    3.158ns
+    Clock Pessimism Removal (CPR):    0.442ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.017ns (routing 1.014ns, distribution 1.003ns)
+  Clock Net Delay (Destination): 1.760ns (routing 0.926ns, distribution 0.834ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        2.017     3.158    dut_inst/clk_c
+    SLICE_X101Y549       FDRE                                         r  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X101Y549       FDRE (Prop_FFF_SLICEL_C_Q)
+                                                      0.096     3.254 f  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/Q
+                         net (fo=2, routed)           0.327     3.581    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/un1_bitonic_sort_high_o[50]
+    SLICE_X97Y550        LUT3 (Prop_A6LUT_SLICEM_I1_O)
+                                                      0.100     3.681 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_i_m2_i_m4_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=2, routed)           0.108     3.789    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/idx_i_m2_i_m4_lut6_2_o5_0_0
+    SLICE_X97Y550        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.098     3.887 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.478     4.365    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_3_0
+    SLICE_X95Y547        LUT5 (Prop_B5LUT_SLICEM_I4_O)
+                                                      0.089     4.454 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=3, routed)           0.163     4.617    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/idx_lut6_2_o6_17_0
+    SLICE_X95Y545        LUT3 (Prop_G5LUT_SLICEM_I2_O)
+                                                      0.138     4.755 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=2, routed)           0.373     5.128    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/idx_lut6_2_o6_15_0
+    SLICE_X96Y546        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.063     5.191 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=3, routed)           0.178     5.369    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/idx_lut6_2_o5_5_0
+    SLICE_X98Y543        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.040     5.409 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.214     5.623    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_7_0
+    SLICE_X97Y540        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.147     5.770 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=1, routed)           0.077     5.847    shift_reg_tap_o/idx_lut6_2_o5_27_0
+    SLICE_X97Y540        FDRE                                         f  shift_reg_tap_o/sr_p.sr_1[135]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.125     3.125 r  
+    AV33                                              0.000     3.125 r  clk (IN)
+                         net (fo=0)                   0.000     3.125    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     3.635 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     3.635    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     3.635 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     3.931    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     3.955 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        1.760     5.715    shift_reg_tap_o/clk_c
+    SLICE_X97Y540        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[135]/C
+                         clock pessimism              0.442     6.157    
+                         clock uncertainty           -0.035     6.121    
+    SLICE_X97Y540        FDRE (Setup_CFF_SLICEM_C_D)
+                                                      0.027     6.148    shift_reg_tap_o/sr_p.sr_1[135]
+  -------------------------------------------------------------------
+                         required time                          6.148    
+                         arrival time                          -5.847    
+  -------------------------------------------------------------------
+                         slack                                  0.301    
+
+Slack (MET) :             0.321ns  (required time - arrival time)
+  Source:                 dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[148]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.125ns  (clk rise@3.125ns - clk rise@0.000ns)
+  Data Path Delay:        2.669ns  (logic 0.793ns (29.712%)  route 1.876ns (70.289%))
+  Logic Levels:           7  (LUT3=2 LUT5=5)
+  Clock Path Skew:        -0.126ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.590ns = ( 5.715 - 3.125 ) 
+    Source Clock Delay      (SCD):    3.158ns
+    Clock Pessimism Removal (CPR):    0.442ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.017ns (routing 1.014ns, distribution 1.003ns)
+  Clock Net Delay (Destination): 1.760ns (routing 0.926ns, distribution 0.834ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        2.017     3.158    dut_inst/clk_c
+    SLICE_X101Y549       FDRE                                         r  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X101Y549       FDRE (Prop_FFF_SLICEL_C_Q)
+                                                      0.096     3.254 r  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/Q
+                         net (fo=2, routed)           0.327     3.581    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/un1_bitonic_sort_high_o[50]
+    SLICE_X97Y550        LUT3 (Prop_A6LUT_SLICEM_I1_O)
+                                                      0.100     3.681 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_i_m2_i_m4_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=2, routed)           0.108     3.789    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/idx_i_m2_i_m4_lut6_2_o5_0_0
+    SLICE_X97Y550        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.098     3.887 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.478     4.365    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_3_0
+    SLICE_X95Y547        LUT5 (Prop_B5LUT_SLICEM_I4_O)
+                                                      0.089     4.454 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=3, routed)           0.163     4.617    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/idx_lut6_2_o6_17_0
+    SLICE_X95Y545        LUT3 (Prop_G5LUT_SLICEM_I2_O)
+                                                      0.138     4.755 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=2, routed)           0.373     5.128    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/idx_lut6_2_o6_15_0
+    SLICE_X96Y546        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.063     5.191 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=3, routed)           0.178     5.369    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/idx_lut6_2_o5_5_0
+    SLICE_X98Y543        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.040     5.409 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.214     5.623    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_7_0
+    SLICE_X97Y540        LUT5 (Prop_C5LUT_SLICEM_I4_O)
+                                                      0.169     5.792 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=1, routed)           0.035     5.827    shift_reg_tap_o/idx_lut6_2_o6_27_0
+    SLICE_X97Y540        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[148]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.125     3.125 r  
+    AV33                                              0.000     3.125 r  clk (IN)
+                         net (fo=0)                   0.000     3.125    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     3.635 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     3.635    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     3.635 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     3.931    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     3.955 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        1.760     5.715    shift_reg_tap_o/clk_c
+    SLICE_X97Y540        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[148]/C
+                         clock pessimism              0.442     6.157    
+                         clock uncertainty           -0.035     6.121    
+    SLICE_X97Y540        FDRE (Setup_CFF2_SLICEM_C_D)
+                                                      0.027     6.148    shift_reg_tap_o/sr_p.sr_1[148]
+  -------------------------------------------------------------------
+                         required time                          6.148    
+                         arrival time                          -5.827    
+  -------------------------------------------------------------------
+                         slack                                  0.321    
+
+Slack (MET) :             0.321ns  (required time - arrival time)
+  Source:                 dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[148]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.125ns  (clk rise@3.125ns - clk rise@0.000ns)
+  Data Path Delay:        2.669ns  (logic 0.793ns (29.712%)  route 1.876ns (70.289%))
+  Logic Levels:           7  (LUT3=2 LUT5=5)
+  Clock Path Skew:        -0.126ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.590ns = ( 5.715 - 3.125 ) 
+    Source Clock Delay      (SCD):    3.158ns
+    Clock Pessimism Removal (CPR):    0.442ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.017ns (routing 1.014ns, distribution 1.003ns)
+  Clock Net Delay (Destination): 1.760ns (routing 0.926ns, distribution 0.834ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        2.017     3.158    dut_inst/clk_c
+    SLICE_X101Y549       FDRE                                         r  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X101Y549       FDRE (Prop_FFF_SLICEL_C_Q)
+                                                      0.096     3.254 f  dut_inst/qdelay_4__15_.idx_0__ret_93[1]/Q
+                         net (fo=2, routed)           0.327     3.581    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/un1_bitonic_sort_high_o[50]
+    SLICE_X97Y550        LUT3 (Prop_A6LUT_SLICEM_I1_O)
+                                                      0.100     3.681 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_i_m2_i_m4_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=2, routed)           0.108     3.789    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/idx_i_m2_i_m4_lut6_2_o5_0_0
+    SLICE_X97Y550        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.098     3.887 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.478     4.365    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_3_0
+    SLICE_X95Y547        LUT5 (Prop_B5LUT_SLICEM_I4_O)
+                                                      0.089     4.454 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=3, routed)           0.163     4.617    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/idx_lut6_2_o6_17_0
+    SLICE_X95Y545        LUT3 (Prop_G5LUT_SLICEM_I2_O)
+                                                      0.138     4.755 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[7].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=2, routed)           0.373     5.128    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/idx_lut6_2_o6_15_0
+    SLICE_X96Y546        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.063     5.191 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[3].compare_i/s0.idx_lut6_2_o5_lut6_2_o6[1]/O
+                         net (fo=3, routed)           0.178     5.369    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/idx_lut6_2_o5_5_0
+    SLICE_X98Y543        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.040     5.409 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.idx[1]/O
+                         net (fo=2, routed)           0.214     5.623    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_7_0
+    SLICE_X97Y540        LUT5 (Prop_C5LUT_SLICEM_I4_O)
+                                                      0.169     5.792 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[1]/O
+                         net (fo=1, routed)           0.035     5.827    shift_reg_tap_o/idx_lut6_2_o6_27_0
+    SLICE_X97Y540        FDRE                                         f  shift_reg_tap_o/sr_p.sr_1[148]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.125     3.125 r  
+    AV33                                              0.000     3.125 r  clk (IN)
+                         net (fo=0)                   0.000     3.125    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     3.635 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     3.635    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     3.635 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     3.931    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     3.955 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        1.760     5.715    shift_reg_tap_o/clk_c
+    SLICE_X97Y540        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[148]/C
+                         clock pessimism              0.442     6.157    
+                         clock uncertainty           -0.035     6.121    
+    SLICE_X97Y540        FDRE (Setup_CFF2_SLICEM_C_D)
+                                                      0.027     6.148    shift_reg_tap_o/sr_p.sr_1[148]
+  -------------------------------------------------------------------
+                         required time                          6.148    
+                         arrival time                          -5.827    
+  -------------------------------------------------------------------
+                         slack                                  0.321    
+
+Slack (MET) :             0.370ns  (required time - arrival time)
+  Source:                 dut_inst/qdelay_4__15_.idx_0__ret_110[7]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[115]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.563ns period=3.125ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.125ns  (clk rise@3.125ns - clk rise@0.000ns)
+  Data Path Delay:        2.636ns  (logic 0.927ns (35.167%)  route 1.709ns (64.833%))
+  Logic Levels:           7  (LUT3=2 LUT5=5)
+  Clock Path Skew:        -0.111ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.572ns = ( 5.697 - 3.125 ) 
+    Source Clock Delay      (SCD):    3.082ns
+    Clock Pessimism Removal (CPR):    0.399ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      1.941ns (routing 1.014ns, distribution 0.927ns)
+  Clock Net Delay (Destination): 1.742ns (routing 0.926ns, distribution 0.816ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        1.941     3.082    dut_inst/clk_c
+    SLICE_X99Y537        FDRE                                         r  dut_inst/qdelay_4__15_.idx_0__ret_110[7]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X99Y537        FDRE (Prop_DFF_SLICEM_C_Q)
+                                                      0.096     3.178 r  dut_inst/qdelay_4__15_.idx_0__ret_110[7]/Q
+                         net (fo=2, routed)           0.191     3.369    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[0].compare_i/un1_bitonic_sort_high_o_0[5]
+    SLICE_X99Y540        LUT3 (Prop_F5LUT_SLICEM_I0_O)
+                                                      0.205     3.574 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[7]/O
+                         net (fo=2, routed)           0.280     3.854    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_lut6_2_o6_7_0
+    SLICE_X98Y541        LUT5 (Prop_H5LUT_SLICEL_I4_O)
+                                                      0.134     3.988 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[7]/O
+                         net (fo=2, routed)           0.190     4.178    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/idx_lut6_2_o6_5_7
+    SLICE_X98Y541        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.099     4.277 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o6[7]/O
+                         net (fo=3, routed)           0.386     4.663    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[6].compare_i/idx_lut6_2_o5_33_0
+    SLICE_X95Y543        LUT3 (Prop_B5LUT_SLICEM_I2_O)
+                                                      0.205     4.868 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[6].compare_i/s1.idx_lut6_2_o5_lut6_2_o5[7]/O
+                         net (fo=2, routed)           0.208     5.076    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[2].compare_i/idx_lut6_2_o6_26_7
+    SLICE_X95Y542        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063     5.139 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[2].compare_i/s0.idx_lut6_2_o5_lut6_2_o6[7]/O
+                         net (fo=2, routed)           0.148     5.287    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/idx_lut6_2_o5_8_6
+    SLICE_X95Y542        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.062     5.349 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o6[7]/O
+                         net (fo=2, routed)           0.248     5.597    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/idx_lut6_2_o5_20_0
+    SLICE_X96Y542        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.063     5.660 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.idx_lut6_2_o5_lut6_2_o6[7]/O
+                         net (fo=1, routed)           0.058     5.718    shift_reg_tap_o/idx_lut6_2_o5_38_7
+    SLICE_X96Y542        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[115]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.125     3.125 r  
+    AV33                                              0.000     3.125 r  clk (IN)
+                         net (fo=0)                   0.000     3.125    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     3.635 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     3.635    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     3.635 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     3.931    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     3.955 r  clk_ibuf/O
+    X3Y8 (CLOCK_ROOT)    net (fo=1216, routed)        1.742     5.697    shift_reg_tap_o/clk_c
+    SLICE_X96Y542        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[115]/C
+                         clock pessimism              0.399     6.096    
+                         clock uncertainty           -0.035     6.061    
+    SLICE_X96Y542        FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.027     6.088    shift_reg_tap_o/sr_p.sr_1[115]
+  -------------------------------------------------------------------
+                         required time                          6.088    
+                         arrival time                          -5.718    
+  -------------------------------------------------------------------
+                         slack                                  0.370    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk
+Waveform(ns):       { 0.000 1.563 }
+Period(ns):         3.125
+Sources:            { clk }
+
+Check Type        Corner  Lib Pin     Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     BUFGCE/I    n/a            1.499         3.125       1.626      BUFGCE_X1Y224   clk_ibuf/I
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.125       1.979      SLICE_X102Y550  dut_inst/qdelay_1__15_.idx_0__ret_0_qdelay_1__15_.idx_0__ret_1/CLK
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.125       1.979      SLICE_X99Y555   dut_inst/qdelay_1__15_.idx_0__ret_100_0_idx_0__ret_78_1/CLK
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.125       1.979      SLICE_X102Y542  dut_inst/qdelay_1__15_.idx_0__ret_10_0_qdelay_1__15_.idx_0__ret_1/CLK
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.125       1.979      SLICE_X102Y540  dut_inst/qdelay_1__15_.idx_0__ret_10_1_qdelay_1__15_.idx_0__ret_1/CLK
+Low Pulse Width   Fast    SRL16E/CLK  n/a            0.573         1.562       0.989      SLICE_X99Y538   dut_inst/qdelay_1__15_.idx_0__ret_10_7_qdelay_1__15_.idx_0__ret_1/CLK
+Low Pulse Width   Fast    SRL16E/CLK  n/a            0.573         1.562       0.989      SLICE_X99Y531   dut_inst/qdelay_1__15_.idx_0__ret_11_12_qdelay_1__15_.idx_0__ret_1/CLK
+Low Pulse Width   Fast    SRL16E/CLK  n/a            0.573         1.562       0.989      SLICE_X99Y532   dut_inst/qdelay_1__15_.idx_0__ret_11_13_qdelay_1__15_.idx_0__ret_1/CLK
+Low Pulse Width   Fast    SRL16E/CLK  n/a            0.573         1.562       0.989      SLICE_X99Y531   dut_inst/qdelay_1__15_.idx_0__ret_11_16_qdelay_1__15_.idx_0__ret_1/CLK
+Low Pulse Width   Fast    SRL16E/CLK  n/a            0.573         1.562       0.989      SLICE_X99Y558   dut_inst/qdelay_1__15_.idx_0__ret_424_0_idx_0__ret_78_1/CLK
+High Pulse Width  Slow    SRL16E/CLK  n/a            0.573         1.563       0.990      SLICE_X102Y542  dut_inst/qdelay_1__15_.idx_0__ret_10_0_qdelay_1__15_.idx_0__ret_1/CLK
+High Pulse Width  Slow    SRL16E/CLK  n/a            0.573         1.563       0.990      SLICE_X102Y540  dut_inst/qdelay_1__15_.idx_0__ret_10_1_qdelay_1__15_.idx_0__ret_1/CLK
+High Pulse Width  Slow    SRL16E/CLK  n/a            0.573         1.563       0.990      SLICE_X102Y540  dut_inst/qdelay_1__15_.idx_0__ret_10_2_qdelay_1__15_.idx_0__ret_1/CLK
+High Pulse Width  Slow    SRL16E/CLK  n/a            0.573         1.563       0.990      SLICE_X97Y554   dut_inst/qdelay_1__15_.idx_0__ret_3_10_qdelay_1__15_.idx_0__ret_1/CLK
+High Pulse Width  Slow    SRL16E/CLK  n/a            0.573         1.563       0.990      SLICE_X102Y542  dut_inst/qdelay_1__15_.idx_0__ret_10_4_qdelay_1__15_.idx_0__ret_1/CLK
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_wrapper
+  To Clock:  clk_wrapper
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack      498.562ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_wrapper
+Waveform(ns):       { 0.000 500.000 }
+Period(ns):         1000.000
+Sources:            { clk_wrapper }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location               Pin
+Min Period        n/a     FDRE/C    n/a            3.195         1000.000    996.805    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Min Period        n/a     BUFGCE/I  n/a            1.499         1000.000    998.501    BUFGCE_X1Y230          clk_wrapper_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X98Y556          lsfr_1/shiftreg_vector[121]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X97Y556          lsfr_1/shiftreg_vector[122]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X97Y556          lsfr_1/shiftreg_vector[123]/C
+Low Pulse Width   Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Low Pulse Width   Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X98Y558          lsfr_1/shiftreg_vector[136]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X98Y558          lsfr_1/shiftreg_vector[137]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X98Y558          lsfr_1/shiftreg_vector[138]/C
+High Pulse Width  Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+High Pulse Width  Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X98Y540          lsfr_1/shiftreg_vector[12]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X100Y555         lsfr_1/shiftreg_vector[130]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X100Y555         lsfr_1/shiftreg_vector[131]/C
+
+
+
