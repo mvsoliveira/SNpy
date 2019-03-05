@@ -8,6 +8,9 @@ setdict = [
     {'path' : ['../src/rtl/mux/'],
      'ext' : 'vhd',
      'fmt' : 'VHDL_SOURCES += $(PWD)/../{path:s}\n'},
+    {'path' : ['../src/rtl/custom_sorting_network/'],
+     'ext' : 'vhd',
+     'fmt' : 'VHDL_SOURCES += $(PWD)/../{path:s}\n'},
     {'path' : ['../src/rtl/'],
      'ext' : 'sv',
      'fmt' : 'VERILOG_SOURCES += $(PWD)/../{path:s}\n'}
