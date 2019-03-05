@@ -17,10 +17,10 @@ entity csn_cmp is
 	);
 end entity csn_cmp;
 
-architecture RTL of csn_cmp is
+architecture rtl of csn_cmp is
 
 	signal a_o_comb : muon_type;
-	signal b_o_comb : muon_type;
+	signal b_o_comb : muon_type; 
 
 begin
 
@@ -53,4 +53,4 @@ begin
 		b_o <= b_o_comb;
 	end generate out_g;
 
-end architecture RTL;
+end architecture rtl;

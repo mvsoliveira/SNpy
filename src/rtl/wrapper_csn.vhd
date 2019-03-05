@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------------------------------------------
--- Title      : wrapper
+-- Title      : wrapper_csn
 -- Project    : MUCTPI
 
 ----------------------------------------------------------------------------------------------------------------------
--- File       : wrapper.vhd
+-- File       : wrapper_csn.vhd
 -- Author     : Marcos Oliveira
 -- Company    : CERN
 -- Created    : 2018-12-05
@@ -24,9 +24,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use IEEE.math_real.all;
 
-use work.bitonic_sorter_vhd_pkg.all;
+use work.csn_pkg.all;
 
-entity wrapper is
+entity wrapper_csn is
 
 	generic(
 		I     : natural := 16;
@@ -35,7 +35,7 @@ entity wrapper is
 	);
 
 	port(
-		clk_wrapper : in  std_logic;
+		clk_wrapper : in  std_logic; 
 		clk         : in  std_logic;
 		input       : in  std_logic;
 		output      : out std_logic);
@@ -50,9 +50,9 @@ entity wrapper is
 	attribute syn_pad_type of input : signal is "LVCMOS18";
 	attribute syn_pad_type of output : signal is "LVCMOS18";
 
-end entity wrapper;
+end entity wrapper_csn;
 
-architecture rtl of wrapper is
+architecture rtl of wrapper_csn is
 
 	--constants
 	constant i_width         : integer := I * word_w;
@@ -80,36 +80,20 @@ architecture rtl of wrapper is
 			output_bit   : out std_logic);
 	end component reducer;
 
-	component retiming_bitonic
-		generic(
-			W     : integer;
-			DIR   : integer;
-			delay : integer
-		);
-		port(
-			clk : in  std_logic;
-			m   : in  muon_array(0 to I - 1);
-			q   : out muon_array(0 to O - 1)
-		);
-	end component retiming_bitonic;
 
 	signal input_vector  : std_logic_vector(i_width - 1 downto 0);
 	signal input_slr     : std_logic_vector(i_width - 1 downto 0);
 	signal output_vector : std_logic_vector(o_width - 1 downto 0);
 	signal output_slr    : std_logic_vector(o_width - 1 downto 0);
 
-	signal muon_cand    : muon_array(0 to I - 1);
-	signal top_cand     : muon_array(0 to O - 1);
-	signal source_valid : std_logic;
+	signal muon_cand    : muon_a(0 to I - 1);
+	signal top_cand     : muon_a(0 to O - 1);
+
 
 	attribute DONT_TOUCH : string;
 	attribute DONT_TOUCH of lsfr_1 : label is "TRUE";
 	attribute DONT_TOUCH of reducer_1 : label is "TRUE";
-	--attribute DONT_TOUCH of muon_sorter_1 : label is "TRUE";
 
-	--  attribute KEEP              : string;
-	--  attribute KEEP of muon_cand : signal is "TRUE";
-	--  attribute KEEP of top_cand : signal is "TRUE";
 
 begin                                   -- architecture rtl
 
@@ -159,14 +143,16 @@ begin                                   -- architecture rtl
 	output_vector(O * word_w - 1 downto 0)       <= to_stdv(top_cand, O);
 	output_vector(o_width - 1 downto O * word_w) <= (others => '0');
 
-	dut_inst : retiming_bitonic
+	dut_inst : entity work.csn
 		generic map(
-			W     => I,
-			DIR   => 1,
-			delay => delay)
+			I     => I,
+			O     => O,
+			delay => delay
+		)
 		port map(
-			clk => clk,
-			m => muon_cand,
-			q => top_cand);
+			clk    => clk,
+			muon_i => muon_cand,
+			muon_o => top_cand
+		);
 
 end architecture rtl;
