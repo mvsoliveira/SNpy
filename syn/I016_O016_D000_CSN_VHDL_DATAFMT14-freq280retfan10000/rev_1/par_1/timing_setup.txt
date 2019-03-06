@@ -1,0 +1,864 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
+| Date              : Wed Mar  6 17:04:01 2019
+| Host              : PCPHESEBE02 running 64-bit Service Pack 1  (build 7601)
+| Command           : report_timing_summary -setup -nworst 5 -max_paths 5 -file timing_setup.txt
+| Design            : wrapper_csn
+| Device            : xcvu9p-flgc2104
+| Speed File        : -1  PRODUCTION 1.20 05-21-2018
+| Temperature Grade : E
+-------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  false
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock
+2. checking constant_clock
+3. checking pulse_width_clock
+4. checking unconstrained_internal_endpoints
+5. checking no_input_delay
+6. checking no_output_delay
+7. checking multiple_clock
+8. checking generated_clocks
+9. checking loops
+10. checking partial_input_delay
+11. checking partial_output_delay
+12. checking latch_loops
+
+1. checking no_clock
+--------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock
+--------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock
+-----------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints
+--------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay
+--------------------------
+ There is 1 input port with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay
+---------------------------
+ There is 1 port with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock
+--------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks
+----------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops
+-----------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay
+--------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay
+---------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops
+------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+     -0.938      -89.280                    220                  705        1.213        0.000                       0                  1438  
+
+
+Timing constraints are not met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock        Waveform(ns)         Period(ns)      Frequency(MHz)
+-----        ------------         ----------      --------------
+clk          {0.000 1.786}        3.572           279.955         
+clk_wrapper  {0.000 500.000}      1000.000        1.000           
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk                -0.938      -89.280                    220                  705        1.213        0.000                       0                   950  
+clk_wrapper                                                                             498.562        0.000                       0                   488  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk
+  To Clock:  clk
+
+Setup :          220  Failing Endpoints,  Worst Slack       -0.938ns,  Total Violation      -89.280ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack        1.213ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -0.938ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[41]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        4.447ns  (logic 1.657ns (37.261%)  route 2.790ns (62.739%))
+  Logic Levels:           18  (LUT5=7 LUT6=11)
+  Clock Path Skew:        -0.054ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.160ns = ( 5.732 - 3.572 ) 
+    Source Clock Delay      (SCD):    2.677ns
+    Clock Pessimism Removal (CPR):    0.463ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      1.536ns (routing 0.616ns, distribution 0.920ns)
+  Clock Net Delay (Destination): 1.330ns (routing 0.562ns, distribution 0.768ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.536     2.677    shift_reg_tap_i/clk_c
+    SLICE_X94Y596        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X94Y596        FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     2.773 r  shift_reg_tap_i/sr_p.sr_1_42_rep1/Q
+                         net (fo=9, routed)           0.474     3.247    dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/input_slr_42_rep1
+    SLICE_X94Y595        LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.063     3.310 f  dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.183     3.493    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/pt_69_0
+    SLICE_X93Y595        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.062     3.555 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.107     3.662    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2_10
+    SLICE_X94Y595        LUT6 (Prop_F6LUT_SLICEL_I5_O)
+                                                      0.114     3.776 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.185     3.961    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_25
+    SLICE_X95Y595        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.113     4.074 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=9, routed)           0.070     4.144    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2_12
+    SLICE_X95Y594        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     4.183 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.267     4.450    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_9
+    SLICE_X94Y590        LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177     4.627 r  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.057     4.684    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2_20
+    SLICE_X94Y590        LUT5 (Prop_A6LUT_SLICEL_I4_O)
+                                                      0.064     4.748 r  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.169     4.917    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/pt_76_0
+    SLICE_X93Y590        LUT6 (Prop_A6LUT_SLICEM_I3_O)
+                                                      0.116     5.033 r  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2/O
+                         net (fo=7, routed)           0.128     5.161    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2
+    SLICE_X93Y588        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.040     5.201 r  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.115     5.316    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/pt_29[0]
+    SLICE_X93Y588        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.100     5.416 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=2, routed)           0.109     5.525    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2_0
+    SLICE_X93Y587        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.041     5.566 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=30, routed)          0.176     5.742    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_6
+    SLICE_X94Y585        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038     5.780 f  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.178     5.958    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/pt_30[1]
+    SLICE_X93Y586        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     6.135 r  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=4, routed)           0.108     6.243    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2_1
+    SLICE_X93Y585        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     6.282 f  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.113     6.395    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/pt_30_0
+    SLICE_X93Y585        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.062     6.457 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.048     6.505    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2_31
+    SLICE_X93Y585        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.100     6.605 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=12, routed)          0.129     6.734    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_45
+    SLICE_X93Y585        LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.039     6.773 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1/O
+                         net (fo=13, routed)          0.096     6.869    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1
+    SLICE_X93Y585        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     7.046 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIH2IU6/O
+                         net (fo=1, routed)           0.078     7.124    shift_reg_tap_o/un1_b_i_d0_c3_RNIH2IU6
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.330     5.732    shift_reg_tap_o/clk_c
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/C
+                         clock pessimism              0.463     6.195    
+                         clock uncertainty           -0.035     6.159    
+    SLICE_X93Y585        FDRE (Setup_FFF_SLICEM_C_D)
+                                                      0.027     6.186    shift_reg_tap_o/sr_p.sr_1[41]
+  -------------------------------------------------------------------
+                         required time                          6.186    
+                         arrival time                          -7.124    
+  -------------------------------------------------------------------
+                         slack                                 -0.938    
+
+Slack (VIOLATED) :        -0.938ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[41]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        4.447ns  (logic 1.657ns (37.261%)  route 2.790ns (62.739%))
+  Logic Levels:           18  (LUT5=7 LUT6=11)
+  Clock Path Skew:        -0.054ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.160ns = ( 5.732 - 3.572 ) 
+    Source Clock Delay      (SCD):    2.677ns
+    Clock Pessimism Removal (CPR):    0.463ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      1.536ns (routing 0.616ns, distribution 0.920ns)
+  Clock Net Delay (Destination): 1.330ns (routing 0.562ns, distribution 0.768ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.536     2.677    shift_reg_tap_i/clk_c
+    SLICE_X94Y596        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X94Y596        FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     2.773 r  shift_reg_tap_i/sr_p.sr_1_42_rep1/Q
+                         net (fo=9, routed)           0.474     3.247    dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/input_slr_42_rep1
+    SLICE_X94Y595        LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.063     3.310 f  dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.183     3.493    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/pt_69_0
+    SLICE_X93Y595        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.062     3.555 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.107     3.662    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2_10
+    SLICE_X94Y595        LUT6 (Prop_F6LUT_SLICEL_I5_O)
+                                                      0.114     3.776 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.185     3.961    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_25
+    SLICE_X95Y595        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.113     4.074 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=9, routed)           0.070     4.144    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2_12
+    SLICE_X95Y594        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     4.183 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.267     4.450    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_9
+    SLICE_X94Y590        LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177     4.627 r  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.057     4.684    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2_20
+    SLICE_X94Y590        LUT5 (Prop_A6LUT_SLICEL_I4_O)
+                                                      0.064     4.748 f  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.169     4.917    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/pt_76_0
+    SLICE_X93Y590        LUT6 (Prop_A6LUT_SLICEM_I3_O)
+                                                      0.116     5.033 f  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2/O
+                         net (fo=7, routed)           0.128     5.161    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2
+    SLICE_X93Y588        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.040     5.201 r  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.115     5.316    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/pt_29[0]
+    SLICE_X93Y588        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.100     5.416 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=2, routed)           0.109     5.525    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2_0
+    SLICE_X93Y587        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.041     5.566 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=30, routed)          0.176     5.742    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_6
+    SLICE_X94Y585        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038     5.780 f  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.178     5.958    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/pt_30[1]
+    SLICE_X93Y586        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     6.135 r  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=4, routed)           0.108     6.243    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2_1
+    SLICE_X93Y585        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     6.282 f  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.113     6.395    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/pt_30_0
+    SLICE_X93Y585        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.062     6.457 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.048     6.505    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2_31
+    SLICE_X93Y585        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.100     6.605 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=12, routed)          0.129     6.734    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_45
+    SLICE_X93Y585        LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.039     6.773 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1/O
+                         net (fo=13, routed)          0.096     6.869    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1
+    SLICE_X93Y585        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     7.046 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIH2IU6/O
+                         net (fo=1, routed)           0.078     7.124    shift_reg_tap_o/un1_b_i_d0_c3_RNIH2IU6
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.330     5.732    shift_reg_tap_o/clk_c
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/C
+                         clock pessimism              0.463     6.195    
+                         clock uncertainty           -0.035     6.159    
+    SLICE_X93Y585        FDRE (Setup_FFF_SLICEM_C_D)
+                                                      0.027     6.186    shift_reg_tap_o/sr_p.sr_1[41]
+  -------------------------------------------------------------------
+                         required time                          6.186    
+                         arrival time                          -7.124    
+  -------------------------------------------------------------------
+                         slack                                 -0.938    
+
+Slack (VIOLATED) :        -0.938ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[41]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        4.447ns  (logic 1.695ns (38.116%)  route 2.752ns (61.884%))
+  Logic Levels:           18  (LUT5=7 LUT6=11)
+  Clock Path Skew:        -0.054ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.160ns = ( 5.732 - 3.572 ) 
+    Source Clock Delay      (SCD):    2.677ns
+    Clock Pessimism Removal (CPR):    0.463ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      1.536ns (routing 0.616ns, distribution 0.920ns)
+  Clock Net Delay (Destination): 1.330ns (routing 0.562ns, distribution 0.768ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.536     2.677    shift_reg_tap_i/clk_c
+    SLICE_X94Y596        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X94Y596        FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     2.773 r  shift_reg_tap_i/sr_p.sr_1_42_rep1/Q
+                         net (fo=9, routed)           0.474     3.247    dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/input_slr_42_rep1
+    SLICE_X94Y595        LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.063     3.310 f  dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.183     3.493    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/pt_69_0
+    SLICE_X93Y595        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.062     3.555 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.107     3.662    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2_10
+    SLICE_X94Y595        LUT6 (Prop_F6LUT_SLICEL_I5_O)
+                                                      0.114     3.776 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.185     3.961    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_25
+    SLICE_X95Y595        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.113     4.074 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=9, routed)           0.070     4.144    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2_12
+    SLICE_X95Y594        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     4.183 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.267     4.450    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_9
+    SLICE_X94Y590        LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177     4.627 r  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.050     4.677    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2_20
+    SLICE_X94Y590        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039     4.716 r  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=23, routed)          0.138     4.854    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/un1_b_i_36
+    SLICE_X93Y590        LUT6 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.179     5.033 r  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2/O
+                         net (fo=7, routed)           0.128     5.161    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2
+    SLICE_X93Y588        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.040     5.201 r  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.115     5.316    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/pt_29[0]
+    SLICE_X93Y588        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.100     5.416 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=2, routed)           0.109     5.525    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2_0
+    SLICE_X93Y587        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.041     5.566 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=30, routed)          0.176     5.742    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_6
+    SLICE_X94Y585        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038     5.780 f  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.178     5.958    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/pt_30[1]
+    SLICE_X93Y586        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     6.135 r  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=4, routed)           0.108     6.243    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2_1
+    SLICE_X93Y585        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     6.282 f  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.113     6.395    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/pt_30_0
+    SLICE_X93Y585        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.062     6.457 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.048     6.505    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2_31
+    SLICE_X93Y585        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.100     6.605 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=12, routed)          0.129     6.734    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_45
+    SLICE_X93Y585        LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.039     6.773 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1/O
+                         net (fo=13, routed)          0.096     6.869    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1
+    SLICE_X93Y585        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     7.046 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIH2IU6/O
+                         net (fo=1, routed)           0.078     7.124    shift_reg_tap_o/un1_b_i_d0_c3_RNIH2IU6
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.330     5.732    shift_reg_tap_o/clk_c
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/C
+                         clock pessimism              0.463     6.195    
+                         clock uncertainty           -0.035     6.159    
+    SLICE_X93Y585        FDRE (Setup_FFF_SLICEM_C_D)
+                                                      0.027     6.186    shift_reg_tap_o/sr_p.sr_1[41]
+  -------------------------------------------------------------------
+                         required time                          6.186    
+                         arrival time                          -7.124    
+  -------------------------------------------------------------------
+                         slack                                 -0.938    
+
+Slack (VIOLATED) :        -0.938ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[41]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        4.447ns  (logic 1.695ns (38.116%)  route 2.752ns (61.884%))
+  Logic Levels:           18  (LUT5=7 LUT6=11)
+  Clock Path Skew:        -0.054ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.160ns = ( 5.732 - 3.572 ) 
+    Source Clock Delay      (SCD):    2.677ns
+    Clock Pessimism Removal (CPR):    0.463ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      1.536ns (routing 0.616ns, distribution 0.920ns)
+  Clock Net Delay (Destination): 1.330ns (routing 0.562ns, distribution 0.768ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.536     2.677    shift_reg_tap_i/clk_c
+    SLICE_X94Y596        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X94Y596        FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     2.773 r  shift_reg_tap_i/sr_p.sr_1_42_rep1/Q
+                         net (fo=9, routed)           0.474     3.247    dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/input_slr_42_rep1
+    SLICE_X94Y595        LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.063     3.310 f  dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.183     3.493    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/pt_69_0
+    SLICE_X93Y595        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.062     3.555 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.107     3.662    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2_10
+    SLICE_X94Y595        LUT6 (Prop_F6LUT_SLICEL_I5_O)
+                                                      0.114     3.776 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.185     3.961    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_25
+    SLICE_X95Y595        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.113     4.074 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=9, routed)           0.070     4.144    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2_12
+    SLICE_X95Y594        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     4.183 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.267     4.450    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_9
+    SLICE_X94Y590        LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177     4.627 r  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.050     4.677    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2_20
+    SLICE_X94Y590        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039     4.716 r  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=23, routed)          0.138     4.854    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/un1_b_i_36
+    SLICE_X93Y590        LUT6 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.179     5.033 f  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2/O
+                         net (fo=7, routed)           0.128     5.161    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2
+    SLICE_X93Y588        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.040     5.201 r  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.115     5.316    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/pt_29[0]
+    SLICE_X93Y588        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.100     5.416 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=2, routed)           0.109     5.525    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2_0
+    SLICE_X93Y587        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.041     5.566 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=30, routed)          0.176     5.742    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_6
+    SLICE_X94Y585        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038     5.780 f  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.178     5.958    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/pt_30[1]
+    SLICE_X93Y586        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     6.135 r  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=4, routed)           0.108     6.243    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2_1
+    SLICE_X93Y585        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     6.282 f  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.113     6.395    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/pt_30_0
+    SLICE_X93Y585        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.062     6.457 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.048     6.505    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2_31
+    SLICE_X93Y585        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.100     6.605 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=12, routed)          0.129     6.734    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_45
+    SLICE_X93Y585        LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.039     6.773 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1/O
+                         net (fo=13, routed)          0.096     6.869    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1
+    SLICE_X93Y585        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     7.046 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIH2IU6/O
+                         net (fo=1, routed)           0.078     7.124    shift_reg_tap_o/un1_b_i_d0_c3_RNIH2IU6
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.330     5.732    shift_reg_tap_o/clk_c
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/C
+                         clock pessimism              0.463     6.195    
+                         clock uncertainty           -0.035     6.159    
+    SLICE_X93Y585        FDRE (Setup_FFF_SLICEM_C_D)
+                                                      0.027     6.186    shift_reg_tap_o/sr_p.sr_1[41]
+  -------------------------------------------------------------------
+                         required time                          6.186    
+                         arrival time                          -7.124    
+  -------------------------------------------------------------------
+                         slack                                 -0.938    
+
+Slack (VIOLATED) :        -0.938ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_p.sr_1[41]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        4.447ns  (logic 1.695ns (38.116%)  route 2.752ns (61.884%))
+  Logic Levels:           18  (LUT5=7 LUT6=11)
+  Clock Path Skew:        -0.054ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.160ns = ( 5.732 - 3.572 ) 
+    Source Clock Delay      (SCD):    2.677ns
+    Clock Pessimism Removal (CPR):    0.463ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      1.536ns (routing 0.616ns, distribution 0.920ns)
+  Clock Net Delay (Destination): 1.330ns (routing 0.562ns, distribution 0.768ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.536     2.677    shift_reg_tap_i/clk_c
+    SLICE_X94Y596        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_42_rep1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X94Y596        FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.096     2.773 r  shift_reg_tap_i/sr_p.sr_1_42_rep1/Q
+                         net (fo=9, routed)           0.474     3.247    dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/input_slr_42_rep1
+    SLICE_X94Y595        LUT6 (Prop_D6LUT_SLICEL_I3_O)
+                                                      0.063     3.310 f  dut_inst/stage_g.0.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.183     3.493    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/pt_69_0
+    SLICE_X93Y595        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.062     3.555 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.107     3.662    dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_c2_10
+    SLICE_X94Y595        LUT6 (Prop_F6LUT_SLICEL_I5_O)
+                                                      0.114     3.776 r  dut_inst/stage_g.1.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.185     3.961    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_25
+    SLICE_X95Y595        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.113     4.074 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=9, routed)           0.070     4.144    dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_c2_12
+    SLICE_X95Y594        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     4.183 r  dut_inst/stage_g.2.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=22, routed)          0.267     4.450    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_9
+    SLICE_X94Y590        LUT6 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177     4.627 f  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.050     4.677    dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_c2_20
+    SLICE_X94Y590        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039     4.716 f  dut_inst/stage_g.3.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=23, routed)          0.138     4.854    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/un1_b_i_36
+    SLICE_X93Y590        LUT6 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.179     5.033 f  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2/O
+                         net (fo=7, routed)           0.128     5.161    dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/g0_i_o2
+    SLICE_X93Y588        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.040     5.201 r  dut_inst/stage_g.4.pair_g.0.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.115     5.316    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/pt_29[0]
+    SLICE_X93Y588        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.100     5.416 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=2, routed)           0.109     5.525    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_c2_0
+    SLICE_X93Y587        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.041     5.566 r  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=30, routed)          0.176     5.742    dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/un1_b_i_6
+    SLICE_X94Y585        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.038     5.780 f  dut_inst/stage_g.5.pair_g.1.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.178     5.958    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/pt_30[1]
+    SLICE_X93Y586        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     6.135 r  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=4, routed)           0.108     6.243    dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/un1_b_i_c2_1
+    SLICE_X93Y585        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.039     6.282 f  dut_inst/stage_g.6.pair_g.2.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.113     6.395    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/pt_30_0
+    SLICE_X93Y585        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.062     6.457 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=3, routed)           0.048     6.505    dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_c2_31
+    SLICE_X93Y585        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.100     6.605 r  dut_inst/stage_g.7.pair_g.0.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=12, routed)          0.129     6.734    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_45
+    SLICE_X93Y585        LUT6 (Prop_E6LUT_SLICEM_I5_O)
+                                                      0.039     6.773 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1/O
+                         net (fo=13, routed)          0.096     6.869    dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIRARN1
+    SLICE_X93Y585        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     7.046 r  dut_inst/stage_g.8.pair_g.0.csn_cmp_inst/un1_b_i_d0_c3_RNIH2IU6/O
+                         net (fo=1, routed)           0.078     7.124    shift_reg_tap_o/un1_b_i_d0_c3_RNIH2IU6
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y9 (CLOCK_ROOT)    net (fo=949, routed)         1.330     5.732    shift_reg_tap_o/clk_c
+    SLICE_X93Y585        FDRE                                         r  shift_reg_tap_o/sr_p.sr_1[41]/C
+                         clock pessimism              0.463     6.195    
+                         clock uncertainty           -0.035     6.159    
+    SLICE_X93Y585        FDRE (Setup_FFF_SLICEM_C_D)
+                                                      0.027     6.186    shift_reg_tap_o/sr_p.sr_1[41]
+  -------------------------------------------------------------------
+                         required time                          6.186    
+                         arrival time                          -7.124    
+  -------------------------------------------------------------------
+                         slack                                 -0.938    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk
+Waveform(ns):       { 0.000 1.786 }
+Period(ns):         3.572
+Sources:            { clk }
+
+Check Type        Corner  Lib Pin     Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     BUFGCE/I    n/a            1.499         3.572       2.073      BUFGCE_X1Y224   clk_ibuf/I
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.572       2.426      SLICE_X97Y569   dut_inst/ret_array_4_12.idx_2_pt_1/CLK
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.572       2.426      SLICE_X97Y572   dut_inst/ret_array_4_12.idx_3_pt_1/CLK
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.572       2.426      SLICE_X97Y572   dut_inst/ret_array_4_12.idx_4_pt_1/CLK
+Min Period        n/a     SRL16E/CLK  n/a            1.146         3.572       2.426      SLICE_X100Y573  dut_inst/ret_array_4_12.idx_5_pt_1/CLK
+Low Pulse Width   Slow    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X97Y569   dut_inst/ret_array_4_12.idx_2_pt_1/CLK
+Low Pulse Width   Slow    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X102Y578  dut_inst/ret_array_4_12.idx_7_pt_1/CLK
+Low Pulse Width   Fast    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X102Y578  dut_inst/ret_array_4_12.idx_7_pt_1/CLK
+Low Pulse Width   Slow    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X97Y569   dut_inst/ret_array_4_12.pt_1_pt_1/CLK
+Low Pulse Width   Slow    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X99Y584   dut_inst/ret_array_4_13.idx_0_pt_1/CLK
+High Pulse Width  Fast    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X97Y569   dut_inst/ret_array_4_12.idx_2_pt_1/CLK
+High Pulse Width  Slow    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X97Y572   dut_inst/ret_array_4_12.idx_3_pt_1/CLK
+High Pulse Width  Fast    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X97Y572   dut_inst/ret_array_4_12.idx_3_pt_1/CLK
+High Pulse Width  Slow    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X97Y572   dut_inst/ret_array_4_12.idx_4_pt_1/CLK
+High Pulse Width  Fast    SRL16E/CLK  n/a            0.573         1.786       1.213      SLICE_X97Y572   dut_inst/ret_array_4_12.idx_4_pt_1/CLK
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_wrapper
+  To Clock:  clk_wrapper
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack      498.562ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_wrapper
+Waveform(ns):       { 0.000 500.000 }
+Period(ns):         1000.000
+Sources:            { clk_wrapper }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location               Pin
+Min Period        n/a     FDRE/C    n/a            3.195         1000.000    996.805    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Min Period        n/a     BUFGCE/I  n/a            1.499         1000.000    998.501    BUFGCE_X1Y230          clk_wrapper_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X99Y596          lsfr_1/shiftreg_vector[124]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X99Y596          lsfr_1/shiftreg_vector[125]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X99Y596          lsfr_1/shiftreg_vector[126]/C
+Low Pulse Width   Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Low Pulse Width   Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X91Y595          lsfr_1/shiftreg_vector[12]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X102Y596         lsfr_1/shiftreg_vector[139]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X91Y595          lsfr_1/shiftreg_vector[13]/C
+High Pulse Width  Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+High Pulse Width  Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[4][0]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X100Y596         lsfr_1/shiftreg_vector[129]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X100Y594         lsfr_1/shiftreg_vector[130]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X98Y594          lsfr_1/shiftreg_vector[131]/C
+
+
+
