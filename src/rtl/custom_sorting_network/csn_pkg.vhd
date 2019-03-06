@@ -23,20 +23,19 @@ package csn_pkg is
 		o : boolean;
 		r : boolean;
 	end record;
-	
+
 	-- has to be array of array instead of (x,y) array because of issues with synplify
 	type pair_cmp_cfg is array (natural range <>) of cmp_cfg;
 	type cfg_net_t is array (natural range <>) of pair_cmp_cfg;
 
 	--type cfg_net_t is array (natural range <>, natural range <>) of cmp_cfg;
 	function get_cfg(I : integer) return cfg_net_t;
-		
-	constant empty_cfg : cfg_net_t := (
-					((a => 0, b => 1, p => False, o => False, r => False), (a => 2, b => 3, p => False, o => False, r => False)),
-					((a => 0, b => 2, p => False, o => False, r => False), (a => 1, b => 3, p => False, o => False, r => False)),
-					((a => 1, b => 2, p => False, o => False, r => False), (a => 0, b => 3, p => True, o => False, r => False))
-				);
 
+	constant empty_cfg : cfg_net_t := (
+		((a => 0, b => 1, p => False, o => False, r => False), (a => 2, b => 3, p => False, o => False, r => False)),
+		((a => 0, b => 2, p => False, o => False, r => False), (a => 1, b => 3, p => False, o => False, r => False)),
+		((a => 1, b => 2, p => False, o => False, r => False), (a => 0, b => 3, p => True, o => False, r => False))
+	);
 
 end package csn_pkg;
 
@@ -46,36 +45,36 @@ package body csn_pkg is
 	begin
 		case I is
 			-- I=4 batcher odd-even mergesort 
-when 4 => return (
-((a => 0 , b => 1 , p => False, o => False, r => False), (a => 2 , b => 3 , p => False, o => False, r => False)),
-((a => 0 , b => 2 , p => False, o => False, r => False), (a => 1 , b => 3 , p => False, o => False, r => False)),
-((a => 1 , b => 2 , p => False, o => False, r => False), (a => 0 , b => 3 , p => True , o => False, r => False))
-);
--- I=8 batcher odd-even mergesort
-when 8 => return (
-((a => 0 , b => 1 , p => False, o => False, r => False), (a => 2 , b => 3 , p => False, o => False, r => False), (a => 4 , b => 5 , p => False, o => False, r => False), (a => 6 , b => 7 , p => False, o => False, r => False)),
-((a => 0 , b => 2 , p => False, o => False, r => False), (a => 1 , b => 3 , p => False, o => False, r => False), (a => 4 , b => 6 , p => False, o => False, r => False), (a => 5 , b => 7 , p => False, o => False, r => False)),
-((a => 1 , b => 2 , p => False, o => False, r => False), (a => 5 , b => 6 , p => False, o => False, r => False), (a => 0 , b => 7 , p => True , o => False, r => False), (a => 3 , b => 4 , p => True , o => False, r => False)),
-((a => 0 , b => 4 , p => False, o => False, r => False), (a => 1 , b => 5 , p => False, o => False, r => False), (a => 2 , b => 6 , p => False, o => False, r => False), (a => 3 , b => 7 , p => False, o => False, r => False)),
-((a => 2 , b => 4 , p => False, o => False, r => False), (a => 3 , b => 5 , p => False, o => False, r => False), (a => 0 , b => 7 , p => True , o => False, r => False), (a => 1 , b => 6 , p => True , o => False, r => False)),
-((a => 1 , b => 2 , p => False, o => False, r => False), (a => 3 , b => 4 , p => False, o => False, r => False), (a => 5 , b => 6 , p => False, o => False, r => False), (a => 0 , b => 7 , p => True , o => False, r => False))
-);
--- I=16 David C. Van Voorhis 16-key sorting network
-when 16 => return (
-((a => 0 , b => 1 , p => False, o => False, r => False), (a => 2 , b => 3 , p => False, o => False, r => False), (a => 4 , b => 5 , p => False, o => False, r => False), (a => 6 , b => 7 , p => False, o => False, r => False), (a => 8 , b => 9 , p => False, o => False, r => False), (a => 10, b => 11, p => False, o => False, r => False), (a => 12, b => 13, p => False, o => False, r => False), (a => 14, b => 15, p => False, o => False, r => False)),
-((a => 0 , b => 2 , p => False, o => False, r => False), (a => 1 , b => 3 , p => False, o => False, r => False), (a => 4 , b => 6 , p => False, o => False, r => False), (a => 5 , b => 7 , p => False, o => False, r => False), (a => 8 , b => 10, p => False, o => False, r => False), (a => 9 , b => 11, p => False, o => False, r => False), (a => 12, b => 14, p => False, o => False, r => False), (a => 13, b => 15, p => False, o => False, r => False)),
-((a => 0 , b => 4 , p => False, o => False, r => False), (a => 1 , b => 5 , p => False, o => False, r => False), (a => 2 , b => 6 , p => False, o => False, r => False), (a => 3 , b => 7 , p => False, o => False, r => False), (a => 8 , b => 12, p => False, o => False, r => False), (a => 9 , b => 13, p => False, o => False, r => False), (a => 10, b => 14, p => False, o => False, r => False), (a => 11, b => 15, p => False, o => False, r => False)),
-((a => 0 , b => 8 , p => False, o => False, r => False), (a => 1 , b => 9 , p => False, o => False, r => False), (a => 2 , b => 10, p => False, o => False, r => False), (a => 3 , b => 11, p => False, o => False, r => False), (a => 4 , b => 12, p => False, o => False, r => False), (a => 5 , b => 13, p => False, o => False, r => False), (a => 6 , b => 14, p => False, o => False, r => False), (a => 7 , b => 15, p => False, o => False, r => False)),
-((a => 1 , b => 2 , p => False, o => False, r => False), (a => 3 , b => 12, p => False, o => False, r => False), (a => 13, b => 14, p => False, o => False, r => False), (a => 7 , b => 11, p => False, o => False, r => False), (a => 4 , b => 8 , p => False, o => False, r => False), (a => 5 , b => 10, p => False, o => False, r => False), (a => 6 , b => 9 , p => False, o => False, r => False), (a => 0 , b => 15, p => True , o => False, r => False)),
-((a => 1 , b => 4 , p => False, o => False, r => False), (a => 2 , b => 8 , p => False, o => False, r => False), (a => 3 , b => 10, p => False, o => False, r => False), (a => 5 , b => 9 , p => False, o => False, r => False), (a => 6 , b => 12, p => False, o => False, r => False), (a => 7 , b => 13, p => False, o => False, r => False), (a => 11, b => 14, p => False, o => False, r => False), (a => 0 , b => 15, p => True , o => False, r => False)),
-((a => 2 , b => 4 , p => False, o => False, r => False), (a => 3 , b => 5 , p => False, o => False, r => False), (a => 6 , b => 8 , p => False, o => False, r => False), (a => 7 , b => 9 , p => False, o => False, r => False), (a => 10, b => 12, p => False, o => False, r => False), (a => 11, b => 13, p => False, o => False, r => False), (a => 0 , b => 15, p => True , o => False, r => False), (a => 1 , b => 14, p => True , o => False, r => False)),
-((a => 3 , b => 6 , p => False, o => False, r => False), (a => 5 , b => 8 , p => False, o => False, r => False), (a => 7 , b => 10, p => False, o => False, r => False), (a => 9 , b => 12, p => False, o => False, r => False), (a => 0 , b => 15, p => True , o => False, r => False), (a => 1 , b => 14, p => True , o => False, r => False), (a => 2 , b => 13, p => True , o => False, r => False), (a => 4 , b => 11, p => True , o => False, r => False)),
-((a => 3 , b => 4 , p => False, o => False, r => False), (a => 5 , b => 6 , p => False, o => False, r => False), (a => 7 , b => 8 , p => False, o => False, r => False), (a => 9 , b => 10, p => False, o => False, r => False), (a => 11, b => 12, p => False, o => False, r => False), (a => 0 , b => 15, p => True , o => False, r => False), (a => 1 , b => 14, p => True , o => False, r => False), (a => 2 , b => 13, p => True , o => False, r => False))
-);
+			when 4      => return (
+					((a => 0, b => 1, p => False, o => False, r => False), (a => 2, b => 3, p => False, o => False, r => False)),
+					((a => 0, b => 2, p => False, o => False, r => False), (a => 1, b => 3, p => False, o => False, r => False)),
+					((a => 1, b => 2, p => False, o => False, r => False), (a => 0, b => 3, p => True, o => False, r => False))
+				);
+			-- I=8 batcher odd-even mergesort
+			when 8      => return (
+					((a => 0, b => 1, p => False, o => False, r => False), (a => 2, b => 3, p => False, o => False, r => False), (a => 4, b => 5, p => False, o => False, r => False), (a => 6, b => 7, p => False, o => False, r => False)),
+					((a => 0, b => 2, p => False, o => False, r => False), (a => 1, b => 3, p => False, o => False, r => False), (a => 4, b => 6, p => False, o => False, r => False), (a => 5, b => 7, p => False, o => False, r => False)),
+					((a => 1, b => 2, p => False, o => False, r => False), (a => 5, b => 6, p => False, o => False, r => False), (a => 0, b => 7, p => True, o => False, r => False), (a => 3, b => 4, p => True, o => False, r => False)),
+					((a => 0, b => 4, p => False, o => False, r => False), (a => 1, b => 5, p => False, o => False, r => False), (a => 2, b => 6, p => False, o => False, r => False), (a => 3, b => 7, p => False, o => False, r => False)),
+					((a => 2, b => 4, p => False, o => False, r => False), (a => 3, b => 5, p => False, o => False, r => False), (a => 0, b => 7, p => True, o => False, r => False), (a => 1, b => 6, p => True, o => False, r => False)),
+					((a => 1, b => 2, p => False, o => False, r => False), (a => 3, b => 4, p => False, o => False, r => False), (a => 5, b => 6, p => False, o => False, r => False), (a => 0, b => 7, p => True, o => False, r => False))
+				);
+			-- I=16 David C. Van Voorhis 16-key sorting network
+			when 16     => return (
+					((a => 0, b => 1, p => False, o => False, r => False), (a => 2, b => 3, p => False, o => False, r => False), (a => 4, b => 5, p => False, o => False, r => False), (a => 6, b => 7, p => False, o => False, r => False), (a => 8, b => 9, p => False, o => False, r => False), (a => 10, b => 11, p => False, o => False, r => False), (a => 12, b => 13, p => False, o => False, r => False), (a => 14, b => 15, p => False, o => False, r => False)),
+					((a => 0, b => 2, p => False, o => False, r => False), (a => 1, b => 3, p => False, o => False, r => False), (a => 4, b => 6, p => False, o => False, r => False), (a => 5, b => 7, p => False, o => False, r => False), (a => 8, b => 10, p => False, o => False, r => False), (a => 9, b => 11, p => False, o => False, r => False), (a => 12, b => 14, p => False, o => False, r => False), (a => 13, b => 15, p => False, o => False, r => False)),
+					((a => 0, b => 4, p => False, o => False, r => False), (a => 1, b => 5, p => False, o => False, r => False), (a => 2, b => 6, p => False, o => False, r => False), (a => 3, b => 7, p => False, o => False, r => False), (a => 8, b => 12, p => False, o => False, r => False), (a => 9, b => 13, p => False, o => False, r => False), (a => 10, b => 14, p => False, o => False, r => False), (a => 11, b => 15, p => False, o => False, r => False)),
+					((a => 0, b => 8, p => False, o => False, r => False), (a => 1, b => 9, p => False, o => False, r => False), (a => 2, b => 10, p => False, o => False, r => False), (a => 3, b => 11, p => False, o => False, r => False), (a => 4, b => 12, p => False, o => False, r => False), (a => 5, b => 13, p => False, o => False, r => False), (a => 6, b => 14, p => False, o => False, r => False), (a => 7, b => 15, p => False, o => False, r => False)),
+					((a => 1, b => 2, p => False, o => False, r => False), (a => 3, b => 12, p => False, o => False, r => False), (a => 13, b => 14, p => False, o => False, r => False), (a => 7, b => 11, p => False, o => False, r => False), (a => 4, b => 8, p => False, o => False, r => False), (a => 5, b => 10, p => False, o => False, r => False), (a => 6, b => 9, p => False, o => False, r => False), (a => 0, b => 15, p => True, o => False, r => False)),
+					((a => 1, b => 4, p => False, o => False, r => False), (a => 2, b => 8, p => False, o => False, r => False), (a => 3, b => 10, p => False, o => False, r => False), (a => 5, b => 9, p => False, o => False, r => False), (a => 6, b => 12, p => False, o => False, r => False), (a => 7, b => 13, p => False, o => False, r => False), (a => 11, b => 14, p => False, o => False, r => False), (a => 0, b => 15, p => True, o => False, r => False)),
+					((a => 2, b => 4, p => False, o => False, r => False), (a => 3, b => 5, p => False, o => False, r => False), (a => 6, b => 8, p => False, o => False, r => False), (a => 7, b => 9, p => False, o => False, r => False), (a => 10, b => 12, p => False, o => False, r => False), (a => 11, b => 13, p => False, o => False, r => False), (a => 0, b => 15, p => True, o => False, r => False), (a => 1, b => 14, p => True, o => False, r => False)),
+					((a => 3, b => 6, p => False, o => False, r => False), (a => 5, b => 8, p => False, o => False, r => False), (a => 7, b => 10, p => False, o => False, r => False), (a => 9, b => 12, p => False, o => False, r => False), (a => 0, b => 15, p => True, o => False, r => False), (a => 1, b => 14, p => True, o => False, r => False), (a => 2, b => 13, p => True, o => False, r => False), (a => 4, b => 11, p => True, o => False, r => False)),
+					((a => 3, b => 4, p => False, o => False, r => False), (a => 5, b => 6, p => False, o => False, r => False), (a => 7, b => 8, p => False, o => False, r => False), (a => 9, b => 10, p => False, o => False, r => False), (a => 11, b => 12, p => False, o => False, r => False), (a => 0, b => 15, p => True, o => False, r => False), (a => 1, b => 14, p => True, o => False, r => False), (a => 2, b => 13, p => True, o => False, r => False))
+				);
 			when others => return empty_cfg;
 
 		end case;
-	end function get_cfg;  
+	end function get_cfg;
 
 	function to_array(data : std_logic_vector; N : integer) return muon_a is
 		variable muon : muon_a(0 to N - 1);

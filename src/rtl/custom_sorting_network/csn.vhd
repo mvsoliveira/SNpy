@@ -6,8 +6,8 @@ use work.csn_pkg.all;
 
 entity csn is
 	generic(
-		I     : natural := 4;
-		O     : natural := 4;
+		I     : natural := 16;
+		O     : natural := 16;
 		delay : natural := 3
 	);
 	port(
@@ -21,8 +21,6 @@ architecture RTL of csn is
 	
   
 	constant cfg_net : cfg_net_t := get_cfg(I);
-				
-	--constant cfg : cmp_cfg := cmp_cfg'(a => 0, b => 1, p => False, o => False, r => False);
 
 	type net_array_t is array (0 to cfg_net'length) of muon_a(0 to I - 1);
 	type ret_array_t is array (0 to delay) of muon_a(0 to I - 1);
