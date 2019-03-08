@@ -1,6 +1,6 @@
 proc create_run {I O D {run 1} opt} {
     puts "Creating run with I = $I, O = $O, D = $D"
-    set prjpre [format "I%03d_O%03d_D%03d_CSN_VHDL" $I $O $D]
+    set prjpre [format "I%03d_O%03d_D%03d_CSN_VHDL_DATAFMT012210" $I $O $D]
     set prjname [format "%s-%s" $prjpre $opt]
     set basepath "D:/mygitlab/sorting"
     set prjpath [format "%s/syn/%s/wrapper_%s.prj" $basepath $prjname $prjname]
@@ -86,6 +86,12 @@ proc create_run {I O D {run 1} opt} {
 		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
 	}
 	freq280x320retfan10000 {
+	    set_option -frequency 280
+	    set_option -fanout_limit 10000
+		add_file -constraint ${basepath}/src/xdc/clock_280.sdc
+		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+	}
+	freq280x400retfan10000 {
 	    set_option -frequency 280
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_280.sdc
@@ -199,7 +205,14 @@ proc create_run {I O D {run 1} opt} {
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
 		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
-	}	
+	}
+	freq280x400retfan10000 {
+		set_option -retiming 1
+	    set_option -frequency 400
+	    set_option -fanout_limit 10000
+		add_file -constraint ${basepath}/src/xdc/clock_400.sdc
+		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+	}
 	freq280retfan10000 {
 		set_option -retiming 1
 	    set_option -frequency 280
@@ -236,10 +249,11 @@ proc range {from to {step 1}} {
 
 set cfgs []
 #set opts [list freq320retfan10000 freq160retfan10000 freq100retfan10000]
-set opts [list freq160retfan10000]
+#set opts [list freq280x320retfan10000 freq280x400retfan10000]
+set opts [list freq280retfan10000 freq280x400retfan10000 freq280x320retfan10000 freq160retfan10000]
 
 
-lappend cfgs [list 16 16 [range 0 4]]
+lappend cfgs [list 22 22 [range 0 1]]
 
 
 foreach cfg $cfgs {
