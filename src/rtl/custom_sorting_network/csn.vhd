@@ -29,8 +29,9 @@ architecture RTL of csn is
 	type ret_off_t is array (natural range <>) of natural;
 	--constant ret_off : ret_off_t(0 to I - 1) := (0,0,1,2,3,3,4,5,5,4,3,3,2,1,0,0);
 	--constant ret_off : ret_off_t(0 to I - 1) := (0,0,0,0,1,1,2,2,3,3,3,3,4,4,5,5);
-	constant ret_off : ret_off_t(0 to I - 1) := (0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0);
-	constant max_ret_off : natural := 5;
+	--constant ret_off : ret_off_t(0 to I - 1) := (0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0);
+	constant ret_off : ret_off_t(0 to I - 1) := (others => 0); 
+	constant max_ret_off : natural := 0;
 	signal ret_array : net_array_t(0 to delay + max_ret_off);
 
 begin

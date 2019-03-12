@@ -1,6 +1,6 @@
 proc create_run {I O D {run 1} opt} {
     puts "Creating run with I = $I, O = $O, D = $D"
-    set prjpre [format "I%03d_O%03d_D%03d_CSN_VHDL_DATAFMT012210" $I $O $D]
+    set prjpre [format "I%03d_O%03d_D%03d_CSN_VHDL" $I $O $D]
     set prjname [format "%s-%s" $prjpre $opt]
     set basepath "D:/mygitlab/sorting"
     set prjpath [format "%s/syn/%s/wrapper_%s.prj" $basepath $prjname $prjname]
@@ -24,90 +24,91 @@ proc create_run {I O D {run 1} opt} {
     hdl_param -set O $O    
 	hdl_param -set delay $D
 	set_option -top_module wrapper_csn
+	add_file -constraint ${basepath}/src/xdc/wrapper.sdc
     switch $opt {
 	freq160retfan10000 {
 	    set_option -frequency 160
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_160.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq160retfan16 {
 	    set_option -frequency 160
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_160.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq80retfan10000 {
 	    set_option -frequency 80
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_80.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq80retfan16 {
 	    set_option -frequency 80
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_80.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq100retfan10000 {
 	    set_option -frequency 100
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_100.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq100retfan16 {
 	    set_option -frequency 100
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_100.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}	
 	freq320retfan10000 {
 	    set_option -frequency 320
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq320retfan16 {
 	    set_option -frequency 320
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq40retfan10000 {
 	    set_option -frequency 40
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq40retfan16 {
 	    set_option -frequency 40
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq280x320retfan10000 {
 	    set_option -frequency 280
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_280.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq280x400retfan10000 {
 	    set_option -frequency 280
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_280.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq280retfan10000 {
 	    set_option -frequency 280
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_280.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}
 	freq160x320retfan10000 {
 	    set_option -frequency 160
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_160.sdc
-		add_file -constraint ${basepath}/src/xdc/wrapper.sdc
+		
 	}	
 	default {
 	    puts "Invalid opt option!"
@@ -128,104 +129,105 @@ proc create_run {I O D {run 1} opt} {
 	hdl_param -set WIDTH $I
     set_option -job pr_1 -add par
     set_option -job pr_1 -option enable_run 0
+	add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
     switch $opt {
 	freq160retfan10000 {
 	    set_option -retiming 1
 	    set_option -frequency 160
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_160.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq160retfan16 {
 	    set_option -retiming 1
 	    set_option -frequency 160
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_160.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq80retfan10000 {
 	    set_option -retiming 1
 	    set_option -frequency 80
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_80.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq80retfan16 {
 	    set_option -retiming 1
 	    set_option -frequency 80
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_80.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq100retfan10000 {
 	    set_option -retiming 1
 	    set_option -frequency 100
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_100.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq100retfan16 {
 	    set_option -retiming 1
 	    set_option -frequency 100
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_100.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}	
 	freq320retfan10000 {
 	    set_option -retiming 1
 	    set_option -frequency 320
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq320retfan16 {
 	    set_option -retiming 1
 	    set_option -frequency 320
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq40retfan10000 {
 	    set_option -retiming 1
 	    set_option -frequency 40
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq40retfan16 {
 	    set_option -retiming 1
 	    set_option -frequency 40
 	    set_option -fanout_limit 16
 		add_file -constraint ${basepath}/src/xdc/clock_40.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq280x320retfan10000 {
 		set_option -retiming 1
 	    set_option -frequency 320
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq280x400retfan10000 {
 		set_option -retiming 1
 	    set_option -frequency 400
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_400.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq280retfan10000 {
 		set_option -retiming 1
 	    set_option -frequency 280
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_280.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}
 	freq160x320retfan10000 {
 		set_option -retiming 1
 	    set_option -frequency 320
 	    set_option -fanout_limit 10000
 		add_file -constraint ${basepath}/src/xdc/clock_320.sdc
-		add_file -constraint ${basepath}/src/xdc/muon_csn.sdc
+		 
 	}	
 	default {
 	    puts "Invalid opt option!"
@@ -253,7 +255,7 @@ set cfgs []
 set opts [list freq280retfan10000 freq280x400retfan10000 freq280x320retfan10000 freq160retfan10000]
 
 
-lappend cfgs [list 22 22 [range 0 1]]
+lappend cfgs [list 22 22 [range 0 2]]
 
 
 foreach cfg $cfgs {
