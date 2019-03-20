@@ -5,7 +5,7 @@ package bitonic_sorter_pkg;
 	
 	parameter int MUON_NUMBER = 352; // 16
   parameter int IDX_WIDTH   = $clog2(MUON_NUMBER);
-	parameter int PT_WIDTH    = 4;
+	parameter int PT_WIDTH    = 1;
 	
 
 	typedef struct {
