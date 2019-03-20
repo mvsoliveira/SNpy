@@ -1,7 +1,7 @@
 Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------
 | Tool Version      : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
-| Date              : Wed Mar 13 11:19:19 2019
+| Date              : Wed Mar 13 20:42:27 2019
 | Host              : PCPHESEBE02 running 64-bit Service Pack 1  (build 7601)
 | Command           : report_timing_summary -hold -nworst 5 -max_paths 5 -file timing_hold.txt
 | Design            : wrapper
@@ -127,7 +127,7 @@ Table of Contents
 
     WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      2.302        0.000                      0                 3328        1.511        0.000                       0                 14677  
+      2.503        0.000                      0                 3328        1.511        0.000                       0                 14723  
 
 
 All user specified timing constraints are met.
@@ -151,7 +151,7 @@ clk_wrapper  {0.000 500.000}      1000.000        1.000
 
 Clock             WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----             -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-clk                 2.302        0.000                      0                 3328        1.511        0.000                       0                  6909  
+clk                 2.503        0.000                      0                 3328        1.511        0.000                       0                  6955  
 clk_wrapper                                                                             498.562        0.000                       0                  7768  
 
 
@@ -184,29 +184,29 @@ From Clock:  clk
   To Clock:  clk
 
 Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
-Hold  :            0  Failing Endpoints,  Worst Slack        2.302ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        2.503ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        1.511ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             2.302ns  (arrival time - required time)
-  Source:                 shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+Slack (MET) :             2.503ns  (arrival time - required time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
-  Destination:            shift_reg_tap_o/sr_1[2303]/D
+  Destination:            shift_reg_tap_o/sr_1[3183]/D
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
   Path Group:             clk
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk rise@0.000ns - clk rise@0.000ns)
-  Data Path Delay:        2.569ns  (logic 0.390ns (15.181%)  route 2.179ns (84.819%))
-  Logic Levels:           13  (LUT4=6 LUT6=7)
-  Clock Path Skew:        0.221ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.500ns
-    Source Clock Delay      (SCD):    1.940ns
-    Clock Pessimism Removal (CPR):    0.339ns
-  Clock Net Delay (Source):      1.394ns (routing 0.638ns, distribution 0.756ns)
-  Clock Net Delay (Destination): 1.728ns (routing 0.707ns, distribution 1.021ns)
+  Data Path Delay:        2.608ns  (logic 0.481ns (18.443%)  route 2.127ns (81.557%))
+  Logic Levels:           13  (LUT4=1 LUT5=5 LUT6=7)
+  Clock Path Skew:        0.059ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.318ns
+    Source Clock Delay      (SCD):    1.961ns
+    Clock Pessimism Removal (CPR):    0.298ns
+  Clock Net Delay (Source):      1.415ns (routing 0.638ns, distribution 0.777ns)
+  Clock Net Delay (Destination): 1.546ns (routing 0.707ns, distribution 0.839ns)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -221,52 +221,52 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.144     0.529    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.017     0.546 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.394     1.940    shift_reg_tap_i/clk_c
-    SLICE_X71Y495        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.415     1.961    shift_reg_tap_i/clk_c
+    SLICE_X60Y345        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X71Y495        FDRE (Prop_FFF2_SLICEL_C_Q)
-                                                      0.040     1.980 r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/Q
-                         net (fo=8, routed)           0.054     2.034    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/input_slr_rep_363_0
-    SLICE_X70Y495        LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.014     2.048 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.103     2.151    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_bitonic_sort_low[26]
-    SLICE_X71Y492        LUT6 (Prop_C6LUT_SLICEL_I1_O)
-                                                      0.014     2.165 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
-                         net (fo=17, routed)          0.130     2.295    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/un1_bitonic_sort_low_0
-    SLICE_X77Y492        LUT6 (Prop_G6LUT_SLICEL_I4_O)
-                                                      0.014     2.309 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
-                         net (fo=12, routed)          0.080     2.389    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/un1_compare_i_1_9_12
-    SLICE_X79Y492        LUT6 (Prop_D6LUT_SLICEL_I1_O)
-                                                      0.035     2.424 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s0.pt[3]/O
-                         net (fo=20, routed)          0.222     2.646    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/un1_compare_i_9_0
-    SLICE_X89Y497        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.014     2.660 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
-                         net (fo=28, routed)          0.153     2.813    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/un1_compare_i_23_0
-    SLICE_X94Y496        LUT4 (Prop_A6LUT_SLICEL_I3_O)
-                                                      0.014     2.827 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
-                         net (fo=8, routed)           0.058     2.885    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/un1_compare_i_58_0
-    SLICE_X94Y493        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.035     2.920 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/s1.pt[3]/O
-                         net (fo=47, routed)          0.250     3.170    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/un1_compare_i_1_8_0
-    SLICE_X104Y488       LUT6 (Prop_D6LUT_SLICEM_I0_O)
-                                                      0.050     3.220 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=26, routed)          0.521     3.741    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/un1_compare_i_116_0
-    SLICE_X122Y481       LUT4 (Prop_B6LUT_SLICEL_I3_O)
-                                                      0.023     3.764 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.150     3.914    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/un1_compare_i_21_0
-    SLICE_X125Y481       LUT6 (Prop_H6LUT_SLICEM_I0_O)
-                                                      0.051     3.965 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=36, routed)          0.267     4.232    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/un1_bitonic_sort_high_0
-    SLICE_X150Y486       LUT6 (Prop_G6LUT_SLICEM_I0_O)
-                                                      0.014     4.246 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/s1.pt[3]/O
-                         net (fo=9, routed)           0.034     4.280    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/un1_compare_i_1_36_0
-    SLICE_X150Y486       LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.050     4.330 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/s0.pt[3]/O
-                         net (fo=16, routed)          0.136     4.466    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_compare_i_1_0
-    SLICE_X153Y488       LUT6 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.022     4.488 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt_0[2]/O
-                         net (fo=1, routed)           0.021     4.509    shift_reg_tap_o/pt_0_15_0_0
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/D
+    SLICE_X60Y345        FDRE (Prop_EFF_SLICEM_C_Q)
+                                                      0.038     1.999 r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/Q
+                         net (fo=10, routed)          0.062     2.061    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/input_slr_rep_259_0
+    SLICE_X61Y345        LUT4 (Prop_G6LUT_SLICEL_I1_O)
+                                                      0.050     2.111 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=13, routed)          0.109     2.220    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_13_0
+    SLICE_X61Y351        LUT6 (Prop_G6LUT_SLICEL_I0_O)
+                                                      0.022     2.242 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=25, routed)          0.082     2.324    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_30_0
+    SLICE_X61Y355        LUT5 (Prop_F6LUT_SLICEL_I3_O)
+                                                      0.014     2.338 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=14, routed)          0.089     2.427    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_19_0_0
+    SLICE_X64Y355        LUT5 (Prop_E6LUT_SLICEM_I3_O)
+                                                      0.014     2.441 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=55, routed)          0.214     2.655    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_151_0_0
+    SLICE_X73Y361        LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.050     2.705 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.120     2.825    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/pt_501_0_0
+    SLICE_X76Y365        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.050     2.875 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.262     3.137    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/pt_423_0_0
+    SLICE_X79Y387        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.059     3.196 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
+                         net (fo=24, routed)          0.176     3.372    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/pt_1414_0
+    SLICE_X75Y392        LUT6 (Prop_D6LUT_SLICEL_I1_O)
+                                                      0.022     3.394 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/s0.pt[3]/O
+                         net (fo=41, routed)          0.275     3.669    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/pt_1240_0
+    SLICE_X67Y405        LUT5 (Prop_D6LUT_SLICEL_I0_O)
+                                                      0.041     3.710 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s1.pt[3]/O
+                         net (fo=51, routed)          0.367     4.077    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/pt_3922_0_0
+    SLICE_X68Y453        LUT6 (Prop_D6LUT_SLICEM_I3_O)
+                                                      0.022     4.099 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/s1.pt[3]/O
+                         net (fo=18, routed)          0.057     4.156    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/pt_3729_0_0
+    SLICE_X68Y454        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.041     4.197 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/s1.pt[3]/O
+                         net (fo=13, routed)          0.057     4.254    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_3577_0
+    SLICE_X68Y456        LUT6 (Prop_H6LUT_SLICEM_I0_O)
+                                                      0.023     4.277 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=11, routed)          0.236     4.513    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_3494_0
+    SLICE_X62Y456        LUT5 (Prop_H6LUT_SLICEM_I1_O)
+                                                      0.035     4.548 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.idx[7]/O
+                         net (fo=1, routed)           0.021     4.569    shift_reg_tap_o/idx_3498_0_7
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3183]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)        0.000     0.000 r  
@@ -280,33 +280,33 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.181     0.753    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.019     0.772 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.728     2.500    shift_reg_tap_o/clk_c
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/C
-                         clock pessimism             -0.339     2.161    
-    SLICE_X153Y488       FDRE (Hold_BFF_SLICEM_C_D)
-                                                      0.046     2.207    shift_reg_tap_o/sr_1[2303]
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.546     2.318    shift_reg_tap_o/clk_c
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3183]/C
+                         clock pessimism             -0.298     2.020    
+    SLICE_X62Y456        FDRE (Hold_HFF_SLICEM_C_D)
+                                                      0.046     2.066    shift_reg_tap_o/sr_1[3183]
   -------------------------------------------------------------------
-                         required time                         -2.207    
-                         arrival time                           4.509    
+                         required time                         -2.066    
+                         arrival time                           4.569    
   -------------------------------------------------------------------
-                         slack                                  2.302    
+                         slack                                  2.503    
 
-Slack (MET) :             2.302ns  (arrival time - required time)
-  Source:                 shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+Slack (MET) :             2.503ns  (arrival time - required time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
-  Destination:            shift_reg_tap_o/sr_1[2303]/D
+  Destination:            shift_reg_tap_o/sr_1[3183]/D
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
   Path Group:             clk
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk rise@0.000ns - clk rise@0.000ns)
-  Data Path Delay:        2.569ns  (logic 0.390ns (15.181%)  route 2.179ns (84.819%))
-  Logic Levels:           13  (LUT4=6 LUT6=7)
-  Clock Path Skew:        0.221ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.500ns
-    Source Clock Delay      (SCD):    1.940ns
-    Clock Pessimism Removal (CPR):    0.339ns
-  Clock Net Delay (Source):      1.394ns (routing 0.638ns, distribution 0.756ns)
-  Clock Net Delay (Destination): 1.728ns (routing 0.707ns, distribution 1.021ns)
+  Data Path Delay:        2.608ns  (logic 0.481ns (18.443%)  route 2.127ns (81.557%))
+  Logic Levels:           13  (LUT4=1 LUT5=5 LUT6=7)
+  Clock Path Skew:        0.059ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.318ns
+    Source Clock Delay      (SCD):    1.961ns
+    Clock Pessimism Removal (CPR):    0.298ns
+  Clock Net Delay (Source):      1.415ns (routing 0.638ns, distribution 0.777ns)
+  Clock Net Delay (Destination): 1.546ns (routing 0.707ns, distribution 0.839ns)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -321,52 +321,52 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.144     0.529    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.017     0.546 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.394     1.940    shift_reg_tap_i/clk_c
-    SLICE_X71Y495        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.415     1.961    shift_reg_tap_i/clk_c
+    SLICE_X60Y345        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X71Y495        FDRE (Prop_FFF2_SLICEL_C_Q)
-                                                      0.040     1.980 f  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/Q
-                         net (fo=8, routed)           0.054     2.034    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/input_slr_rep_363_0
-    SLICE_X70Y495        LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.014     2.048 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.103     2.151    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_bitonic_sort_low[26]
-    SLICE_X71Y492        LUT6 (Prop_C6LUT_SLICEL_I1_O)
-                                                      0.014     2.165 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
-                         net (fo=17, routed)          0.130     2.295    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/un1_bitonic_sort_low_0
-    SLICE_X77Y492        LUT6 (Prop_G6LUT_SLICEL_I4_O)
-                                                      0.014     2.309 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
-                         net (fo=12, routed)          0.080     2.389    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/un1_compare_i_1_9_12
-    SLICE_X79Y492        LUT6 (Prop_D6LUT_SLICEL_I1_O)
-                                                      0.035     2.424 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s0.pt[3]/O
-                         net (fo=20, routed)          0.222     2.646    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/un1_compare_i_9_0
-    SLICE_X89Y497        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.014     2.660 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
-                         net (fo=28, routed)          0.153     2.813    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/un1_compare_i_23_0
-    SLICE_X94Y496        LUT4 (Prop_A6LUT_SLICEL_I3_O)
-                                                      0.014     2.827 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
-                         net (fo=8, routed)           0.058     2.885    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/un1_compare_i_58_0
-    SLICE_X94Y493        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.035     2.920 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/s1.pt[3]/O
-                         net (fo=47, routed)          0.250     3.170    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/un1_compare_i_1_8_0
-    SLICE_X104Y488       LUT6 (Prop_D6LUT_SLICEM_I0_O)
-                                                      0.050     3.220 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=26, routed)          0.521     3.741    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/un1_compare_i_116_0
-    SLICE_X122Y481       LUT4 (Prop_B6LUT_SLICEL_I3_O)
-                                                      0.023     3.764 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.150     3.914    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/un1_compare_i_21_0
-    SLICE_X125Y481       LUT6 (Prop_H6LUT_SLICEM_I0_O)
-                                                      0.051     3.965 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=36, routed)          0.267     4.232    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/un1_bitonic_sort_high_0
-    SLICE_X150Y486       LUT6 (Prop_G6LUT_SLICEM_I0_O)
-                                                      0.014     4.246 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/s1.pt[3]/O
-                         net (fo=9, routed)           0.034     4.280    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/un1_compare_i_1_36_0
-    SLICE_X150Y486       LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.050     4.330 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/s0.pt[3]/O
-                         net (fo=16, routed)          0.136     4.466    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_compare_i_1_0
-    SLICE_X153Y488       LUT6 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.022     4.488 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt_0[2]/O
-                         net (fo=1, routed)           0.021     4.509    shift_reg_tap_o/pt_0_15_0_0
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/D
+    SLICE_X60Y345        FDRE (Prop_EFF_SLICEM_C_Q)
+                                                      0.038     1.999 f  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/Q
+                         net (fo=10, routed)          0.062     2.061    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/input_slr_rep_259_0
+    SLICE_X61Y345        LUT4 (Prop_G6LUT_SLICEL_I1_O)
+                                                      0.050     2.111 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=13, routed)          0.109     2.220    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_13_0
+    SLICE_X61Y351        LUT6 (Prop_G6LUT_SLICEL_I0_O)
+                                                      0.022     2.242 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=25, routed)          0.082     2.324    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_30_0
+    SLICE_X61Y355        LUT5 (Prop_F6LUT_SLICEL_I3_O)
+                                                      0.014     2.338 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=14, routed)          0.089     2.427    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_19_0_0
+    SLICE_X64Y355        LUT5 (Prop_E6LUT_SLICEM_I3_O)
+                                                      0.014     2.441 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=55, routed)          0.214     2.655    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_151_0_0
+    SLICE_X73Y361        LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.050     2.705 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.120     2.825    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/pt_501_0_0
+    SLICE_X76Y365        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.050     2.875 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.262     3.137    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/pt_423_0_0
+    SLICE_X79Y387        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.059     3.196 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
+                         net (fo=24, routed)          0.176     3.372    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/pt_1414_0
+    SLICE_X75Y392        LUT6 (Prop_D6LUT_SLICEL_I1_O)
+                                                      0.022     3.394 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/s0.pt[3]/O
+                         net (fo=41, routed)          0.275     3.669    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/pt_1240_0
+    SLICE_X67Y405        LUT5 (Prop_D6LUT_SLICEL_I0_O)
+                                                      0.041     3.710 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s1.pt[3]/O
+                         net (fo=51, routed)          0.367     4.077    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/pt_3922_0_0
+    SLICE_X68Y453        LUT6 (Prop_D6LUT_SLICEM_I3_O)
+                                                      0.022     4.099 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/s1.pt[3]/O
+                         net (fo=18, routed)          0.057     4.156    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/pt_3729_0_0
+    SLICE_X68Y454        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.041     4.197 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/s1.pt[3]/O
+                         net (fo=13, routed)          0.057     4.254    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_3577_0
+    SLICE_X68Y456        LUT6 (Prop_H6LUT_SLICEM_I0_O)
+                                                      0.023     4.277 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=11, routed)          0.236     4.513    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_3494_0
+    SLICE_X62Y456        LUT5 (Prop_H6LUT_SLICEM_I1_O)
+                                                      0.035     4.548 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.idx[7]/O
+                         net (fo=1, routed)           0.021     4.569    shift_reg_tap_o/idx_3498_0_7
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3183]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)        0.000     0.000 r  
@@ -380,33 +380,33 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.181     0.753    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.019     0.772 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.728     2.500    shift_reg_tap_o/clk_c
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/C
-                         clock pessimism             -0.339     2.161    
-    SLICE_X153Y488       FDRE (Hold_BFF_SLICEM_C_D)
-                                                      0.046     2.207    shift_reg_tap_o/sr_1[2303]
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.546     2.318    shift_reg_tap_o/clk_c
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3183]/C
+                         clock pessimism             -0.298     2.020    
+    SLICE_X62Y456        FDRE (Hold_HFF_SLICEM_C_D)
+                                                      0.046     2.066    shift_reg_tap_o/sr_1[3183]
   -------------------------------------------------------------------
-                         required time                         -2.207    
-                         arrival time                           4.509    
+                         required time                         -2.066    
+                         arrival time                           4.569    
   -------------------------------------------------------------------
-                         slack                                  2.302    
+                         slack                                  2.503    
 
-Slack (MET) :             2.302ns  (arrival time - required time)
-  Source:                 shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+Slack (MET) :             2.503ns  (arrival time - required time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
-  Destination:            shift_reg_tap_o/sr_1[2303]/D
+  Destination:            shift_reg_tap_o/sr_1[3183]/D
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
   Path Group:             clk
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk rise@0.000ns - clk rise@0.000ns)
-  Data Path Delay:        2.569ns  (logic 0.390ns (15.181%)  route 2.179ns (84.819%))
-  Logic Levels:           13  (LUT4=6 LUT6=7)
-  Clock Path Skew:        0.221ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.500ns
-    Source Clock Delay      (SCD):    1.940ns
-    Clock Pessimism Removal (CPR):    0.339ns
-  Clock Net Delay (Source):      1.394ns (routing 0.638ns, distribution 0.756ns)
-  Clock Net Delay (Destination): 1.728ns (routing 0.707ns, distribution 1.021ns)
+  Data Path Delay:        2.608ns  (logic 0.481ns (18.443%)  route 2.127ns (81.557%))
+  Logic Levels:           13  (LUT4=1 LUT5=5 LUT6=7)
+  Clock Path Skew:        0.059ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.318ns
+    Source Clock Delay      (SCD):    1.961ns
+    Clock Pessimism Removal (CPR):    0.298ns
+  Clock Net Delay (Source):      1.415ns (routing 0.638ns, distribution 0.777ns)
+  Clock Net Delay (Destination): 1.546ns (routing 0.707ns, distribution 0.839ns)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -421,52 +421,52 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.144     0.529    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.017     0.546 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.394     1.940    shift_reg_tap_i/clk_c
-    SLICE_X71Y495        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.415     1.961    shift_reg_tap_i/clk_c
+    SLICE_X60Y345        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X71Y495        FDRE (Prop_FFF2_SLICEL_C_Q)
-                                                      0.040     1.980 r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/Q
-                         net (fo=8, routed)           0.054     2.034    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/input_slr_rep_363_0
-    SLICE_X70Y495        LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.014     2.048 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.103     2.151    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_bitonic_sort_low[26]
-    SLICE_X71Y492        LUT6 (Prop_C6LUT_SLICEL_I1_O)
-                                                      0.014     2.165 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
-                         net (fo=17, routed)          0.130     2.295    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/un1_bitonic_sort_low_0
-    SLICE_X77Y492        LUT6 (Prop_G6LUT_SLICEL_I4_O)
-                                                      0.014     2.309 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
-                         net (fo=12, routed)          0.080     2.389    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/un1_compare_i_1_9_12
-    SLICE_X79Y492        LUT6 (Prop_D6LUT_SLICEL_I1_O)
-                                                      0.035     2.424 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s0.pt[3]/O
-                         net (fo=20, routed)          0.222     2.646    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/un1_compare_i_9_0
-    SLICE_X89Y497        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.014     2.660 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
-                         net (fo=28, routed)          0.153     2.813    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/un1_compare_i_23_0
-    SLICE_X94Y496        LUT4 (Prop_A6LUT_SLICEL_I3_O)
-                                                      0.014     2.827 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
-                         net (fo=8, routed)           0.058     2.885    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/un1_compare_i_58_0
-    SLICE_X94Y493        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.035     2.920 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/s1.pt[3]/O
-                         net (fo=47, routed)          0.250     3.170    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/un1_compare_i_1_8_0
-    SLICE_X104Y488       LUT6 (Prop_D6LUT_SLICEM_I0_O)
-                                                      0.050     3.220 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=26, routed)          0.521     3.741    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/un1_compare_i_116_0
-    SLICE_X122Y481       LUT4 (Prop_B6LUT_SLICEL_I3_O)
-                                                      0.023     3.764 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.150     3.914    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/un1_compare_i_21_0
-    SLICE_X125Y481       LUT6 (Prop_H6LUT_SLICEM_I0_O)
-                                                      0.051     3.965 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=36, routed)          0.267     4.232    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/un1_bitonic_sort_high_0
-    SLICE_X150Y486       LUT6 (Prop_G6LUT_SLICEM_I0_O)
-                                                      0.014     4.246 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/s1.pt[3]/O
-                         net (fo=9, routed)           0.034     4.280    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/un1_compare_i_1_36_0
-    SLICE_X150Y486       LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.050     4.330 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/s0.pt[3]/O
-                         net (fo=16, routed)          0.136     4.466    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_compare_i_1_0
-    SLICE_X153Y488       LUT6 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.022     4.488 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt_0[2]/O
-                         net (fo=1, routed)           0.021     4.509    shift_reg_tap_o/pt_0_15_0_0
-    SLICE_X153Y488       FDRE                                         f  shift_reg_tap_o/sr_1[2303]/D
+    SLICE_X60Y345        FDRE (Prop_EFF_SLICEM_C_Q)
+                                                      0.038     1.999 r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/Q
+                         net (fo=10, routed)          0.062     2.061    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/input_slr_rep_259_0
+    SLICE_X61Y345        LUT4 (Prop_G6LUT_SLICEL_I1_O)
+                                                      0.050     2.111 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=13, routed)          0.109     2.220    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_13_0
+    SLICE_X61Y351        LUT6 (Prop_G6LUT_SLICEL_I0_O)
+                                                      0.022     2.242 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=25, routed)          0.082     2.324    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_30_0
+    SLICE_X61Y355        LUT5 (Prop_F6LUT_SLICEL_I3_O)
+                                                      0.014     2.338 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=14, routed)          0.089     2.427    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_19_0_0
+    SLICE_X64Y355        LUT5 (Prop_E6LUT_SLICEM_I3_O)
+                                                      0.014     2.441 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=55, routed)          0.214     2.655    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_151_0_0
+    SLICE_X73Y361        LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.050     2.705 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.120     2.825    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/pt_501_0_0
+    SLICE_X76Y365        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.050     2.875 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.262     3.137    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/pt_423_0_0
+    SLICE_X79Y387        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.059     3.196 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
+                         net (fo=24, routed)          0.176     3.372    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/pt_1414_0
+    SLICE_X75Y392        LUT6 (Prop_D6LUT_SLICEL_I1_O)
+                                                      0.022     3.394 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/s0.pt[3]/O
+                         net (fo=41, routed)          0.275     3.669    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/pt_1240_0
+    SLICE_X67Y405        LUT5 (Prop_D6LUT_SLICEL_I0_O)
+                                                      0.041     3.710 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s1.pt[3]/O
+                         net (fo=51, routed)          0.367     4.077    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/pt_3922_0_0
+    SLICE_X68Y453        LUT6 (Prop_D6LUT_SLICEM_I3_O)
+                                                      0.022     4.099 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/s1.pt[3]/O
+                         net (fo=18, routed)          0.057     4.156    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/pt_3729_0_0
+    SLICE_X68Y454        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.041     4.197 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/s1.pt[3]/O
+                         net (fo=13, routed)          0.057     4.254    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_3577_0
+    SLICE_X68Y456        LUT6 (Prop_H6LUT_SLICEM_I0_O)
+                                                      0.023     4.277 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=11, routed)          0.236     4.513    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_3494_0
+    SLICE_X62Y456        LUT5 (Prop_H6LUT_SLICEM_I1_O)
+                                                      0.035     4.548 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.idx[7]/O
+                         net (fo=1, routed)           0.021     4.569    shift_reg_tap_o/idx_3498_0_7
+    SLICE_X62Y456        FDRE                                         f  shift_reg_tap_o/sr_1[3183]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)        0.000     0.000 r  
@@ -480,33 +480,33 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.181     0.753    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.019     0.772 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.728     2.500    shift_reg_tap_o/clk_c
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/C
-                         clock pessimism             -0.339     2.161    
-    SLICE_X153Y488       FDRE (Hold_BFF_SLICEM_C_D)
-                                                      0.046     2.207    shift_reg_tap_o/sr_1[2303]
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.546     2.318    shift_reg_tap_o/clk_c
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3183]/C
+                         clock pessimism             -0.298     2.020    
+    SLICE_X62Y456        FDRE (Hold_HFF_SLICEM_C_D)
+                                                      0.046     2.066    shift_reg_tap_o/sr_1[3183]
   -------------------------------------------------------------------
-                         required time                         -2.207    
-                         arrival time                           4.509    
+                         required time                         -2.066    
+                         arrival time                           4.569    
   -------------------------------------------------------------------
-                         slack                                  2.302    
+                         slack                                  2.503    
 
-Slack (MET) :             2.302ns  (arrival time - required time)
-  Source:                 shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+Slack (MET) :             2.503ns  (arrival time - required time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
-  Destination:            shift_reg_tap_o/sr_1[2303]/D
+  Destination:            shift_reg_tap_o/sr_1[3183]/D
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
   Path Group:             clk
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk rise@0.000ns - clk rise@0.000ns)
-  Data Path Delay:        2.569ns  (logic 0.390ns (15.181%)  route 2.179ns (84.819%))
-  Logic Levels:           13  (LUT4=6 LUT6=7)
-  Clock Path Skew:        0.221ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.500ns
-    Source Clock Delay      (SCD):    1.940ns
-    Clock Pessimism Removal (CPR):    0.339ns
-  Clock Net Delay (Source):      1.394ns (routing 0.638ns, distribution 0.756ns)
-  Clock Net Delay (Destination): 1.728ns (routing 0.707ns, distribution 1.021ns)
+  Data Path Delay:        2.608ns  (logic 0.481ns (18.443%)  route 2.127ns (81.557%))
+  Logic Levels:           13  (LUT4=1 LUT5=5 LUT6=7)
+  Clock Path Skew:        0.059ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.318ns
+    Source Clock Delay      (SCD):    1.961ns
+    Clock Pessimism Removal (CPR):    0.298ns
+  Clock Net Delay (Source):      1.415ns (routing 0.638ns, distribution 0.777ns)
+  Clock Net Delay (Destination): 1.546ns (routing 0.707ns, distribution 0.839ns)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -521,52 +521,52 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.144     0.529    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.017     0.546 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.394     1.940    shift_reg_tap_i/clk_c
-    SLICE_X71Y495        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.415     1.961    shift_reg_tap_i/clk_c
+    SLICE_X60Y345        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X71Y495        FDRE (Prop_FFF2_SLICEL_C_Q)
-                                                      0.040     1.980 f  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/Q
-                         net (fo=8, routed)           0.054     2.034    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/input_slr_rep_363_0
-    SLICE_X70Y495        LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.014     2.048 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.103     2.151    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_bitonic_sort_low[26]
-    SLICE_X71Y492        LUT6 (Prop_C6LUT_SLICEL_I1_O)
-                                                      0.014     2.165 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
-                         net (fo=17, routed)          0.130     2.295    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/un1_bitonic_sort_low_0
-    SLICE_X77Y492        LUT6 (Prop_G6LUT_SLICEL_I4_O)
-                                                      0.014     2.309 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
-                         net (fo=12, routed)          0.080     2.389    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/un1_compare_i_1_9_12
-    SLICE_X79Y492        LUT6 (Prop_D6LUT_SLICEL_I1_O)
-                                                      0.035     2.424 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s0.pt[3]/O
-                         net (fo=20, routed)          0.222     2.646    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/un1_compare_i_9_0
-    SLICE_X89Y497        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.014     2.660 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
-                         net (fo=28, routed)          0.153     2.813    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/un1_compare_i_23_0
-    SLICE_X94Y496        LUT4 (Prop_A6LUT_SLICEL_I3_O)
-                                                      0.014     2.827 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
-                         net (fo=8, routed)           0.058     2.885    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/un1_compare_i_58_0
-    SLICE_X94Y493        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.035     2.920 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/s1.pt[3]/O
-                         net (fo=47, routed)          0.250     3.170    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/un1_compare_i_1_8_0
-    SLICE_X104Y488       LUT6 (Prop_D6LUT_SLICEM_I0_O)
-                                                      0.050     3.220 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=26, routed)          0.521     3.741    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/un1_compare_i_116_0
-    SLICE_X122Y481       LUT4 (Prop_B6LUT_SLICEL_I3_O)
-                                                      0.023     3.764 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[10].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.150     3.914    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/un1_compare_i_21_0
-    SLICE_X125Y481       LUT6 (Prop_H6LUT_SLICEM_I0_O)
-                                                      0.051     3.965 f  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=36, routed)          0.267     4.232    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/un1_bitonic_sort_high_0
-    SLICE_X150Y486       LUT6 (Prop_G6LUT_SLICEM_I0_O)
-                                                      0.014     4.246 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/s1.pt[3]/O
-                         net (fo=9, routed)           0.034     4.280    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/un1_compare_i_1_36_0
-    SLICE_X150Y486       LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.050     4.330 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/s0.pt[3]/O
-                         net (fo=16, routed)          0.136     4.466    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_compare_i_1_0
-    SLICE_X153Y488       LUT6 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.022     4.488 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt_0[2]/O
-                         net (fo=1, routed)           0.021     4.509    shift_reg_tap_o/pt_0_15_0_0
-    SLICE_X153Y488       FDRE                                         f  shift_reg_tap_o/sr_1[2303]/D
+    SLICE_X60Y345        FDRE (Prop_EFF_SLICEM_C_Q)
+                                                      0.038     1.999 f  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/Q
+                         net (fo=10, routed)          0.062     2.061    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/input_slr_rep_259_0
+    SLICE_X61Y345        LUT4 (Prop_G6LUT_SLICEL_I1_O)
+                                                      0.050     2.111 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=13, routed)          0.109     2.220    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_13_0
+    SLICE_X61Y351        LUT6 (Prop_G6LUT_SLICEL_I0_O)
+                                                      0.022     2.242 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=25, routed)          0.082     2.324    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_30_0
+    SLICE_X61Y355        LUT5 (Prop_F6LUT_SLICEL_I3_O)
+                                                      0.014     2.338 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=14, routed)          0.089     2.427    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_19_0_0
+    SLICE_X64Y355        LUT5 (Prop_E6LUT_SLICEM_I3_O)
+                                                      0.014     2.441 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=55, routed)          0.214     2.655    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_151_0_0
+    SLICE_X73Y361        LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.050     2.705 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.120     2.825    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/pt_501_0_0
+    SLICE_X76Y365        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.050     2.875 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.262     3.137    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/pt_423_0_0
+    SLICE_X79Y387        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.059     3.196 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
+                         net (fo=24, routed)          0.176     3.372    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/pt_1414_0
+    SLICE_X75Y392        LUT6 (Prop_D6LUT_SLICEL_I1_O)
+                                                      0.022     3.394 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/s0.pt[3]/O
+                         net (fo=41, routed)          0.275     3.669    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/pt_1240_0
+    SLICE_X67Y405        LUT5 (Prop_D6LUT_SLICEL_I0_O)
+                                                      0.041     3.710 f  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s1.pt[3]/O
+                         net (fo=51, routed)          0.367     4.077    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/pt_3922_0_0
+    SLICE_X68Y453        LUT6 (Prop_D6LUT_SLICEM_I3_O)
+                                                      0.022     4.099 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/s1.pt[3]/O
+                         net (fo=18, routed)          0.057     4.156    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/pt_3729_0_0
+    SLICE_X68Y454        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.041     4.197 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/s1.pt[3]/O
+                         net (fo=13, routed)          0.057     4.254    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_3577_0
+    SLICE_X68Y456        LUT6 (Prop_H6LUT_SLICEM_I0_O)
+                                                      0.023     4.277 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=11, routed)          0.236     4.513    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_3494_0
+    SLICE_X62Y456        LUT5 (Prop_H6LUT_SLICEM_I1_O)
+                                                      0.035     4.548 f  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.idx[7]/O
+                         net (fo=1, routed)           0.021     4.569    shift_reg_tap_o/idx_3498_0_7
+    SLICE_X62Y456        FDRE                                         f  shift_reg_tap_o/sr_1[3183]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)        0.000     0.000 r  
@@ -580,33 +580,33 @@ Slack (MET) :             2.302ns  (arrival time - required time)
                          net (fo=1, routed)           0.181     0.753    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.019     0.772 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.728     2.500    shift_reg_tap_o/clk_c
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/C
-                         clock pessimism             -0.339     2.161    
-    SLICE_X153Y488       FDRE (Hold_BFF_SLICEM_C_D)
-                                                      0.046     2.207    shift_reg_tap_o/sr_1[2303]
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.546     2.318    shift_reg_tap_o/clk_c
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3183]/C
+                         clock pessimism             -0.298     2.020    
+    SLICE_X62Y456        FDRE (Hold_HFF_SLICEM_C_D)
+                                                      0.046     2.066    shift_reg_tap_o/sr_1[3183]
   -------------------------------------------------------------------
-                         required time                         -2.207    
-                         arrival time                           4.509    
+                         required time                         -2.066    
+                         arrival time                           4.569    
   -------------------------------------------------------------------
-                         slack                                  2.302    
+                         slack                                  2.503    
 
-Slack (MET) :             2.304ns  (arrival time - required time)
-  Source:                 shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+Slack (MET) :             2.503ns  (arrival time - required time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
-  Destination:            shift_reg_tap_o/sr_1[2303]/D
+  Destination:            shift_reg_tap_o/sr_1[3196]/D
                             (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
   Path Group:             clk
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk rise@0.000ns - clk rise@0.000ns)
-  Data Path Delay:        2.571ns  (logic 0.373ns (14.508%)  route 2.198ns (85.492%))
-  Logic Levels:           14  (LUT4=5 LUT6=9)
-  Clock Path Skew:        0.221ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    2.500ns
-    Source Clock Delay      (SCD):    1.940ns
-    Clock Pessimism Removal (CPR):    0.339ns
-  Clock Net Delay (Source):      1.394ns (routing 0.638ns, distribution 0.756ns)
-  Clock Net Delay (Destination): 1.728ns (routing 0.707ns, distribution 1.021ns)
+  Data Path Delay:        2.608ns  (logic 0.481ns (18.443%)  route 2.127ns (81.557%))
+  Logic Levels:           13  (LUT4=1 LUT5=5 LUT6=7)
+  Clock Path Skew:        0.059ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    2.318ns
+    Source Clock Delay      (SCD):    1.961ns
+    Clock Pessimism Removal (CPR):    0.298ns
+  Clock Net Delay (Source):      1.415ns (routing 0.638ns, distribution 0.777ns)
+  Clock Net Delay (Destination): 1.546ns (routing 0.707ns, distribution 0.839ns)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -621,55 +621,52 @@ Slack (MET) :             2.304ns  (arrival time - required time)
                          net (fo=1, routed)           0.144     0.529    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.017     0.546 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.394     1.940    shift_reg_tap_i/clk_c
-    SLICE_X71Y495        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/C
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.415     1.961    shift_reg_tap_i/clk_c
+    SLICE_X60Y345        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X71Y495        FDRE (Prop_FFF2_SLICEL_C_Q)
-                                                      0.040     1.980 r  shift_reg_tap_i/sr_p.sr_1_rep_363[1901]/Q
-                         net (fo=8, routed)           0.054     2.034    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/input_slr_rep_363_0
-    SLICE_X70Y495        LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.014     2.048 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=12, routed)          0.103     2.151    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_bitonic_sort_low[26]
-    SLICE_X71Y492        LUT6 (Prop_C6LUT_SLICEL_I1_O)
-                                                      0.014     2.165 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
-                         net (fo=17, routed)          0.130     2.295    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/un1_bitonic_sort_low_0
-    SLICE_X77Y492        LUT6 (Prop_G6LUT_SLICEL_I4_O)
-                                                      0.014     2.309 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
-                         net (fo=12, routed)          0.080     2.389    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/un1_compare_i_1_9_12
-    SLICE_X79Y492        LUT6 (Prop_D6LUT_SLICEL_I1_O)
-                                                      0.035     2.424 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s0.pt[3]/O
-                         net (fo=20, routed)          0.222     2.646    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/un1_compare_i_9_0
-    SLICE_X89Y497        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.014     2.660 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
-                         net (fo=28, routed)          0.153     2.813    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/un1_compare_i_23_0
-    SLICE_X94Y496        LUT4 (Prop_A6LUT_SLICEL_I3_O)
-                                                      0.014     2.827 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
-                         net (fo=8, routed)           0.058     2.885    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/un1_compare_i_58_0
-    SLICE_X94Y493        LUT4 (Prop_E6LUT_SLICEL_I0_O)
-                                                      0.035     2.920 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[5].compare_i/s1.pt[3]/O
-                         net (fo=47, routed)          0.266     3.186    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[9].compare_i/un1_compare_i_1_8_0
-    SLICE_X104Y490       LUT6 (Prop_B6LUT_SLICEM_I0_O)
-                                                      0.035     3.221 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.cmp_g[9].compare_i/s0.pt[3]/O
-                         net (fo=13, routed)          0.241     3.462    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/un1_compare_i_3_0
-    SLICE_X110Y482       LUT6 (Prop_G6LUT_SLICEM_I2_O)
-                                                      0.035     3.497 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
-                         net (fo=19, routed)          0.223     3.720    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/un1_compare_i_44_0
-    SLICE_X113Y483       LUT6 (Prop_G6LUT_SLICEM_I5_O)
-                                                      0.022     3.742 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
-                         net (fo=10, routed)          0.210     3.952    dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/un1_compare_i_1_3[12]
-    SLICE_X125Y481       LUT6 (Prop_H6LUT_SLICEM_I4_O)
-                                                      0.015     3.967 r  dut_inst/sorter_inst/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
-                         net (fo=36, routed)          0.267     4.234    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/un1_bitonic_sort_high_0
-    SLICE_X150Y486       LUT6 (Prop_G6LUT_SLICEM_I0_O)
-                                                      0.014     4.248 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[6].compare_i/s1.pt[3]/O
-                         net (fo=9, routed)           0.034     4.282    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/un1_compare_i_1_36_0
-    SLICE_X150Y486       LUT4 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.050     4.332 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[2].compare_i/s0.pt[3]/O
-                         net (fo=16, routed)          0.136     4.468    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/un1_compare_i_1_0
-    SLICE_X153Y488       LUT6 (Prop_B6LUT_SLICEM_I1_O)
-                                                      0.022     4.490 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt_0[2]/O
-                         net (fo=1, routed)           0.021     4.511    shift_reg_tap_o/pt_0_15_0_0
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/D
+    SLICE_X60Y345        FDRE (Prop_EFF_SLICEM_C_Q)
+                                                      0.038     1.999 r  shift_reg_tap_i/sr_p.sr_1_120_rep1_rep_259/Q
+                         net (fo=10, routed)          0.062     2.061    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/input_slr_rep_259_0
+    SLICE_X61Y345        LUT4 (Prop_G6LUT_SLICEL_I1_O)
+                                                      0.050     2.111 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=13, routed)          0.109     2.220    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_13_0
+    SLICE_X61Y351        LUT6 (Prop_G6LUT_SLICEL_I0_O)
+                                                      0.022     2.242 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_high/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=25, routed)          0.082     2.324    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_30_0
+    SLICE_X61Y355        LUT5 (Prop_F6LUT_SLICEL_I3_O)
+                                                      0.014     2.338 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=14, routed)          0.089     2.427    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_19_0_0
+    SLICE_X64Y355        LUT5 (Prop_E6LUT_SLICEM_I3_O)
+                                                      0.014     2.441 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s1.pt[3]/O
+                         net (fo=55, routed)          0.214     2.655    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/pt_151_0_0
+    SLICE_X73Y361        LUT5 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.050     2.705 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[1].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.120     2.825    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/pt_501_0_0
+    SLICE_X76Y365        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.050     2.875 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.cmp_g[21].compare_i/s0.pt[3]/O
+                         net (fo=19, routed)          0.262     3.137    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/pt_423_0_0
+    SLICE_X79Y387        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.059     3.196 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[1].compare_i/s1.pt[3]/O
+                         net (fo=24, routed)          0.176     3.372    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/pt_1414_0
+    SLICE_X75Y392        LUT6 (Prop_D6LUT_SLICEL_I1_O)
+                                                      0.022     3.394 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.cmp_g[23].compare_i/s0.pt[3]/O
+                         net (fo=41, routed)          0.275     3.669    dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/pt_1240_0
+    SLICE_X67Y405        LUT5 (Prop_D6LUT_SLICEL_I0_O)
+                                                      0.041     3.710 r  dut_inst/sorter_inst/genblk1.bitonic_sort_low/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[3].compare_i/s1.pt[3]/O
+                         net (fo=51, routed)          0.367     4.077    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/pt_3922_0_0
+    SLICE_X68Y453        LUT6 (Prop_D6LUT_SLICEM_I3_O)
+                                                      0.022     4.099 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.cmp_g[76].compare_i/s1.pt[3]/O
+                         net (fo=18, routed)          0.057     4.156    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/pt_3729_0_0
+    SLICE_X68Y454        LUT6 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.041     4.197 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.cmp_g[12].compare_i/s1.pt[3]/O
+                         net (fo=13, routed)          0.057     4.254    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/pt_3577_0
+    SLICE_X68Y456        LUT6 (Prop_H6LUT_SLICEM_I0_O)
+                                                      0.023     4.277 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.cmp_g[0].compare_i/s0.pt[3]/O
+                         net (fo=11, routed)          0.236     4.513    dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/pt_3494_0
+    SLICE_X62Y456        LUT5 (Prop_G6LUT_SLICEM_I1_O)
+                                                      0.035     4.548 r  dut_inst/sorter_inst/genblk1.bitonic_merge_i/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.bitonic_merge_high/genblk1.bitonic_merge_low/genblk1.cmp_g[0].compare_i/s1.idx[7]/O
+                         net (fo=1, routed)           0.021     4.569    shift_reg_tap_o/idx_3474[7]
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3196]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)        0.000     0.000 r  
@@ -683,16 +680,16 @@ Slack (MET) :             2.304ns  (arrival time - required time)
                          net (fo=1, routed)           0.181     0.753    clk_ibuf_iso
     BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
                                                       0.019     0.772 r  clk_ibuf/O
-    X3Y7 (CLOCK_ROOT)    net (fo=6908, routed)        1.728     2.500    shift_reg_tap_o/clk_c
-    SLICE_X153Y488       FDRE                                         r  shift_reg_tap_o/sr_1[2303]/C
-                         clock pessimism             -0.339     2.161    
-    SLICE_X153Y488       FDRE (Hold_BFF_SLICEM_C_D)
-                                                      0.046     2.207    shift_reg_tap_o/sr_1[2303]
+    X3Y7 (CLOCK_ROOT)    net (fo=6954, routed)        1.546     2.318    shift_reg_tap_o/clk_c
+    SLICE_X62Y456        FDRE                                         r  shift_reg_tap_o/sr_1[3196]/C
+                         clock pessimism             -0.298     2.020    
+    SLICE_X62Y456        FDRE (Hold_GFF_SLICEM_C_D)
+                                                      0.046     2.066    shift_reg_tap_o/sr_1[3196]
   -------------------------------------------------------------------
-                         required time                         -2.207    
-                         arrival time                           4.511    
+                         required time                         -2.066    
+                         arrival time                           4.569    
   -------------------------------------------------------------------
-                         slack                                  2.304    
+                         slack                                  2.503    
 
 
 
@@ -705,22 +702,22 @@ Waveform(ns):       { 0.000 1.786 }
 Period(ns):         3.572
 Sources:            { clk }
 
-Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
-Min Period        n/a     BUFGCE/I  n/a            1.499         3.572       2.073      BUFGCE_X1Y224  clk_ibuf/I
-Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2125]/C
-Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2126]/C
-Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2127]/C
-Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2128]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2125]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2126]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2127]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2128]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2129]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2125]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2126]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2127]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2128]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X83Y538  shift_reg_tap_i/sr_p.sr_1[2129]/C
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     BUFGCE/I  n/a            1.499         3.572       2.073      BUFGCE_X1Y224   clk_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X56Y344   shift_reg_tap_i/sr_p.sr_1[197]/C
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X102Y591  shift_reg_tap_i/sr_p.sr_1[1980]/C
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X102Y591  shift_reg_tap_i/sr_p.sr_1[1981]/C
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X102Y591  shift_reg_tap_i/sr_p.sr_1[1982]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X101Y592  shift_reg_tap_i/sr_p.sr_1[1993]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X101Y592  shift_reg_tap_i/sr_p.sr_1[1994]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X77Y590   shift_reg_tap_i/sr_p.sr_1[2084]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X77Y590   shift_reg_tap_i/sr_p.sr_1[2085]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X77Y590   shift_reg_tap_i/sr_p.sr_1[2086]/C
+High Pulse Width  Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X56Y344   shift_reg_tap_i/sr_p.sr_1[197]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X56Y344   shift_reg_tap_i/sr_p.sr_1[197]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X102Y591  shift_reg_tap_i/sr_p.sr_1[1980]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X102Y591  shift_reg_tap_i/sr_p.sr_1[1981]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X102Y591  shift_reg_tap_i/sr_p.sr_1[1982]/C
 
 
 
@@ -744,19 +741,19 @@ Sources:            { clk_wrapper }
 Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location               Pin
 Min Period        n/a     FDRE/C    n/a            3.195         1000.000    996.805    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
 Min Period        n/a     BUFGCE/I  n/a            1.499         1000.000    998.501    BUFGCE_X1Y230          clk_wrapper_ibuf/I
-Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X166Y431         reducer_1/delay_block[0][0]/C
-Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X162Y437         reducer_1/delay_block[0][1000]/C
-Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X162Y437         reducer_1/delay_block[0][1001]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X133Y401         reducer_1/delay_block[0][0]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X125Y413         reducer_1/delay_block[0][1000]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X125Y413         reducer_1/delay_block[0][1001]/C
 Low Pulse Width   Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
 Low Pulse Width   Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X162Y437         reducer_1/delay_block[0][1000]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X162Y437         reducer_1/delay_block[0][1001]/C
-Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X162Y437         reducer_1/delay_block[0][1002]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X120Y409         reducer_1/delay_block[0][1044]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X120Y409         reducer_1/delay_block[0][1045]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X120Y409         reducer_1/delay_block[0][1046]/C
 High Pulse Width  Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
 High Pulse Width  Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X166Y431         reducer_1/delay_block[0][0]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X159Y435         reducer_1/delay_block[0][1004]/C
-High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X159Y435         reducer_1/delay_block[0][1005]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X127Y414         reducer_1/delay_block[0][1004]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X127Y414         reducer_1/delay_block[0][1005]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X127Y414         reducer_1/delay_block[0][1006]/C
 
 
 
