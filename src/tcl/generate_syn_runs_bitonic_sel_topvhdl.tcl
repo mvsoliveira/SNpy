@@ -1,6 +1,6 @@
 proc create_run {I O D {run 1} opt} {
     puts "Creating run with I = $I, O = $O, D = $D"
-    set prjpre [format "I%03d_O%03d_D%03d_BITONIC_SEL_TOPVHDL_PT1BIT" $I $O $D]
+    set prjpre [format "I%03d_O%03d_D%03d_BITONIC_SEL_TOPVHDL_PT4BIT" $I $O $D]
     set prjname [format "%s-%s" $prjpre $opt]
     set basepath "D:/mygitlab/sorting"
     set prjpath [format "%s/syn/%s/wrapper_%s.prj" $basepath $prjname $prjname]
