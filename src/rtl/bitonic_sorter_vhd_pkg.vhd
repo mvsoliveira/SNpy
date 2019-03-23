@@ -10,7 +10,7 @@ package bitonic_sorter_vhd_pkg is
 
 	constant MUON_NUMBER : integer := 352;
 	constant IDX_WIDTH   : integer := integer(ceil(log(real(MUON_NUMBER), real(2))));
-	constant PT_WIDTH    : integer := 1;
+	constant PT_WIDTH    : integer := 4;
 	constant word_w      : integer := PT_WIDTH + IDX_WIDTH;
 
 	type muon_type is record

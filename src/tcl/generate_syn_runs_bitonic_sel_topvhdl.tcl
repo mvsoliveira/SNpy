@@ -1,6 +1,6 @@
 proc create_run {I O D {run 1} opt} {
     puts "Creating run with I = $I, O = $O, D = $D"
-    set prjpre [format "I%03d_O%03d_D%03d_BITONIC_TOPVHDL" $I $O $D]
+    set prjpre [format "I%03d_O%03d_D%03d_BITONIC_SEL_TOPVHDL_PT4BIT" $I $O $D]
     set prjname [format "%s-%s" $prjpre $opt]
     set basepath "D:/mygitlab/sorting"
     set prjpath [format "%s/syn/%s/wrapper_%s.prj" $basepath $prjname $prjname]
@@ -17,14 +17,15 @@ proc create_run {I O D {run 1} opt} {
     add_file -verilog ${basepath}/src/rtl/lfsr.sv    
     add_file -verilog ${basepath}/src/rtl/reducer.sv
 	add_file -vhdl    ${basepath}/src/rtl/shift_reg_tap.vhd
-	add_file -vhdl    ${basepath}/src/rtl/wrapper_bitonic.vhd
+	add_file -vhdl    ${basepath}/src/rtl/bitonic_sel_wrapper.vhd
+	add_file -vhdl    ${basepath}/src/rtl/wrapper_bitonic_selection.vhd
     set_option -disable_io_insertion 0
     set_option -part XCVU9P
     set_option -package FLGC2104
     set_option -vhdl2008 1
     set_option -retiming 0
 	hdl_param -set I $I
-    hdl_param -set O $O    
+    hdl_param -set O $O
 	hdl_param -set delay $D
 	set_option -top_module wrapper
     add_file -constraint ${basepath}/src/xdc/wrapper.sdc
@@ -120,7 +121,7 @@ proc create_run {I O D {run 1} opt} {
     project -save $prjpath
     project -run compile
     cd ${basepath}/syn
-    export_project -instance dut_inst -add_file {../src/rtl/bitonic_sorter_pkg.sv ../src/rtl/compare.sv ../src/rtl/bitonic_merge.sv ../src/rtl/bitonic_sort.sv ../src/rtl/retiming_bitonic.sv} -no_default_hdl -project $subprjpath
+    export_project -instance dut_inst -add_file {../src/rtl/bitonic_sorter_vhd_pkg.vhd ../src/rtl/bitonic_sorter_pkg.sv ../src/rtl/compare.sv ../src/rtl/bitonic_merge.sv ../src/rtl/bitonic_sort.sv ../src/rtl/retiming_bitonic.sv ../src/rtl/bitonic_sel_wrapper.vhd} -no_default_hdl -project $subprjpath
 
     project_data -active $subprjpath
 
@@ -128,8 +129,9 @@ proc create_run {I O D {run 1} opt} {
     set_option -part XCVU9P
     set_option -package FLGC2104
     set_option -vhdl2008 1   
-    hdl_param -set delay $D
-	hdl_param -set WIDTH $I
+    hdl_param -set I $I
+    hdl_param -set O $O
+	hdl_param -set delay $D
     set_option -job pr_1 -add par
     set_option -job pr_1 -option enable_run 0
 	add_file -constraint ${basepath}/src/xdc/muon_bitonic.sdc
@@ -258,9 +260,9 @@ set opts [list freq280x400retfan10000]
 
 #lappend cfgs [list 16 16 [range 0 2]]
 #lappend cfgs [list 16 2 [range 0 2]]
-#lappend cfgs [list 16 16 [range 0 0]]
-#lappend cfgs [list 32 32 [range 0 0]]
-#lappend cfgs [list 64 64 [range 0 0]]
+lappend cfgs [list 16 16 [range 0 0]]
+lappend cfgs [list 32 32 [range 0 0]]
+lappend cfgs [list 64 64 [range 0 0]]
 lappend cfgs [list 128 128 [range 0 0]]
 lappend cfgs [list 256 256 [range 0 0]]
 lappend cfgs [list 512 512 [range 0 0]]

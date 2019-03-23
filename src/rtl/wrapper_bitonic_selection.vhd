@@ -29,9 +29,10 @@ use work.bitonic_sorter_vhd_pkg.all;
 entity wrapper is
 
 	generic(
-		I     : natural := 16;
-		O     : natural := 16;
-		delay : natural := 3            -- delay in clock cycles for pipeline register
+		I        : natural := 16;
+		O        : natural := 16;
+		fixed_id : natural := 1;
+		delay    : natural := 3         -- delay in clock cycles for pipeline register
 	);
 
 	port(
@@ -55,7 +56,8 @@ end entity wrapper;
 architecture rtl of wrapper is
 
 	--constants
-	constant i_width         : integer := I * word_w;
+	constant in_word_w       : integer := PT_WIDTH;
+	constant i_width         : integer := I * in_word_w;
 	constant o_width_desired : integer := O * word_w;
 	constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
 	constant o_width         : integer := 4**log4_o_width;
@@ -80,36 +82,18 @@ architecture rtl of wrapper is
 			output_bit   : out std_logic);
 	end component reducer;
 
-	component retiming_bitonic
-		generic(
-			W     : integer;
-			DIR   : integer;
-			delay : integer
-		);
-		port(
-			clk : in  std_logic;
-			m   : in  muon_array(0 to I - 1);
-			q   : out muon_array(0 to O - 1)
-		);
-	end component retiming_bitonic;
-
 	signal input_vector  : std_logic_vector(i_width - 1 downto 0);
 	signal input_slr     : std_logic_vector(i_width - 1 downto 0);
 	signal output_vector : std_logic_vector(o_width - 1 downto 0);
 	signal output_slr    : std_logic_vector(o_width - 1 downto 0);
 
-	signal muon_cand    : muon_array(0 to I - 1);
+	signal muon_cand    : muon_sel_array(0 to I - 1);
 	signal top_cand     : muon_array(0 to O - 1);
 	signal source_valid : std_logic;
 
 	attribute DONT_TOUCH : string;
 	attribute DONT_TOUCH of lsfr_1 : label is "TRUE";
 	attribute DONT_TOUCH of reducer_1 : label is "TRUE";
-	--attribute DONT_TOUCH of muon_sorter_1 : label is "TRUE";
-
-	--  attribute KEEP              : string;
-	--  attribute KEEP of muon_cand : signal is "TRUE";
-	--  attribute KEEP of top_cand : signal is "TRUE";
 
 begin                                   -- architecture rtl
 
@@ -155,18 +139,18 @@ begin                                   -- architecture rtl
 	-- Logic being tested
 	----------------------------------------------------------------------------------------------------------------------
 
-	muon_cand                                    <= to_array(input_slr, I, 0);
+	muon_cand                                    <= to_sel_array(input_slr, I);
 	output_vector(O * word_w - 1 downto 0)       <= to_stdv(top_cand, O);
 	output_vector(o_width - 1 downto O * word_w) <= (others => '0');
 
-	dut_inst : retiming_bitonic
+	dut_inst : entity work.bitonic_sel_wrapper
 		generic map(
-			W     => I,
-			DIR   => 1,
+			I     => I,
+			O     => O,
 			delay => delay)
 		port map(
 			clk => clk,
-			m => muon_cand,
-			q => top_cand);
+			m   => muon_cand,
+			q   => top_cand);
 
 end architecture rtl;
