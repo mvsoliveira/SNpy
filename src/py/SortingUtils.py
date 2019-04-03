@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class SortingUtils:
+    filename_fmt = '../../rpt/plot_I{i:03d}_O{i:03d}'
+    plot_dpi = 80
+
     def oddeven_merge(self, lo, hi, r):
         step = r * 2
         if step < hi - lo:
@@ -50,6 +53,8 @@ class SortingUtils:
 
     def plot(self, plotnet, filename, N):
 
+        color = ['black', 'red']
+
         fig, ax = plt.subplots(figsize=(N,N))
         plt.ylim(N+1,-2)
         self.set_plot_length(plotnet)
@@ -62,13 +67,13 @@ class SortingUtils:
         for s in plotnet:
             for sub in s:
                 for pair in sub:
-                    ax.plot((x,x),pair,color='black', marker='o')
+                    ax.plot((x,x),pair[:2],color=color[pair[2]], marker='o')
                 x += self.substagesp
             x += self.stagesp - self.substagesp
 
         #ax.margins(0.2)
         ax.set_axis_off()
-        plt.savefig(filename, dpi=40, bbox_inches='tight')
+        plt.savefig(filename, dpi=self.plot_dpi, bbox_inches='tight')
         #plt.show()
         plt.close()
 
@@ -135,40 +140,67 @@ class SortingUtils:
             plotnet.append(substages)
         return plotnet
 
+    def to_plotnet_triple(self,plotnet):
+        return [[[list(pair) + [0] for pair in substage] for substage in stage] for stage in plotnet]
+
+    def mask_net_in(self,plotnet3,maxin):
+        for stage in plotnet3:
+            for substage in stage:
+                for pair in substage:
+                    if (pair[0] > maxin) or (pair[1] > maxin):
+                        pair[2] = 1
+        return plotnet3
+
+    def prum_masked_list(self, plotnet3):
+        return [[[pair for pair in substage if pair[2] == 0] for substage in stage] for stage in plotnet3]
 
     def print_plotnet(self,plotnet):
         for (i,s) in enumerate(plotnet):
             for (j,sub) in enumerate(s):
                 print('Stage ({i:04d},{j:04d}) : {sub:s}'.format(i=i, j=j, sub=str(sub)))
 
+    def generate_oddevenmerge_power2_plots(self,xrange):
+        for i in range(*xrange):
+            N = 2 ** i
+            filename = self.filename_fmt.format(i=N, o=N)
+            list_of_pairs = list(self.oddeven_merge_sort(N))
+            net = self.to_stages(list_of_pairs)
+            plotnet = self.to_plotnet(net)
+            plotnet3 = self.to_plotnet_triple(plotnet)
+            self.plot(plotnet3, filename, N)
+
+    def generate_masked_oddevenmerge_plot(self, N):
+        filename = self.filename_fmt.format(i=N, o=N)+'_masked'
+        Nceil = 2**int(np.ceil(np.log2(N)))
+        list_of_pairs = list(self.oddeven_merge_sort(Nceil))
+        net = self.to_stages(list_of_pairs)
+        plotnet = self.to_plotnet(net)
+        plotnet3 = self.to_plotnet_triple(plotnet)
+        plotnet3_m = self.mask_net_in(plotnet3, N - 1)
+        self.plot(plotnet3_m, filename, Nceil)
+
+    def generate_reduced_oddevenmerge_plot(self, N):
+        filename = self.filename_fmt.format(i=N, o=N) + '_reduced'
+        Nceil = 2 ** int(np.ceil(np.log2(N)))
+        list_of_pairs = list(self.oddeven_merge_sort(Nceil))
+        reduced_pairs = [p for p in list_of_pairs if not (p[0] > N-1 or p[1] > N-1)]
+        net = self.to_stages(reduced_pairs)
+        print(net)
+        print('Number of stages for reduced net N={N:03d} = {stages:d}'.format(N=N,stages=len(net)))
+        plotnet = self.to_plotnet(net)
+        plotnet3 = self.to_plotnet_triple(plotnet)
+        self.plot(plotnet3, filename, N)
 
 
 
 
-s = SortingUtils()
-for i in range(9,10):
-    N = 2**i
-    filename = 'plot_I{i:03d}_O{i:03d}'.format(i=N,o=N)
-    list_of_pairs = list(s.oddeven_merge_sort(N))
-    net = s.to_stages(list_of_pairs)
-    plotnet = s.to_plotnet(net)
-    s.plot(plotnet, filename, N)
+if __name__ == "__main__":
+    s = SortingUtils()
+    #s.generate_oddevenmerge_power2_plots([0,9])
+    s.plot_dpi = 40
+    s.generate_reduced_oddevenmerge_plot(256)
+    s.generate_reduced_oddevenmerge_plot(512)
+    s.generate_masked_oddevenmerge_plot(352)
+    s.generate_reduced_oddevenmerge_plot(352)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#for i in s.oddeven_merge_sort(16):
-#    print(i)
 
