@@ -1,9 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
 
 class SortingUtils:
-    filename_fmt = '../../rpt/plot_I{i:03d}_O{i:03d}'
-    plot_dpi = 80
+    plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
+    plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_masked.pdf'
+    plot_dpi = 300
+    cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s}, o => False, r => False)'
+    stage_fmt = '({stage:s})'
+    net_fmt = 'when {i:d} => return (\n{net:s}\n);'
 
     def oddeven_merge(self, lo, hi, r):
         step = r * 2
@@ -43,37 +48,56 @@ class SortingUtils:
             x[a], x[b] = x[b], x[a]
 
     def set_plot_length(self,net):
-        self.margin = 8
-        self.stagesp = 4
-        self.substagesp = 1
-        self.length = 2*self.margin+1
-        self.length += (len(net)-1) * self.stagesp
+        self.plot_margin = 8
+        self.number_margin = 0.05
+        self.plot_stagesp = 4
+        self.plot_substagesp = 1
+        self.plot_length = 2 * self.plot_margin + 1
+        self.plot_length += (len(net) - 1) * self.plot_stagesp
         for s in net:
-            self.length += (len(s)-1) * self.substagesp
+            self.plot_length += (len(s) - 1) * self.plot_substagesp
 
     def plot(self, plotnet, filename, N):
+
 
         color = ['black', 'red']
 
         fig, ax = plt.subplots(figsize=(N,N))
         plt.ylim(N+1,-2)
         self.set_plot_length(plotnet)
-        points = np.ones(self.length)
-        # plotting horizontal lines
+        points = np.ones(self.plot_length)
+        # plotting horizontal lines and text
         for y in range(N):
             ax.plot(y * points, color='black')
+            ax.text(0,y-self.number_margin,'{y:03d}'.format(y=y),   horizontalalignment='left')
+            ax.text(self.plot_length-1, y-self.number_margin, '{y:03d}'.format(y=y), horizontalalignment='right')
 
-        x = self.margin
-        for s in plotnet:
+        # plotting pairs and stage delimeters
+        x = self.plot_margin
+        for i,s in enumerate(plotnet):
+            x -= self.plot_stagesp / 2
+            # plotting stage line delimeter
+            ax.plot((x, x), (-1, N), linestyle='dashed', color='gray')
+            # plotting stage number
+            curr_stage_half_spacing = ((len(s) - 1) * self.plot_substagesp + self.plot_stagesp) / 2
+            x += curr_stage_half_spacing
+            ax.text(x, -1, '{y:d}'.format(y=i), horizontalalignment='center', verticalalignment='top')
+            ax.text(x, N, '{y:d}'.format(y=i), horizontalalignment='center', verticalalignment='baseline')
+            x -= curr_stage_half_spacing
+            x += self.plot_stagesp / 2
+            # plotting substages
             for sub in s:
                 for pair in sub:
                     ax.plot((x,x),pair[:2],color=color[pair[2]], marker='o')
-                x += self.substagesp
-            x += self.stagesp - self.substagesp
-
+                x += self.plot_substagesp
+            x += self.plot_stagesp - self.plot_substagesp
+        # plotting last stage delimeter
+        x -= self.plot_stagesp / 2
+        ax.plot((x, x), (-1, N), linestyle='dashed', color='gray')
         #ax.margins(0.2)
         ax.set_axis_off()
-        plt.savefig(filename, dpi=self.plot_dpi, bbox_inches='tight')
+        # saving picture
+        plt.savefig(filename, format='pdf', bbox_inches='tight')
         #plt.show()
         plt.close()
 
@@ -159,19 +183,14 @@ class SortingUtils:
             for (j,sub) in enumerate(s):
                 print('Stage ({i:04d},{j:04d}) : {sub:s}'.format(i=i, j=j, sub=str(sub)))
 
-    def generate_oddevenmerge_power2_plots(self,xrange):
-        for i in range(*xrange):
-            N = 2 ** i
-            filename = self.filename_fmt.format(i=N, o=N)
-            list_of_pairs = list(self.oddeven_merge_sort(N))
-            net = self.to_stages(list_of_pairs)
-            plotnet = self.to_plotnet(net)
-            plotnet3 = self.to_plotnet_triple(plotnet)
-            self.plot(plotnet3, filename, N)
+    def generate_oddevenmerge_plots(self,values):
+        for i, N in enumerate(values):
+            self.generate_reduced_oddevenmerge_plot(N)
+
 
     def generate_masked_oddevenmerge_plot(self, N):
-        filename = self.filename_fmt.format(i=N, o=N)+'_masked'
-        Nceil = 2**int(np.ceil(np.log2(N)))
+        filename = self.plot_masked_filename_fmt.format(i=N, o=N)
+        Nceil = 2 ** int(np.ceil(np.log2(N)))
         list_of_pairs = list(self.oddeven_merge_sort(Nceil))
         net = self.to_stages(list_of_pairs)
         plotnet = self.to_plotnet(net)
@@ -179,28 +198,68 @@ class SortingUtils:
         plotnet3_m = self.mask_net_in(plotnet3, N - 1)
         self.plot(plotnet3_m, filename, Nceil)
 
-    def generate_reduced_oddevenmerge_plot(self, N):
-        filename = self.filename_fmt.format(i=N, o=N) + '_reduced'
+    def generate_reduced_oddevenmerge(self, N):
         Nceil = 2 ** int(np.ceil(np.log2(N)))
         list_of_pairs = list(self.oddeven_merge_sort(Nceil))
-        reduced_pairs = [p for p in list_of_pairs if not (p[0] > N-1 or p[1] > N-1)]
+        reduced_pairs = [p for p in list_of_pairs if not (p[0] > N - 1 or p[1] > N - 1)]
         net = self.to_stages(reduced_pairs)
-        print(net)
+        return net
+
+
+    def generate_reduced_oddevenmerge_plot(self, N):
+        filename = self.plot_filename_fmt.format(i=N, o=N)
+        net = self.generate_reduced_oddevenmerge(N)
         print('Number of stages for reduced net N={N:03d} = {stages:d}'.format(N=N,stages=len(net)))
         plotnet = self.to_plotnet(net)
         plotnet3 = self.to_plotnet_triple(plotnet)
         self.plot(plotnet3, filename, N)
 
 
+    def in_list(self, list_of_lists, item):
+        for list_ in list_of_lists:
+            if item in list_:
+                return True
+        return False
+
+    def find_missing(self, s, I):
+        values = range(0, I, 1)
+        missing = []
+        for v in values:
+            if not self.in_list(s, v):
+                missing.append(v)
+        return missing
+
+    def find_missing_pairs(self, stages, I):
+        s = self.find_missing(stages, I)
+        pairs = []
+        while s:
+            pairs.append([s.pop(0), s.pop()])
+        return pairs
+
+    def generate_csn_pkg(self, values):
+        file = open('../../out/vhd/csn_pkg_ref', 'w')
+        for i, N in enumerate(values):
+            net = self.generate_reduced_oddevenmerge(N)
+            cfg_stage_str = []
+            for stage in net:
+                cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
+                missing = self.find_missing_pairs(stage, N)
+                cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
+                cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
+
+            file.write(self.net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
+            i += 1
+        file.close()
+
+
 
 
 if __name__ == "__main__":
     s = SortingUtils()
-    #s.generate_oddevenmerge_power2_plots([0,9])
-    s.plot_dpi = 40
-    s.generate_reduced_oddevenmerge_plot(256)
-    s.generate_reduced_oddevenmerge_plot(512)
+    s.generate_oddevenmerge_plots([2 ** i for i in range(1, 10)])
+    s.generate_oddevenmerge_plots([352])
     s.generate_masked_oddevenmerge_plot(352)
-    s.generate_reduced_oddevenmerge_plot(352)
+
+
 
 
