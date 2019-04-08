@@ -9,6 +9,7 @@ class SortingUtils:
     cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s}, o => False, r => False)'
     stage_fmt = '({stage:s})'
     net_fmt = 'when {i:d} => return (\n{net:s}\n);'
+    serial_net_fmt = 'when {i:d} => return {net:s};\n'
 
     def oddeven_merge(self, lo, hi, r):
         step = r * 2
@@ -58,7 +59,6 @@ class SortingUtils:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
     def plot(self, plotnet, filename, N):
-
 
         color = ['black', 'red']
 
@@ -199,11 +199,16 @@ class SortingUtils:
         self.plot(plotnet3_m, filename, Nceil)
 
     def generate_reduced_oddevenmerge(self, N):
+        reduced_pairs = self.generate_oddevenmerge_list_of_pairs(N)
+        net = self.to_stages(reduced_pairs)
+        return net
+
+    def generate_oddevenmerge_list_of_pairs(self, N):
         Nceil = 2 ** int(np.ceil(np.log2(N)))
         list_of_pairs = list(self.oddeven_merge_sort(Nceil))
         reduced_pairs = [p for p in list_of_pairs if not (p[0] > N - 1 or p[1] > N - 1)]
-        net = self.to_stages(reduced_pairs)
-        return net
+        return reduced_pairs
+
 
 
     def generate_reduced_oddevenmerge_plot(self, N):
@@ -248,17 +253,30 @@ class SortingUtils:
                 cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
 
             file.write(self.net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
-            i += 1
+
         file.close()
+
+    def generate_csn_serial_pkg(self, values):
+        file = open('../../out/vhd/csn_serial_pkg_ref', 'w')
+        for i, N in enumerate(values):
+            list_of_pairs = self.generate_oddevenmerge_list_of_pairs(N)
+            cfg_stage_str = []
+            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in list_of_pairs]
+            cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
+            file.write(self.serial_net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
+
+
+
 
 
 
 
 if __name__ == "__main__":
     s = SortingUtils()
-    s.generate_oddevenmerge_plots([2 ** i for i in range(1, 10)])
-    s.generate_oddevenmerge_plots([352])
-    s.generate_masked_oddevenmerge_plot(352)
+    s.generate_csn_serial_pkg([2 ** i for i in range(1, 10)])
+    #s.generate_oddevenmerge_plots([2 ** i for i in range(1, 10)])
+    #s.generate_oddevenmerge_plots([352])
+    #s.generate_masked_oddevenmerge_plot(352)
 
 
 
