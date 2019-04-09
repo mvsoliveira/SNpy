@@ -1,6 +1,6 @@
 proc create_run {I O D {run 1} opt} {
     puts "Creating run with I = $I, O = $O, D = $D"
-    set prjpre [format "I%03d_O%03d_D%03d_CSN_VHDL" $I $O $D]
+    set prjpre [format "I%03d_O%03d_D%03d_CSN_SERIAL_VHDL" $I $O $D]
     set prjname [format "%s-%s" $prjpre $opt]
     set basepath "D:/mygitlab/sorting"
     set prjpath [format "%s/syn/%s/wrapper_%s.prj" $basepath $prjname $prjname]
@@ -10,7 +10,7 @@ proc create_run {I O D {run 1} opt} {
     project -new $prjpath
 	add_file -vhdl    ${basepath}/src/rtl/custom_sorting_network/csn_pkg.vhd
 	add_file -vhdl    ${basepath}/src/rtl/custom_sorting_network/csn_cmp.vhd
-	add_file -vhdl    ${basepath}/src/rtl/custom_sorting_network/csn.vhd
+	add_file -vhdl    ${basepath}/src/rtl/custom_sorting_network/csn_serial.vhd
     add_file -verilog ${basepath}/src/rtl/lfsr.sv    
     add_file -verilog ${basepath}/src/rtl/reducer.sv
 	add_file -vhdl    ${basepath}/src/rtl/shift_reg_tap.vhd
@@ -117,7 +117,7 @@ proc create_run {I O D {run 1} opt} {
     project -save $prjpath
     project -run compile
     cd ${basepath}/syn
-    export_project -instance dut_inst -add_file {../src/rtl/custom_sorting_network/csn_pkg.vhd ../src/rtl/custom_sorting_network/csn_cmp.vhd ../src/rtl/custom_sorting_network/csn.vhd} -no_default_hdl -project $subprjpath
+    export_project -instance dut_inst -add_file {../src/rtl/custom_sorting_network/csn_pkg.vhd ../src/rtl/custom_sorting_network/csn_cmp.vhd ../src/rtl/custom_sorting_network/csn_serial.vhd} -no_default_hdl -project $subprjpath
 
     project_data -active $subprjpath
 
@@ -255,7 +255,10 @@ set cfgs []
 set opts [list freq280x400retfan10000]
 
 
-lappend cfgs [list 352 352 [range 0 5]]
+#lappend cfgs [list 4 4 [range 0 5]]
+lappend cfgs [list 16 16 [range 0 0]]
+lappend cfgs [list 256 256 [range 0 0]]
+lappend cfgs [list 512 512 [range 0 0]]
 
 
 foreach cfg $cfgs {
