@@ -5,6 +5,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 class SortingUtils:
     plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
     plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_masked.pdf'
+    plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_sel.pdf'
     plot_dpi = 300
     cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s}, o => False, r => False)'
     stage_fmt = '({stage:s})'
@@ -60,7 +61,7 @@ class SortingUtils:
 
     def plot(self, plotnet, filename, N):
 
-        color = ['black', 'red']
+        color = ['black', 'red', 'blue', 'magenta', 'green']
 
         fig, ax = plt.subplots(figsize=(N,N))
         plt.ylim(N+1,-2)
@@ -167,11 +168,11 @@ class SortingUtils:
     def to_plotnet_triple(self,plotnet):
         return [[[list(pair) + [0] for pair in substage] for substage in stage] for stage in plotnet]
 
-    def mask_net_in(self,plotnet3,maxin):
+    def mask_net_in(self,plotnet3,minin, maxin):
         for stage in plotnet3:
             for substage in stage:
                 for pair in substage:
-                    if (pair[0] > maxin) or (pair[1] > maxin):
+                    if (minin <= pair[0] <= maxin) or (minin <= pair[1] <= maxin):
                         pair[2] = 1
         return plotnet3
 
@@ -188,15 +189,105 @@ class SortingUtils:
             self.generate_reduced_oddevenmerge_plot(N)
 
 
-    def generate_masked_oddevenmerge_plot(self, N):
-        filename = self.plot_masked_filename_fmt.format(i=N, o=N)
+    def generate_masked_oddevenmerge(self, N, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=set()):
+        # finding next power2 size
         Nceil = 2 ** int(np.ceil(np.log2(N)))
+        # getting list of pairs
         list_of_pairs = list(self.oddeven_merge_sort(Nceil))
+        # finding the stages
         net = self.to_stages(list_of_pairs)
+        # creating plotnet object (adding substages)
         plotnet = self.to_plotnet(net)
+        # creating plotnet3 (adding a third parameter for each comparison)
         plotnet3 = self.to_plotnet_triple(plotnet)
-        plotnet3_m = self.mask_net_in(plotnet3, N - 1)
-        self.plot(plotnet3_m, filename, Nceil)
+        # masking unused inputs
+        plotnet3_m = self.mask_net_in(plotnet3, N, Nceil-1)
+        # masking comparators from presorted inputs
+        for iset in presort_in_sets:
+            self.net_presort_opt(plotnet3_m, iset)
+        # optimizing away unused outputs
+        if used_out_set == None:
+            used_out_set = set(range(N))
+        self.net_unused_out_opt(plotnet3_m, used_out_set)
+        # optimizing away comparison for outputs which does not need do be sorted
+        self.net_nonsorted_out_opt(plotnet3_m, nonsorted_out_set)
+
+        return plotnet3_m
+
+    def net_presort_opt(self, plotnet3, iset):
+        for stage in plotnet3:
+            for substage in stage:
+                for cmp in substage:
+                    # if this comparison was not already optimized away
+                    if cmp[2] == 0:
+                        # if the two members of the comparison belongs to the presorted set
+                        if len(iset.intersection(cmp[:2])) == 2:
+                            # optimize them away
+                            cmp[2] = 2
+                        # if one of members intersects with an input outside the set, do not look further anymore
+                        elif len(iset.intersection(cmp[:2])) == 1:
+                            return True
+                        # if else, just continues ;)
+
+    def to_list_of_pairs(self, plotnet3):
+        list_of_pairs = []
+        for stage in plotnet3:
+            for substage in stage:
+                for cmp in substage:
+                    # if this comparison was not optimized away
+                    if cmp[2] == 0:
+                        list_of_pairs.append(cmp[:2])
+        return list_of_pairs
+
+    def net_unused_out_opt(self, plotnet3, used_out_set):
+        for stage in reversed(plotnet3):
+            for substage in reversed(stage):
+                for cmp in reversed(substage):
+                    # if this comparison was not already optimized away
+                    if cmp[2] == 0:
+                        # if none of two members of the comparison belongs to the used out set
+                        if len(used_out_set.intersection(cmp[:2])) == 0:
+                            # optimize them away
+                            cmp[2] = 3
+                        # if one used output intersects with an unused output, threat this output as an used one
+                        elif len(used_out_set.intersection(cmp[:2])) == 1:
+                            used_out_set.update(cmp[:2])
+                        # if else, just continues ;)
+
+    def net_nonsorted_out_opt(self, plotnet3, nonsorted_out_set):
+        for stage in reversed(plotnet3):
+            for substage in reversed(stage):
+                for cmp in reversed(substage):
+                    # if this comparison was not already optimized away
+                    if cmp[2] == 0:
+                        # if both of two members of the comparison belongs to the non sorted out set
+                        if len(nonsorted_out_set.intersection(cmp[:2])) == 2:
+                            # optimize them away
+                            cmp[2] = 4
+                        # if one unsorted output intersects with another output, discard this output from the unsorted set
+                        elif len(nonsorted_out_set.intersection(cmp[:2])) == 1:
+                            nonsorted_out_set.discard(cmp[0])
+                            nonsorted_out_set.discard(cmp[1])
+                        # if else, just continues ;)
+    def get_muctpi_presort_in_sets(self):
+        rpc = [2]
+        tgc = [4]
+        all = 32 * rpc + 72 * tgc
+        presort_in_sets = []
+        i = 0
+        for cand_sec in all:
+            presort_in_sets.append(set(range(i, i + cand_sec)))
+            i += cand_sec
+        return presort_in_sets
+
+    def get_muctpi_sel_opt_sets(self):
+        N = 352
+        presort_in_sets = s.get_muctpi_presort_in_sets()
+        used_out_set = set(range(64))
+        nonsorted_out_set = set(range(64))
+        return (N, presort_in_sets, used_out_set, nonsorted_out_set)
+
+
 
     def generate_reduced_oddevenmerge(self, N):
         reduced_pairs = self.generate_oddevenmerge_list_of_pairs(N)
@@ -256,6 +347,20 @@ class SortingUtils:
 
         file.close()
 
+    def generate_csn_sel_pkg(self, gen_plots = False):
+        file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
+        [net, N] = self.get_muctpi_sel_net(gen_plots)
+        cfg_stage_str = []
+        for stage in net:
+            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
+            missing = self.find_missing_pairs(stage, N)
+            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
+            cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
+
+        file.write(self.net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
+
+        file.close()
+
     def generate_csn_serial_pkg(self, values):
         file = open('../../out/vhd/csn_serial_pkg_ref', 'w')
         for i, N in enumerate(values):
@@ -265,15 +370,37 @@ class SortingUtils:
             cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
             file.write(self.serial_net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
 
-
-
-
+    def get_muctpi_sel_net(self, gen_plots):
+        muctpi_sets = self.get_muctpi_sel_opt_sets()
+        plotnet3 = self.generate_masked_oddevenmerge(*muctpi_sets)
+        N = muctpi_sets[0]
+        Nceil = 2 ** int(np.ceil(np.log2(N)))
+        if gen_plots:
+            filename = self.plot_masked_filename_fmt.format(i=N, o=N)
+            self.plot(plotnet3, filename, Nceil)
+        list_of_pairs = self.to_list_of_pairs(plotnet3)
+        # finding the stages
+        net = self.to_stages(list_of_pairs)
+        if gen_plots:
+            # creating plotnet object (adding substages)
+            plotnet = self.to_plotnet(net)
+            # creating plotnet3 (adding a third parameter for each comparison)
+            plotnet3 = self.to_plotnet_triple(plotnet)
+            filename = self.plot_sel_filename_fmt.format(i=N, o=N)
+            self.plot(plotnet3, filename, N)
+        return [net, N]
 
 
 
 if __name__ == "__main__":
     s = SortingUtils()
-    s.generate_csn_serial_pkg([2 ** i for i in range(1, 10)])
+    s.generate_csn_sel_pkg(gen_plots = True)
+    #presort_in_sets = [set((0,1)), set((2,3)), set((4, 5,6,7))]
+
+    #muctpi_sel_sets = s.get_muctpi_sel_opt_sets
+
+
+    #s.generate_csn_serial_pkg([2 ** i for i in range(1, 10)])
     #s.generate_oddevenmerge_plots([2 ** i for i in range(1, 10)])
     #s.generate_oddevenmerge_plots([352])
     #s.generate_masked_oddevenmerge_plot(352)
