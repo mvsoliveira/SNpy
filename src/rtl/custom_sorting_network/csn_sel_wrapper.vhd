@@ -31,7 +31,7 @@ begin
 
 	end generate id_g;
 
-	dut_inst : entity work.csn
+	csn_inst : entity work.csn
 		generic map(
 			I     => I,
 			O     => O,

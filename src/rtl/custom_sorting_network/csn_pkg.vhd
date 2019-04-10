@@ -36,6 +36,10 @@ package csn_pkg is
 	--type cfg_net_t is array (natural range <>, natural range <>) of cmp_cfg;
 	function get_cfg(I : integer) return cfg_net_t;
 	function get_pair_cfg(I : integer) return pair_cmp_cfg;
+	
+	function to_array(data : std_logic_vector; N : integer) return muon_a;
+	function to_sel_array(data : std_logic_vector; N : integer) return muon_sel_a;	
+    function to_stdv(muon : muon_a; N : integer) return std_logic_vector;
 
 	constant empty_cfg : cfg_net_t := (
 		((a => 0, b => 1, p => False, o => False, r => False), (a => 2, b => 3, p => False, o => False, r => False)),

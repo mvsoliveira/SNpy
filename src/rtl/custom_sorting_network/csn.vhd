@@ -32,7 +32,15 @@ architecture RTL of csn is
 	--constant ret_off : ret_off_t(0 to I - 1) := (0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0);
 	constant ret_off : ret_off_t(0 to I - 1) := (others => 0); 
 	constant max_ret_off : natural := 0;
+	
 	signal ret_array : net_array_t(0 to delay + max_ret_off);
+	
+	-- for xilinx synthesis
+	attribute shreg_extract : string;
+    attribute shreg_extract of ret_array : signal is "no";
+    
+    --attribute syn_srlstyle: string;  
+    --attribute syn_srlstyle of ret_array : signal is "registers";
 
 begin
 
