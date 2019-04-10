@@ -402,7 +402,7 @@ class SortingUtils:
 
         # Generating vhdl package
         cfg_stage_str = []
-        reg = ['False', 'True']
+        reg = ['False', 'True ']
         for i, stage in enumerate(net):
             cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False', r=reg[stages[i]]) for p in stage]
             missing = self.find_missing_pairs(stage, N)
