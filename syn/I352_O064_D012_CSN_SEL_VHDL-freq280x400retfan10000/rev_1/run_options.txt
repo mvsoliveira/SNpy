@@ -1,21 +1,18 @@
 #--  Synopsys, Inc.
 #--  Version O-2018.09
-#--  Project file D:\mygitlab\sorting\syn\I256_O256_D000_BITONIC_SEL_TOPVHDL_PT4BIT-freq280x400retfan10000\rev_1\run_options.txt
-#--  Written on Thu Apr  4 19:40:33 2019
+#--  Project file D:\mygitlab\sorting\syn\I352_O064_D012_CSN_SEL_VHDL-freq280x400retfan10000\rev_1\run_options.txt
+#--  Written on Wed Apr 10 10:37:55 2019
 
 
 #project files
-add_file -verilog -vlog_std sysv "D:/mygitlab/sorting/src/rtl/bitonic_sorter_pkg.sv"
-add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/bitonic_sorter_vhd_pkg.vhd"
-add_file -verilog -vlog_std sysv "D:/mygitlab/sorting/src/rtl/compare.sv"
-add_file -verilog -vlog_std sysv "D:/mygitlab/sorting/src/rtl/bitonic_merge.sv"
-add_file -verilog -vlog_std sysv "D:/mygitlab/sorting/src/rtl/bitonic_sort.sv"
-add_file -verilog -vlog_std sysv "D:/mygitlab/sorting/src/rtl/retiming_bitonic.sv"
+add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/custom_sorting_network/csn_pkg.vhd"
+add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/custom_sorting_network/csn_cmp.vhd"
+add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/custom_sorting_network/csn.vhd"
+add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/custom_sorting_network/csn_sel_wrapper.vhd"
 add_file -verilog -vlog_std sysv "D:/mygitlab/sorting/src/rtl/lfsr.sv"
 add_file -verilog -vlog_std sysv "D:/mygitlab/sorting/src/rtl/reducer.sv"
 add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/shift_reg_tap.vhd"
-add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/bitonic_sel_wrapper.vhd"
-add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/wrapper_bitonic_selection.vhd"
+add_file -vhdl -lib work "D:/mygitlab/sorting/src/rtl/wrapper_csn_sel.vhd"
 add_file -constraint "D:/mygitlab/sorting/src/xdc/wrapper.sdc"
 add_file -constraint "D:/mygitlab/sorting/src/xdc/clock_280.sdc"
 
@@ -32,13 +29,12 @@ set_option -project_relative_includes 1
 
 #
 #implementation parameter settings
-set_option -hdl_param -set I 256
-set_option -hdl_param -set O 256
-set_option -hdl_param -set delay 0
+set_option -hdl_param -set I 352
+set_option -hdl_param -set O 64
+set_option -hdl_param -set delay 12
 
 #par_1 attributes
 set_option -job par_1 -add par
-set_option -job par_1 -option enable_run 1
 
 #device options
 set_option -technology VIRTEX-ULTRASCALEPLUS-FPGAS
@@ -49,7 +45,7 @@ set_option -part_companion ""
 
 #compilation/mapping options
 set_option -use_fsm_explorer 0
-set_option -top_module "wrapper"
+set_option -top_module "wrapper_csn_sel"
 
 # hdl_compiler_options
 set_option -distributed_compile 1
@@ -98,13 +94,7 @@ set_option -vhdl2008 1
 set_option -write_apr_constraint 1
 
 #set result format/file last
-project -result_file "rev_1/wrapper_bitonic_selection.edf"
-
-# Link Map
-define_link i:dut_inst -name muon_sorter_I256_O256_D000_BITONIC_SEL_TOPVHDL_PT4BIT-freq280x400retfan10000|rev_1
+project -result_file "rev_1/wrapper_csn_sel.edf"
 
 #design plan options
-
-# Project Libraries
-project -insert "muon_sorter_1/muon_sorter_I256_O256_D000_BITONIC_SEL_TOPVHDL_PT4BIT-freq280x400retfan10000.prj"
 impl -active "rev_1"

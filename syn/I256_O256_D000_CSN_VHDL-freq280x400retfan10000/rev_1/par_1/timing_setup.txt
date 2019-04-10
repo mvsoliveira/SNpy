@@ -1,0 +1,1974 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2018.2 (win64) Build 2258646 Thu Jun 14 20:03:12 MDT 2018
+| Date              : Thu Apr  4 22:13:59 2019
+| Host              : PCPHESEBE02 running 64-bit Service Pack 1  (build 7601)
+| Command           : report_timing_summary -setup -nworst 5 -max_paths 5 -file timing_setup.txt
+| Design            : wrapper_csn
+| Device            : xcvu9p-flgc2104
+| Speed File        : -1  PRODUCTION 1.20 05-21-2018
+| Temperature Grade : E
+-------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  false
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock
+2. checking constant_clock
+3. checking pulse_width_clock
+4. checking unconstrained_internal_endpoints
+5. checking no_input_delay
+6. checking no_output_delay
+7. checking multiple_clock
+8. checking generated_clocks
+9. checking loops
+10. checking partial_input_delay
+11. checking partial_output_delay
+12. checking latch_loops
+
+1. checking no_clock
+--------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock
+--------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock
+-----------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints
+--------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay
+--------------------------
+ There is 1 input port with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay
+---------------------------
+ There is 1 port with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock
+--------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks
+----------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops
+-----------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay
+--------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay
+---------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops
+------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+    -34.147  -109005.742                   3328                 3328        1.511        0.000                       0                 14729  
+
+
+Timing constraints are not met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock        Waveform(ns)         Period(ns)      Frequency(MHz)
+-----        ------------         ----------      --------------
+clk          {0.000 1.786}        3.572           279.955         
+clk_wrapper  {0.000 500.000}      1000.000        1.000           
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk               -34.147  -109005.742                   3328                 3328        1.511        0.000                       0                  6961  
+clk_wrapper                                                                             498.562        0.000                       0                  7768  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk
+  To Clock:  clk
+
+Setup :         3328  Failing Endpoints,  Worst Slack      -34.147ns,  Total Violation  -109005.741ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack        1.511ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -34.147ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1[1692]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_1[830]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        37.684ns  (logic 10.806ns (28.675%)  route 26.878ns (71.325%))
+  Logic Levels:           92  (LUT3=4 LUT4=1 LUT5=52 LUT6=35)
+  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.391ns = ( 6.963 - 3.572 ) 
+    Source Clock Delay      (SCD):    3.836ns
+    Clock Pessimism Removal (CPR):    0.418ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.695ns (routing 1.237ns, distribution 1.458ns)
+  Clock Net Delay (Destination): 2.561ns (routing 1.130ns, distribution 1.431ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.695     3.836    shift_reg_tap_i/clk_c
+    SLICE_X39Y457        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1[1692]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X39Y457        FDRE (Prop_GFF_SLICEL_C_Q)
+                                                      0.097     3.933 r  shift_reg_tap_i/sr_p.sr_1[1692]/Q
+                         net (fo=8, routed)           0.221     4.154    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/input_slr[1692]
+    SLICE_X39Y457        LUT4 (Prop_E6LUT_SLICEL_I1_O)
+                                                      0.064     4.218 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0/O
+                         net (fo=3, routed)           0.333     4.551    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0_45
+    SLICE_X38Y456        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     4.728 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=28, routed)          0.208     4.936    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0_151
+    SLICE_X36Y457        LUT3 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.178     5.114 f  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/a_o_comb.pt[2]/O
+                         net (fo=3, routed)           0.058     5.172    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/pt_6265_0
+    SLICE_X36Y457        LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.116     5.288 r  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.275     5.563    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4_1946
+    SLICE_X36Y456        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.101     5.664 f  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.071     5.735    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/pt_2539_0
+    SLICE_X36Y456        LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     5.912 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.177     6.089    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2_290
+    SLICE_X35Y457        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     6.236 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.710     6.946    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4_624
+    SLICE_X42Y458        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100     7.046 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.188     7.234    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/pt_2492_0
+    SLICE_X40Y459        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117     7.351 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.108     7.459    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3_418
+    SLICE_X40Y457        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.039     7.498 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.082     7.580    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4_813
+    SLICE_X40Y457        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.174     7.754 f  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=6, routed)           0.332     8.086    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/pt_3411_0
+    SLICE_X42Y458        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     8.233 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.047     8.280    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3_322
+    SLICE_X42Y458        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063     8.343 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1/O
+                         net (fo=36, routed)          0.371     8.714    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1_1z
+    SLICE_X41Y455        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.062     8.776 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.481     9.257    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/pt_4357_0
+    SLICE_X44Y447        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.179     9.436 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.323     9.759    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2_523
+    SLICE_X43Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     9.907 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=27, routed)          0.559    10.466    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0_43
+    SLICE_X36Y454        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.177    10.643 f  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.210    10.853    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/pt_4355_0
+    SLICE_X37Y453        LUT6 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.179    11.032 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.113    11.145    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3_801
+    SLICE_X37Y453        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039    11.184 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.730    11.914    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/pt_5610_0
+    SLICE_X46Y454        LUT6 (Prop_A6LUT_SLICEL_I5_O)
+                                                      0.064    11.978 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.166    12.144    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2_956
+    SLICE_X47Y455        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.063    12.207 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=31, routed)          0.114    12.321    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0_104
+    SLICE_X47Y454        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    12.421 f  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.413    12.834    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/pt_3259_0
+    SLICE_X51Y452        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.116    12.950 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.273    13.223    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2_1127
+    SLICE_X52Y452        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.064    13.287 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.336    13.623    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4_2081
+    SLICE_X52Y453        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    13.800 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.181    13.981    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/pt_2086_0
+    SLICE_X53Y453        LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.066    14.047 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.103    14.150    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2_380
+    SLICE_X53Y453        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.098    14.248 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=8, routed)           0.227    14.475    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3_13
+    SLICE_X53Y450        LUT3 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.062    14.537 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=24, routed)          0.402    14.939    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4_781
+    SLICE_X54Y454        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.064    15.003 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.293    15.296    dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/pt_2101_0
+    SLICE_X50Y454        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    15.334 r  dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=6, routed)           0.253    15.587    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/pt_2098_0
+    SLICE_X49Y451        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.178    15.765 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.113    15.878    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_400
+    SLICE_X50Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.064    15.942 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1/O
+                         net (fo=33, routed)          0.539    16.481    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1_1z
+    SLICE_X48Y456        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.148    16.629 f  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.208    16.837    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/pt_4812_0
+    SLICE_X49Y456        LUT6 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098    16.935 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.182    17.117    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2_574
+    SLICE_X50Y456        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.115    17.232 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.206    17.438    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4_1115
+    SLICE_X50Y451        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.116    17.554 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.419    17.973    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/pt_4809_0
+    SLICE_X49Y469        LUT6 (Prop_D6LUT_SLICEL_I2_O)
+                                                      0.099    18.072 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.190    18.262    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3_829
+    SLICE_X49Y470        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.179    18.441 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.197    18.638    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4_1742
+    SLICE_X49Y468        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    18.815 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=8, routed)           0.367    19.182    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/pt_5725_0
+    SLICE_X54Y464        LUT6 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.174    19.356 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.685    20.041    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_588
+    SLICE_X55Y469        LUT5 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.100    20.141 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1/O
+                         net (fo=42, routed)          0.407    20.548    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1_1z
+    SLICE_X56Y465        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151    20.699 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.120    20.819    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/pt_5859_0
+    SLICE_X55Y465        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.149    20.968 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.169    21.137    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2_1167
+    SLICE_X55Y466        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    21.177 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.329    21.506    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4_2179
+    SLICE_X57Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    21.620 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.259    21.879    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/pt_2579_0
+    SLICE_X57Y465        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.064    21.943 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.224    22.167    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2_1075
+    SLICE_X58Y464        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    22.344 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=36, routed)          0.627    22.971    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4_1971
+    SLICE_X65Y465        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.148    23.119 f  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.243    23.362    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/pt_2623_0
+    SLICE_X66Y464        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.174    23.536 r  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.552    24.088    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3_337
+    SLICE_X64Y468        LUT6 (Prop_B6LUT_SLICEM_I5_O)
+                                                      0.150    24.238 f  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.134    24.372    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/pt_2567_0
+    SLICE_X62Y468        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.174    24.546 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.240    24.786    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2_848
+    SLICE_X62Y472        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    24.963 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.562    25.525    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4_1574
+    SLICE_X71Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.178    25.703 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=4, routed)           0.163    25.866    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/pt_5270_0
+    SLICE_X70Y467        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.100    25.966 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.360    26.326    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2_672
+    SLICE_X71Y470        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    26.440 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.261    26.701    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4_1282
+    SLICE_X73Y473        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.100    26.801 f  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=2, routed)           0.315    27.116    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/pt_4066_0
+    SLICE_X75Y474        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.116    27.232 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.151    27.383    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3_195
+    SLICE_X75Y475        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.098    27.481 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71/O
+                         net (fo=36, routed)          0.340    27.821    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71_1z
+    SLICE_X74Y478        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    28.000 f  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.538    28.538    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/pt_3949_0
+    SLICE_X74Y489        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.182    28.720 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.314    29.034    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3_866
+    SLICE_X73Y491        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147    29.181 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.322    29.503    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/pt_881_0
+    SLICE_X73Y498        LUT6 (Prop_H6LUT_SLICEL_I0_O)
+                                                      0.116    29.619 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.250    29.869    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2_227
+    SLICE_X72Y504        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    30.048 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.331    30.379    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4_491
+    SLICE_X71Y506        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    30.495 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.223    30.718    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/pt_879_0
+    SLICE_X69Y509        LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.064    30.782 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.049    30.831    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2_92
+    SLICE_X69Y509        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    30.870 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=33, routed)          0.382    31.252    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4_267
+    SLICE_X71Y514        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    31.292 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.446    31.738    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/pt_862_0
+    SLICE_X68Y525        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    31.776 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.248    32.024    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2_1296
+    SLICE_X69Y527        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    32.088 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=41, routed)          0.567    32.655    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4_2447
+    SLICE_X74Y534        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.182    32.837 f  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.257    33.094    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/pt_6210_0
+    SLICE_X74Y542        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    33.132 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.105    33.237    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2_1207
+    SLICE_X73Y542        LUT5 (Prop_A6LUT_SLICEL_I4_O)
+                                                      0.115    33.352 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=31, routed)          0.465    33.817    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4_2263
+    SLICE_X74Y543        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.062    33.879 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.274    34.153    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/pt_1888_0
+    SLICE_X71Y542        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.063    34.216 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0/O
+                         net (fo=1, routed)           0.235    34.451    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0_38
+    SLICE_X67Y542        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.100    34.551 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2/O
+                         net (fo=1, routed)           0.216    34.767    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2_123
+    SLICE_X66Y543        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063    34.830 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.127    34.957    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3_850
+    SLICE_X65Y543        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.174    35.131 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2/O
+                         net (fo=44, routed)          0.333    35.464    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2_1z
+    SLICE_X66Y546        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    35.643 f  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.564    36.207    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/pt_1038_0
+    SLICE_X66Y570        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117    36.324 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.222    36.546    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2_239
+    SLICE_X66Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    36.584 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=34, routed)          0.131    36.715    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4_534
+    SLICE_X68Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    36.828 f  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/b_o_comb.pt_i_m2[0]/O
+                         net (fo=1, routed)           0.313    37.141    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/pt_i_m2_7_0
+    SLICE_X68Y570        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.179    37.320 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.158    37.478    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2_112
+    SLICE_X67Y571        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    37.517 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.396    37.913    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4_288
+    SLICE_X65Y575        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.148    38.061 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=8, routed)           0.479    38.540    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/pt_1035_0
+    SLICE_X61Y579        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116    38.656 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.317    38.973    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3_1202
+    SLICE_X58Y579        LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.098    39.071 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.397    39.468    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/pt_1004_0
+    SLICE_X57Y581        LUT6 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    39.645 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.096    39.741    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2_1196
+    SLICE_X56Y581        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.038    39.779 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.431    40.210    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4_2250
+    SLICE_X60Y583        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.147    40.357 f  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.282    40.639    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/pt_1005_0
+    SLICE_X59Y582        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    40.752 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.046    40.798    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2_106
+    SLICE_X59Y582        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    40.898 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=22, routed)          0.374    41.272    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4_76
+    SLICE_X56Y581        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.178    41.450 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/a_o_comb.idx[7]/O
+                         net (fo=1, routed)           0.070    41.520    shift_reg_tap_o/idx_94[7]
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.561     6.963    shift_reg_tap_o/clk_c
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/C
+                         clock pessimism              0.418     7.381    
+                         clock uncertainty           -0.035     7.346    
+    SLICE_X56Y581        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.027     7.373    shift_reg_tap_o/sr_1[830]
+  -------------------------------------------------------------------
+                         required time                          7.373    
+                         arrival time                         -41.520    
+  -------------------------------------------------------------------
+                         slack                                -34.147    
+
+Slack (VIOLATED) :        -34.147ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1[1692]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_1[830]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        37.684ns  (logic 10.806ns (28.675%)  route 26.878ns (71.325%))
+  Logic Levels:           92  (LUT3=4 LUT4=1 LUT5=52 LUT6=35)
+  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.391ns = ( 6.963 - 3.572 ) 
+    Source Clock Delay      (SCD):    3.836ns
+    Clock Pessimism Removal (CPR):    0.418ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.695ns (routing 1.237ns, distribution 1.458ns)
+  Clock Net Delay (Destination): 2.561ns (routing 1.130ns, distribution 1.431ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.695     3.836    shift_reg_tap_i/clk_c
+    SLICE_X39Y457        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1[1692]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X39Y457        FDRE (Prop_GFF_SLICEL_C_Q)
+                                                      0.097     3.933 r  shift_reg_tap_i/sr_p.sr_1[1692]/Q
+                         net (fo=8, routed)           0.221     4.154    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/input_slr[1692]
+    SLICE_X39Y457        LUT4 (Prop_E6LUT_SLICEL_I1_O)
+                                                      0.064     4.218 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0/O
+                         net (fo=3, routed)           0.333     4.551    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0_45
+    SLICE_X38Y456        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     4.728 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=28, routed)          0.208     4.936    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0_151
+    SLICE_X36Y457        LUT3 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.178     5.114 f  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/a_o_comb.pt[2]/O
+                         net (fo=3, routed)           0.058     5.172    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/pt_6265_0
+    SLICE_X36Y457        LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.116     5.288 r  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.275     5.563    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4_1946
+    SLICE_X36Y456        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.101     5.664 f  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.071     5.735    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/pt_2539_0
+    SLICE_X36Y456        LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     5.912 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.177     6.089    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2_290
+    SLICE_X35Y457        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     6.236 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.710     6.946    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4_624
+    SLICE_X42Y458        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100     7.046 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.188     7.234    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/pt_2492_0
+    SLICE_X40Y459        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117     7.351 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.108     7.459    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3_418
+    SLICE_X40Y457        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.039     7.498 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.082     7.580    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4_813
+    SLICE_X40Y457        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.174     7.754 f  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=6, routed)           0.332     8.086    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/pt_3411_0
+    SLICE_X42Y458        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     8.233 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.047     8.280    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3_322
+    SLICE_X42Y458        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063     8.343 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1/O
+                         net (fo=36, routed)          0.371     8.714    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1_1z
+    SLICE_X41Y455        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.062     8.776 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.481     9.257    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/pt_4357_0
+    SLICE_X44Y447        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.179     9.436 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.323     9.759    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2_523
+    SLICE_X43Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     9.907 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=27, routed)          0.559    10.466    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0_43
+    SLICE_X36Y454        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.177    10.643 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.210    10.853    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/pt_4355_0
+    SLICE_X37Y453        LUT6 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.179    11.032 f  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.113    11.145    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3_801
+    SLICE_X37Y453        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039    11.184 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.730    11.914    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/pt_5610_0
+    SLICE_X46Y454        LUT6 (Prop_A6LUT_SLICEL_I5_O)
+                                                      0.064    11.978 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.166    12.144    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2_956
+    SLICE_X47Y455        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.063    12.207 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=31, routed)          0.114    12.321    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0_104
+    SLICE_X47Y454        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    12.421 f  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.413    12.834    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/pt_3259_0
+    SLICE_X51Y452        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.116    12.950 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.273    13.223    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2_1127
+    SLICE_X52Y452        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.064    13.287 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.336    13.623    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4_2081
+    SLICE_X52Y453        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    13.800 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.181    13.981    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/pt_2086_0
+    SLICE_X53Y453        LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.066    14.047 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.103    14.150    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2_380
+    SLICE_X53Y453        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.098    14.248 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=8, routed)           0.227    14.475    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3_13
+    SLICE_X53Y450        LUT3 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.062    14.537 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=24, routed)          0.402    14.939    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4_781
+    SLICE_X54Y454        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.064    15.003 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.293    15.296    dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/pt_2101_0
+    SLICE_X50Y454        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    15.334 r  dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=6, routed)           0.253    15.587    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/pt_2098_0
+    SLICE_X49Y451        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.178    15.765 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.113    15.878    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_400
+    SLICE_X50Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.064    15.942 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1/O
+                         net (fo=33, routed)          0.539    16.481    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1_1z
+    SLICE_X48Y456        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.148    16.629 f  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.208    16.837    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/pt_4812_0
+    SLICE_X49Y456        LUT6 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098    16.935 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.182    17.117    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2_574
+    SLICE_X50Y456        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.115    17.232 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.206    17.438    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4_1115
+    SLICE_X50Y451        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.116    17.554 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.419    17.973    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/pt_4809_0
+    SLICE_X49Y469        LUT6 (Prop_D6LUT_SLICEL_I2_O)
+                                                      0.099    18.072 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.190    18.262    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3_829
+    SLICE_X49Y470        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.179    18.441 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.197    18.638    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4_1742
+    SLICE_X49Y468        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    18.815 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=8, routed)           0.367    19.182    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/pt_5725_0
+    SLICE_X54Y464        LUT6 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.174    19.356 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.685    20.041    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_588
+    SLICE_X55Y469        LUT5 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.100    20.141 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1/O
+                         net (fo=42, routed)          0.407    20.548    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1_1z
+    SLICE_X56Y465        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151    20.699 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.120    20.819    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/pt_5859_0
+    SLICE_X55Y465        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.149    20.968 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.169    21.137    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2_1167
+    SLICE_X55Y466        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    21.177 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.329    21.506    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4_2179
+    SLICE_X57Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    21.620 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.259    21.879    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/pt_2579_0
+    SLICE_X57Y465        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.064    21.943 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.224    22.167    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2_1075
+    SLICE_X58Y464        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    22.344 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=36, routed)          0.627    22.971    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4_1971
+    SLICE_X65Y465        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.148    23.119 f  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.243    23.362    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/pt_2623_0
+    SLICE_X66Y464        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.174    23.536 r  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.552    24.088    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3_337
+    SLICE_X64Y468        LUT6 (Prop_B6LUT_SLICEM_I5_O)
+                                                      0.150    24.238 f  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.134    24.372    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/pt_2567_0
+    SLICE_X62Y468        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.174    24.546 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.240    24.786    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2_848
+    SLICE_X62Y472        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    24.963 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.562    25.525    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4_1574
+    SLICE_X71Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.178    25.703 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=4, routed)           0.163    25.866    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/pt_5270_0
+    SLICE_X70Y467        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.100    25.966 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.360    26.326    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2_672
+    SLICE_X71Y470        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    26.440 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.261    26.701    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4_1282
+    SLICE_X73Y473        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.100    26.801 f  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=2, routed)           0.315    27.116    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/pt_4066_0
+    SLICE_X75Y474        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.116    27.232 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.151    27.383    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3_195
+    SLICE_X75Y475        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.098    27.481 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71/O
+                         net (fo=36, routed)          0.340    27.821    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71_1z
+    SLICE_X74Y478        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    28.000 f  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.538    28.538    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/pt_3949_0
+    SLICE_X74Y489        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.182    28.720 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.314    29.034    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3_866
+    SLICE_X73Y491        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147    29.181 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.322    29.503    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/pt_881_0
+    SLICE_X73Y498        LUT6 (Prop_H6LUT_SLICEL_I0_O)
+                                                      0.116    29.619 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.250    29.869    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2_227
+    SLICE_X72Y504        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    30.048 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.331    30.379    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4_491
+    SLICE_X71Y506        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    30.495 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.223    30.718    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/pt_879_0
+    SLICE_X69Y509        LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.064    30.782 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.049    30.831    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2_92
+    SLICE_X69Y509        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    30.870 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=33, routed)          0.382    31.252    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4_267
+    SLICE_X71Y514        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    31.292 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.446    31.738    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/pt_862_0
+    SLICE_X68Y525        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    31.776 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.248    32.024    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2_1296
+    SLICE_X69Y527        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    32.088 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=41, routed)          0.567    32.655    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4_2447
+    SLICE_X74Y534        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.182    32.837 f  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.257    33.094    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/pt_6210_0
+    SLICE_X74Y542        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    33.132 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.105    33.237    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2_1207
+    SLICE_X73Y542        LUT5 (Prop_A6LUT_SLICEL_I4_O)
+                                                      0.115    33.352 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=31, routed)          0.465    33.817    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4_2263
+    SLICE_X74Y543        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.062    33.879 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.274    34.153    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/pt_1888_0
+    SLICE_X71Y542        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.063    34.216 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0/O
+                         net (fo=1, routed)           0.235    34.451    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0_38
+    SLICE_X67Y542        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.100    34.551 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2/O
+                         net (fo=1, routed)           0.216    34.767    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2_123
+    SLICE_X66Y543        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063    34.830 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.127    34.957    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3_850
+    SLICE_X65Y543        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.174    35.131 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2/O
+                         net (fo=44, routed)          0.333    35.464    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2_1z
+    SLICE_X66Y546        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    35.643 f  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.564    36.207    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/pt_1038_0
+    SLICE_X66Y570        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117    36.324 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.222    36.546    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2_239
+    SLICE_X66Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    36.584 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=34, routed)          0.131    36.715    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4_534
+    SLICE_X68Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    36.828 f  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/b_o_comb.pt_i_m2[0]/O
+                         net (fo=1, routed)           0.313    37.141    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/pt_i_m2_7_0
+    SLICE_X68Y570        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.179    37.320 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.158    37.478    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2_112
+    SLICE_X67Y571        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    37.517 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.396    37.913    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4_288
+    SLICE_X65Y575        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.148    38.061 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=8, routed)           0.479    38.540    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/pt_1035_0
+    SLICE_X61Y579        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116    38.656 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.317    38.973    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3_1202
+    SLICE_X58Y579        LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.098    39.071 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.397    39.468    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/pt_1004_0
+    SLICE_X57Y581        LUT6 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    39.645 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.096    39.741    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2_1196
+    SLICE_X56Y581        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.038    39.779 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.431    40.210    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4_2250
+    SLICE_X60Y583        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.147    40.357 f  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.282    40.639    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/pt_1005_0
+    SLICE_X59Y582        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    40.752 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.046    40.798    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2_106
+    SLICE_X59Y582        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    40.898 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=22, routed)          0.374    41.272    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4_76
+    SLICE_X56Y581        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.178    41.450 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/a_o_comb.idx[7]/O
+                         net (fo=1, routed)           0.070    41.520    shift_reg_tap_o/idx_94[7]
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.561     6.963    shift_reg_tap_o/clk_c
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/C
+                         clock pessimism              0.418     7.381    
+                         clock uncertainty           -0.035     7.346    
+    SLICE_X56Y581        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.027     7.373    shift_reg_tap_o/sr_1[830]
+  -------------------------------------------------------------------
+                         required time                          7.373    
+                         arrival time                         -41.520    
+  -------------------------------------------------------------------
+                         slack                                -34.147    
+
+Slack (VIOLATED) :        -34.147ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1[1692]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_1[830]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        37.684ns  (logic 10.806ns (28.675%)  route 26.878ns (71.325%))
+  Logic Levels:           92  (LUT3=4 LUT4=1 LUT5=52 LUT6=35)
+  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.391ns = ( 6.963 - 3.572 ) 
+    Source Clock Delay      (SCD):    3.836ns
+    Clock Pessimism Removal (CPR):    0.418ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.695ns (routing 1.237ns, distribution 1.458ns)
+  Clock Net Delay (Destination): 2.561ns (routing 1.130ns, distribution 1.431ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.695     3.836    shift_reg_tap_i/clk_c
+    SLICE_X39Y457        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1[1692]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X39Y457        FDRE (Prop_GFF_SLICEL_C_Q)
+                                                      0.097     3.933 r  shift_reg_tap_i/sr_p.sr_1[1692]/Q
+                         net (fo=8, routed)           0.221     4.154    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/input_slr[1692]
+    SLICE_X39Y457        LUT4 (Prop_E6LUT_SLICEL_I1_O)
+                                                      0.064     4.218 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0/O
+                         net (fo=3, routed)           0.333     4.551    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0_45
+    SLICE_X38Y456        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     4.728 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=28, routed)          0.208     4.936    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0_151
+    SLICE_X36Y457        LUT3 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.178     5.114 f  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/a_o_comb.pt[2]/O
+                         net (fo=3, routed)           0.058     5.172    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/pt_6265_0
+    SLICE_X36Y457        LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.116     5.288 r  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.275     5.563    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4_1946
+    SLICE_X36Y456        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.101     5.664 f  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.071     5.735    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/pt_2539_0
+    SLICE_X36Y456        LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     5.912 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.177     6.089    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2_290
+    SLICE_X35Y457        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     6.236 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.710     6.946    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4_624
+    SLICE_X42Y458        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100     7.046 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.188     7.234    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/pt_2492_0
+    SLICE_X40Y459        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117     7.351 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.108     7.459    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3_418
+    SLICE_X40Y457        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.039     7.498 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.082     7.580    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4_813
+    SLICE_X40Y457        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.174     7.754 f  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=6, routed)           0.332     8.086    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/pt_3411_0
+    SLICE_X42Y458        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     8.233 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.047     8.280    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3_322
+    SLICE_X42Y458        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063     8.343 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1/O
+                         net (fo=36, routed)          0.371     8.714    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1_1z
+    SLICE_X41Y455        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.062     8.776 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.481     9.257    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/pt_4357_0
+    SLICE_X44Y447        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.179     9.436 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.323     9.759    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2_523
+    SLICE_X43Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     9.907 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=27, routed)          0.559    10.466    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0_43
+    SLICE_X36Y454        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.177    10.643 f  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.210    10.853    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/pt_4355_0
+    SLICE_X37Y453        LUT6 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.179    11.032 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.113    11.145    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3_801
+    SLICE_X37Y453        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039    11.184 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.730    11.914    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/pt_5610_0
+    SLICE_X46Y454        LUT6 (Prop_A6LUT_SLICEL_I5_O)
+                                                      0.064    11.978 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.166    12.144    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2_956
+    SLICE_X47Y455        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.063    12.207 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=31, routed)          0.114    12.321    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0_104
+    SLICE_X47Y454        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    12.421 f  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.413    12.834    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/pt_3259_0
+    SLICE_X51Y452        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.116    12.950 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.273    13.223    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2_1127
+    SLICE_X52Y452        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.064    13.287 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.336    13.623    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4_2081
+    SLICE_X52Y453        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    13.800 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.181    13.981    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/pt_2086_0
+    SLICE_X53Y453        LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.066    14.047 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.103    14.150    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2_380
+    SLICE_X53Y453        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.098    14.248 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=8, routed)           0.227    14.475    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3_13
+    SLICE_X53Y450        LUT3 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.062    14.537 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=24, routed)          0.402    14.939    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4_781
+    SLICE_X54Y454        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.064    15.003 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.293    15.296    dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/pt_2101_0
+    SLICE_X50Y454        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    15.334 r  dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=6, routed)           0.253    15.587    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/pt_2098_0
+    SLICE_X49Y451        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.178    15.765 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.113    15.878    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_400
+    SLICE_X50Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.064    15.942 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1/O
+                         net (fo=33, routed)          0.539    16.481    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1_1z
+    SLICE_X48Y456        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.148    16.629 f  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.208    16.837    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/pt_4812_0
+    SLICE_X49Y456        LUT6 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098    16.935 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.182    17.117    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2_574
+    SLICE_X50Y456        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.115    17.232 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.206    17.438    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4_1115
+    SLICE_X50Y451        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.116    17.554 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.419    17.973    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/pt_4809_0
+    SLICE_X49Y469        LUT6 (Prop_D6LUT_SLICEL_I2_O)
+                                                      0.099    18.072 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.190    18.262    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3_829
+    SLICE_X49Y470        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.179    18.441 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.197    18.638    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4_1742
+    SLICE_X49Y468        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    18.815 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=8, routed)           0.367    19.182    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/pt_5725_0
+    SLICE_X54Y464        LUT6 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.174    19.356 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.685    20.041    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_588
+    SLICE_X55Y469        LUT5 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.100    20.141 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1/O
+                         net (fo=42, routed)          0.407    20.548    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1_1z
+    SLICE_X56Y465        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151    20.699 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.120    20.819    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/pt_5859_0
+    SLICE_X55Y465        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.149    20.968 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.169    21.137    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2_1167
+    SLICE_X55Y466        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    21.177 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.329    21.506    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4_2179
+    SLICE_X57Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    21.620 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.259    21.879    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/pt_2579_0
+    SLICE_X57Y465        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.064    21.943 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.224    22.167    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2_1075
+    SLICE_X58Y464        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    22.344 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=36, routed)          0.627    22.971    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4_1971
+    SLICE_X65Y465        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.148    23.119 f  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.243    23.362    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/pt_2623_0
+    SLICE_X66Y464        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.174    23.536 r  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.552    24.088    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3_337
+    SLICE_X64Y468        LUT6 (Prop_B6LUT_SLICEM_I5_O)
+                                                      0.150    24.238 f  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.134    24.372    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/pt_2567_0
+    SLICE_X62Y468        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.174    24.546 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.240    24.786    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2_848
+    SLICE_X62Y472        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    24.963 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.562    25.525    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4_1574
+    SLICE_X71Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.178    25.703 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=4, routed)           0.163    25.866    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/pt_5270_0
+    SLICE_X70Y467        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.100    25.966 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.360    26.326    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2_672
+    SLICE_X71Y470        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    26.440 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.261    26.701    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4_1282
+    SLICE_X73Y473        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.100    26.801 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=2, routed)           0.315    27.116    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/pt_4066_0
+    SLICE_X75Y474        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.116    27.232 f  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.151    27.383    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3_195
+    SLICE_X75Y475        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.098    27.481 f  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71/O
+                         net (fo=36, routed)          0.340    27.821    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71_1z
+    SLICE_X74Y478        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    28.000 f  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.538    28.538    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/pt_3949_0
+    SLICE_X74Y489        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.182    28.720 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.314    29.034    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3_866
+    SLICE_X73Y491        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147    29.181 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.322    29.503    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/pt_881_0
+    SLICE_X73Y498        LUT6 (Prop_H6LUT_SLICEL_I0_O)
+                                                      0.116    29.619 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.250    29.869    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2_227
+    SLICE_X72Y504        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    30.048 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.331    30.379    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4_491
+    SLICE_X71Y506        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    30.495 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.223    30.718    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/pt_879_0
+    SLICE_X69Y509        LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.064    30.782 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.049    30.831    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2_92
+    SLICE_X69Y509        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    30.870 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=33, routed)          0.382    31.252    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4_267
+    SLICE_X71Y514        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    31.292 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.446    31.738    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/pt_862_0
+    SLICE_X68Y525        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    31.776 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.248    32.024    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2_1296
+    SLICE_X69Y527        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    32.088 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=41, routed)          0.567    32.655    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4_2447
+    SLICE_X74Y534        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.182    32.837 f  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.257    33.094    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/pt_6210_0
+    SLICE_X74Y542        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    33.132 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.105    33.237    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2_1207
+    SLICE_X73Y542        LUT5 (Prop_A6LUT_SLICEL_I4_O)
+                                                      0.115    33.352 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=31, routed)          0.465    33.817    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4_2263
+    SLICE_X74Y543        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.062    33.879 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.274    34.153    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/pt_1888_0
+    SLICE_X71Y542        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.063    34.216 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0/O
+                         net (fo=1, routed)           0.235    34.451    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0_38
+    SLICE_X67Y542        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.100    34.551 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2/O
+                         net (fo=1, routed)           0.216    34.767    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2_123
+    SLICE_X66Y543        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063    34.830 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.127    34.957    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3_850
+    SLICE_X65Y543        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.174    35.131 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2/O
+                         net (fo=44, routed)          0.333    35.464    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2_1z
+    SLICE_X66Y546        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    35.643 f  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.564    36.207    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/pt_1038_0
+    SLICE_X66Y570        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117    36.324 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.222    36.546    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2_239
+    SLICE_X66Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    36.584 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=34, routed)          0.131    36.715    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4_534
+    SLICE_X68Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    36.828 f  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/b_o_comb.pt_i_m2[0]/O
+                         net (fo=1, routed)           0.313    37.141    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/pt_i_m2_7_0
+    SLICE_X68Y570        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.179    37.320 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.158    37.478    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2_112
+    SLICE_X67Y571        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    37.517 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.396    37.913    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4_288
+    SLICE_X65Y575        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.148    38.061 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=8, routed)           0.479    38.540    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/pt_1035_0
+    SLICE_X61Y579        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116    38.656 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.317    38.973    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3_1202
+    SLICE_X58Y579        LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.098    39.071 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.397    39.468    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/pt_1004_0
+    SLICE_X57Y581        LUT6 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    39.645 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.096    39.741    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2_1196
+    SLICE_X56Y581        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.038    39.779 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.431    40.210    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4_2250
+    SLICE_X60Y583        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.147    40.357 f  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.282    40.639    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/pt_1005_0
+    SLICE_X59Y582        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    40.752 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.046    40.798    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2_106
+    SLICE_X59Y582        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    40.898 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=22, routed)          0.374    41.272    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4_76
+    SLICE_X56Y581        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.178    41.450 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/a_o_comb.idx[7]/O
+                         net (fo=1, routed)           0.070    41.520    shift_reg_tap_o/idx_94[7]
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.561     6.963    shift_reg_tap_o/clk_c
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/C
+                         clock pessimism              0.418     7.381    
+                         clock uncertainty           -0.035     7.346    
+    SLICE_X56Y581        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.027     7.373    shift_reg_tap_o/sr_1[830]
+  -------------------------------------------------------------------
+                         required time                          7.373    
+                         arrival time                         -41.520    
+  -------------------------------------------------------------------
+                         slack                                -34.147    
+
+Slack (VIOLATED) :        -34.147ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1[1692]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_1[830]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        37.684ns  (logic 10.806ns (28.675%)  route 26.878ns (71.325%))
+  Logic Levels:           92  (LUT3=4 LUT4=1 LUT5=52 LUT6=35)
+  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.391ns = ( 6.963 - 3.572 ) 
+    Source Clock Delay      (SCD):    3.836ns
+    Clock Pessimism Removal (CPR):    0.418ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.695ns (routing 1.237ns, distribution 1.458ns)
+  Clock Net Delay (Destination): 2.561ns (routing 1.130ns, distribution 1.431ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.695     3.836    shift_reg_tap_i/clk_c
+    SLICE_X39Y457        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1[1692]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X39Y457        FDRE (Prop_GFF_SLICEL_C_Q)
+                                                      0.097     3.933 r  shift_reg_tap_i/sr_p.sr_1[1692]/Q
+                         net (fo=8, routed)           0.221     4.154    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/input_slr[1692]
+    SLICE_X39Y457        LUT4 (Prop_E6LUT_SLICEL_I1_O)
+                                                      0.064     4.218 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0/O
+                         net (fo=3, routed)           0.333     4.551    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0_45
+    SLICE_X38Y456        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     4.728 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=28, routed)          0.208     4.936    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0_151
+    SLICE_X36Y457        LUT3 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.178     5.114 f  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/a_o_comb.pt[2]/O
+                         net (fo=3, routed)           0.058     5.172    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/pt_6265_0
+    SLICE_X36Y457        LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.116     5.288 r  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.275     5.563    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4_1946
+    SLICE_X36Y456        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.101     5.664 f  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.071     5.735    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/pt_2539_0
+    SLICE_X36Y456        LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     5.912 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.177     6.089    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2_290
+    SLICE_X35Y457        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     6.236 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.710     6.946    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4_624
+    SLICE_X42Y458        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100     7.046 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.188     7.234    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/pt_2492_0
+    SLICE_X40Y459        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117     7.351 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.108     7.459    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3_418
+    SLICE_X40Y457        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.039     7.498 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.082     7.580    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4_813
+    SLICE_X40Y457        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.174     7.754 f  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=6, routed)           0.332     8.086    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/pt_3411_0
+    SLICE_X42Y458        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     8.233 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.047     8.280    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3_322
+    SLICE_X42Y458        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063     8.343 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1/O
+                         net (fo=36, routed)          0.371     8.714    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1_1z
+    SLICE_X41Y455        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.062     8.776 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.481     9.257    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/pt_4357_0
+    SLICE_X44Y447        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.179     9.436 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.323     9.759    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2_523
+    SLICE_X43Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     9.907 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=27, routed)          0.559    10.466    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0_43
+    SLICE_X36Y454        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.177    10.643 f  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.210    10.853    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/pt_4355_0
+    SLICE_X37Y453        LUT6 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.179    11.032 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.113    11.145    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3_801
+    SLICE_X37Y453        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039    11.184 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.730    11.914    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/pt_5610_0
+    SLICE_X46Y454        LUT6 (Prop_A6LUT_SLICEL_I5_O)
+                                                      0.064    11.978 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.166    12.144    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2_956
+    SLICE_X47Y455        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.063    12.207 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=31, routed)          0.114    12.321    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0_104
+    SLICE_X47Y454        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    12.421 f  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.413    12.834    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/pt_3259_0
+    SLICE_X51Y452        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.116    12.950 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.273    13.223    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2_1127
+    SLICE_X52Y452        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.064    13.287 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.336    13.623    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4_2081
+    SLICE_X52Y453        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    13.800 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.181    13.981    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/pt_2086_0
+    SLICE_X53Y453        LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.066    14.047 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.103    14.150    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2_380
+    SLICE_X53Y453        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.098    14.248 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=8, routed)           0.227    14.475    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3_13
+    SLICE_X53Y450        LUT3 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.062    14.537 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=24, routed)          0.402    14.939    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4_781
+    SLICE_X54Y454        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.064    15.003 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.293    15.296    dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/pt_2101_0
+    SLICE_X50Y454        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    15.334 r  dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=6, routed)           0.253    15.587    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/pt_2098_0
+    SLICE_X49Y451        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.178    15.765 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.113    15.878    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_400
+    SLICE_X50Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.064    15.942 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1/O
+                         net (fo=33, routed)          0.539    16.481    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1_1z
+    SLICE_X48Y456        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.148    16.629 f  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.208    16.837    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/pt_4812_0
+    SLICE_X49Y456        LUT6 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098    16.935 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.182    17.117    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2_574
+    SLICE_X50Y456        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.115    17.232 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.206    17.438    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4_1115
+    SLICE_X50Y451        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.116    17.554 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.419    17.973    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/pt_4809_0
+    SLICE_X49Y469        LUT6 (Prop_D6LUT_SLICEL_I2_O)
+                                                      0.099    18.072 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.190    18.262    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3_829
+    SLICE_X49Y470        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.179    18.441 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.197    18.638    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4_1742
+    SLICE_X49Y468        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    18.815 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=8, routed)           0.367    19.182    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/pt_5725_0
+    SLICE_X54Y464        LUT6 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.174    19.356 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.685    20.041    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_588
+    SLICE_X55Y469        LUT5 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.100    20.141 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1/O
+                         net (fo=42, routed)          0.407    20.548    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1_1z
+    SLICE_X56Y465        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151    20.699 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.120    20.819    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/pt_5859_0
+    SLICE_X55Y465        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.149    20.968 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.169    21.137    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2_1167
+    SLICE_X55Y466        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    21.177 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.329    21.506    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4_2179
+    SLICE_X57Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    21.620 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.259    21.879    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/pt_2579_0
+    SLICE_X57Y465        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.064    21.943 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.224    22.167    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2_1075
+    SLICE_X58Y464        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    22.344 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=36, routed)          0.627    22.971    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4_1971
+    SLICE_X65Y465        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.148    23.119 f  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.243    23.362    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/pt_2623_0
+    SLICE_X66Y464        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.174    23.536 r  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.552    24.088    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3_337
+    SLICE_X64Y468        LUT6 (Prop_B6LUT_SLICEM_I5_O)
+                                                      0.150    24.238 f  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.134    24.372    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/pt_2567_0
+    SLICE_X62Y468        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.174    24.546 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.240    24.786    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2_848
+    SLICE_X62Y472        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    24.963 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.562    25.525    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4_1574
+    SLICE_X71Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.178    25.703 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=4, routed)           0.163    25.866    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/pt_5270_0
+    SLICE_X70Y467        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.100    25.966 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.360    26.326    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2_672
+    SLICE_X71Y470        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    26.440 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.261    26.701    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4_1282
+    SLICE_X73Y473        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.100    26.801 f  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=2, routed)           0.315    27.116    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/pt_4066_0
+    SLICE_X75Y474        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.116    27.232 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.151    27.383    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3_195
+    SLICE_X75Y475        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.098    27.481 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71/O
+                         net (fo=36, routed)          0.340    27.821    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71_1z
+    SLICE_X74Y478        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    28.000 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.538    28.538    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/pt_3949_0
+    SLICE_X74Y489        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.182    28.720 f  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.314    29.034    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3_866
+    SLICE_X73Y491        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147    29.181 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.322    29.503    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/pt_881_0
+    SLICE_X73Y498        LUT6 (Prop_H6LUT_SLICEL_I0_O)
+                                                      0.116    29.619 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.250    29.869    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2_227
+    SLICE_X72Y504        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    30.048 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.331    30.379    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4_491
+    SLICE_X71Y506        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    30.495 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.223    30.718    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/pt_879_0
+    SLICE_X69Y509        LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.064    30.782 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.049    30.831    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2_92
+    SLICE_X69Y509        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    30.870 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=33, routed)          0.382    31.252    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4_267
+    SLICE_X71Y514        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    31.292 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.446    31.738    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/pt_862_0
+    SLICE_X68Y525        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    31.776 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.248    32.024    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2_1296
+    SLICE_X69Y527        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    32.088 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=41, routed)          0.567    32.655    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4_2447
+    SLICE_X74Y534        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.182    32.837 f  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.257    33.094    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/pt_6210_0
+    SLICE_X74Y542        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    33.132 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.105    33.237    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2_1207
+    SLICE_X73Y542        LUT5 (Prop_A6LUT_SLICEL_I4_O)
+                                                      0.115    33.352 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=31, routed)          0.465    33.817    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4_2263
+    SLICE_X74Y543        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.062    33.879 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.274    34.153    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/pt_1888_0
+    SLICE_X71Y542        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.063    34.216 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0/O
+                         net (fo=1, routed)           0.235    34.451    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0_38
+    SLICE_X67Y542        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.100    34.551 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2/O
+                         net (fo=1, routed)           0.216    34.767    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2_123
+    SLICE_X66Y543        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063    34.830 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.127    34.957    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3_850
+    SLICE_X65Y543        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.174    35.131 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2/O
+                         net (fo=44, routed)          0.333    35.464    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2_1z
+    SLICE_X66Y546        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    35.643 f  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.564    36.207    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/pt_1038_0
+    SLICE_X66Y570        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117    36.324 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.222    36.546    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2_239
+    SLICE_X66Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    36.584 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=34, routed)          0.131    36.715    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4_534
+    SLICE_X68Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    36.828 f  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/b_o_comb.pt_i_m2[0]/O
+                         net (fo=1, routed)           0.313    37.141    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/pt_i_m2_7_0
+    SLICE_X68Y570        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.179    37.320 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.158    37.478    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2_112
+    SLICE_X67Y571        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    37.517 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.396    37.913    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4_288
+    SLICE_X65Y575        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.148    38.061 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=8, routed)           0.479    38.540    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/pt_1035_0
+    SLICE_X61Y579        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116    38.656 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.317    38.973    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3_1202
+    SLICE_X58Y579        LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.098    39.071 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.397    39.468    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/pt_1004_0
+    SLICE_X57Y581        LUT6 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    39.645 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.096    39.741    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2_1196
+    SLICE_X56Y581        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.038    39.779 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.431    40.210    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4_2250
+    SLICE_X60Y583        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.147    40.357 f  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.282    40.639    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/pt_1005_0
+    SLICE_X59Y582        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    40.752 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.046    40.798    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2_106
+    SLICE_X59Y582        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    40.898 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=22, routed)          0.374    41.272    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4_76
+    SLICE_X56Y581        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.178    41.450 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/a_o_comb.idx[7]/O
+                         net (fo=1, routed)           0.070    41.520    shift_reg_tap_o/idx_94[7]
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.561     6.963    shift_reg_tap_o/clk_c
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/C
+                         clock pessimism              0.418     7.381    
+                         clock uncertainty           -0.035     7.346    
+    SLICE_X56Y581        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.027     7.373    shift_reg_tap_o/sr_1[830]
+  -------------------------------------------------------------------
+                         required time                          7.373    
+                         arrival time                         -41.520    
+  -------------------------------------------------------------------
+                         slack                                -34.147    
+
+Slack (VIOLATED) :        -34.147ns  (required time - arrival time)
+  Source:                 shift_reg_tap_i/sr_p.sr_1[1692]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Destination:            shift_reg_tap_o/sr_1[830]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@1.786ns period=3.572ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            3.572ns  (clk rise@3.572ns - clk rise@0.000ns)
+  Data Path Delay:        37.684ns  (logic 10.806ns (28.675%)  route 26.878ns (71.325%))
+  Logic Levels:           92  (LUT3=4 LUT4=1 LUT5=52 LUT6=35)
+  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.391ns = ( 6.963 - 3.572 ) 
+    Source Clock Delay      (SCD):    3.836ns
+    Clock Pessimism Removal (CPR):    0.418ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.695ns (routing 1.237ns, distribution 1.458ns)
+  Clock Net Delay (Destination): 2.561ns (routing 1.130ns, distribution 1.431ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AV33                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.779     0.779 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.779    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.779 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.334     1.113    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     1.141 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.695     3.836    shift_reg_tap_i/clk_c
+    SLICE_X39Y457        FDRE                                         r  shift_reg_tap_i/sr_p.sr_1[1692]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X39Y457        FDRE (Prop_GFF_SLICEL_C_Q)
+                                                      0.097     3.933 r  shift_reg_tap_i/sr_p.sr_1[1692]/Q
+                         net (fo=8, routed)           0.221     4.154    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/input_slr[1692]
+    SLICE_X39Y457        LUT4 (Prop_E6LUT_SLICEL_I1_O)
+                                                      0.064     4.218 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0/O
+                         net (fo=3, routed)           0.333     4.551    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_d_0_45
+    SLICE_X38Y456        LUT6 (Prop_F6LUT_SLICEM_I5_O)
+                                                      0.177     4.728 r  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=28, routed)          0.208     4.936    dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/un1_b_i_ac0_5_0_151
+    SLICE_X36Y457        LUT3 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.178     5.114 f  dut_inst/stage_g.0.pair_g.65.csn_cmp_inst/a_o_comb.pt[2]/O
+                         net (fo=3, routed)           0.058     5.172    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/pt_6265_0
+    SLICE_X36Y457        LUT6 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.116     5.288 r  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.275     5.563    dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/un1_b_i_c4_1946
+    SLICE_X36Y456        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.101     5.664 f  dut_inst/stage_g.1.pair_g.64.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=1, routed)           0.071     5.735    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/pt_2539_0
+    SLICE_X36Y456        LUT6 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177     5.912 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.177     6.089    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c2_290
+    SLICE_X35Y457        LUT5 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     6.236 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.710     6.946    dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/un1_b_i_c4_624
+    SLICE_X42Y458        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.100     7.046 r  dut_inst/stage_g.2.pair_g.64.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.188     7.234    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/pt_2492_0
+    SLICE_X40Y459        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117     7.351 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.108     7.459    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c3_418
+    SLICE_X40Y457        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.039     7.498 r  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=35, routed)          0.082     7.580    dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/un1_b_i_c4_813
+    SLICE_X40Y457        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.174     7.754 f  dut_inst/stage_g.3.pair_g.48.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=6, routed)           0.332     8.086    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/pt_3411_0
+    SLICE_X42Y458        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.147     8.233 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.047     8.280    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d1_c3_322
+    SLICE_X42Y458        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063     8.343 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1/O
+                         net (fo=36, routed)          0.371     8.714    dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/un1_b_i_d0_c3_RNIV3VJ1_1z
+    SLICE_X41Y455        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.062     8.776 r  dut_inst/stage_g.5.pair_g.52.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.481     9.257    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/pt_4357_0
+    SLICE_X44Y447        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.179     9.436 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.323     9.759    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_c2_523
+    SLICE_X43Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.148     9.907 r  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=27, routed)          0.559    10.466    dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/un1_b_i_ac0_5_0_43
+    SLICE_X36Y454        LUT3 (Prop_E6LUT_SLICEM_I2_O)
+                                                      0.177    10.643 f  dut_inst/stage_g.6.pair_g.51.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.210    10.853    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/pt_4355_0
+    SLICE_X37Y453        LUT6 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.179    11.032 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.113    11.145    dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/un1_b_i_c3_801
+    SLICE_X37Y453        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.039    11.184 r  dut_inst/stage_g.7.pair_g.33.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.730    11.914    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/pt_5610_0
+    SLICE_X46Y454        LUT6 (Prop_A6LUT_SLICEL_I5_O)
+                                                      0.064    11.978 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.166    12.144    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_c2_956
+    SLICE_X47Y455        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.063    12.207 r  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0/O
+                         net (fo=31, routed)          0.114    12.321    dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/un1_b_i_ac0_5_0_104
+    SLICE_X47Y454        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    12.421 f  dut_inst/stage_g.8.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.413    12.834    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/pt_3259_0
+    SLICE_X51Y452        LUT6 (Prop_G6LUT_SLICEM_I5_O)
+                                                      0.116    12.950 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.273    13.223    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c2_1127
+    SLICE_X52Y452        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.064    13.287 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.336    13.623    dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/un1_b_i_c4_2081
+    SLICE_X52Y453        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    13.800 r  dut_inst/stage_g.9.pair_g.58.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.181    13.981    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/pt_2086_0
+    SLICE_X53Y453        LUT6 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.066    14.047 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.103    14.150    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c2_380
+    SLICE_X53Y453        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.098    14.248 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=8, routed)           0.227    14.475    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c3_13
+    SLICE_X53Y450        LUT3 (Prop_C6LUT_SLICEM_I2_O)
+                                                      0.062    14.537 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=24, routed)          0.402    14.939    dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/un1_b_i_c4_781
+    SLICE_X54Y454        LUT5 (Prop_H6LUT_SLICEL_I4_O)
+                                                      0.064    15.003 r  dut_inst/stage_g.10.pair_g.61.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.293    15.296    dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/pt_2101_0
+    SLICE_X50Y454        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    15.334 r  dut_inst/stage_g.11.pair_g.35.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=6, routed)           0.253    15.587    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/pt_2098_0
+    SLICE_X49Y451        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.178    15.765 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.113    15.878    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_400
+    SLICE_X50Y451        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.064    15.942 r  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1/O
+                         net (fo=33, routed)          0.539    16.481    dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/un1_b_i_d0_c3_RNI303A1_1z
+    SLICE_X48Y456        LUT5 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.148    16.629 f  dut_inst/stage_g.13.pair_g.62.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.208    16.837    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/pt_4812_0
+    SLICE_X49Y456        LUT6 (Prop_C6LUT_SLICEL_I4_O)
+                                                      0.098    16.935 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.182    17.117    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c2_574
+    SLICE_X50Y456        LUT5 (Prop_E6LUT_SLICEM_I4_O)
+                                                      0.115    17.232 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.206    17.438    dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/un1_b_i_c4_1115
+    SLICE_X50Y451        LUT5 (Prop_A6LUT_SLICEM_I4_O)
+                                                      0.116    17.554 r  dut_inst/stage_g.14.pair_g.73.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.419    17.973    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/pt_4809_0
+    SLICE_X49Y469        LUT6 (Prop_D6LUT_SLICEL_I2_O)
+                                                      0.099    18.072 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=1, routed)           0.190    18.262    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c3_829
+    SLICE_X49Y470        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.179    18.441 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.197    18.638    dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/un1_b_i_c4_1742
+    SLICE_X49Y468        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    18.815 r  dut_inst/stage_g.15.pair_g.66.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=8, routed)           0.367    19.182    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/pt_5725_0
+    SLICE_X54Y464        LUT6 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.174    19.356 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3/O
+                         net (fo=1, routed)           0.685    20.041    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_588
+    SLICE_X55Y469        LUT5 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.100    20.141 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1/O
+                         net (fo=42, routed)          0.407    20.548    dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/un1_b_i_d0_c3_RNIO9BC1_1z
+    SLICE_X56Y465        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.151    20.699 r  dut_inst/stage_g.16.pair_g.35.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.120    20.819    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/pt_5859_0
+    SLICE_X55Y465        LUT6 (Prop_H6LUT_SLICEL_I3_O)
+                                                      0.149    20.968 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.169    21.137    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c2_1167
+    SLICE_X55Y466        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    21.177 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.329    21.506    dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/un1_b_i_c4_2179
+    SLICE_X57Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    21.620 r  dut_inst/stage_g.17.pair_g.52.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.259    21.879    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/pt_2579_0
+    SLICE_X57Y465        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.064    21.943 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.224    22.167    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c2_1075
+    SLICE_X58Y464        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.177    22.344 r  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=36, routed)          0.627    22.971    dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/un1_b_i_c4_1971
+    SLICE_X65Y465        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.148    23.119 f  dut_inst/stage_g.18.pair_g.60.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.243    23.362    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/pt_2623_0
+    SLICE_X66Y464        LUT6 (Prop_D6LUT_SLICEM_I4_O)
+                                                      0.174    23.536 r  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.552    24.088    dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/un1_b_i_c3_337
+    SLICE_X64Y468        LUT6 (Prop_B6LUT_SLICEM_I5_O)
+                                                      0.150    24.238 f  dut_inst/stage_g.19.pair_g.69.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.134    24.372    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/pt_2567_0
+    SLICE_X62Y468        LUT6 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.174    24.546 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.240    24.786    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c2_848
+    SLICE_X62Y472        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.177    24.963 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=30, routed)          0.562    25.525    dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/un1_b_i_c4_1574
+    SLICE_X71Y465        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.178    25.703 r  dut_inst/stage_g.20.pair_g.81.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=4, routed)           0.163    25.866    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/pt_5270_0
+    SLICE_X70Y467        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.100    25.966 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.360    26.326    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c2_672
+    SLICE_X71Y470        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.114    26.440 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=37, routed)          0.261    26.701    dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/un1_b_i_c4_1282
+    SLICE_X73Y473        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.100    26.801 r  dut_inst/stage_g.21.pair_g.118.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=2, routed)           0.315    27.116    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/pt_4066_0
+    SLICE_X75Y474        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.116    27.232 f  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.151    27.383    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d1_c3_195
+    SLICE_X75Y475        LUT5 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.098    27.481 f  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71/O
+                         net (fo=36, routed)          0.340    27.821    dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/un1_b_i_d0_c3_RNITDB71_1z
+    SLICE_X74Y478        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    28.000 r  dut_inst/stage_g.23.pair_g.90.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.538    28.538    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/pt_3949_0
+    SLICE_X74Y489        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.182    28.720 f  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=11, routed)          0.314    29.034    dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/un1_b_i_c3_866
+    SLICE_X73Y491        LUT5 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.147    29.181 r  dut_inst/stage_g.24.pair_g.106.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=5, routed)           0.322    29.503    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/pt_881_0
+    SLICE_X73Y498        LUT6 (Prop_H6LUT_SLICEL_I0_O)
+                                                      0.116    29.619 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.250    29.869    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c2_227
+    SLICE_X72Y504        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    30.048 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.331    30.379    dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/un1_b_i_c4_491
+    SLICE_X71Y506        LUT5 (Prop_D6LUT_SLICEL_I4_O)
+                                                      0.116    30.495 r  dut_inst/stage_g.25.pair_g.108.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.223    30.718    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/pt_879_0
+    SLICE_X69Y509        LUT6 (Prop_B6LUT_SLICEL_I3_O)
+                                                      0.064    30.782 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.049    30.831    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c2_92
+    SLICE_X69Y509        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    30.870 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=33, routed)          0.382    31.252    dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/un1_b_i_c4_267
+    SLICE_X71Y514        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.040    31.292 r  dut_inst/stage_g.26.pair_g.101.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.446    31.738    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/pt_862_0
+    SLICE_X68Y525        LUT6 (Prop_C6LUT_SLICEM_I5_O)
+                                                      0.038    31.776 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.248    32.024    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c2_1296
+    SLICE_X69Y527        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.064    32.088 r  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=41, routed)          0.567    32.655    dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/un1_b_i_c4_2447
+    SLICE_X74Y534        LUT5 (Prop_H6LUT_SLICEM_I4_O)
+                                                      0.182    32.837 f  dut_inst/stage_g.27.pair_g.81.csn_cmp_inst/b_o_comb.pt[0]/O
+                         net (fo=3, routed)           0.257    33.094    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/pt_6210_0
+    SLICE_X74Y542        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    33.132 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.105    33.237    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c2_1207
+    SLICE_X73Y542        LUT5 (Prop_A6LUT_SLICEL_I4_O)
+                                                      0.115    33.352 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=31, routed)          0.465    33.817    dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/un1_b_i_c4_2263
+    SLICE_X74Y543        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.062    33.879 r  dut_inst/stage_g.28.pair_g.49.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=5, routed)           0.274    34.153    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/pt_1888_0
+    SLICE_X71Y542        LUT6 (Prop_G6LUT_SLICEL_I5_O)
+                                                      0.063    34.216 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0/O
+                         net (fo=1, routed)           0.235    34.451    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_ac0_1_0_38
+    SLICE_X67Y542        LUT5 (Prop_B6LUT_SLICEL_I4_O)
+                                                      0.100    34.551 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2/O
+                         net (fo=1, routed)           0.216    34.767    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c2_123
+    SLICE_X66Y543        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.063    34.830 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3/O
+                         net (fo=1, routed)           0.127    34.957    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d1_c3_850
+    SLICE_X65Y543        LUT6 (Prop_D6LUT_SLICEL_I5_O)
+                                                      0.174    35.131 r  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2/O
+                         net (fo=44, routed)          0.333    35.464    dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/un1_b_i_d0_c3_RNIGOED2_1z
+    SLICE_X66Y546        LUT5 (Prop_G6LUT_SLICEM_I4_O)
+                                                      0.179    35.643 f  dut_inst/stage_g.30.pair_g.36.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=7, routed)           0.564    36.207    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/pt_1038_0
+    SLICE_X66Y570        LUT6 (Prop_H6LUT_SLICEM_I5_O)
+                                                      0.117    36.324 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.222    36.546    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c2_239
+    SLICE_X66Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.038    36.584 r  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=34, routed)          0.131    36.715    dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/un1_b_i_c4_534
+    SLICE_X68Y569        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    36.828 f  dut_inst/stage_g.31.pair_g.43.csn_cmp_inst/b_o_comb.pt_i_m2[0]/O
+                         net (fo=1, routed)           0.313    37.141    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/pt_i_m2_7_0
+    SLICE_X68Y570        LUT6 (Prop_G6LUT_SLICEM_I2_O)
+                                                      0.179    37.320 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.158    37.478    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c2_112
+    SLICE_X67Y571        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.039    37.517 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=29, routed)          0.396    37.913    dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/un1_b_i_c4_288
+    SLICE_X65Y575        LUT5 (Prop_E6LUT_SLICEL_I4_O)
+                                                      0.148    38.061 r  dut_inst/stage_g.32.pair_g.48.csn_cmp_inst/a_o_comb.pt[1]/O
+                         net (fo=8, routed)           0.479    38.540    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/pt_1035_0
+    SLICE_X61Y579        LUT6 (Prop_H6LUT_SLICEL_I5_O)
+                                                      0.116    38.656 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3/O
+                         net (fo=6, routed)           0.317    38.973    dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/un1_b_i_c3_1202
+    SLICE_X58Y579        LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.098    39.071 r  dut_inst/stage_g.33.pair_g.38.csn_cmp_inst/a_o_comb.pt[0]/O
+                         net (fo=4, routed)           0.397    39.468    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/pt_1004_0
+    SLICE_X57Y581        LUT6 (Prop_F6LUT_SLICEL_I4_O)
+                                                      0.177    39.645 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.096    39.741    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c2_1196
+    SLICE_X56Y581        LUT5 (Prop_F6LUT_SLICEM_I4_O)
+                                                      0.038    39.779 r  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=32, routed)          0.431    40.210    dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/un1_b_i_c4_2250
+    SLICE_X60Y583        LUT5 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.147    40.357 f  dut_inst/stage_g.34.pair_g.15.csn_cmp_inst/b_o_comb.pt[1]/O
+                         net (fo=3, routed)           0.282    40.639    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/pt_1005_0
+    SLICE_X59Y582        LUT6 (Prop_C6LUT_SLICEM_I4_O)
+                                                      0.113    40.752 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2/O
+                         net (fo=1, routed)           0.046    40.798    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c2_106
+    SLICE_X59Y582        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.100    40.898 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4/O
+                         net (fo=22, routed)          0.374    41.272    dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/un1_b_i_c4_76
+    SLICE_X56Y581        LUT5 (Prop_B6LUT_SLICEM_I4_O)
+                                                      0.178    41.450 r  dut_inst/stage_g.35.pair_g.31.csn_cmp_inst/a_o_comb.idx[7]/O
+                         net (fo=1, routed)           0.070    41.520    shift_reg_tap_o/idx_94[7]
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        3.572     3.572 r  
+    AV33                                              0.000     3.572 r  clk (IN)
+                         net (fo=0)                   0.000     3.572    clk_ibuf_iso/I
+    AV33                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.510     4.082 r  clk_ibuf_iso/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.082    clk_ibuf_iso/OUT
+    AV33                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.082 r  clk_ibuf_iso/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.296     4.378    clk_ibuf_iso
+    BUFGCE_X1Y224        BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.402 r  clk_ibuf/O
+    X3Y7 (CLOCK_ROOT)    net (fo=6960, routed)        2.561     6.963    shift_reg_tap_o/clk_c
+    SLICE_X56Y581        FDRE                                         r  shift_reg_tap_o/sr_1[830]/C
+                         clock pessimism              0.418     7.381    
+                         clock uncertainty           -0.035     7.346    
+    SLICE_X56Y581        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.027     7.373    shift_reg_tap_o/sr_1[830]
+  -------------------------------------------------------------------
+                         required time                          7.373    
+                         arrival time                         -41.520    
+  -------------------------------------------------------------------
+                         slack                                -34.147    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk
+Waveform(ns):       { 0.000 1.786 }
+Period(ns):         3.572
+Sources:            { clk }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     BUFGCE/I  n/a            1.499         3.572       2.073      BUFGCE_X1Y224   clk_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2839]/C
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X113Y462  shift_reg_tap_i/sr_p.sr_1[283]/C
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2840]/C
+Min Period        n/a     FDRE/C    n/a            0.550         3.572       3.022      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2841]/C
+Low Pulse Width   Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X113Y462  shift_reg_tap_i/sr_p.sr_1[283]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X44Y407   shift_reg_tap_i/sr_p.sr_1[2886]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X43Y397   shift_reg_tap_i/sr_p.sr_1[2896]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X43Y397   shift_reg_tap_i/sr_p.sr_1[2897]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X43Y397   shift_reg_tap_i/sr_p.sr_1[2898]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2839]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2840]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2841]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2842]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         1.786       1.511      SLICE_X46Y403   shift_reg_tap_i/sr_p.sr_1[2843]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_wrapper
+  To Clock:  clk_wrapper
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack      498.562ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_wrapper
+Waveform(ns):       { 0.000 500.000 }
+Period(ns):         1000.000
+Sources:            { clk_wrapper }
+
+Check Type        Corner  Lib Pin   Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location               Pin
+Min Period        n/a     FDRE/C    n/a            3.195         1000.000    996.805    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
+Min Period        n/a     BUFGCE/I  n/a            1.499         1000.000    998.501    BUFGCE_X1Y230          clk_wrapper_ibuf/I
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X140Y475         lsfr_1/shiftreg_vector[1373]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X140Y475         lsfr_1/shiftreg_vector[1374]/C
+Min Period        n/a     FDRE/C    n/a            0.550         1000.000    999.450    SLICE_X140Y475         lsfr_1/shiftreg_vector[1375]/C
+Low Pulse Width   Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
+Low Pulse Width   Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X82Y598          reducer_1/delay_block[0][2293]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X82Y598          reducer_1/delay_block[0][2294]/C
+Low Pulse Width   Slow    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X82Y598          reducer_1/delay_block[0][2295]/C
+High Pulse Width  Fast    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
+High Pulse Width  Slow    FDRE/C    n/a            1.438         500.000     498.562    BITSLICE_RX_TX_X1Y483  reducer_1/delay_block[6][0]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X138Y475         lsfr_1/shiftreg_vector[1377]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X138Y475         lsfr_1/shiftreg_vector[1378]/C
+High Pulse Width  Fast    FDRE/C    n/a            0.275         500.000     499.725    SLICE_X138Y475         lsfr_1/shiftreg_vector[1379]/C
+
+
+
