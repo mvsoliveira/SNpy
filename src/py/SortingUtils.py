@@ -6,6 +6,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 class SortingUtils:
     plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
+    plot_bitonic_filename_fmt = '../../out/pdf/plot_bitonic_I{i:03d}_O{i:03d}.pdf'
     plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_masked.pdf'
     plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_sel.pdf'
     plot_dpi = 300
@@ -324,6 +325,16 @@ class SortingUtils:
         plotnet3 = self.to_plotnet_triple(plotnet)
         self.plot(plotnet3, filename, N)
 
+    def generate_reduced_bitonic_plot(self, N):
+        filename = self.plot_bitonic_filename_fmt.format(i=N, o=N)
+        list_of_comparisons = self.get_bitonic_list_of_comparisons(N)
+        net = self.to_stages(list_of_comparisons)
+        stages = self.get_stages_cfg(net)
+        print('Number of stages for reduced net N={N:03d} = {stages:d}'.format(N=N,stages=len(net)))
+        plotnet = self.to_plotnet(net)
+        plotnet3 = self.to_plotnet_triple(plotnet)
+        self.plot(plotnet3, stages, filename, N)
+
 
     def in_list(self, list_of_lists, item):
         for list_ in list_of_lists:
@@ -422,6 +433,17 @@ class SortingUtils:
             cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
             file.write(self.serial_net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
 
+    def get_stages_cfg(self, net):
+
+        n_stages = len(net)
+        non_reg_stages = 3
+        reg_stages = 1
+        cycles = -(-n_stages // (non_reg_stages + reg_stages))
+        stages = ([0] * non_reg_stages + [1] * reg_stages) * cycles
+        stages = stages[-n_stages:]
+
+        return stages
+
     def get_muctpi_sel_net(self, gen_plots, net_sets):
         plotnet3 = self.generate_masked_oddevenmerge(*net_sets)
         stages = [0] * len(plotnet3)
@@ -434,12 +456,8 @@ class SortingUtils:
         # finding the stages
         net = self.to_stages(list_of_pairs)
 
-        n_stages = len(net)
-        non_reg_stages = 3
-        reg_stages = 1
-        cycles = -(-n_stages//(non_reg_stages+reg_stages))
-        stages = ([0]*non_reg_stages + [1]*reg_stages)*cycles
-        stages = stages[-n_stages:]
+        stages = self.get_stages_cfg(net)
+
 
         if gen_plots:
             # creating plotnet object (adding substages)
@@ -449,6 +467,61 @@ class SortingUtils:
             filename = self.plot_sel_filename_fmt.format(i=N, o=N)
             self.plot(plotnet3, stages, filename, N)
         return [list_of_pairs, net, stages]
+
+
+    def get_bitonic_list_of_comparisons(self, N):
+        def gen_bitonic_sortnet(n, start):
+            def copy_net(net, dy, dt=0):
+                return [[v[0] + dy, v[1] + dy, v[2] + dt] for v in net]
+
+            def gen_halfclean(n, start):
+                return [[i, i + n // 2, start + i] for i in range(n // 2)]
+
+            def gen_bitonic(n, start):
+                if n == 2:
+                    return gen_halfclean(n, start)
+                else:
+                    L = gen_halfclean(n, start)
+                    R1 = gen_bitonic(n // 2, start + n // 2)
+                    R2 = copy_net(R1, n // 2)
+                    return L + R1 + R2
+
+            def gen_right(n, start):
+                L = [[i, n - i - 1, start + i] for i in range(n // 2)]
+                R1 = gen_bitonic(n // 2, start + n // 2)
+                R2 = copy_net(R1, n // 2)
+                return L + R1 + R2
+
+            if n == 2:
+                return gen_halfclean(n, start)
+            else:
+                L1 = gen_bitonic_sortnet(n // 2, 0)
+                maxt = max([v[2] for v in L1])
+                L1 = copy_net(L1, 0, start - 1 - maxt - 1)
+                L2 = copy_net(L1, n // 2)
+                R = gen_right(n, start)
+                return L1 + L2 + R
+
+        def get_bitonic_sort(n):
+            net = gen_bitonic_sortnet(n, 0)
+            mint = min([v[2] for v in net])
+            for v in net:
+                v[2] -= mint
+            R = {}
+            for v in net:
+                if v[2] not in R:
+                    R[v[2]] = []
+                R[v[2]].append((v[0], v[1]))
+            return R
+
+        data = get_bitonic_sort(N)
+        list_of_comparisons = []
+        for key, d in data.items():
+            #print(key, d)
+            list_of_comparisons.extend(d)
+        return list_of_comparisons
+
+
 
 
 
@@ -463,7 +536,8 @@ if __name__ == "__main__":
     #print(net_sets)
 
 
-    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
+    #s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
+    s.generate_reduced_bitonic_plot(128)
     #presort_in_sets = [set((0,1)), set((2,3)), set((4, 5,6,7))]
 
     #muctpi_sel_sets = s.get_muctpi_sel_opt_sets
