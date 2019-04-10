@@ -32,6 +32,13 @@ package csn_pkg is
 	-- has to be array of array instead of (x,y) array because of issues with synplify
 	type pair_cmp_cfg is array (natural range <>) of cmp_cfg;
 	type cfg_net_t is array (natural range <>) of pair_cmp_cfg;
+	
+	
+	function to_array(data : std_logic_vector; N : integer) return muon_a;    
+    function to_sel_array(data : std_logic_vector; N : integer) return muon_sel_a;
+    function to_stdv(muon : muon_a; N : integer) return std_logic_vector;
+	
+	
 
 	--type cfg_net_t is array (natural range <>, natural range <>) of cmp_cfg;
 	function get_cfg(I : integer) return cfg_net_t;
