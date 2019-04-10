@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
+import sys
 from matplotlib.backends.backend_pdf import PdfPages
 
 class SortingUtils:
@@ -239,7 +241,9 @@ class SortingUtils:
                         list_of_pairs.append(cmp[:2])
         return list_of_pairs
 
-    def net_unused_out_opt(self, plotnet3, used_out_set):
+    def net_unused_out_opt(self, plotnet3, used_out_set_i):
+        # copying set to preserve it
+        used_out_set = used_out_set_i.copy()
         for stage in reversed(plotnet3):
             for substage in reversed(stage):
                 for cmp in reversed(substage):
@@ -254,7 +258,9 @@ class SortingUtils:
                             used_out_set.update(cmp[:2])
                         # if else, just continues ;)
 
-    def net_nonsorted_out_opt(self, plotnet3, nonsorted_out_set):
+    def net_nonsorted_out_opt(self, plotnet3, nonsorted_out_set_i):
+        # copying set to preserve it
+        nonsorted_out_set = nonsorted_out_set_i.copy()
         for stage in reversed(plotnet3):
             for substage in reversed(stage):
                 for cmp in reversed(substage):
@@ -269,6 +275,7 @@ class SortingUtils:
                             nonsorted_out_set.discard(cmp[0])
                             nonsorted_out_set.discard(cmp[1])
                         # if else, just continues ;)
+
     def get_muctpi_presort_in_sets(self):
         rpc = [2]
         tgc = [4]
@@ -283,8 +290,10 @@ class SortingUtils:
     def get_muctpi_sel_opt_sets(self):
         N = 352
         presort_in_sets = s.get_muctpi_presort_in_sets()
+        #presort_in_sets = [set()]
         used_out_set = set(range(64))
         nonsorted_out_set = set(range(64))
+        #nonsorted_out_set = set()
         return (N, presort_in_sets, used_out_set, nonsorted_out_set)
 
 
@@ -347,9 +356,45 @@ class SortingUtils:
 
         file.close()
 
-    def generate_csn_sel_pkg(self, gen_plots = False):
+    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1):
         file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
-        [net, N] = self.get_muctpi_sel_net(gen_plots)
+        (N, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
+        [list_of_pairs, net] = self.get_muctpi_sel_net(gen_plots, net_sets)
+
+        # validation
+        if validation > 0:
+            out_len = len(used_out_set)
+            print('Validating sorting network N={N:d}'.format(N=N))
+            print('Pre-sorting input set: {P:s}'.format(P=str(presort_in_sets)))
+            print('Used output range len: {L:d} set: {U:s}'.format(L=out_len, U=str(used_out_set)))
+            print('Non-sorted output range set: {S:s}'.format(S=str(nonsorted_out_set)))
+
+            for v in range(validation):
+                # Getting random data
+                data = [random.randint(0,2**30) for _ in range(N)]
+                # Sorting random data
+                py_sorted = sorted(data)
+                # Pre sorting inputs for required sets
+                for s in presort_in_sets:
+                    data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1])
+                # Sorting data using the list of pairs
+                for i in list_of_pairs: self.compare_and_swap(data, *i)
+                # if there is no nonsorted outputs the output data has to be sorted in the used output range
+                if nonsorted_out_set == set():
+                    cmp = data[0:out_len-1] == py_sorted[0:out_len-1]
+                else:
+                # else the output data has to contain the same data but not sorted
+                    cmp = sorted(data[0:out_len - 1]) == py_sorted[0:out_len - 1]
+                # checking the comparison value
+                if cmp:
+                    print('Validation iteration {v:04d} OK'.format(v=v))
+                else:
+                    print('Error: Validation iteration {v:04d}'.format(v=v))
+                    print('python sorted:', py_sorted)
+                    print('net sorted:', data)
+                    sys.exit()
+
+        # Generating vhdl package
         cfg_stage_str = []
         for stage in net:
             cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
@@ -370,10 +415,9 @@ class SortingUtils:
             cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
             file.write(self.serial_net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
 
-    def get_muctpi_sel_net(self, gen_plots):
-        muctpi_sets = self.get_muctpi_sel_opt_sets()
-        plotnet3 = self.generate_masked_oddevenmerge(*muctpi_sets)
-        N = muctpi_sets[0]
+    def get_muctpi_sel_net(self, gen_plots, net_sets):
+        plotnet3 = self.generate_masked_oddevenmerge(*net_sets)
+        N = net_sets[0]
         Nceil = 2 ** int(np.ceil(np.log2(N)))
         if gen_plots:
             filename = self.plot_masked_filename_fmt.format(i=N, o=N)
@@ -388,13 +432,22 @@ class SortingUtils:
             plotnet3 = self.to_plotnet_triple(plotnet)
             filename = self.plot_sel_filename_fmt.format(i=N, o=N)
             self.plot(plotnet3, filename, N)
-        return [net, N]
+        return [list_of_pairs, net]
 
 
 
 if __name__ == "__main__":
     s = SortingUtils()
-    s.generate_csn_sel_pkg(gen_plots = True)
+    net_sets = (N, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sel_opt_sets()
+    #N = 64
+    #presort_in_sets = [set(range(4))]
+    #used_out_set = set(range(4))
+    #nonsorted_out_set = set()
+    #net_sets = (N, presort_in_sets, used_out_set, nonsorted_out_set)
+    #print(net_sets)
+
+
+    s.generate_csn_sel_pkg(net_sets, gen_plots = False, validation = 2**30)
     #presort_in_sets = [set((0,1)), set((2,3)), set((4, 5,6,7))]
 
     #muctpi_sel_sets = s.get_muctpi_sel_opt_sets
