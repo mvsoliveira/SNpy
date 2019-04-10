@@ -39,8 +39,8 @@ architecture RTL of csn is
 	attribute shreg_extract : string;
     attribute shreg_extract of ret_array : signal is "no";
     
-    --attribute syn_srlstyle: string;  
-    --attribute syn_srlstyle of ret_array : signal is "registers";
+    attribute syn_srlstyle: string;  
+    attribute syn_srlstyle of ret_array : signal is "registers";
 
 begin
 
