@@ -9,7 +9,7 @@ class SortingUtils:
     plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_masked.pdf'
     plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_sel.pdf'
     plot_dpi = 300
-    cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s}, o => False, r => False)'
+    cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s}, o => False, r => {r:s})'
     stage_fmt = '({stage:s})'
     net_fmt = 'when {i:d} => return (\n{net:s}\n);'
     serial_net_fmt = 'when {i:d} => return {net:s};\n'
@@ -61,9 +61,14 @@ class SortingUtils:
         for s in net:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
-    def plot(self, plotnet, filename, N):
+    def plot(self, plotnet, stages_i, filename, N):
 
         color = ['black', 'red', 'blue', 'magenta', 'green']
+        linestyle = ['dotted', 'dashed']
+
+        # the first line delimiter is always 0 as canot be a register
+        stages = stages_i.copy()
+        stages.insert(0,0)
 
         fig, ax = plt.subplots(figsize=(N,N))
         plt.ylim(N+1,-2)
@@ -80,7 +85,7 @@ class SortingUtils:
         for i,s in enumerate(plotnet):
             x -= self.plot_stagesp / 2
             # plotting stage line delimeter
-            ax.plot((x, x), (-1, N), linestyle='dashed', color='gray')
+            ax.plot((x, x), (-1, N), linestyle=linestyle[stages[i]], color='gray')
             # plotting stage number
             curr_stage_half_spacing = ((len(s) - 1) * self.plot_substagesp + self.plot_stagesp) / 2
             x += curr_stage_half_spacing
@@ -96,7 +101,7 @@ class SortingUtils:
             x += self.plot_stagesp - self.plot_substagesp
         # plotting last stage delimeter
         x -= self.plot_stagesp / 2
-        ax.plot((x, x), (-1, N), linestyle='dashed', color='gray')
+        ax.plot((x, x), (-1, N), linestyle=linestyle[stages[-1]], color='gray')
         #ax.margins(0.2)
         ax.set_axis_off()
         # saving picture
@@ -359,7 +364,7 @@ class SortingUtils:
     def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1):
         file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
         (N, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
-        [list_of_pairs, net] = self.get_muctpi_sel_net(gen_plots, net_sets)
+        [list_of_pairs, net, stages] = self.get_muctpi_sel_net(gen_plots, net_sets)
 
         # validation
         if validation > 0:
@@ -375,8 +380,9 @@ class SortingUtils:
                 # Sorting random data
                 py_sorted = sorted(data)
                 # Pre sorting inputs for required sets
-                for s in presort_in_sets:
-                    data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1])
+                if presort_in_sets != [set()]:
+                    for s in presort_in_sets:
+                        data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1])
                 # Sorting data using the list of pairs
                 for i in list_of_pairs: self.compare_and_swap(data, *i)
                 # if there is no nonsorted outputs the output data has to be sorted in the used output range
@@ -396,10 +402,11 @@ class SortingUtils:
 
         # Generating vhdl package
         cfg_stage_str = []
-        for stage in net:
-            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
+        reg = ['False', 'True']
+        for i, stage in enumerate(net):
+            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False', r=reg[stages[i]]) for p in stage]
             missing = self.find_missing_pairs(stage, N)
-            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
+            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ', r=reg[stages[i]]) for p in missing]
             cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
 
         file.write(self.net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
@@ -417,37 +424,46 @@ class SortingUtils:
 
     def get_muctpi_sel_net(self, gen_plots, net_sets):
         plotnet3 = self.generate_masked_oddevenmerge(*net_sets)
+        stages = [0] * len(plotnet3)
         N = net_sets[0]
         Nceil = 2 ** int(np.ceil(np.log2(N)))
         if gen_plots:
             filename = self.plot_masked_filename_fmt.format(i=N, o=N)
-            self.plot(plotnet3, filename, Nceil)
+            self.plot(plotnet3, stages, filename, Nceil)
         list_of_pairs = self.to_list_of_pairs(plotnet3)
         # finding the stages
         net = self.to_stages(list_of_pairs)
+
+        n_stages = len(net)
+        non_reg_stages = 3
+        reg_stages = 1
+        cycles = -(-n_stages//(non_reg_stages+reg_stages))
+        stages = ([0]*non_reg_stages + [1]*reg_stages)*cycles
+        stages = stages[-n_stages:]
+
         if gen_plots:
             # creating plotnet object (adding substages)
             plotnet = self.to_plotnet(net)
             # creating plotnet3 (adding a third parameter for each comparison)
             plotnet3 = self.to_plotnet_triple(plotnet)
             filename = self.plot_sel_filename_fmt.format(i=N, o=N)
-            self.plot(plotnet3, filename, N)
-        return [list_of_pairs, net]
+            self.plot(plotnet3, stages, filename, N)
+        return [list_of_pairs, net, stages]
 
 
 
 if __name__ == "__main__":
     s = SortingUtils()
     net_sets = (N, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sel_opt_sets()
-    #N = 64
-    #presort_in_sets = [set(range(4))]
-    #used_out_set = set(range(4))
+    #N = 16
+    #presort_in_sets = [set()]
+    #used_out_set = set(range(N))
     #nonsorted_out_set = set()
     #net_sets = (N, presort_in_sets, used_out_set, nonsorted_out_set)
     #print(net_sets)
 
 
-    s.generate_csn_sel_pkg(net_sets, gen_plots = False, validation = 2**30)
+    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
     #presort_in_sets = [set((0,1)), set((2,3)), set((4, 5,6,7))]
 
     #muctpi_sel_sets = s.get_muctpi_sel_opt_sets
