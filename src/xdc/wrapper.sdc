@@ -11,6 +11,8 @@
 #define_attribute {v:muon_sorter_16_16_2} syn_hier {hard}
 
 create_clock -period 1000.000 -name clk_wrapper -waveform {0.000 500.000} [get_ports clk_wrapper]
+set_input_delay 0 -clock clk_wrapper p:input
+set_output_delay 0 -clock clk_wrapper p:output
 
 set_clock_groups -asynchronous -group [get_clocks clk_wrapper] -group [get_clocks clk]
 set_clock_groups -asynchronous -group [get_clocks clk] -group [get_clocks clk_wrapper]
