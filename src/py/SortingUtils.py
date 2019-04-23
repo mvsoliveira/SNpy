@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math as m
 import random
 import sys
 from matplotlib.backends.backend_pdf import PdfPages
@@ -7,10 +8,10 @@ from matplotlib.backends.backend_pdf import PdfPages
 class SortingUtils:
     plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
     plot_bitonic_filename_fmt = '../../out/pdf/plot_bitonic_I{i:03d}_O{i:03d}.pdf'
-    plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_masked.pdf'
-    plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}_sel.pdf'
+    plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_masked.pdf'
+    plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_sel.pdf'
     plot_dpi = 300
-    cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s}, o => False, r => {r:s})'
+    cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s})'
     stage_fmt = '({stage:s})'
     net_fmt = 'when {i:d} => return (\n{net:s}\n);'
     serial_net_fmt = 'when {i:d} => return {net:s};\n'
@@ -62,21 +63,21 @@ class SortingUtils:
         for s in net:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
-    def plot(self, plotnet, stages_i, filename, N):
+    def plot(self, plotnet, stages_i, filename, I):
 
         color = ['black', 'red', 'blue', 'magenta', 'green']
         linestyle = ['dotted', 'dashed']
 
-        # the first line delimiter is always 0 as canot be a register
+        # the first line delimiter is always 0 as cannot be a register
         stages = stages_i.copy()
         stages.insert(0,0)
 
-        fig, ax = plt.subplots(figsize=(N,N))
-        plt.ylim(N+1,-2)
+        fig, ax = plt.subplots(figsize=(I,I))
+        plt.ylim(I+1,-2)
         self.set_plot_length(plotnet)
         points = np.ones(self.plot_length)
         # plotting horizontal lines and text
-        for y in range(N):
+        for y in range(I):
             ax.plot(y * points, color='black')
             ax.text(0,y-self.number_margin,'{y:03d}'.format(y=y),   horizontalalignment='left')
             ax.text(self.plot_length-1, y-self.number_margin, '{y:03d}'.format(y=y), horizontalalignment='right')
@@ -86,12 +87,12 @@ class SortingUtils:
         for i,s in enumerate(plotnet):
             x -= self.plot_stagesp / 2
             # plotting stage line delimeter
-            ax.plot((x, x), (-1, N), linestyle=linestyle[stages[i]], color='gray')
+            ax.plot((x, x), (-1, I), linestyle=linestyle[stages[i]], color='gray')
             # plotting stage number
             curr_stage_half_spacing = ((len(s) - 1) * self.plot_substagesp + self.plot_stagesp) / 2
             x += curr_stage_half_spacing
             ax.text(x, -1, '{y:d}'.format(y=i), horizontalalignment='center', verticalalignment='top')
-            ax.text(x, N, '{y:d}'.format(y=i), horizontalalignment='center', verticalalignment='baseline')
+            ax.text(x, I, '{y:d}'.format(y=i), horizontalalignment='center', verticalalignment='baseline')
             x -= curr_stage_half_spacing
             x += self.plot_stagesp / 2
             # plotting substages
@@ -102,7 +103,7 @@ class SortingUtils:
             x += self.plot_stagesp - self.plot_substagesp
         # plotting last stage delimeter
         x -= self.plot_stagesp / 2
-        ax.plot((x, x), (-1, N), linestyle=linestyle[stages[-1]], color='gray')
+        ax.plot((x, x), (-1, I), linestyle=linestyle[stages[-1]], color='gray')
         #ax.margins(0.2)
         ax.set_axis_off()
         # saving picture
@@ -197,7 +198,7 @@ class SortingUtils:
             self.generate_reduced_oddevenmerge_plot(N)
 
 
-    def generate_masked_oddevenmerge(self, N, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=set()):
+    def generate_masked_oddevenmerge(self, N, O, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=set()):
         # finding next power2 size
         Nceil = 2 ** int(np.ceil(np.log2(N)))
         # getting list of pairs
@@ -293,14 +294,44 @@ class SortingUtils:
             i += cand_sec
         return presort_in_sets
 
-    def get_muctpi_sel_opt_sets(self):
-        N = 352
+    def get_muctpi_stage_b_presort_in_sets(self):
+        cand = [16]
+        all = 4 * cand
+        presort_in_sets = []
+        i = 0
+        for cand_sec in all:
+            presort_in_sets.append(set(range(i, i + cand_sec)))
+            i += cand_sec
+        return presort_in_sets
+
+    def get_muctpi_352_opt_sets(self):
+        I = 352
+        O = 16
         presort_in_sets = s.get_muctpi_presort_in_sets()
         #presort_in_sets = [set()]
-        used_out_set = set(range(64))
-        nonsorted_out_set = set(range(64))
-        #nonsorted_out_set = set()
-        return (N, presort_in_sets, used_out_set, nonsorted_out_set)
+        used_out_set = set(range(O))
+        #nonsorted_out_set = set(range(64))
+        nonsorted_out_set = set()
+        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
+
+    def get_muctpi_64_opt_sets(self):
+        I = 64
+        O = 16
+        presort_in_sets = s.get_muctpi_stage_b_presort_in_sets()
+        #presort_in_sets = [set()]
+        used_out_set = set(range(O))
+        #nonsorted_out_set = set(range(64))
+        nonsorted_out_set = set()
+        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
+
+    def get_muctpi_sort_opt_sets(self, I):
+        O = 16
+        #presort_in_sets = s.get_muctpi_presort_in_sets()
+        presort_in_sets = [set()]
+        used_out_set = set(range(O))
+        #nonsorted_out_set = set(range(64))
+        nonsorted_out_set = set()
+        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
 
 
 
@@ -329,7 +360,7 @@ class SortingUtils:
         filename = self.plot_bitonic_filename_fmt.format(i=N, o=N)
         list_of_comparisons = self.get_bitonic_list_of_comparisons(N)
         net = self.to_stages(list_of_comparisons)
-        stages = self.get_stages_cfg(net)
+        stages = self.get_stages_cfg(len(net))
         print('Number of stages for reduced net N={N:03d} = {stages:d}'.format(N=N,stages=len(net)))
         plotnet = self.to_plotnet(net)
         plotnet3 = self.to_plotnet_triple(plotnet)
@@ -374,20 +405,19 @@ class SortingUtils:
 
     def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1):
         file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
-        (N, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
+        (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
         [list_of_pairs, net, stages] = self.get_muctpi_sel_net(gen_plots, net_sets)
 
         # validation
         if validation > 0:
-            out_len = len(used_out_set)
-            print('Validating sorting network N={N:d}'.format(N=N))
+            print('Validating sorting network I={I:d}'.format(I=I))
             print('Pre-sorting input set: {P:s}'.format(P=str(presort_in_sets)))
-            print('Used output range len: {L:d} set: {U:s}'.format(L=out_len, U=str(used_out_set)))
+            print('Used output range len: {O:d} set: {U:s}'.format(O=O, U=str(used_out_set)))
             print('Non-sorted output range set: {S:s}'.format(S=str(nonsorted_out_set)))
 
             for v in range(validation):
                 # Getting random data
-                data = [random.randint(0,2**30) for _ in range(N)]
+                data = [random.randint(0,2**30) for _ in range(I)]
                 # Sorting random data
                 py_sorted = sorted(data)
                 # Pre sorting inputs for required sets
@@ -398,10 +428,10 @@ class SortingUtils:
                 for i in list_of_pairs: self.compare_and_swap(data, *i)
                 # if there is no nonsorted outputs the output data has to be sorted in the used output range
                 if nonsorted_out_set == set():
-                    cmp = data[0:out_len-1] == py_sorted[0:out_len-1]
+                    cmp = data[0:O-1] == py_sorted[0:O-1]
                 else:
                 # else the output data has to contain the same data but not sorted
-                    cmp = sorted(data[0:out_len - 1]) == py_sorted[0:out_len - 1]
+                    cmp = sorted(data[0:O - 1]) == py_sorted[0:O - 1]
                 # checking the comparison value
                 if cmp:
                     print('Validation iteration {v:04d} OK'.format(v=v))
@@ -415,12 +445,12 @@ class SortingUtils:
         cfg_stage_str = []
         reg = ['False', 'True ']
         for i, stage in enumerate(net):
-            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False', r=reg[stages[i]]) for p in stage]
-            missing = self.find_missing_pairs(stage, N)
-            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ', r=reg[stages[i]]) for p in missing]
+            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
+            missing = self.find_missing_pairs(stage, I)
+            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
             cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
 
-        file.write(self.net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
+        file.write(self.net_fmt.format(i=I, net=',\n'.join(cfg_stage_str)))
 
         file.close()
 
@@ -433,30 +463,30 @@ class SortingUtils:
             cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
             file.write(self.serial_net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
 
-    def get_stages_cfg(self, net):
-
-        n_stages = len(net)
-        non_reg_stages = 3
-        reg_stages = 1
-        cycles = -(-n_stages // (non_reg_stages + reg_stages))
-        stages = ([0] * non_reg_stages + [1] * reg_stages) * cycles
-        stages = stages[-n_stages:]
-
+    def get_stages_cfg(self, n_stages, n_regs):
+        reg = ['False', 'True']
+        stages = self.distribute_equally_spaced(1, 0, n_regs+1, n_stages+1)[1:]
+        print('when {s:d} =>'.format(s=n_regs))
+        print('-- Registered stages configuration')
+        print('-- num -> | {a:s}|;'.format(a=', '.join(['{i:>5d}'.format(i=i) for i in range(len(stages))])))
+        print('return    ( {a:s});'.format(a=', '.join(['{s:>5s}'.format(s=reg[s]) for s in stages])))
+        print('-- total number of registered stages: {n:d}.'.format(n=sum(stages)))
         return stages
 
-    def get_muctpi_sel_net(self, gen_plots, net_sets):
+    def get_muctpi_sel_net(self, gen_plots, net_sets, ):
         plotnet3 = self.generate_masked_oddevenmerge(*net_sets)
         stages = [0] * len(plotnet3)
-        N = net_sets[0]
-        Nceil = 2 ** int(np.ceil(np.log2(N)))
+        I = net_sets[0]
+        O = net_sets[1]
+        Iceil = 2 ** int(np.ceil(np.log2(I)))
         if gen_plots:
-            filename = self.plot_masked_filename_fmt.format(i=N, o=N)
-            self.plot(plotnet3, stages, filename, Nceil)
+            filename = self.plot_masked_filename_fmt.format(i=I, o=O)
+            self.plot(plotnet3, stages, filename, Iceil)
         list_of_pairs = self.to_list_of_pairs(plotnet3)
         # finding the stages
         net = self.to_stages(list_of_pairs)
 
-        stages = self.get_stages_cfg(net)
+        stages = self.get_stages_cfg(len(net), 7)
 
 
         if gen_plots:
@@ -464,8 +494,8 @@ class SortingUtils:
             plotnet = self.to_plotnet(net)
             # creating plotnet3 (adding a third parameter for each comparison)
             plotnet3 = self.to_plotnet_triple(plotnet)
-            filename = self.plot_sel_filename_fmt.format(i=N, o=N)
-            self.plot(plotnet3, stages, filename, N)
+            filename = self.plot_sel_filename_fmt.format(i=I, o=O)
+            self.plot(plotnet3, stages, filename, I)
         return [list_of_pairs, net, stages]
 
 
@@ -521,23 +551,62 @@ class SortingUtils:
             list_of_comparisons.extend(d)
         return list_of_comparisons
 
+    def keep_average_int(self, inc,hist):
+        avg = np.mean(hist)
+
+        if avg > inc:
+            int_inc = np.floor(inc)
+        else:
+            int_inc = np.ceil(inc)
+
+        hist.append(int_inc)
+        return int(int_inc)
+
+    def distribute_equally_spaced(self, item, remaining, n, length):
+        #having always the item in the borders
+        if length < n:
+            return -1
+        else:
+            data = [item] + [remaining]*(length-2) + [item]
+            if n > 2:
+                step = (length-2+1)/(n-2+1)
+                step_hist = [np.round(step)]
+                i = 0
+                for j in range(n-2):
+                    i += self.keep_average_int(step,step_hist)
+                    data[i] = item
+
+            return data
+
+
+
+
+
+
+
+
+
+
+
+
+        step = (length)
+
+
+
 
 
 
 
 if __name__ == "__main__":
     s = SortingUtils()
-    net_sets = (N, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sel_opt_sets()
-    #N = 16
-    #presort_in_sets = [set()]
-    #used_out_set = set(range(N))
-    #nonsorted_out_set = set()
-    #net_sets = (N, presort_in_sets, used_out_set, nonsorted_out_set)
-    #print(net_sets)
+    for i in range(1,28):
+        stages = s.get_stages_cfg(27, i)
+    #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
+    #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_64_opt_sets()
 
 
     #s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
-    s.generate_reduced_bitonic_plot(128)
+    #s.generate_reduced_bitonic_plot(128)
     #presort_in_sets = [set((0,1)), set((2,3)), set((4, 5,6,7))]
 
     #muctpi_sel_sets = s.get_muctpi_sel_opt_sets
