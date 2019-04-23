@@ -20,16 +20,15 @@ end entity csn;
 architecture RTL of csn is
 	
   
-	constant cfg_net : cfg_net_t := get_cfg(I);
+	constant cfg_net : cfg_net_t := get_cfg(I);	
+    constant stages  : stages_a  := get_stg(I);
+    -- total number of registered stages: 11.
 
 	type net_array_t is array (natural range <>) of muon_a(0 to I - 1);
-	--type net_array_t is array (0 to cfg_net'length) of muon_a(0 to I - 1);
-	--type ret_array_t is array (0 to delay) of muon_a(0 to I - 1);
+
 	signal net_array : net_array_t(0 to cfg_net'length);
 	type ret_off_t is array (natural range <>) of natural;
-	--constant ret_off : ret_off_t(0 to I - 1) := (0,0,1,2,3,3,4,5,5,4,3,3,2,1,0,0);
-	--constant ret_off : ret_off_t(0 to I - 1) := (0,0,0,0,1,1,2,2,3,3,3,3,4,4,5,5);
-	--constant ret_off : ret_off_t(0 to I - 1) := (0,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,0);
+
 	constant ret_off : ret_off_t(0 to I - 1) := (others => 0); 
 	constant max_ret_off : natural := 0;
 	
@@ -41,6 +40,7 @@ architecture RTL of csn is
     
     attribute syn_srlstyle: string;  
     attribute syn_srlstyle of ret_array : signal is "registers";
+    
 
 begin
 
@@ -51,9 +51,9 @@ begin
 
 			csn_cmp_inst : entity work.csn_cmp
 				generic map(
-					ascending       => cfg_net(stage)(pair).o,
+					ascending       => False,
 					pass_through    => cfg_net(stage)(pair).p,
-					output_register => cfg_net(stage)(pair).r
+					output_register => stages(stage)
 				)
 				port map(
 					clk => clk,
