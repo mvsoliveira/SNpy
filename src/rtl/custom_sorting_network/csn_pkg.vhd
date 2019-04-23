@@ -275,6 +275,31 @@ package body csn_pkg is
                     end case;
                 when 352 =>
                     case D is
+                        when 1 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31,    32,    33,    34,    35,    36,    37,    38,    39,    40,    41,    42,    43|;
+                        return    ( False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 1.
+                        when 2 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31,    32,    33,    34,    35,    36,    37,    38,    39,    40,    41,    42,    43|;
+                        return    ( False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 2.
+                        when 3 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31,    32,    33,    34,    35,    36,    37,    38,    39,    40,    41,    42,    43|;
+                        return    ( False, False, False, False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 3.
+                        when 4 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31,    32,    33,    34,    35,    36,    37,    38,    39,    40,    41,    42,    43|;
+                        return    ( False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 4.
+                        when 5 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31,    32,    33,    34,    35,    36,    37,    38,    39,    40,    41,    42,    43|;
+                        return    ( False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 5.
                         when 6 =>
                         -- Registered stages configuration
                         -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31,    32,    33,    34,    35,    36,    37,    38,    39,    40,    41,    42,    43|;
