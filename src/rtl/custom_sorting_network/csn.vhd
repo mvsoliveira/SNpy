@@ -21,7 +21,7 @@ architecture RTL of csn is
 	
   
 	constant cfg_net : cfg_net_t := get_cfg(I);	
-    constant stages  : stages_a  := get_stg(I);
+    constant stages  : stages_a  := get_stg(I, delay);
     -- total number of registered stages: 11.
 
 	type net_array_t is array (natural range <>) of muon_a(0 to I - 1);
