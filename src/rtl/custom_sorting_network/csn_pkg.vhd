@@ -174,6 +174,21 @@ package body csn_pkg is
             case I is
                 when 64  =>
                     case D is
+                        when 1 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20|;
+                        return    ( False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 1.
+                        when 2 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20|;
+                        return    ( False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 2.
+                        when 3 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20|;
+                        return    ( False, False, False, False, False, False,  True, False, False, False, False, False, False,  True, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 3.
                         when 4 =>
                         -- Registered stages configuration
                         -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20|;
@@ -210,6 +225,21 @@ package body csn_pkg is
 
                 when 88  =>
                     case D is
+                        when 1 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27|;
+                        return    ( False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 1.
+                        when 2 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27|;
+                        return    ( False, False, False, False, False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 2.
+                        when 3 =>
+                        -- Registered stages configuration
+                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27|;
+                        return    ( False, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False,  True, False, False, False, False, False, False, False, False,  True);
+                        -- total number of registered stages: 3.
                         when 4 =>
                         -- Registered stages configuration
                         -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27|;

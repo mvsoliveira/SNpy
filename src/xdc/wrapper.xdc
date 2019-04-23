@@ -9,8 +9,8 @@ set_property IOSTANDARD LVCMOS18 [get_ports input]
 set_property IOSTANDARD LVCMOS18 [get_ports output]
 
 create_clock -period 1000.000 -name clk_wrapper [get_ports clk_wrapper]
-#create_clock -period 6.25 -name clk [get_ports clk]
-create_clock -period 3.571 -name clk [get_ports clk]
+create_clock -period 6.25 -name clk [get_ports clk]
+#create_clock -period 3.571 -name clk [get_ports clk]
 
 set_clock_groups -asynchronous -group [get_clocks clk_wrapper] -group [get_clocks clk]
 set_clock_groups -asynchronous -group [get_clocks clk] -group [get_clocks clk_wrapper]
