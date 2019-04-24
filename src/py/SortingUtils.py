@@ -9,7 +9,7 @@ class SortingUtils:
     plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
     plot_bitonic_filename_fmt = '../../out/pdf/plot_bitonic_I{i:03d}_O{i:03d}.pdf'
     plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_masked.pdf'
-    plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_sel.pdf'
+    plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_D{d:03d}_sel.pdf'
     plot_dpi = 300
     cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s})'
     stage_fmt = '({stage:s})'
@@ -324,6 +324,16 @@ class SortingUtils:
         nonsorted_out_set = set()
         return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
 
+    def get_muctpi_88_opt_sets(self):
+        I = 88
+        O = 16
+        presort_in_sets = s.get_muctpi_presort_in_sets()
+        #presort_in_sets = [set()]
+        used_out_set = set(range(O))
+        #nonsorted_out_set = set(range(64))
+        nonsorted_out_set = set()
+        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
+
     def get_muctpi_sort_opt_sets(self, I):
         O = 16
         #presort_in_sets = s.get_muctpi_presort_in_sets()
@@ -406,7 +416,7 @@ class SortingUtils:
     def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1):
         file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
         (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
-        [list_of_pairs, net, stages] = self.get_muctpi_sel_net(gen_plots, net_sets)
+        [list_of_pairs, net] = self.get_muctpi_sel_net(gen_plots, net_sets)
 
         # validation
         if validation > 0:
@@ -486,17 +496,18 @@ class SortingUtils:
         # finding the stages
         net = self.to_stages(list_of_pairs)
 
-        stages = self.get_stages_cfg(len(net), 7)
-
 
         if gen_plots:
             # creating plotnet object (adding substages)
             plotnet = self.to_plotnet(net)
             # creating plotnet3 (adding a third parameter for each comparison)
             plotnet3 = self.to_plotnet_triple(plotnet)
-            filename = self.plot_sel_filename_fmt.format(i=I, o=O)
-            self.plot(plotnet3, stages, filename, I)
-        return [list_of_pairs, net, stages]
+            n_stages = len(plotnet3)
+            for i in range(1, n_stages + 1):
+                stages = s.get_stages_cfg(n_stages, i)
+                filename = self.plot_sel_filename_fmt.format(i=I, o=O, d=i)
+                self.plot(plotnet3, stages, filename, I)
+        return [list_of_pairs, net]
 
 
     def get_bitonic_list_of_comparisons(self, N):
@@ -599,13 +610,12 @@ class SortingUtils:
 
 if __name__ == "__main__":
     s = SortingUtils()
-    for i in range(1,28):
-        stages = s.get_stages_cfg(27, i)
+
     #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
-    #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_64_opt_sets()
+    net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_352_opt_sets()
 
 
-    #s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
+    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
     #s.generate_reduced_bitonic_plot(128)
     #presort_in_sets = [set((0,1)), set((2,3)), set((4, 5,6,7))]
 
