@@ -66,19 +66,20 @@ begin
 		end generate pair_g;
 	end generate stage_g;
 
-	ret_array(0) <= net_array(cfg_net'length);
+	--ret_array(0) <= net_array(cfg_net'length);
+	muon_o <= net_array(cfg_net'length)(muon_o'range);
 
-	retiming_p : process(all) is
-	begin
-		if rising_edge(clk) then
-			for i in 1 to delay + max_ret_off loop
-				ret_array(i) <= ret_array(i - 1);
-			end loop;
-		end if;
-		for i in muon_o'range loop
-			muon_o(i) <= ret_array(delay+ret_off(i))(i);			
-		end loop;
-	end process retiming_p;
+	--retiming_p : process(all) is
+	--begin
+	--	if rising_edge(clk) then
+	--		for i in 1 to delay + max_ret_off loop
+	--			ret_array(i) <= ret_array(i - 1);
+	--		end loop;
+	--	end if;
+	--	for i in muon_o'range loop
+	--		muon_o(i) <= ret_array(delay+ret_off(i))(i);
+	--	end loop;
+	--end process retiming_p;
 
 
 
