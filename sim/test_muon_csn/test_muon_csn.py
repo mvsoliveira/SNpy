@@ -5,7 +5,11 @@ from cocotb.result import TestFailure, TestSuccess
 from cocotb.regression import TestFactory
 import random
 import os
-import code
+from sys import path
+path.append(os.getcwd() + "/../../../src/py") #Yes, i'm on windows
+from SortingUtils import SortingUtils
+import copy
+
 
 
 
@@ -22,22 +26,21 @@ class MyTB(object):
         self.sectorlen = 0
         #self.roilen = self.dut.muon_sel_i[0].roi.value.n_bits
         self.roilen = 0
+        self.SU = SortingUtils()
+        self.net_sets = (
+        I, O, self.presort_in_sets, self.used_out_set, self.nonsorted_out_set) = self.SU.get_muctpi_opt_sets(self.I)
+        [self.list_of_pairs, self.net] = self.SU.get_muctpi_sel_net(gen_plots=False, net_sets=self.net_sets)
         self.dut._log.info('#' * 50)
         self.dut._log.info("Testing muon sorter with the following settings:")
         self.dut._log.info('Simulation length: {len: d}'.format(len=self.n))
         self.dut._log.info('Number of candidates: input: {num_in:d} | output: {num_out:d}'.format(num_in=self.I, num_out=self.O))
         self.dut._log.info('Binary lengths: pt: {pt:d} | sector: {sector:d} | roi: {roi:d}'.format(pt=self.ptlen, sector=self.sectorlen, roi=self.roilen))
+        #self.dut._log.info('Pre sort set {pre:s}'.format(pre=str(self.presort_in_sets)))
         self.dut._log.info('#' * 50)
-        if self.I == 352:
-            presort_in_sets = self.get_muctpi_presort_in_sets()
-        elif self.I == 88:
-            presort_in_sets = self.get_muctpi_presort_in_sets()[:38]
-        elif self.I == 64:
-            presort_in_sets = self.get_muctpi_stage_b_presort_in_sets()
-        else:
-            presort_in_sets = [set()]
-        self.gen_muon(presort_in_sets)
+
+        self.gen_muon()
         self.py_sort_muon()
+        self.py_net_sort_muon()
 
     
     @cocotb.coroutine
@@ -77,7 +80,7 @@ class MyTB(object):
                 i += 1
 
 
-    def gen_muon(self, presort_in_sets):
+    def gen_muon(self):
         self.muon_cand = []
         for i in range(self.n):
             cand = []
@@ -86,9 +89,11 @@ class MyTB(object):
             pt=pt_valid + pt_zero
             random.shuffle(pt)
 
-            if presort_in_sets != [set()]:
-                for s in presort_in_sets:
+
+            if self.presort_in_sets != [set()]:
+                for s in self.presort_in_sets:
                     pt[min(s):max(s) + 1] = sorted(pt[min(s):max(s) + 1], reverse=True)
+
             for j in range(self.I):
                 cand.append({'pt': pt[j],
                              'sector': j,
@@ -98,43 +103,39 @@ class MyTB(object):
 
             self.muon_cand.append(cand)
 
-    #
+
+
+
+
     def py_sort_muon(self):
         self.py_sorted_muon = []
+        muon_cand = copy.deepcopy(self.muon_cand)
         for i in range(self.n):
-            k=0
-            cand = sorted(self.muon_cand[i], key=lambda k: k['pt'], reverse = True)
+            cand = sorted(muon_cand[i], key=lambda k: k['pt'], reverse = True)
             self.py_sorted_muon.append(cand)
+
+
+
+    def py_net_sort_muon(self):
+        # copying list
+        self.py_net_sorted_muon = copy.deepcopy(self.muon_cand)
+        for i in range(self.n):
+            for j in self.list_of_pairs: self.SU.compare_and_swap(self.py_net_sorted_muon[i], *j, key='pt')
+            self.py_net_sorted_muon[i] = self.py_net_sorted_muon[i][0:self.O]
+
+
+
 
     def print_muon(self):
         for i in range(self.n):
             self.dut._log.info('#'*50)
-            for muon, name, len in ((self.muon_cand, 'non sorted', self.I) , (self.py_sorted_muon, 'py  sorted', self.O), (self.sim_sorted_muon, 'sim sorted', self.O)):
+            for muon, name, len in ((self.muon_cand, 'non sorted', self.I) , (self.py_sorted_muon, 'py  sorted', self.O), (self.py_net_sorted_muon, 'py net sorted', self.O), (self.sim_sorted_muon, 'sim sorted', self.O)):
                 self.dut._log.info('Printing {name:s} data for clock cycle {i:04d}'.format(i=i, name=name))
                 for j in range(len):
-                    self.dut._log.info("Id: {input:03d} | pt: 0x{pt:01x} | sector: 0x{sector:02x} | roi: 0x{roi:02x}".format(
+                    self.dut._log.info("Id: {input:03d} | pt: 0x{pt:01x} | sector: {sector:03d} | roi: 0x{roi:02x}".format(
                         pt=muon[i][j]['pt'], sector=muon[i][j]['sector'], roi=muon[i][j]['roi'], input=j))
 
-    def get_muctpi_presort_in_sets(self):
-        rpc = [2]
-        tgc = [4]
-        all = 32 * rpc + 72 * tgc
-        presort_in_sets = []
-        i = 0
-        for cand_sec in all:
-            presort_in_sets.append(set(range(i, i + cand_sec)))
-            i += cand_sec
-        return presort_in_sets
 
-    def get_muctpi_stage_b_presort_in_sets(self):
-        cand = [16]
-        all = 4 * cand
-        presort_in_sets = []
-        i = 0
-        for cand_sec in all:
-            presort_in_sets.append(set(range(i, i + cand_sec)))
-            i += cand_sec
-        return presort_in_sets
 
 
 
@@ -150,15 +151,19 @@ def run_test(dut):
     read_thread = cocotb.fork(tb.read_muon())
     yield stim_thread.join()
     yield read_thread.join()
-    tb.print_muon()
+    if tb.n <= 10:
+        tb.print_muon()
+    # checking only pt without using list  of pairs
     Pass = True
     for i in range(tb.n):
         for j in range(tb.O):
             if tb.py_sorted_muon[i][j]['pt'] != tb.sim_sorted_muon[i][j]['pt']:
                 Pass = False
 
+    # checking all data using list of pairs comparison
+    if tb.py_net_sorted_muon != tb.sim_sorted_muon:
+        Pass = False
 
-    #if tb.py_sorted_muon != tb.sim_sorted_muon:
     if not Pass:
         raise TestFailure("Muon sorting failed, look the print report.")
     else:

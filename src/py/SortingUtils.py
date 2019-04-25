@@ -9,7 +9,7 @@ class SortingUtils:
     plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
     plot_bitonic_filename_fmt = '../../out/pdf/plot_bitonic_I{i:03d}_O{i:03d}.pdf'
     plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_masked.pdf'
-    plot_sel_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_D{d:03d}_sel.pdf'
+    plot_opt_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_D{d:03d}_opt.pdf'
     plot_dpi = 300
     cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s})'
     stage_fmt = '({stage:s})'
@@ -19,11 +19,12 @@ class SortingUtils:
     def oddeven_merge(self, lo, hi, r):
         step = r * 2
         if step < hi - lo:
-            self.stage += 1
-            yield from self.oddeven_merge(lo, hi, step)
-            yield from self.oddeven_merge(lo + r, hi, step)
-            self.stage += 1
-            yield from [(i, i + r) for i in range(lo + r, hi - r, step)]
+            for bar in self.oddeven_merge(lo, hi, step):
+                yield bar
+            for bar in self.oddeven_merge(lo + r, hi, step):
+                yield bar
+            for bar in [(i, i + r) for i in range(lo + r, hi - r, step)]:
+                yield bar
         else:
             yield (lo, lo + r)
 
@@ -38,19 +39,33 @@ class SortingUtils:
             # down the middle and first sort the first and second
             # half, followed by merging them.
             mid = lo + ((hi - lo) // 2)
-            yield from self.oddeven_merge_sort_range(lo, mid)
-            yield from self.oddeven_merge_sort_range(mid + 1, hi)
-            yield from self.oddeven_merge(lo, hi, 1)
+            for bar in self.oddeven_merge_sort_range(lo, mid):
+                yield bar
+            for bar in self.oddeven_merge_sort_range(mid + 1, hi):
+                yield bar
+            for bar in self.oddeven_merge(lo, hi, 1):
+                yield bar
 
 
     def oddeven_merge_sort(self, length):
         """ "length" is the length of the list to be sorted.
         Returns a list of pairs of indices starting with 0 """
-        self.stage = 0
-        yield from self.oddeven_merge_sort_range(0, length - 1)
 
-    def compare_and_swap(self, x, a, b):
-        if x[a] > x[b]:
+        for bar in self.oddeven_merge_sort_range(0, length - 1):
+            yield bar
+
+    def compare_and_swap(self, x, a, b, key=None, reverse = True):
+        if key==None:
+            c, d = x[a], x[b]
+        else:
+            c, d = x[a][key], x[b][key]
+
+        if reverse==False:
+            expr = c > d
+        else:
+            expr = c <= d
+
+        if expr:
             x[a], x[b] = x[b], x[a]
 
     def set_plot_length(self,net):
@@ -283,10 +298,20 @@ class SortingUtils:
                             nonsorted_out_set.discard(cmp[1])
                         # if else, just continues ;)
 
-    def get_muctpi_presort_in_sets(self):
+    def get_muctpi_presort_in_sets(self, I):
         rpc = [2]
         tgc = [4]
-        all = 32 * rpc + 72 * tgc
+
+        if   I==352:
+            all = 32 * rpc + 72 * tgc
+        elif I==88:
+            all = 32 * rpc + 6 * tgc
+        elif I==64:
+            cand = [16]
+            all = 4 * cand
+        else:
+            all=[]
+
         presort_in_sets = []
         i = 0
         for cand_sec in all:
@@ -294,50 +319,12 @@ class SortingUtils:
             i += cand_sec
         return presort_in_sets
 
-    def get_muctpi_stage_b_presort_in_sets(self):
-        cand = [16]
-        all = 4 * cand
-        presort_in_sets = []
-        i = 0
-        for cand_sec in all:
-            presort_in_sets.append(set(range(i, i + cand_sec)))
-            i += cand_sec
-        return presort_in_sets
 
-    def get_muctpi_352_opt_sets(self):
-        I = 352
+
+    def get_muctpi_opt_sets(self, I):
         O = 16
-        presort_in_sets = s.get_muctpi_presort_in_sets()
+        presort_in_sets = self.get_muctpi_presort_in_sets(I)
         #presort_in_sets = [set()]
-        used_out_set = set(range(O))
-        #nonsorted_out_set = set(range(64))
-        nonsorted_out_set = set()
-        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
-
-    def get_muctpi_64_opt_sets(self):
-        I = 64
-        O = 16
-        presort_in_sets = s.get_muctpi_stage_b_presort_in_sets()
-        #presort_in_sets = [set()]
-        used_out_set = set(range(O))
-        #nonsorted_out_set = set(range(64))
-        nonsorted_out_set = set()
-        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
-
-    def get_muctpi_88_opt_sets(self):
-        I = 88
-        O = 16
-        presort_in_sets = s.get_muctpi_presort_in_sets()
-        #presort_in_sets = [set()]
-        used_out_set = set(range(O))
-        #nonsorted_out_set = set(range(64))
-        nonsorted_out_set = set()
-        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
-
-    def get_muctpi_sort_opt_sets(self, I):
-        O = 16
-        #presort_in_sets = s.get_muctpi_presort_in_sets()
-        presort_in_sets = [set()]
         used_out_set = set(range(O))
         #nonsorted_out_set = set(range(64))
         nonsorted_out_set = set()
@@ -483,7 +470,7 @@ class SortingUtils:
         print('-- total number of registered stages: {n:d}.'.format(n=sum(stages)))
         return stages
 
-    def get_muctpi_sel_net(self, gen_plots, net_sets, ):
+    def get_muctpi_sel_net(self, gen_plots, net_sets):
         plotnet3 = self.generate_masked_oddevenmerge(*net_sets)
         stages = [0] * len(plotnet3)
         I = net_sets[0]
@@ -505,7 +492,7 @@ class SortingUtils:
             n_stages = len(plotnet3)
             for i in range(1, n_stages + 1):
                 stages = s.get_stages_cfg(n_stages, i)
-                filename = self.plot_sel_filename_fmt.format(i=I, o=O, d=i)
+                filename = self.plot_opt_filename_fmt.format(i=I, o=O, d=i)
                 self.plot(plotnet3, stages, filename, I)
         return [list_of_pairs, net]
 
@@ -591,41 +578,16 @@ class SortingUtils:
 
 
 
-
-
-
-
-
-
-
-
-
-        step = (length)
-
-
-
-
-
-
-
 if __name__ == "__main__":
     s = SortingUtils()
 
     #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
-    net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_352_opt_sets()
+    I = 64
+    net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_opt_sets(I)
 
 
     s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
-    #s.generate_reduced_bitonic_plot(128)
-    #presort_in_sets = [set((0,1)), set((2,3)), set((4, 5,6,7))]
 
-    #muctpi_sel_sets = s.get_muctpi_sel_opt_sets
-
-
-    #s.generate_csn_serial_pkg([2 ** i for i in range(1, 10)])
-    #s.generate_oddevenmerge_plots([2 ** i for i in range(1, 10)])
-    #s.generate_oddevenmerge_plots([352])
-    #s.generate_masked_oddevenmerge_plot(352)
 
 
 
