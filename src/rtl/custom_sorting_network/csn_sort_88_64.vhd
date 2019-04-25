@@ -29,7 +29,7 @@ architecture RTL of csn_sort_88_64 is
 	signal muon_cand    : muon_a(0 to I - 1);
 	signal muon_stage_a : muon_a(0 to (I / IA) * O - 1);
 
-	signal source_valid_a : std_logic;
+	signal source_valid_a : std_logic_vector(0 to 3);
 	signal sink_valid_b   : std_logic;
 
 begin
@@ -52,14 +52,14 @@ begin
 			port map(
 				clk          => clk,
 				sink_valid   => sink_valid,
-				source_valid => source_valid_a,
+				source_valid => source_valid_a(id),
 				muon_i       => muon_cand(id * IA to (id + 1) * IA - 1),
 				muon_o       => muon_stage_a(id * O to (id + 1) * O - 1)
 			);
 
 	end generate stage_a_g;
 
-	sink_valid_b <= source_valid_a;
+	sink_valid_b <= source_valid_a(0);
 
 	stage_b_csn_inst : entity work.csn
 		generic map(
