@@ -151,7 +151,7 @@ begin                                   -- architecture rtl
 		)
 		port map(
 			clk    => clk,
-			muon_sel_i => muon_cand,
+			muon_i => muon_cand,
 			muon_o => top_cand
 		);
 

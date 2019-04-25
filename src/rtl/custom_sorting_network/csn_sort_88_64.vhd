@@ -13,9 +13,11 @@ entity csn_sort_88_64 is
 	);
 
 	port(
-		clk        : in  std_logic;
-		muon_sel_i : in  muon_sel_a(0 to I - 1);
-		muon_o     : out muon_a(0 to O - 1)
+		clk          : in  std_logic;
+		sink_valid   : in  std_logic;
+		source_valid : out std_logic;
+		muon_i       : in  muon_sel_a(0 to I - 1);
+		muon_o       : out muon_a(0 to O - 1)
 	);
 end entity csn_sort_88_64;
 
@@ -23,17 +25,19 @@ architecture RTL of csn_sort_88_64 is
 
 	constant IA : natural := 88;
 	constant IB : natural := 64;
-	
 
 	signal muon_cand    : muon_a(0 to I - 1);
 	signal muon_stage_a : muon_a(0 to (I / IA) * O - 1);
+
+	signal source_valid_a : std_logic;
+	signal sink_valid_b   : std_logic;
 
 begin
 
 	id_g : for id in 0 to I - 1 generate
 
 		muon_cand(id).idx <= std_logic_vector(to_unsigned(id, IDX_WIDTH));
-		muon_cand(id).pt  <= muon_sel_i(id).pt;
+		muon_cand(id).pt  <= muon_i(id).pt;
 
 	end generate id_g;
 
@@ -46,12 +50,16 @@ begin
 				delay => DA
 			)
 			port map(
-				clk    => clk,
-				muon_i => muon_cand(id * IA to (id + 1) * IA - 1),
-				muon_o => muon_stage_a(id * O to (id + 1) * O - 1)
+				clk          => clk,
+				sink_valid   => sink_valid,
+				source_valid => source_valid_a,
+				muon_i       => muon_cand(id * IA to (id + 1) * IA - 1),
+				muon_o       => muon_stage_a(id * O to (id + 1) * O - 1)
 			);
 
 	end generate stage_a_g;
+
+	sink_valid_b <= source_valid_a;
 
 	stage_b_csn_inst : entity work.csn
 		generic map(
@@ -60,9 +68,11 @@ begin
 			delay => DB
 		)
 		port map(
-			clk    => clk,
-			muon_i => muon_stage_a,
-			muon_o => muon_o
+			clk          => clk,
+			sink_valid   => sink_valid_b,
+			source_valid => source_valid,
+			muon_i       => muon_stage_a,
+			muon_o       => muon_o
 		);
 
 end architecture RTL;

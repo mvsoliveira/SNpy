@@ -11,44 +11,32 @@ entity csn is
 		delay : natural := 3
 	);
 	port(
-		clk    : in  std_logic;
-		muon_i : in  muon_a(0 to I - 1);
-		muon_o : out muon_a(0 to O - 1)
+		clk          : in  std_logic;
+		sink_valid   : in  std_logic;
+		source_valid : out std_logic;
+		muon_i       : in  muon_a(0 to I - 1);
+		muon_o       : out muon_a(0 to O - 1)
 	);
 end entity csn;
 
 architecture RTL of csn is
-	
-  
-	constant cfg_net : cfg_net_t := get_cfg(I);	
-    constant stages  : stages_a  := get_stg(I, delay);
-    -- total number of registered stages: 11.
+
+	constant cfg_net : cfg_net_t := get_cfg(I);
+	constant stages  : stages_a  := get_stg(I, delay);
 
 	type net_array_t is array (natural range <>) of muon_a(0 to I - 1);
 
-	signal net_array : net_array_t(0 to cfg_net'length);
-	type ret_off_t is array (natural range <>) of natural;
-
-	constant ret_off : ret_off_t(0 to I - 1) := (others => 0); 
-	constant max_ret_off : natural := 0;
-	
-	signal ret_array : net_array_t(0 to delay + max_ret_off);
-	
-	-- for xilinx synthesis
-	attribute shreg_extract : string;
-    attribute shreg_extract of ret_array : signal is "no";
-    
-    attribute syn_srlstyle: string;  
-    attribute syn_srlstyle of ret_array : signal is "registers";
-    
+	signal net_array   : net_array_t(0 to cfg_net'length);
+	signal valid_array : std_logic_vector(0 to cfg_net'length);
 
 begin
 
 	net_array(0) <= muon_i;
+	valid_array(0) <= sink_valid;
 
 	stage_g : for stage in 0 to cfg_net'high generate
 		pair_g : for pair in 0 to I / 2 - 1 generate
-
+			-- sorting network stage
 			csn_cmp_inst : entity work.csn_cmp
 				generic map(
 					ascending       => False,
@@ -62,25 +50,23 @@ begin
 					a_o => net_array(stage + 1)(cfg_net(stage)(pair).a),
 					b_o => net_array(stage + 1)(cfg_net(stage)(pair).b)
 				);
+				
+			-- valid flags			
+			valid_g : if stages(stage) generate
+				process(clk)
+				begin
+					if rising_edge(clk) then
+						valid_array(stage + 1) <= valid_array(stage);
+					end if;
+				end process;
+			else generate
+				valid_array(stage + 1) <= valid_array(stage);
+			end generate valid_g;
 
 		end generate pair_g;
 	end generate stage_g;
 
-	--ret_array(0) <= net_array(cfg_net'length);
 	muon_o <= net_array(cfg_net'length)(muon_o'range);
-
-	--retiming_p : process(all) is
-	--begin
-	--	if rising_edge(clk) then
-	--		for i in 1 to delay + max_ret_off loop
-	--			ret_array(i) <= ret_array(i - 1);
-	--		end loop;
-	--	end if;
-	--	for i in muon_o'range loop
-	--		muon_o(i) <= ret_array(delay+ret_off(i))(i);
-	--	end loop;
-	--end process retiming_p;
-
-
+	source_valid <= valid_array(cfg_net'length);
 
 end architecture RTL;
