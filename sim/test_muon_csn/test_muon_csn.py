@@ -6,7 +6,7 @@ from cocotb.regression import TestFactory
 import random
 import os
 from sys import path
-path.append(os.getcwd() + "/../../../src/py") #Yes, i'm on windows
+path.append(os.getcwd() + "/../../../src/py")
 from SortingUtils import SortingUtils
 import copy
 
@@ -15,16 +15,17 @@ import copy
 
 class MyTB(object):
 
-    def __init__(self, dut, n):
+    def __init__(self, dut, n, ratio):
         self.dut = dut
         self.n = n
         self.I = self.dut.I.value
         self.O = self.dut.O.value
         self.delay = self.dut.delay.value
-        self.ptlen = self.dut.muon_sel_i[0].pt.value.n_bits
-        #self.sectorlen = self.dut.muon_sel_i[0].sector.value.n_bits
+        self.val_cand_frac = ratio
+        self.ptlen = self.dut.muon_i[0].pt.value.n_bits
+        #self.sectorlen = self.dut.muon_i[0].sector.value.n_bits
         self.sectorlen = 0
-        #self.roilen = self.dut.muon_sel_i[0].roi.value.n_bits
+        #self.roilen = self.dut.muon_i[0].roi.value.n_bits
         self.roilen = 0
         self.SU = SortingUtils()
         self.net_sets = (
@@ -46,29 +47,25 @@ class MyTB(object):
     @cocotb.coroutine
     def stim_muon(self):
         yield RisingEdge(self.dut.clk)
-        #self.dut.sink_valid <= 0
+        self.dut.sink_valid <= 0
         for i in range(self.n):
             yield RisingEdge(self.dut.clk)
-            #self.dut.sink_valid <= 1
+            self.dut.sink_valid <= 1
             for j in range(self.I):
-                self.dut.muon_sel_i[j].pt <= self.muon_cand[i][j]['pt']
+                self.dut.muon_i[j].pt <= self.muon_cand[i][j]['pt']
                 #self.dut.muon_cand[j].sector <= self.muon_cand[i][j]['sector']
                 #self.dut.muon_cand[j].roi <= self.muon_cand[i][j]['roi']
         yield RisingEdge(self.dut.clk)
-        #self.dut.sink_valid <= 0
+        self.dut.sink_valid <= 0
 
     @cocotb.coroutine
     def read_muon(self):
         i = 0
         self.sim_sorted_muon = []
-        yield RisingEdge(self.dut.clk)
-        yield RisingEdge(self.dut.clk)
-        yield RisingEdge(self.dut.clk)
         while i < self.n:
             yield RisingEdge(self.dut.clk)
             yield ReadOnly()
-            #if self.dut.source_valid.value.is_resolvable and self.dut.source_valid.value.integer :
-            if True :
+            if self.dut.source_valid.value.is_resolvable and self.dut.source_valid.value.integer :
                 cand = []
                 for j in range(self.O):
                     cand.append({'pt': self.dut.muon_o[j].pt.value.integer,
@@ -84,8 +81,9 @@ class MyTB(object):
         self.muon_cand = []
         for i in range(self.n):
             cand = []
-            pt_valid = [random.randint(1, -1 + 2 ** self.ptlen) for _ in range(self.O)]
-            pt_zero = [0]*(self.I-self.O)
+            n_pt_valid = int(self.val_cand_frac*self.I)
+            pt_valid = [random.randint(1, -1 + 2 ** self.ptlen) for _ in range(n_pt_valid)]
+            pt_zero = [0]*(self.I - n_pt_valid)
             pt=pt_valid + pt_zero
             random.shuffle(pt)
 
@@ -140,12 +138,14 @@ class MyTB(object):
 
 
 
-@cocotb.test()
-def run_test(dut):
+@cocotb.coroutine
+def run_test(dut, ratio):
     """
     Testing the Muon Sorter
     """
-    tb = MyTB(dut,int(os.environ['SIM_LEN']))
+    n = int(os.environ['SIM_LEN'])
+    #ratio = float(os.environ['VAL_CAND_FRAC'])
+    tb = MyTB(dut, n, ratio)
     cocotb.fork(Clock(dut.clk, 10).start())
     stim_thread = cocotb.fork(tb.stim_muon())
     read_thread = cocotb.fork(tb.read_muon())
@@ -173,8 +173,6 @@ def run_test(dut):
 
 
 # Generating Tests
-# taps = range(0, 2 ** 5)
-# factory = TestFactory(run_test)
-# factory.add_option("tap", taps)
-# factory.add_option("n", [10, 100])
-# factory.generate_tests()
+factory = TestFactory(run_test)
+factory.add_option("ratio", [r/10.0 for r in range(11)])
+factory.generate_tests()
