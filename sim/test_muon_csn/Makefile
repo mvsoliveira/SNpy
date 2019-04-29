@@ -1,5 +1,5 @@
 # number of clock cycles with data
-export SIM_LEN=10000
+export SIM_LEN=1000
 # always generate the same random sequence
 export RANDOM_SEED=1377424946
 # raise an error when trying to read
@@ -17,7 +17,7 @@ VCOM_ARGS=-2008
 # sets timescale to ps if desired, default ns
 #VSIM_ARGS+	=-t 1ps
 # set generics
-VSIM_ARGS+=-gI=352 -gO=16 -gdelay=5 -gDA=2 -gDB=3
+export VSIM_ARGS+=-gI=352 -gO=16 -gdelay=5 -gDA=2 -gDB=3
 # vhdl files
 include ./RTLFiles.inc
 # top-level entity name
