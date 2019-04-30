@@ -24,16 +24,15 @@ class MyTB(object):
         #self.delay = self.dut.delay.value
         self.val_cand_frac = ratio
         self.ptlen = self.dut.muon_i[0].pt.value.n_bits
-        #self.sectorlen = self.dut.muon_i[0].sector.value.n_bits
-        self.sectorlen = 0
-        #self.roilen = self.dut.muon_i[0].roi.value.n_bits
-        self.roilen = 0
+        self.idxlen = self.dut.muon_i[0].idx.value.n_bits
+        self.roilen = self.dut.muon_i[0].roi.value.n_bits
+        self.flagslen = self.dut.muon_i[0].flags.value.n_bits
         self.SM = SM
         self.dut._log.info('#' * 50)
         self.dut._log.info("Testing muon sorter with the following settings:")
         self.dut._log.info('Simulation length: {len: d}'.format(len=self.n))
         self.dut._log.info('Number of candidates: input: {num_in:d} | output: {num_out:d}'.format(num_in=self.I, num_out=self.O))
-        self.dut._log.info('Binary lengths: pt: {pt:d} | sector: {sector:d} | roi: {roi:d}'.format(pt=self.ptlen, sector=self.sectorlen, roi=self.roilen))
+        self.dut._log.info('Binary lengths: pt: {pt:d} | idx: {idx:d} | roi: {roi:d} | flags: {flags:d}'.format(pt=self.ptlen, idx=self.idxlen, roi=self.roilen, flags=self.flagslen))
         self.dut._log.info('Top-level: {tp:s}.'.format(tp=self.SM.toplevel))
         #self.dut._log.info('Pre sort set {pre:s}'.format(pre=str(self.presort_in_sets)))
         self.dut._log.info('#' * 50)
@@ -55,8 +54,9 @@ class MyTB(object):
             self.dut.sink_valid <= 1
             for j in range(self.I):
                 self.dut.muon_i[j].pt <= self.muon_cand[i][j]['pt']
-                #self.dut.muon_cand[j].sector <= self.muon_cand[i][j]['sector']
-                #self.dut.muon_cand[j].roi <= self.muon_cand[i][j]['roi']
+                #self.dut.muon_i[j].idx <= self.muon_cand[i][j][idx']
+                self.dut.muon_i[j].roi <= self.muon_cand[i][j]['roi']
+                self.dut.muon_i[j].flags <= self.muon_cand[i][j]['flags']
         yield RisingEdge(self.dut.clk)
         self.dut.sink_valid <= 0
 
@@ -71,9 +71,9 @@ class MyTB(object):
                 cand = []
                 for j in range(self.O):
                     cand.append({'pt': self.dut.muon_o[j].pt.value.integer,
-                                 'sector': self.dut.muon_o[j].idx.value.integer,
-                                 #'roi': self.dut.top_cand[j].roi.value.integer
-                                 'roi': 0
+                                 'idx': self.dut.muon_o[j].idx.value.integer,
+                                 'roi': self.dut.muon_o[j].roi.value.integer,
+                                 'flags': self.dut.muon_o[j].flags.value.integer,
                                  })
                 self.sim_sorted_muon.append(cand)
                 i += 1
@@ -96,9 +96,9 @@ class MyTB(object):
 
             for j in range(self.I):
                 cand.append({'pt': pt[j],
-                             'sector': j,
-                             #'roi': random.randint(0, -1 + 2 ** self.roilen)
-                             'roi': 0
+                             'idx': j,
+                             'roi': random.randint(0, -1 + 2 ** self.roilen),
+                             'flags': random.randint(0, -1 + 2 ** self.flagslen),
                              })
 
             self.muon_cand.append(cand)
@@ -151,8 +151,8 @@ class MyTB(object):
             for muon, name, len in ((self.muon_cand, 'non sorted', self.I) , (self.py_sorted_muon, 'py  sorted', self.O), (self.py_net_sorted_muon, 'py net sorted', self.O), (self.sim_sorted_muon, 'sim sorted', self.O)):
                 self.dut._log.info('Printing {name:s} data for clock cycle {i:04d}'.format(i=i, name=name))
                 for j in range(len):
-                    self.dut._log.info("Id: {input:03d} | pt: 0x{pt:01x} | sector: {sector:03d} | roi: 0x{roi:02x}".format(
-                        pt=muon[i][j]['pt'], sector=muon[i][j]['sector'], roi=muon[i][j]['roi'], input=j))
+                    self.dut._log.info("Id: {input:03d} | pt: 0x{pt:01x} | idx: {idx:03d} | roi: 0x{roi:02x} | flags: 0x{flags:01x}".format(
+                        pt=muon[i][j]['pt'], idx=muon[i][j]['idx'], roi=muon[i][j]['roi'], flags=muon[i][j]['flags'], input=j))
 
 
 
@@ -201,7 +201,7 @@ def run_test(dut, ratio):
 # Generating Tests
 SM = SortingModel()
 factory = TestFactory(run_test)
-n_rates = 100
+n_rates = 10
 ratio = [random.randint(0, 100)/100.0 for _ in range(n_rates)]
 factory.add_option("ratio", ratio)
 factory.generate_tests()

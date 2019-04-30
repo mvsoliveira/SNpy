@@ -83,8 +83,8 @@ begin
 			muon_o       => muon_stage_b
 		);
 		
-		input_delay: block
-        begin
+		--input_delay: block
+        --begin
 		
 		-- delaying input and source_valid
     	process(all)
@@ -98,11 +98,11 @@ begin
                           source_valid <= source_valid_b;               
                 end if;
             end process;	
-            end block input_delay; 	
+            --end block input_delay;
 		
 		
-    mux : block
-                    begin
+    --mux : block
+    --                begin
 
 	o_g : for id in 0 to O - 1 generate
 
@@ -121,6 +121,6 @@ begin
 
 	end generate o_g;
 	
-	end block mux; 	
+	--end block mux;
 
 end architecture RTL;
