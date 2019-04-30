@@ -38,8 +38,7 @@ package csn_pkg is
 	type cfg_net_t is array (natural range <>) of pair_cmp_cfg;
 	type stages_a is array (natural range <>) of boolean;
 
-	function to_array(data : std_logic_vector; N : integer) return muon_a;
-	function to_sort_array(data : std_logic_vector; N : integer) return muon_sort_a;
+	function to_array(data : std_logic_vector; N : integer) return muon_a;	
 	function to_stdv(muon : muon_a; N : integer) return std_logic_vector;
 
 	--type cfg_net_t is array (natural range <>, natural range <>) of cmp_cfg;
@@ -492,14 +491,6 @@ package body csn_pkg is
 		return muon;
 	end to_array;
 	
-	function to_sel_array(data : std_logic_vector; N : integer) return muon_sort_a is
-		variable muon : muon_sort_a(0 to N - 1);
-	begin
-		for i in muon'range loop
-			muon(i).pt  := data((i + 1) * PT_WIDTH - 1 downto i * PT_WIDTH);			
-		end loop;
-		return muon;
-	end to_sel_array;
 
 	function to_stdv(muon : muon_a; N : integer) return std_logic_vector is
 		variable data : std_logic_vector(N * out_word_w - 1 downto 0);
