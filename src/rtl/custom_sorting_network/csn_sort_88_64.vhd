@@ -16,7 +16,7 @@ entity csn_sort_88_64 is
 		clk          : in  std_logic;
 		sink_valid   : in  std_logic;
 		source_valid : out std_logic;
-		muon_i       : in  muon_sel_a(0 to I - 1);
+		muon_i       : in  muon_a(0 to I - 1);
 		muon_o       : out muon_a(0 to O - 1)
 	);
 end entity csn_sort_88_64;
@@ -26,11 +26,15 @@ architecture RTL of csn_sort_88_64 is
 	constant IA : natural := 88;
 	constant IB : natural := 64;
 
-	signal muon_cand    : muon_a(0 to I - 1);
-	signal muon_stage_a : muon_a(0 to (I / IA) * O - 1);
+	signal muon_cand    : muon_sort_a(0 to I - 1);
+	signal muon_stage_a : muon_sort_a(0 to (I / IA) * O - 1);
+	signal muon_stage_b : muon_sort_a(0 to O - 1);
 
 	signal source_valid_a : std_logic;
 	signal sink_valid_b   : std_logic;
+
+	type mux_int_a_t is array (natural range <>) of integer range 0 to I - 1;
+	signal mux_int_a : mux_int_a_t(0 to O - 1);
 
 begin
 
@@ -72,7 +76,24 @@ begin
 			sink_valid   => sink_valid_b,
 			source_valid => source_valid,
 			muon_i       => muon_stage_a,
-			muon_o       => muon_o
+			muon_o       => muon_stage_b
 		);
+
+	o_g : for id in 0 to O - 1 generate
+
+		process(all)
+		begin
+			mux_int_a(id) <= to_integer(unsigned(muon_stage_b(id).idx));
+			if rising_edge(clk) then
+				-- avoiding mux for idx and pt as it goes through the network
+				muon_o(id).idx   <= muon_stage_b(id).idx;
+				muon_o(id).pt    <= muon_stage_b(id).pt;
+				-- using mux for roi and flags as it does not goes through the network
+				muon_o(id).roi   <= muon_i(mux_int_a(id)).roi;
+				muon_o(id).flags <= muon_i(mux_int_a(id)).flags;
+			end if;
+		end process;
+
+	end generate o_g;
 
 end architecture RTL;
