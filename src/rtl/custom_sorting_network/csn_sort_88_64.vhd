@@ -32,11 +32,11 @@ architecture RTL of csn_sort_88_64 is
 
 	signal source_valid_a : std_logic_vector(0 to 3);
 	signal sink_valid_b   : std_logic;
-	signal source_valid_b   : std_logic;
+	signal source_valid_b : std_logic;
 
 	type mux_int_a_t is array (natural range <>) of integer range 0 to I - 1;
 	signal mux_int_a : mux_int_a_t(0 to O - 1);
-	
+
 	type muon_2d is array (natural range <>) of muon_a(0 to I - 1);
 	signal muon_int : muon_2d(0 to DA + DB);
 
@@ -82,28 +82,22 @@ begin
 			muon_i       => muon_stage_a,
 			muon_o       => muon_stage_b
 		);
-		
-		--input_delay: block
-        --begin
-		
-		-- delaying input and source_valid
-    	process(all)
-            begin
-                muon_int(0) <= muon_i;
-                if rising_edge(clk) then
-                    -- delaying muon input
-                    for i in 1 to DA+DB loop
-                            muon_int(i) <= muon_int(i-1);
-                          end loop;
-                          source_valid <= source_valid_b;               
-                end if;
-            end process;	
-            --end block input_delay;
-		
-		
-    --mux : block
-    --                begin
 
+
+	-- delaying input and source_valid
+	process(all)
+	begin
+		muon_int(0) <= muon_i;
+		if rising_edge(clk) then
+			-- delaying muon input
+			for i in 1 to DA + DB loop
+				muon_int(i) <= muon_int(i - 1);
+			end loop;
+			source_valid <= source_valid_b;
+		end if;
+	end process;
+
+	-- 1 stage mux
 	o_g : for id in 0 to O - 1 generate
 
 		process(all)
@@ -114,13 +108,12 @@ begin
 				muon_o(id).idx   <= muon_stage_b(id).idx;
 				muon_o(id).pt    <= muon_stage_b(id).pt;
 				-- using mux for roi and flags as it does not goes through the network
-				muon_o(id).roi   <= muon_int(DA+DB)(mux_int_a(id)).roi;
-				muon_o(id).flags <= muon_int(DA+DB)(mux_int_a(id)).flags;
+				muon_o(id).roi   <= muon_int(DA + DB)(mux_int_a(id)).roi;
+				muon_o(id).flags <= muon_int(DA + DB)(mux_int_a(id)).flags;
 			end if;
 		end process;
 
 	end generate o_g;
-	
-	--end block mux;
+
 
 end architecture RTL;
