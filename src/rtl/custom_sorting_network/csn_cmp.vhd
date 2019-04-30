@@ -10,17 +10,17 @@ entity csn_cmp is
 	       );
 	port(
 		clk : in  std_logic;
-		a_i : in  muon_type;
-		b_i : in  muon_type;
-		a_o : out muon_type;
-		b_o : out muon_type
+		a_i : in  muon_sort_type;
+		b_i : in  muon_sort_type;
+		a_o : out muon_sort_type;
+		b_o : out muon_sort_type
 	);
 end entity csn_cmp;
 
 architecture rtl of csn_cmp is
 
-	signal a_o_comb : muon_type;
-	signal b_o_comb : muon_type; 
+	signal a_o_comb : muon_sort_type;
+	signal b_o_comb : muon_sort_type; 
 
 begin
 

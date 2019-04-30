@@ -35,7 +35,7 @@ entity wrapper_csn_sel is
 	);
 
 	port(
-		clk_wrapper : in  std_logic; 
+		clk_wrapper : in  std_logic;
 		clk         : in  std_logic;
 		input       : in  std_logic;
 		output      : out std_logic);
@@ -55,8 +55,8 @@ end entity wrapper_csn_sel;
 architecture rtl of wrapper_csn_sel is
 
 	--constants
-	constant i_width         : integer := I * PT_WIDTH + 1;
-	constant o_width_desired : integer := O * word_w + 1;
+	constant i_width         : integer := I * in_word_w + 1;
+	constant o_width_desired : integer := O * out_word_w + 1;
 	constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
 	constant o_width         : integer := 4**log4_o_width;
 
@@ -80,20 +80,17 @@ architecture rtl of wrapper_csn_sel is
 			output_bit   : out std_logic);
 	end component reducer;
 
-
 	signal input_vector  : std_logic_vector(i_width - 1 downto 0);
 	signal input_slr     : std_logic_vector(i_width - 1 downto 0);
 	signal output_vector : std_logic_vector(o_width - 1 downto 0);
 	signal output_slr    : std_logic_vector(o_width - 1 downto 0);
 
-	signal muon_cand    : muon_sel_a(0 to I - 1);
-	signal top_cand     : muon_a(0 to O - 1);
-
+	signal muon_cand : muon_a(0 to I - 1);
+	signal top_cand  : muon_a(0 to O - 1);
 
 	attribute DONT_TOUCH : string;
 	attribute DONT_TOUCH of lsfr_1 : label is "TRUE";
 	attribute DONT_TOUCH of reducer_1 : label is "TRUE";
-
 
 begin                                   -- architecture rtl
 
@@ -139,23 +136,23 @@ begin                                   -- architecture rtl
 	-- Logic being tested
 	----------------------------------------------------------------------------------------------------------------------
 
-	muon_cand                                    <= to_sel_array(input_slr, I);
-	output_vector(O * word_w - 1 downto 0)       <= to_stdv(top_cand, O);
-	output_vector(o_width - 2 downto O * word_w) <= (others => '0');
+	muon_cand                                        <= to_array(input_slr, I);
+	output_vector(O * out_word_w - 1 downto 0)       <= to_stdv(top_cand, O);
+	output_vector(o_width - 2 downto O * out_word_w) <= (others => '0');
 
 	dut_inst : entity work.csn_sort_88_64
 		generic map(
-			I     => I,
-			O     => O,
-			DA    => 4,
-			DB    => 2
+			I  => I,
+			O  => O,
+			DA => 4,
+			DB => 2
 		)
 		port map(
-			clk    => clk,
+			clk          => clk,
 			sink_valid   => input_slr(i_width - 1),
-            source_valid => output_vector(o_width - 1),
-			muon_i => muon_cand,
-			muon_o => top_cand
+			source_valid => output_vector(o_width - 1),
+			muon_i       => muon_cand,
+			muon_o       => top_cand
 		);
 
 end architecture rtl;

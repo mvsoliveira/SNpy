@@ -14,8 +14,8 @@ entity csn is
 		clk          : in  std_logic;
 		sink_valid   : in  std_logic;
 		source_valid : out std_logic;
-		muon_i       : in  muon_a(0 to I - 1);
-		muon_o       : out muon_a(0 to O - 1)
+		muon_i       : in  muon_sort_a(0 to I - 1);
+		muon_o       : out muon_sort_a(0 to O - 1)
 	);
 end entity csn;
 
@@ -24,7 +24,7 @@ architecture RTL of csn is
 	constant cfg_net : cfg_net_t := get_cfg(I);
 	constant stages  : stages_a  := get_stg(I, delay);
 
-	type net_array_t is array (natural range <>) of muon_a(0 to I - 1);
+	type net_array_t is array (natural range <>) of muon_sort_a(0 to I - 1);
 
 	signal net_array   : net_array_t(0 to cfg_net'length);
 	signal valid_array : std_logic_vector(0 to cfg_net'length);
