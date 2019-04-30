@@ -9,6 +9,7 @@ create_run Synth_$runname -flow {Vivado Synthesis 2018}
 create_run Impl_$runname -parent_run Synth_$runname -flow {Vivado Implementation 2018}
 current_run [get_runs Impl_$runname]
 set_property -name {STEPS.SYNTH_DESIGN.ARGS.MORE OPTIONS} -value "-generic I=$I -generic O=$O -generic delay=$D" -objects [get_runs Synth_$runname]
+set_property STEPS.SYNTH_DESIGN.ARGS.FLATTEN_HIERARCHY none [get_runs Synth_$runname]
 
 }
 
@@ -19,7 +20,7 @@ proc range {from to {step 1}} {
 set cfgs []
 lappend cfgs [list 64 16 [range 1 9]]
 lappend cfgs [list 88 16 [range 1 9]]
-lappend cfgs [list 352 16 [range 5 14]]
+lappend cfgs [list 352 16 [range 5 10]]
 
 foreach cfg $cfgs {
     foreach {I O Dr} $cfg {
