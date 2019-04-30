@@ -89,7 +89,8 @@ begin
 	begin
 		muon_int(0) <= muon_i;
 		if rising_edge(clk) then
-			-- delaying muon input
+			-- delaying muon input (keeping full thoughput which is actually not necessay)
+			-- should be 
 			for i in 1 to DA + DB loop
 				muon_int(i) <= muon_int(i - 1);
 			end loop;
@@ -102,7 +103,9 @@ begin
 
 		process(all)
 		begin
-			mux_int_a(id) <= to_integer(unsigned(muon_stage_b(id).idx));
+			if not is_x(muon_stage_b(id).idx) then
+				mux_int_a(id) <= to_integer(unsigned(muon_stage_b(id).idx));
+			end if;
 			if rising_edge(clk) then
 				-- avoiding mux for idx and pt as it goes through the network
 				muon_o(id).idx   <= muon_stage_b(id).idx;
