@@ -29,8 +29,8 @@ use work.csn_pkg.all;
 entity wrapper_csn_sel is
 
 	generic(
-		I     : natural := 16;
-		O     : natural := 16;
+		I     : natural := 64;
+		O     : natural := 64;
 		delay : natural := 3            -- delay in clock cycles for pipeline register
 	);
 
@@ -55,8 +55,8 @@ end entity wrapper_csn_sel;
 architecture rtl of wrapper_csn_sel is
 
 	--constants
-	constant i_width         : integer := I * PT_WIDTH;
-	constant o_width_desired : integer := O * word_w;
+	constant i_width         : integer := I * PT_WIDTH + 1;
+	constant o_width_desired : integer := O * word_w + 1;
 	constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
 	constant o_width         : integer := 4**log4_o_width;
 
@@ -141,7 +141,7 @@ begin                                   -- architecture rtl
 
 	muon_cand                                    <= to_sel_array(input_slr, I);
 	output_vector(O * word_w - 1 downto 0)       <= to_stdv(top_cand, O);
-	output_vector(o_width - 1 downto O * word_w) <= (others => '0');
+	output_vector(o_width - 2 downto O * word_w) <= (others => '0');
 
 	dut_inst : entity work.csn_sel_wrapper
 		generic map(
@@ -151,8 +151,12 @@ begin                                   -- architecture rtl
 		)
 		port map(
 			clk    => clk,
+		    sink_valid   => input_slr(i_width - 1),
+            source_valid => output_vector(o_width - 1),
 			muon_i => muon_cand,
 			muon_o => top_cand
 		);
+		
+	
 
 end architecture rtl;

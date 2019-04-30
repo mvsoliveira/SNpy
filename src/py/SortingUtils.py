@@ -54,16 +54,12 @@ class SortingUtils:
         for bar in self.oddeven_merge_sort_range(0, length - 1):
             yield bar
 
-    def compare_and_swap(self, x, a, b, key=None, reverse = True):
-        if key==None:
-            c, d = x[a], x[b]
-        else:
-            c, d = x[a][key], x[b][key]
+    def compare_and_swap(self, x, a, b, key=lambda k:k, reverse = True):
 
         if reverse==False:
-            expr = c > d
+            expr = key(x[a]) > key(x[b])
         else:
-            expr = c <= d
+            expr = key(x[a]) <= key(x[b])
 
         if expr:
             x[a], x[b] = x[b], x[a]
