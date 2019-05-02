@@ -1,5 +1,3 @@
-# number of clock cycles with data
-export SIM_LEN=10
 # always generate the same random sequence
 export RANDOM_SEED=1377424946
 # raise an error when trying to read
@@ -7,7 +5,7 @@ export COCOTB_RESOLVE_X=VALUE_ERROR
 # top-level language
 TOPLEVEL_LANG=vhdl
 # Gui mode if desired
-GUI=1
+GUI=0
 # force waveform to be generated, you can open the wlf file using vsim -view 
 WAVES=0
 # sets default simulator

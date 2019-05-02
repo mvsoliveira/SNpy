@@ -22,7 +22,7 @@ class MyTB(object):
         self.I = self.dut.I.value
         self.O = self.dut.O.value
         #self.delay = self.dut.delay.value
-        self.val_cand_frac = ratio
+        self.val_cand_frac_range = ratio
         self.ptlen = self.dut.muon_i[0].pt.value.n_bits
         self.idxlen = self.dut.muon_i[0].idx.value.n_bits
         self.roilen = self.dut.muon_i[0].roi.value.n_bits
@@ -46,17 +46,26 @@ class MyTB(object):
 
     
     @cocotb.coroutine
-    def stim_muon(self):
+    def stim_muon(self, period = 4):
         yield RisingEdge(self.dut.clk)
         self.dut.sink_valid <= 0
-        for i in range(self.n):
+        i = 0
+        cnt = 0
+        while i < self.n:
             yield RisingEdge(self.dut.clk)
-            self.dut.sink_valid <= 1
-            for j in range(self.I):
-                self.dut.muon_i[j].pt <= self.muon_cand[i][j]['pt']
-                #self.dut.muon_i[j].idx <= self.muon_cand[i][j][idx']
-                self.dut.muon_i[j].roi <= self.muon_cand[i][j]['roi']
-                self.dut.muon_i[j].flags <= self.muon_cand[i][j]['flags']
+            if cnt == period-1:
+                self.dut.sink_valid <= 1
+                for j in range(self.I):
+                    self.dut.muon_i[j].pt <= self.muon_cand[i][j]['pt']
+                    #self.dut.muon_i[j].idx <= self.muon_cand[i][j][idx']
+                    self.dut.muon_i[j].roi <= self.muon_cand[i][j]['roi']
+                    self.dut.muon_i[j].flags <= self.muon_cand[i][j]['flags']
+                cnt = 0
+                i += 1
+            else:
+                self.dut.sink_valid <= 0
+                cnt += 1
+
         yield RisingEdge(self.dut.clk)
         self.dut.sink_valid <= 0
 
@@ -67,23 +76,25 @@ class MyTB(object):
         while i < self.n:
             yield RisingEdge(self.dut.clk)
             yield ReadOnly()
-            if self.dut.source_valid.value.is_resolvable and self.dut.source_valid.value.integer :
-                cand = []
-                for j in range(self.O):
-                    cand.append({'pt': self.dut.muon_o[j].pt.value.integer,
-                                 'idx': self.dut.muon_o[j].idx.value.integer,
-                                 'roi': self.dut.muon_o[j].roi.value.integer,
-                                 'flags': self.dut.muon_o[j].flags.value.integer,
-                                 })
-                self.sim_sorted_muon.append(cand)
-                i += 1
+            if self.dut.source_valid.value.is_resolvable:
+                if self.dut.source_valid.value.integer:
+                    cand = []
+                    for j in range(self.O):
+                        cand.append({'pt': self.dut.muon_o[j].pt.value.integer,
+                                     'idx': self.dut.muon_o[j].idx.value.integer,
+                                     'roi': self.dut.muon_o[j].roi.value.integer,
+                                     'flags': self.dut.muon_o[j].flags.value.integer,
+                                     })
+                    self.sim_sorted_muon.append(cand)
+                    i += 1
 
 
     def gen_muon(self):
         self.muon_cand = []
         for i in range(self.n):
             cand = []
-            n_pt_valid = int(self.val_cand_frac*self.I)
+            fraction = random.uniform(*self.val_cand_frac_range)
+            n_pt_valid = int(fraction*self.I)
             pt_valid = [random.randint(1, -1 + 2 ** self.ptlen) for _ in range(n_pt_valid)]
             pt_zero = [0]*(self.I - n_pt_valid)
             pt=pt_valid + pt_zero
@@ -160,15 +171,14 @@ class MyTB(object):
 
 
 @cocotb.coroutine
-def run_test(dut, ratio):
+def run_test(dut, n, ratio, period):
     """
     Testing the Muon Sorter
     """
-    n = int(os.environ['SIM_LEN'])
     tb = MyTB(dut, SM, n, ratio)
 
     cocotb.fork(Clock(dut.clk, 10).start())
-    stim_thread = cocotb.fork(tb.stim_muon())
+    stim_thread = cocotb.fork(tb.stim_muon(period))
     read_thread = cocotb.fork(tb.read_muon())
 
     yield stim_thread.join()
@@ -201,7 +211,9 @@ def run_test(dut, ratio):
 # Generating Tests
 SM = SortingModel()
 factory = TestFactory(run_test)
-n_rates = 10
-ratio = [random.randint(0, 100)/100.0 for _ in range(n_rates)]
+factory.add_option("n", [1000])
+ratio = 2000*[[0,1]] + 4000*[[8.0/352,24.0/352]] + 4000*[[0.0/352,8.0/352]]
+random.shuffle(ratio)
 factory.add_option("ratio", ratio)
+factory.add_option("period", [1,4,7])
 factory.generate_tests()
