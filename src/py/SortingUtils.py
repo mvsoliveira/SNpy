@@ -412,19 +412,19 @@ class SortingUtils:
                 # Getting random data
                 data = [random.randint(0,2**30) for _ in range(I)]
                 # Sorting random data
-                py_sorted = sorted(data)
+                py_sorted = sorted(data, reverse = True)
                 # Pre sorting inputs for required sets
                 if presort_in_sets != [set()]:
                     for s in presort_in_sets:
-                        data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1])
+                        data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1], reverse = True)
                 # Sorting data using the list of pairs
-                for i in list_of_pairs: self.compare_and_swap(data, *i)
+                for i in list_of_pairs: self.compare_and_swap(data, *i, reverse = True)
                 # if there is no nonsorted outputs the output data has to be sorted in the used output range
                 if nonsorted_out_set == set():
                     cmp = data[0:O-1] == py_sorted[0:O-1]
                 else:
                 # else the output data has to contain the same data but not sorted
-                    cmp = sorted(data[0:O - 1]) == py_sorted[0:O - 1]
+                    cmp = sorted(data[0:O - 1], reverse = True) == py_sorted[0:O - 1]
                 # checking the comparison value
                 if cmp:
                     print('Validation iteration {v:04d} OK'.format(v=v))
