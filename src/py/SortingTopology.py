@@ -57,8 +57,6 @@ class SortingTopology:
             method = 'mergesort'
         return method
 
-
-
     def get_topology_df(self):
         for R in self.R_range:
             print('Working with R={R:d}'.format(R=R))
@@ -92,6 +90,7 @@ class SortingTopology:
             },ignore_index=True)
         for i in ['R', 'ceilI_R', 'cs', 'ds', 'Ecs', 'ceilLgR', 'R-1', 'Ecm', 'Edm', 'Ec', 'Ed']:
             self.topology_df[i] = self.topology_df[i].astype(int)
+        self.topology_df[self.topology_cols].to_excel('topology.xlsx')
 
 
 
