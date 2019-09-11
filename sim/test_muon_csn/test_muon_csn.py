@@ -143,7 +143,7 @@ class MyTB(object):
             data_b = []
             for x in range(factor):
                 # sorting each of 4 parts
-                data_a.append(self.py_net_sorted_muon[i][x*self.I/factor:(x+1)*self.I/factor])
+                data_a.append(self.py_net_sorted_muon[i][x*self.I // factor:(x+1)*self.I // factor])
                 for j in self.SM.list_of_pairs_88: self.SM.SU.compare_and_swap(data_a[x], *j, key=lambda k: k['pt'])
                 # getting the highest from each subset
                 data_b.extend(data_a[x][0 : self.O])
@@ -212,7 +212,8 @@ def run_test(dut, n, ratio, period):
 SM = SortingModel()
 factory = TestFactory(run_test)
 factory.add_option("n", [1000])
-ratio = 2000*[[0,1]] + 4000*[[8.0/352,24.0/352]] + 4000*[[0.0/352,8.0/352]]
+ratio = 1*[[0,1]]
+#ratio = 2000*[[0,1]] + 4000*[[8.0/352,24.0/352]] + 4000*[[0.0/352,8.0/352]]
 random.shuffle(ratio)
 factory.add_option("ratio", ratio)
 factory.add_option("period", [1,4,7])

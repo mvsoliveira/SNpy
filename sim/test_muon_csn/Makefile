@@ -1,3 +1,4 @@
+PYTHONPATH=/d/projects/cocotb/:/c/ProgramData/Anaconda3/python37.zip/:/c/ProgramData/Anaconda3/DLLs/:/c/ProgramData/Anaconda3/Library/bin/:/c/ProgramData/Anaconda3/lib/:/c/ProgramData/Anaconda3/:/c/ProgramData/Anaconda3/lib/site-packages/numpy/:/c/ProgramData/Anaconda3/lib/site-packages/:/c/ProgramData/Anaconda3/lib/site-packages/win32/:/c/ProgramData/Anaconda3/lib/site-packages/win32/lib/:/c/ProgramData/Anaconda3/lib/site-packages/Pythonwin/:/c/ProgramData/Anaconda3:/c/ProgramData/Anaconda3/Library/mingw-w64/bin:/c/ProgramData/Anaconda3/Library/usr/bin:/c/ProgramData/Anaconda3/Scripts
 # always generate the same random sequence
 export RANDOM_SEED=1377424946
 # raise an error when trying to read
@@ -24,5 +25,5 @@ export TOPLEVEL=csn_sort_88_64
 # python test name
 MODULE=test_muon_csn
 # include to cocotb makefiles
-include $(COCOTB)/makefiles/Makefile.inc
-include $(COCOTB)/makefiles/Makefile.sim
+include $(shell cocotb-config --makefiles)/Makefile.inc
+include $(shell cocotb-config --makefiles)/Makefile.sim

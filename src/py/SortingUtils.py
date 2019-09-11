@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import math as m
@@ -8,8 +9,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 class SortingUtils:
     plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
     plot_bitonic_filename_fmt = '../../out/pdf/plot_bitonic_I{i:03d}_O{i:03d}.pdf'
-    plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_masked.pdf'
-    plot_opt_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_D{d:03d}_opt.pdf'
+    plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_{m:s}_masked.pdf'
+    plot_opt_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_D{D:03d}_{m:s}_c{c:d}_d{d:d}_opt.pdf'
     plot_dpi = 300
     cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s})'
     stage_fmt = '({stage:s})'
@@ -63,6 +64,33 @@ class SortingUtils:
 
         if expr:
             x[a], x[b] = x[b], x[a]
+
+    def merge_sort_any(self,length):
+
+        t = np.math.ceil(np.math.log2(length))
+
+        p = 2 ** (t - 1)
+
+        while p > 0:
+            q = 2 ** (t - 1)
+            r = 0
+            d = p
+            toM3 = True
+
+            #while d > 0:
+            while toM3:
+                # step M3
+                for i in range(length - d):
+                    if i & p == r:
+                        yield (i, i + d)
+                if q != p:
+                    d = q - p
+                    q //= 2
+                    r = p
+                    toM3 = True
+                else:
+                    toM3 = False
+            p //= 2
 
     def set_plot_length(self,net):
         self.plot_margin = 8
@@ -209,11 +237,58 @@ class SortingUtils:
             self.generate_reduced_oddevenmerge_plot(N)
 
 
-    def generate_masked_oddevenmerge(self, N, O, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=set()):
+    def generate_masked_oddevenmerge(self, N, O, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=set(), method='oddevenp2'):
         # finding next power2 size
         Nceil = 2 ** int(np.ceil(np.log2(N)))
         # getting list of pairs
-        list_of_pairs = list(self.oddeven_merge_sort(Nceil))
+        if method=='oddevenp2':
+            list_of_pairs = list(self.oddeven_merge_sort(Nceil))
+        elif method=='mergesort':
+            list_of_pairs = list(self.merge_sort_any(N))
+        elif method=='bitonicp2':
+            list_of_pairs = self.get_bitonic_list_of_comparisons(N)
+        elif method=='oddevenmerge':
+            list_of_pairs = list(self.oddeven_merge(lo=0, hi=Nceil-1, r=1))
+        elif method == 'vanvoorhis16':
+            list_of_pairs = [
+            (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15),
+            (0, 2), (1, 3), (4, 6), (5, 7), (8, 10), (9, 11), (12, 14), (13, 15),
+            (0, 4), (1, 5), (2, 6), (3, 7), (8, 12), (9, 13), (10, 14), (11, 15),
+            (0, 8), (1, 9), (2, 10), (3, 11), (4, 12), (5, 13), (6, 14), (7, 15),
+            (1, 2), (3, 12), (13, 14), (7, 11), (4, 8), (5, 10), (6, 9),
+            (1, 4), (2, 8), (3, 10), (5, 9), (6, 12), (7, 13), (11, 14),
+            (2, 4), (3, 5), (6, 8), (7, 9), (10, 12), (11, 13),
+            (3, 6), (5, 8), (7, 10), (9, 12),
+            (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]
+        elif method == 'alhajbaddar18':
+            list_of_pairs = [
+            (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15), (16, 17),
+            (0, 2), (1, 3), (4, 6), (5, 7), (8, 10), (9, 11), (12, 17), (13, 14), (15, 16),
+            (0, 4), (1, 5), (2, 6), (3, 7), (9, 10), (8, 12), (11, 16), (13, 15), (14, 17),
+            (7, 16), (6, 17), (3, 5), (10, 14), (11, 12), (9, 15), (2, 4), (1, 13), (0, 8),
+            (16, 17), (7, 14), (5, 12), (3, 15), (6, 13), (4, 10), (2, 11), (8, 9), (0, 1),
+            (1, 8), (14, 16), (6, 9), (7, 13), (5, 11), (3, 10), (4, 15),
+            (4, 8), (14, 15), (5, 9), (7, 11), (1, 2), (12, 16), (3, 6), (10, 13),
+            (5, 8), (11, 14), (2, 3), (12, 13), (6, 7), (9, 10),
+            (7, 9), (3, 5), (12, 14), (2, 4), (13, 15), (6, 8), (10, 11),
+            (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
+            (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
+        elif method == 'alhajbaddar22':
+            list_of_pairs = [
+            (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15), (16, 17), (18, 19), (20, 21),
+            (2, 4), (1, 3), (0, 5), (6, 8), (7, 9), (10, 12), (11, 13), (14, 16), (15, 17), (18, 20), (19, 21),
+            (6, 10), (7, 11), (8, 12), (9, 13), (14, 18), (15, 19), (16, 20), (17, 21), (3, 5), (1, 4), (0, 2),
+            (9, 17), (7, 15), (11, 19), (8, 16), (3, 12), (0, 10), (1, 18), (5, 20), (13, 21), (6, 14), (2, 4),
+            (0, 7), (17, 20), (3, 15), (9, 18), (2, 11), (4, 16), (5, 10), (1, 8), (12, 19), (13, 14),
+            (20, 21), (0, 6), (3, 8), (12, 18), (2, 13), (14, 16), (5, 9), (10, 15), (4, 7), (11, 17),
+            (16, 20), (18, 19), (15, 17), (12, 14), (10, 11), (7, 9), (8, 13), (4, 5), (1, 3), (2, 6),
+            (19, 20), (16, 17), (15, 18), (11, 14), (9, 13), (10, 12), (7, 8), (3, 5), (4, 6), (1, 2),
+            (18, 19), (14, 16), (13, 15), (11, 12), (8, 9), (5, 10), (6, 7), (2, 3),
+            (17, 19), (16, 18), (14, 15), (12, 13), (9, 11), (8, 10), (5, 7), (3, 6), (2, 4),
+            (17, 18), (15, 16), (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
+            (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
+
+
         # finding the stages
         net = self.to_stages(list_of_pairs)
         # creating plotnet object (adding substages)
@@ -317,13 +392,34 @@ class SortingUtils:
 
 
 
-    def get_muctpi_opt_sets(self, I):
-        O = 16
-        presort_in_sets = self.get_muctpi_presort_in_sets(I)
-        #presort_in_sets = [set()]
+    def get_muctpi_opt_sets(self, I, O = 16, presort=True):
+        if presort:
+            presort_in_sets = self.get_muctpi_presort_in_sets(I)
+        else:
+            presort_in_sets = [set()]
         used_out_set = set(range(O))
         #nonsorted_out_set = set(range(64))
         nonsorted_out_set = set()
+        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
+
+    def get_net_opt_sets(self, I, O = None, pI = None, nO = None):
+        if not O:
+            O = I
+
+        if pI:
+            presort_in_sets = []
+            for i in range(0,I,pI):
+                presort_in_sets.append(set(range(i, i + pI)))
+        else:
+            presort_in_sets = [set()]
+
+        used_out_set = set(range(O))
+
+        if nO:
+            nonsorted_out_set = set(range(nO))
+        else:
+            nonsorted_out_set = set()
+
         return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
 
 
@@ -396,10 +492,10 @@ class SortingUtils:
 
         file.close()
 
-    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1):
+    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1, gen_vhdl = True, method='oddevenp2'):
         file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
         (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
-        [list_of_pairs, net] = self.get_muctpi_sel_net(gen_plots, net_sets)
+        [list_of_pairs, net] = self.get_muctpi_sel_net(gen_plots, net_sets, method)
 
         # validation
         if validation > 0:
@@ -435,17 +531,18 @@ class SortingUtils:
                     sys.exit()
 
         # Generating vhdl package
-        cfg_stage_str = []
-        reg = ['False', 'True ']
-        for i, stage in enumerate(net):
-            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
-            missing = self.find_missing_pairs(stage, I)
-            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
-            cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
+        if gen_vhdl:
+            cfg_stage_str = []
+            reg = ['False', 'True ']
+            for i, stage in enumerate(net):
+                cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
+                missing = self.find_missing_pairs(stage, I)
+                cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
+                cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
 
-        file.write(self.net_fmt.format(i=I, net=',\n'.join(cfg_stage_str)))
+            file.write(self.net_fmt.format(i=I, net=',\n'.join(cfg_stage_str)))
 
-        file.close()
+            file.close()
 
     def generate_csn_serial_pkg(self, values):
         file = open('../../out/vhd/csn_serial_pkg_ref', 'w')
@@ -466,18 +563,22 @@ class SortingUtils:
         print('-- total number of registered stages: {n:d}.'.format(n=sum(stages)))
         return stages
 
-    def get_muctpi_sel_net(self, gen_plots, net_sets):
-        plotnet3 = self.generate_masked_oddevenmerge(*net_sets)
+    def get_muctpi_sel_net(self, gen_plots, net_sets, method='oddevenp2'):
+        plotnet3 = self.generate_masked_oddevenmerge(*net_sets, method=method)
         stages = [0] * len(plotnet3)
         I = net_sets[0]
         O = net_sets[1]
         Iceil = 2 ** int(np.ceil(np.log2(I)))
         if gen_plots:
-            filename = self.plot_masked_filename_fmt.format(i=I, o=O)
+            filename = self.plot_masked_filename_fmt.format(i=I, o=O, m=method)
             self.plot(plotnet3, stages, filename, Iceil)
         list_of_pairs = self.to_list_of_pairs(plotnet3)
+        #number of comparison in optmized network
+        c = len(list_of_pairs)
         # finding the stages
         net = self.to_stages(list_of_pairs)
+        # number of stages
+        d = len(net)
 
 
         if gen_plots:
@@ -486,9 +587,10 @@ class SortingUtils:
             # creating plotnet3 (adding a third parameter for each comparison)
             plotnet3 = self.to_plotnet_triple(plotnet)
             n_stages = len(plotnet3)
-            for i in range(1, n_stages + 1):
-                stages = s.get_stages_cfg(n_stages, i)
-                filename = self.plot_opt_filename_fmt.format(i=I, o=O, d=i)
+            #for i in range(1, n_stages + 1):
+            for i in range(1,2):
+                stages = self.get_stages_cfg(n_stages, i)
+                filename = self.plot_opt_filename_fmt.format(i=I, o=O, D=i, m=method, c=c, d=d)
                 self.plot(plotnet3, stages, filename, I)
         return [list_of_pairs, net]
 
@@ -578,11 +680,9 @@ if __name__ == "__main__":
     s = SortingUtils()
 
     #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
-    I = 64
-    net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_opt_sets(I)
-
-
-    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10)
+    I = 32
+    net_sets = s.get_net_opt_sets(I = I, O = 16, pI = 16, nO = None)
+    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='oddevenmerge')
 
 
 
