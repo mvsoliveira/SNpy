@@ -598,8 +598,22 @@ class SortingUtils:
                     print('net sorted:', data)
                     sys.exit()
 
-    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1, gen_vhdl = True, method='oddevenp2'):
+    def generate_vhdl_pkg(self, net, I):
         file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
+        cfg_stage_str = []
+        reg = ['False', 'True ']
+        for i, stage in enumerate(net):
+            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
+            missing = self.find_missing_pairs(stage, I)
+            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
+            cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
+
+        file.write(self.net_fmt.format(i=I, net=',\n'.join(cfg_stage_str)))
+
+        file.close()
+
+    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1, gen_vhdl = True, method='oddevenp2'):
+
         (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
         [list_of_pairs, net] = self.get_opt_net(gen_plots, net_sets, method)
 
@@ -608,17 +622,8 @@ class SortingUtils:
 
         # Generating vhdl package
         if gen_vhdl:
-            cfg_stage_str = []
-            reg = ['False', 'True ']
-            for i, stage in enumerate(net):
-                cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
-                missing = self.find_missing_pairs(stage, I)
-                cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
-                cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
+            self.generate_vhdl_pkg(net)
 
-            file.write(self.net_fmt.format(i=I, net=',\n'.join(cfg_stage_str)))
-
-            file.close()
 
     def generate_csn_serial_pkg(self, values):
         file = open('../../out/vhd/csn_serial_pkg_ref', 'w')

@@ -1,6 +1,8 @@
 from SortingUtils import SortingUtils
 import numpy as np
 import pandas as pd
+import multiprocessing as mp
+
 # if True:
 #     for i in range(88,89):
 #         #print(i)
@@ -16,11 +18,13 @@ import pandas as pd
 #             #print(list_of_pairs)
 
 class SortingTopology:
-    def __init__(self, I, O, method):
+    def __init__(self, I, O, method, generate_plot = False, plot_masked_pairs = True):
         self.SU = SortingUtils()
         self.I = I
         self.O = O
         self.method = method
+        self.generate_plot = generate_plot
+        self.remove_masked_pairs = not plot_masked_pairs
         self.R_range = range(1,np.math.ceil(I//O)+1)
         self.topology_cols = ['R','ceilI_R','method','cs','ds','Ecs','ceilLgR','R-1','Ecm','Edm','Ec','Ed']
         self.topology_df = pd.DataFrame(dtype=int)
@@ -42,7 +46,7 @@ class SortingTopology:
         # getting masked net
         net_sets = self.SU.get_net_opt_sets(I=Im, O=Om, pI=None, nO=None)
         masked_plotnet3v2 = self.SU.generate_opt_masked_net(*net_sets, method)
-        masked_pairs = self.SU.to_list_of_pairs(masked_plotnet3v2, remove_masked=False)
+        masked_pairs = self.SU.to_list_of_pairs(masked_plotnet3v2, remove_masked=self.remove_masked_pairs)
         # plot it anyways
         self.SU.plot(masked_plotnet3v2)
         # getting optimized net
@@ -123,7 +127,7 @@ class SortingTopology:
         # getting net with masked comparisons
         plotnet3v2 = self.SU.generate_opt_masked_net(*net_sets, method=self.method)
         # converting net to list of pairs
-        list_of_pairs = self.SU.to_list_of_pairs(plotnet3v2, remove_masked= False)
+        list_of_pairs = self.SU.to_list_of_pairs(plotnet3v2, remove_masked = self.remove_masked_pairs)
         list_of_list_of_pairs = []
         # replicating net
         for r in range(R):
@@ -141,7 +145,9 @@ class SortingTopology:
         netv2 = self.SU.to_stages(new_list_of_pairsv2)
         # creating plotnet object (adding substages)
         plotnetv2 = self.SU.to_plotnet(netv2)
-        return [new_list_of_pairsv2, plotnetv2]
+        if self.remove_masked_pairs:
+            plotnetv2 = self.SU.to_plotnet_triple(plotnetv2)
+        return [new_list_of_pairsv2, netv2, plotnetv2]
 
     def is_power_2(self, n):
         return ((n & (n - 1) == 0) and n != 0)
@@ -149,6 +155,7 @@ class SortingTopology:
     def generate_R_merge_net(self,R):
         merge_pairs = self.merge_dict['masked_pairs']
         merge_tree_pairs = []
+        net = []
         # define donly if R is power of two
         if self.is_power_2(R):
             I_R = self.I // R
@@ -163,8 +170,13 @@ class SortingTopology:
                     mymap = list(first_range)+list(second_range)
                     # remapping net to new input mapping
                     level_pairs.append(self.remap_list_of_pairs(merge_pairs, mymap))
-                    print(L, r)
+                    #print(L, r)
                 # interleaving pairs
+                interleaved_pairs = self.interleave_list_of_list_of_pairs(level_pairs)
+                #print(interleaved_pairs)
+                # getting net for the current level
+                net.extend(self.SU.to_stages(interleaved_pairs))
+                #print(netv2)
                 merge_tree_pairs.extend(self.interleave_list_of_list_of_pairs(level_pairs))
 
         # adding metadata
@@ -172,28 +184,66 @@ class SortingTopology:
                                'I': self.I,
                                'O': self.O,
                                'pairs': merge_tree_pairs}
+        netv2 = {'method': '{m:s}_R_{R:d}'.format(m=self.merge_dict['method'], R=R),
+                               'I': self.I,
+                               'O': self.O,
+                               'net': net}
         # finding the stages
-        netv2 = self.SU.to_stages(new_list_of_pairsv2)
+        #netv2 = self.SU.to_stages(new_list_of_pairsv2)
         # creating plotnet object (adding substages)
         plotnetv2 = self.SU.to_plotnet(netv2)
-        return [new_list_of_pairsv2, plotnetv2]
+        if self.remove_masked_pairs:
+            plotnetv2 = self.SU.to_plotnet_triple(plotnetv2)
+        return [new_list_of_pairsv2, netv2, plotnetv2]
 
 
 
 
     def generate_R_net(self, R):
         # generating the sorting net (first stage)
-        [sort_list_of_pairsv2, sort_plotnetv2] = self.generate_R_sort_net(R)
+        [sort_list_of_pairsv2, sort_netv2, sort_plotnetv2] = self.generate_R_sort_net(R)
         # plotting it anyaways
-        self.SU.plot(sort_plotnetv2)
+        #self.SU.plot(sort_plotnetv2)
         # validation if it is a single net
         if R == 1:
             net_sets = self.SU.get_net_opt_sets(I=sort_list_of_pairsv2['I'], O=sort_list_of_pairsv2['O'], pI=None, nO=None)
             self.SU.list_of_pairs_validation(net_sets=net_sets,list_of_pairsv2=sort_list_of_pairsv2, N=1000)
         # generating merging tree net
-        [merge_list_of_pairsv2, merge_plotnetv2] = self.generate_R_merge_net(R)
+        [merge_list_of_pairsv2, merge_netv2, merge_plotnetv2] = self.generate_R_merge_net(R)
         # plotting it anyaways
-        self.SU.plot(merge_plotnetv2)
+        #self.SU.plot(merge_plotnetv2)
+        # net
+        net = []
+        net.extend(sort_netv2['net'])
+        net.extend(merge_netv2['net'])
+        netv2 = {'method': '{ms:s}_{m:s}'.format(ms=sort_netv2['method'], m=merge_netv2['method']),
+                 'I': self.I,
+                 'O': self.O,
+                 'net': net}
+        plotnetv2 = self.SU.to_plotnet(netv2)
+        if self.remove_masked_pairs:
+            plotnetv2 = self.SU.to_plotnet_triple(plotnetv2)
+        #self.SU.print_plotnet(plotnetv2['plotnet'])
+        if self.generate_plot:
+            self.SU.plot(plotnetv2)
+        # optimizing pairs
+        opt_pairs = self.SU.to_list_of_pairs(plotnetv2, remove_masked=True)
+        # validating pairs
+        net_sets = self.SU.get_net_opt_sets(I=self.I, O=self.O, pI=None, nO=None)
+        self.SU.list_of_pairs_validation(net_sets=net_sets, list_of_pairsv2=opt_pairs, N=1000)
+        # generating vhdl files
+        c = len(opt_pairs)
+        net = self.SU.to_stages(opt_pairs)
+        d = len(net)
+        self.SU.generate_vhdl_pkg(net, self.I)
+        for i in range(1, d + 1):
+            self.SU.get_stages_cfg(d, i)
+        print('Generated network with {d:d} levels and {c:d} comparisons'.format(c=c, d=d))
+
+
+
+
+
 
 
 
@@ -218,14 +268,22 @@ class SortingTopology:
 
 
 
-
+def worker():
+    ST = SortingTopology(I=352,O=16,method='best', generate_plot = False, plot_masked_pairs=True)
+    ST.generate_R_net(16)
+    print('finished')
 
 
 
 if __name__ == '__main__':
-    ST = SortingTopology(I=16,O=4,method='best')
-    ST.generate_R_net(4)
+    # using mp for dealing better with memory-hungry processes
+    # if the application is finishing unexpectly, do not generate plots
+    proc=mp.Process(target=worker)
+    proc.daemon=True
+    proc.start()
+    proc.join()
+
     #ST.generate_R_merge_net(1)
-    print('finished')
+
 
 
