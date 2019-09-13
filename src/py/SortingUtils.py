@@ -102,7 +102,7 @@ class SortingUtils:
         for s in net:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
-    def plot(self, plotnetv2, stages_i=None, filename=None, I=None):
+    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1):
         if isinstance(plotnetv2, dict):
             plotnet = plotnetv2['plotnet']
             I = plotnetv2['I']
@@ -140,8 +140,8 @@ class SortingUtils:
             # plotting stage number
             curr_stage_half_spacing = ((len(s) - 1) * self.plot_substagesp + self.plot_stagesp) / 2
             x += curr_stage_half_spacing
-            ax.text(x, -1, '{y:d}'.format(y=i), horizontalalignment='center', verticalalignment='top')
-            ax.text(x, I, '{y:d}'.format(y=i), horizontalalignment='center', verticalalignment='baseline')
+            ax.text(x, -1, '{y:d}'.format(y=i+first_stage), horizontalalignment='center', verticalalignment='top')
+            ax.text(x, I, '{y:d}'.format(y=i+first_stage), horizontalalignment='center', verticalalignment='baseline')
             x -= curr_stage_half_spacing
             x += self.plot_stagesp / 2
             # plotting substages
@@ -166,7 +166,11 @@ class SortingUtils:
 
     def to_stages(self,list_of_pairsv2):
         net = [[]]
-        list_of_pairs = list_of_pairsv2['pairs']
+        if isinstance(list_of_pairsv2, dict):
+            list_of_pairs = list_of_pairsv2['pairs']
+        else:
+            list_of_pairs = list_of_pairsv2
+
         for pair in list_of_pairs:
             done = False
             s = 0
@@ -195,11 +199,15 @@ class SortingUtils:
                     else:
                         s += 1
 
-        netv2 = {'method': list_of_pairsv2['method'],
-                           'I': list_of_pairsv2['I'],
-                           'O': list_of_pairsv2['O'],
-                           'net': net}
-        return netv2
+        if isinstance(list_of_pairsv2, dict):
+            netv2 = {'method': list_of_pairsv2['method'],
+                     'I': list_of_pairsv2['I'],
+                     'O': list_of_pairsv2['O'],
+                     'net': net}
+            return netv2
+        else:
+            return net
+
 
 
     def to_plotnet(self,netv2):
@@ -299,6 +307,10 @@ class SortingUtils:
             (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
             (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
         elif method == 'alhajbaddar22':
+            # The id of the comparator lines are from bottom to top in her Thesis. Therefore this first list, commented
+            #  and extracted from the CE-list in her thesis looks different than the one illustrated in her Thesis.
+            # The second list, acctually being used here, is a flipped upside-down list in such a way that the network
+            # looks the same as the one illustrated in her thesis.
             # list_of_pairs = [
             # (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15), (16, 17), (18, 19), (20, 21),
             # (2, 4), (1, 3), (0, 5), (6, 8), (7, 9), (10, 12), (11, 13), (14, 16), (15, 17), (18, 20), (19, 21),
@@ -312,7 +324,6 @@ class SortingUtils:
             # (17, 19), (16, 18), (14, 15), (12, 13), (9, 11), (8, 10), (5, 7), (3, 6), (2, 4),
             # (17, 18), (15, 16), (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
             # (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
-            #list_of_pairs = [[20, 21], [18, 19], [16, 17], [14, 15], [12, 13], [10, 11], [8, 9], [6, 7], [4, 5], [2, 3], [0, 1], [17, 19], [18, 20], [16, 21], [13, 15], [12, 14], [9, 11], [8, 10], [5, 7], [4, 6], [1, 3], [0, 2], [11, 15], [10, 14], [9, 13], [8, 12], [3, 7], [2, 6], [1, 5], [0, 4], [16, 18], [17, 20], [19, 21], [4, 12], [6, 14], [2, 10], [5, 13], [9, 18], [11, 21], [3, 20], [1, 16], [0, 8], [7, 15], [17, 19], [14, 21], [1, 4], [6, 18], [3, 12], [10, 19], [5, 17], [11, 16], [13, 20], [2, 9], [7, 8], [0, 1], [15, 21], [13, 18], [3, 9], [8, 19], [5, 7], [12, 16], [6, 11], [14, 17], [4, 10], [1, 5], [2, 3], [4, 6], [7, 9], [10, 11], [12, 14], [8, 13], [16, 17], [18, 20], [15, 19], [1, 2], [4, 5], [3, 6], [7, 10], [8, 12], [9, 11], [13, 14], [16, 18], [15, 17], [19, 20], [2, 3], [5, 7], [6, 8], [9, 10], [12, 13], [11, 16], [14, 15], [18, 19], [2, 4], [3, 5], [6, 7], [8, 9], [10, 12], [11, 13], [14, 16], [15, 18], [17, 19], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [4, 5], [6, 7], [8, 9], [10, 11], [12, 13], [14, 15], [16, 17]]
             list_of_pairs = [(20, 21), (18, 19), (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5), (2, 3), (0, 1),
              (17, 19), (18, 20), (16, 21), (13, 15), (12, 14), (9, 11), (8, 10), (5, 7), (4, 6), (1, 3), (0, 2),
              (11, 15), (10, 14), (9, 13), (8, 12), (3, 7), (2, 6), (1, 5), (0, 4), (16, 18), (17, 20), (19, 21),
@@ -546,35 +557,38 @@ class SortingUtils:
 
         file.close()
 
-    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1, gen_vhdl = True, method='oddevenp2'):
-        file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
+    def list_of_pairs_validation(self, net_sets, list_of_pairsv2, N):
         (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
-        [list_of_pairs, net] = self.get_opt_net(gen_plots, net_sets, method)
+        if isinstance(list_of_pairsv2, dict):
+            list_of_pairs = list_of_pairsv2['pairs']
+        else:
+            list_of_pairs = list_of_pairsv2
+
 
         # validation
-        if validation > 0:
+        if N > 0:
             print('Validating sorting network I={I:d}'.format(I=I))
             print('Pre-sorting input set: {P:s}'.format(P=str(presort_in_sets)))
             print('Used output range len: {O:d} set: {U:s}'.format(O=O, U=str(used_out_set)))
             print('Non-sorted output range set: {S:s}'.format(S=str(nonsorted_out_set)))
 
-            for v in range(validation):
+            for v in range(N):
                 # Getting random data
-                data = [random.randint(0,2**30) for _ in range(I)]
+                data = [random.randint(0, 2 ** 30) for _ in range(I)]
                 # Sorting random data
-                py_sorted = sorted(data, reverse = True)
+                py_sorted = sorted(data, reverse=True)
                 # Pre sorting inputs for required sets
                 if presort_in_sets != [set()]:
                     for s in presort_in_sets:
-                        data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1], reverse = True)
+                        data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1], reverse=True)
                 # Sorting data using the list of pairs
-                for i in list_of_pairs: self.compare_and_swap(data, *i, reverse = True)
+                for i in list_of_pairs: self.compare_and_swap(data, *i[:2], reverse=True)
                 # if there is no nonsorted outputs the output data has to be sorted in the used output range
                 if nonsorted_out_set == set():
-                    cmp = data[0:O-1] == py_sorted[0:O-1]
+                    cmp = data[0:O - 1] == py_sorted[0:O - 1]
                 else:
-                # else the output data has to contain the same data but not sorted
-                    cmp = sorted(data[0:O - 1], reverse = True) == py_sorted[0:O - 1]
+                    # else the output data has to contain the same data but not sorted
+                    cmp = sorted(data[0:O - 1], reverse=True) == py_sorted[0:O - 1]
                 # checking the comparison value
                 if cmp:
                     print('Validation iteration {v:04d} OK'.format(v=v))
@@ -583,6 +597,14 @@ class SortingUtils:
                     print('python sorted:', py_sorted)
                     print('net sorted:', data)
                     sys.exit()
+
+    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1, gen_vhdl = True, method='oddevenp2'):
+        file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
+        (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
+        [list_of_pairs, net] = self.get_opt_net(gen_plots, net_sets, method)
+
+        # validating network
+        self.list_of_pairs_validation(net_sets, list_of_pairs, validation)
 
         # Generating vhdl package
         if gen_vhdl:

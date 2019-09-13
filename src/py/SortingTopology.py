@@ -24,11 +24,11 @@ class SortingTopology:
         self.R_range = range(1,np.math.ceil(I//O)+1)
         self.topology_cols = ['R','ceilI_R','method','cs','ds','Ecs','ceilLgR','R-1','Ecm','Edm','Ec','Ed']
         self.topology_df = pd.DataFrame(dtype=int)
-        #self.get_merge_dict()
+        self.get_merge_dict()
         #self.get_topology_df()
         #print(self.topology_df[self.topology_cols])
         #ST.topology_df[ST.topology_cols]
-        self.generate_R_sort_net(16)
+
 
 
     def get_net(self, I, O,method):
@@ -36,14 +36,24 @@ class SortingTopology:
         [list_of_pairs, net] = self.SU.get_opt_net(gen_plots = False, net_sets=net_sets, method=method)
         return [list_of_pairs, net]
 
-    def get_merge_dict(self):
+    def get_merge_dict(self, method = 'oddevenmerge'):
         Im=2*self.O
         Om = self.O
-        [list_of_pairs, net] = self.get_net(I=Im, O=self.O, method = 'oddevenmerge')
-        self.merge_dict = {'pairs': list_of_pairs,
-                           'net': net,
-                           'cm' : len(list_of_pairs),
-                           'dm' : len(net),
+        # getting masked net
+        net_sets = self.SU.get_net_opt_sets(I=Im, O=Om, pI=None, nO=None)
+        masked_plotnet3v2 = self.SU.generate_opt_masked_net(*net_sets, method)
+        masked_pairs = self.SU.to_list_of_pairs(masked_plotnet3v2, remove_masked=False)
+        # plot it anyways
+        self.SU.plot(masked_plotnet3v2)
+        # getting optimized net
+        [opt_list_of_pairs, opt_net] = self.get_net(I=Im, O=self.O, method = method)
+        self.merge_dict = {'pairs': opt_list_of_pairs,
+                           'net': opt_net,
+                           'masked_pairs' : masked_pairs,
+                           'masked_net': masked_plotnet3v2,
+                           'method' : method,
+                           'cm' : len(opt_list_of_pairs),
+                           'dm' : len(opt_net),
                            'Im' : Im,
                            'Om': Om}
 
@@ -131,8 +141,65 @@ class SortingTopology:
         netv2 = self.SU.to_stages(new_list_of_pairsv2)
         # creating plotnet object (adding substages)
         plotnetv2 = self.SU.to_plotnet(netv2)
-        self.SU.plot(plotnetv2)
-        return plotnetv2
+        return [new_list_of_pairsv2, plotnetv2]
+
+    def is_power_2(self, n):
+        return ((n & (n - 1) == 0) and n != 0)
+
+    def generate_R_merge_net(self,R):
+        merge_pairs = self.merge_dict['masked_pairs']
+        merge_tree_pairs = []
+        # define donly if R is power of two
+        if self.is_power_2(R):
+            I_R = self.I // R
+            O = self.O
+            for L in range(int(np.math.log2(R))):
+                level_pairs = []
+                for r in range(0,R >> L,2):
+                    # computing first and second range os input of merge net
+                    first_range = range(r*(I_R << L), r * (I_R << L)+O)
+                    second_range = range((r+1) * (I_R << L), (r+1) * (I_R << L) + O)
+
+                    mymap = list(first_range)+list(second_range)
+                    # remapping net to new input mapping
+                    level_pairs.append(self.remap_list_of_pairs(merge_pairs, mymap))
+                    print(L, r)
+                # interleaving pairs
+                merge_tree_pairs.extend(self.interleave_list_of_list_of_pairs(level_pairs))
+
+        # adding metadata
+        new_list_of_pairsv2 = {'method': '{m:s}_R_{R:d}'.format(m=self.merge_dict['method'], R=R),
+                               'I': self.I,
+                               'O': self.O,
+                               'pairs': merge_tree_pairs}
+        # finding the stages
+        netv2 = self.SU.to_stages(new_list_of_pairsv2)
+        # creating plotnet object (adding substages)
+        plotnetv2 = self.SU.to_plotnet(netv2)
+        return [new_list_of_pairsv2, plotnetv2]
+
+
+
+
+    def generate_R_net(self, R):
+        # generating the sorting net (first stage)
+        [sort_list_of_pairsv2, sort_plotnetv2] = self.generate_R_sort_net(R)
+        # plotting it anyaways
+        self.SU.plot(sort_plotnetv2)
+        # validation if it is a single net
+        if R == 1:
+            net_sets = self.SU.get_net_opt_sets(I=sort_list_of_pairsv2['I'], O=sort_list_of_pairsv2['O'], pI=None, nO=None)
+            self.SU.list_of_pairs_validation(net_sets=net_sets,list_of_pairsv2=sort_list_of_pairsv2, N=1000)
+        # generating merging tree net
+        [merge_list_of_pairsv2, merge_plotnetv2] = self.generate_R_merge_net(R)
+        # plotting it anyaways
+        self.SU.plot(merge_plotnetv2)
+
+
+
+
+
+
 
 
 
@@ -156,7 +223,9 @@ class SortingTopology:
 
 
 if __name__ == '__main__':
-    ST = SortingTopology(I=352,O=16,method='best')
+    ST = SortingTopology(I=16,O=4,method='best')
+    ST.generate_R_net(4)
+    #ST.generate_R_merge_net(1)
     print('finished')
 
 
