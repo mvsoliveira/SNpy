@@ -19,12 +19,12 @@ class SortingModel:
             self.I)
         if self.toplevel == 'work.csn_sort_88_64':
             self.net_sets_88 = self.SU.get_muctpi_opt_sets(88)
-            [self.list_of_pairs_88, net] = self.SU.get_muctpi_sel_net(gen_plots=False, net_sets=self.net_sets_88)
+            [self.list_of_pairs_88, net] = self.SU.get_opt_net(gen_plots=False, net_sets=self.net_sets_88)
             self.net_sets_64 = self.SU.get_muctpi_opt_sets(64)
-            [self.list_of_pairs_64, net] = self.SU.get_muctpi_sel_net(gen_plots=False, net_sets=self.net_sets_64)
+            [self.list_of_pairs_64, net] = self.SU.get_opt_net(gen_plots=False, net_sets=self.net_sets_64)
         else:
-            [self.list_of_pairs, net] = self.SU.get_muctpi_sel_net(gen_plots=False,
-                                                                              net_sets=self.net_sets)
+            [self.list_of_pairs, net] = self.SU.get_opt_net(gen_plots=False,
+                                                            net_sets=self.net_sets)
 
 
 

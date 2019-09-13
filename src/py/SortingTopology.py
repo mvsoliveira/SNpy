@@ -24,15 +24,16 @@ class SortingTopology:
         self.R_range = range(1,np.math.ceil(I//O)+1)
         self.topology_cols = ['R','ceilI_R','method','cs','ds','Ecs','ceilLgR','R-1','Ecm','Edm','Ec','Ed']
         self.topology_df = pd.DataFrame(dtype=int)
-        self.get_merge_dict()
-        self.get_topology_df()
-        print(self.topology_df[self.topology_cols])
+        #self.get_merge_dict()
+        #self.get_topology_df()
+        #print(self.topology_df[self.topology_cols])
         #ST.topology_df[ST.topology_cols]
+        self.generate_R_sort_net(16)
 
 
     def get_net(self, I, O,method):
         net_sets = self.SU.get_net_opt_sets(I=I, O=O, pI=None, nO=None)
-        [list_of_pairs, net] = self.SU.get_muctpi_sel_net(gen_plots = False, net_sets=net_sets, method=method)
+        [list_of_pairs, net] = self.SU.get_opt_net(gen_plots = False, net_sets=net_sets, method=method)
         return [list_of_pairs, net]
 
     def get_merge_dict(self):
@@ -46,25 +47,13 @@ class SortingTopology:
                            'Im' : Im,
                            'Om': Om}
 
-    def get_best_method(self,N):
-        if N == 16:
-            method = 'vanvoorhis16'
-        elif N==18:
-            method = 'alhajbaddar18'
-        elif N==22:
-            method = 'alhajbaddar22'
-        else:
-            method = 'mergesort'
-        return method
+
 
     def get_topology_df(self):
         for R in self.R_range:
             print('Working with R={R:d}'.format(R=R))
             ceil_I_R = np.math.ceil(self.I/R)
-            if self.method == 'best':
-                method = self.get_best_method(ceil_I_R)
-            else:
-                method = self.method
+            method = self.SU.get_method(ceil_I_R, self.method)
             [list_of_pairs, net] = self.get_net(ceil_I_R, self.O, method)
             cs = len(list_of_pairs)
             ds = len(net)
@@ -91,6 +80,76 @@ class SortingTopology:
         for i in ['R', 'ceilI_R', 'cs', 'ds', 'Ecs', 'ceilLgR', 'R-1', 'Ecm', 'Edm', 'Ec', 'Ed']:
             self.topology_df[i] = self.topology_df[i].astype(int)
         self.topology_df[self.topology_cols].to_excel('topology.xlsx')
+
+    def remap_pair(self,pair,mymap):
+        # this way keep mask if exist
+        new_pair = pair.copy()
+        new_pair[0] = mymap[pair[0]]
+        new_pair[1] = mymap[pair[1]]
+        return new_pair
+
+    def remap_list_of_pairs(self,list_of_pairs,mymap):
+        new_list_of_pairs = []
+        for pair in list_of_pairs:
+            new_list_of_pairs.append(self.remap_pair(pair,mymap))
+        return new_list_of_pairs
+
+    def interleave_list_of_list_of_pairs(self, list_of_list_of_pairs):
+        return [*sum(zip(*list_of_list_of_pairs),())]
+
+    def test_method(self):
+        l = [
+            [(1,2,0),(3,4,1)],
+            [(5, 6, 0), (7, 8, 0)],
+            [(9, 10, 1), (11, 12, 1)]
+        ]
+        print(self.interleave_list_of_list_of_pairs(l))
+
+    def generate_R_sort_net(self, R):
+        # finding the integer ceiling value of I/R
+        ceil_I_R = np.math.ceil(self.I / R)
+        # getting the appropriate optimization settings
+        net_sets = self.SU.get_net_opt_sets(I=ceil_I_R, O=self.O, pI=None, nO=None)
+        # getting net with masked comparisons
+        plotnet3v2 = self.SU.generate_opt_masked_net(*net_sets, method=self.method)
+        # converting net to list of pairs
+        list_of_pairs = self.SU.to_list_of_pairs(plotnet3v2, remove_masked= False)
+        list_of_list_of_pairs = []
+        # replicating net
+        for r in range(R):
+            mymap = list(range(r*ceil_I_R,(r+1)*ceil_I_R))
+            list_of_list_of_pairs.append(self.remap_list_of_pairs(list_of_pairs,mymap))
+
+        # interleaving list of pairs to a single list
+        new_list_of_pairs = self.interleave_list_of_list_of_pairs(list_of_list_of_pairs)
+        # adding metadata
+        new_list_of_pairsv2 = {'method' : '{m:s}_R_{R:d}'.format(m=plotnet3v2['method'],R=R),
+                               'I' : self.I,
+                               'O' : self.O*R,
+                               'pairs' : new_list_of_pairs}
+        # finding the stages
+        netv2 = self.SU.to_stages(new_list_of_pairsv2)
+        # creating plotnet object (adding substages)
+        plotnetv2 = self.SU.to_plotnet(netv2)
+        self.SU.plot(plotnetv2)
+        return plotnetv2
+
+
+
+
+
+        # cs = len(list_of_pairs)
+        # ds = len(net)
+        # Ecs = R * cs
+        # ceilLgR = np.math.ceil(np.math.log(R, 2))
+        # R_1 = R - 1
+        # Ecm = R_1 * self.merge_dict['cm']
+        # Edm = ceilLgR * self.merge_dict['dm']
+
+
+
+
+
 
 
 

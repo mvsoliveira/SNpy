@@ -102,7 +102,17 @@ class SortingUtils:
         for s in net:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
-    def plot(self, plotnet, stages_i, filename, I):
+    def plot(self, plotnetv2, stages_i=None, filename=None, I=None):
+        if isinstance(plotnetv2, dict):
+            plotnet = plotnetv2['plotnet']
+            I = plotnetv2['I']
+            O = plotnetv2['O']
+            method = plotnetv2['method']
+            stages_i = [0] * len(plotnet)
+            filename = self.plot_masked_filename_fmt.format(i=I, o=O, m=method)
+        else:
+            plotnet = plotnetv2
+
 
         color = ['black', 'red', 'blue', 'magenta', 'green']
         linestyle = ['dotted', 'dashed']
@@ -154,8 +164,9 @@ class SortingUtils:
         flatten_f = lambda l: [item for sublist in l for item in sublist]
         return flatten_f(l)
 
-    def to_stages(self,list_of_pairs):
+    def to_stages(self,list_of_pairsv2):
         net = [[]]
+        list_of_pairs = list_of_pairsv2['pairs']
         for pair in list_of_pairs:
             done = False
             s = 0
@@ -164,14 +175,14 @@ class SortingUtils:
                 futurepresent = False
                 if len(net[s]) > 0:
                     for p in net[s]:
-                        if (pair[0] in p) or (pair[1] in p):
+                        if (pair[0] in p[:2]) or (pair[1] in p[:2]):
                             present = True
 
                 if not present:
                     ## Is it present in the future?
                     future_pairs = self.flatten(net[s+1:])
                     for p in future_pairs:
-                        if (pair[0] in p) or (pair[1] in p):
+                        if (pair[0] in p[:2]) or (pair[1] in p[:2]):
                             futurepresent = True
 
                 if (not present) and (not futurepresent):
@@ -183,10 +194,16 @@ class SortingUtils:
                         done = True
                     else:
                         s += 1
-        return net
+
+        netv2 = {'method': list_of_pairsv2['method'],
+                           'I': list_of_pairsv2['I'],
+                           'O': list_of_pairsv2['O'],
+                           'net': net}
+        return netv2
 
 
-    def to_plotnet(self,net):
+    def to_plotnet(self,netv2):
+        net = netv2['net']
         # single substages solution
         #net = [[[p] for p in item] for item in net]
         # avoiding overlaps
@@ -211,18 +228,26 @@ class SortingUtils:
                     else:
                         s += 1
             plotnet.append(substages)
-        return plotnet
 
-    def to_plotnet_triple(self,plotnet):
-        return [[[list(pair) + [0] for pair in substage] for substage in stage] for stage in plotnet]
+        plotnetv2 = {'method': netv2['method'],
+                 'I': netv2['I'],
+                 'O': netv2['O'],
+                 'plotnet': plotnet}
+        return plotnetv2
 
-    def mask_net_in(self,plotnet3,minin, maxin):
-        for stage in plotnet3:
+    def to_plotnet_triple(self,plotnetv2):
+        new_plotnet = [[[list(pair) + [0] for pair in substage] for substage in stage] for stage in plotnetv2['plotnet']]
+        plotnetv2['plotnet'] = new_plotnet
+        return plotnetv2
+
+
+    def mask_net_in(self,plotnet3v2,minin, maxin):
+        for stage in plotnet3v2['plotnet']:
             for substage in stage:
                 for pair in substage:
                     if (minin <= pair[0] <= maxin) or (minin <= pair[1] <= maxin):
                         pair[2] = 1
-        return plotnet3
+        return plotnet3v2
 
     def prum_masked_list(self, plotnet3):
         return [[[pair for pair in substage if pair[2] == 0] for substage in stage] for stage in plotnet3]
@@ -236,17 +261,17 @@ class SortingUtils:
         for i, N in enumerate(values):
             self.generate_reduced_oddevenmerge_plot(N)
 
-
-    def generate_masked_oddevenmerge(self, N, O, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=set(), method='oddevenp2'):
-        # finding next power2 size
+    def generate_net_pairs(self, N, methodin):
+        # finding best method if required
+        method = self.get_method(N, methodin)
         Nceil = 2 ** int(np.ceil(np.log2(N)))
-        # getting list of pairs
+        list_of_pairs = None
         if method=='oddevenp2':
             list_of_pairs = list(self.oddeven_merge_sort(Nceil))
         elif method=='mergesort':
             list_of_pairs = list(self.merge_sort_any(N))
         elif method=='bitonicp2':
-            list_of_pairs = self.get_bitonic_list_of_comparisons(N)
+            list_of_pairs = self.get_bitonic_list_of_comparisons(Nceil)
         elif method=='oddevenmerge':
             list_of_pairs = list(self.oddeven_merge(lo=0, hi=Nceil-1, r=1))
         elif method == 'vanvoorhis16':
@@ -274,43 +299,69 @@ class SortingUtils:
             (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
             (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
         elif method == 'alhajbaddar22':
-            list_of_pairs = [
-            (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15), (16, 17), (18, 19), (20, 21),
-            (2, 4), (1, 3), (0, 5), (6, 8), (7, 9), (10, 12), (11, 13), (14, 16), (15, 17), (18, 20), (19, 21),
-            (6, 10), (7, 11), (8, 12), (9, 13), (14, 18), (15, 19), (16, 20), (17, 21), (3, 5), (1, 4), (0, 2),
-            (9, 17), (7, 15), (11, 19), (8, 16), (3, 12), (0, 10), (1, 18), (5, 20), (13, 21), (6, 14), (2, 4),
-            (0, 7), (17, 20), (3, 15), (9, 18), (2, 11), (4, 16), (5, 10), (1, 8), (12, 19), (13, 14),
-            (20, 21), (0, 6), (3, 8), (12, 18), (2, 13), (14, 16), (5, 9), (10, 15), (4, 7), (11, 17),
-            (16, 20), (18, 19), (15, 17), (12, 14), (10, 11), (7, 9), (8, 13), (4, 5), (1, 3), (2, 6),
-            (19, 20), (16, 17), (15, 18), (11, 14), (9, 13), (10, 12), (7, 8), (3, 5), (4, 6), (1, 2),
-            (18, 19), (14, 16), (13, 15), (11, 12), (8, 9), (5, 10), (6, 7), (2, 3),
-            (17, 19), (16, 18), (14, 15), (12, 13), (9, 11), (8, 10), (5, 7), (3, 6), (2, 4),
-            (17, 18), (15, 16), (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
-            (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
+            # list_of_pairs = [
+            # (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15), (16, 17), (18, 19), (20, 21),
+            # (2, 4), (1, 3), (0, 5), (6, 8), (7, 9), (10, 12), (11, 13), (14, 16), (15, 17), (18, 20), (19, 21),
+            # (6, 10), (7, 11), (8, 12), (9, 13), (14, 18), (15, 19), (16, 20), (17, 21), (3, 5), (1, 4), (0, 2),
+            # (9, 17), (7, 15), (11, 19), (8, 16), (3, 12), (0, 10), (1, 18), (5, 20), (13, 21), (6, 14), (2, 4),
+            # (0, 7), (17, 20), (3, 15), (9, 18), (2, 11), (4, 16), (5, 10), (1, 8), (12, 19), (13, 14),
+            # (20, 21), (0, 6), (3, 8), (12, 18), (2, 13), (14, 16), (5, 9), (10, 15), (4, 7), (11, 17),
+            # (16, 20), (18, 19), (15, 17), (12, 14), (10, 11), (7, 9), (8, 13), (4, 5), (1, 3), (2, 6),
+            # (19, 20), (16, 17), (15, 18), (11, 14), (9, 13), (10, 12), (7, 8), (3, 5), (4, 6), (1, 2),
+            # (18, 19), (14, 16), (13, 15), (11, 12), (8, 9), (5, 10), (6, 7), (2, 3),
+            # (17, 19), (16, 18), (14, 15), (12, 13), (9, 11), (8, 10), (5, 7), (3, 6), (2, 4),
+            # (17, 18), (15, 16), (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
+            # (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
+            #list_of_pairs = [[20, 21], [18, 19], [16, 17], [14, 15], [12, 13], [10, 11], [8, 9], [6, 7], [4, 5], [2, 3], [0, 1], [17, 19], [18, 20], [16, 21], [13, 15], [12, 14], [9, 11], [8, 10], [5, 7], [4, 6], [1, 3], [0, 2], [11, 15], [10, 14], [9, 13], [8, 12], [3, 7], [2, 6], [1, 5], [0, 4], [16, 18], [17, 20], [19, 21], [4, 12], [6, 14], [2, 10], [5, 13], [9, 18], [11, 21], [3, 20], [1, 16], [0, 8], [7, 15], [17, 19], [14, 21], [1, 4], [6, 18], [3, 12], [10, 19], [5, 17], [11, 16], [13, 20], [2, 9], [7, 8], [0, 1], [15, 21], [13, 18], [3, 9], [8, 19], [5, 7], [12, 16], [6, 11], [14, 17], [4, 10], [1, 5], [2, 3], [4, 6], [7, 9], [10, 11], [12, 14], [8, 13], [16, 17], [18, 20], [15, 19], [1, 2], [4, 5], [3, 6], [7, 10], [8, 12], [9, 11], [13, 14], [16, 18], [15, 17], [19, 20], [2, 3], [5, 7], [6, 8], [9, 10], [12, 13], [11, 16], [14, 15], [18, 19], [2, 4], [3, 5], [6, 7], [8, 9], [10, 12], [11, 13], [14, 16], [15, 18], [17, 19], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [4, 5], [6, 7], [8, 9], [10, 11], [12, 13], [14, 15], [16, 17]]
+            list_of_pairs = [(20, 21), (18, 19), (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5), (2, 3), (0, 1),
+             (17, 19), (18, 20), (16, 21), (13, 15), (12, 14), (9, 11), (8, 10), (5, 7), (4, 6), (1, 3), (0, 2),
+             (11, 15), (10, 14), (9, 13), (8, 12), (3, 7), (2, 6), (1, 5), (0, 4), (16, 18), (17, 20), (19, 21),
+             (4, 12), (6, 14), (2, 10), (5, 13), (9, 18), (11, 21), (3, 20), (1, 16), (0, 8), (7, 15), (17, 19),
+             (14, 21), (1, 4), (6, 18), (3, 12), (10, 19), (5, 17), (11, 16), (13, 20), (2, 9), (7, 8), (0, 1),
+             (15, 21), (13, 18), (3, 9), (8, 19), (5, 7), (12, 16), (6, 11), (14, 17), (4, 10), (1, 5), (2, 3), (4, 6),
+             (7, 9), (10, 11), (12, 14), (8, 13), (16, 17), (18, 20), (15, 19), (1, 2), (4, 5), (3, 6), (7, 10),
+             (8, 12), (9, 11), (13, 14), (16, 18), (15, 17), (19, 20), (2, 3), (5, 7), (6, 8), (9, 10), (12, 13),
+             (11, 16), (14, 15), (18, 19), (2, 4), (3, 5), (6, 7), (8, 9), (10, 12), (11, 13), (14, 16), (15, 18),
+             (17, 19), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16), (17, 18), (4, 5), (6, 7), (8, 9),
+             (10, 11), (12, 13), (14, 15), (16, 17)]
+
+        list_of_pairsv2 = {'method' : method,
+                          'I' : N,
+                          'O' : N,
+                          'pairs' : list_of_pairs}
+
+        return list_of_pairsv2
 
 
+
+    def generate_opt_masked_net(self, N, O, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=None, method='oddevenp2'):
+        # finding next power2 size
+        Nceil = 2 ** int(np.ceil(np.log2(N)))
+        # getting list of pairs
+        list_of_pairs2 = self.generate_net_pairs(N, method)
         # finding the stages
-        net = self.to_stages(list_of_pairs)
+        netv2 = self.to_stages(list_of_pairs2)
         # creating plotnet object (adding substages)
-        plotnet = self.to_plotnet(net)
+        plotnetv2 = self.to_plotnet(netv2)
         # creating plotnet3 (adding a third parameter for each comparison)
-        plotnet3 = self.to_plotnet_triple(plotnet)
+        plotnet3v2 = self.to_plotnet_triple(plotnetv2)
         # masking unused inputs
-        plotnet3_m = self.mask_net_in(plotnet3, N, Nceil-1)
+        plotnet3v2_m = self.mask_net_in(plotnet3v2, N, Nceil-1)
         # masking comparators from presorted inputs
         for iset in presort_in_sets:
-            self.net_presort_opt(plotnet3_m, iset)
+            self.net_presort_opt(plotnet3v2_m, iset)
         # optimizing away unused outputs
         if used_out_set == None:
-            used_out_set = set(range(N))
-        self.net_unused_out_opt(plotnet3_m, used_out_set)
+            used_out_set = set(range(O))
+        self.net_unused_out_opt(plotnet3v2_m, used_out_set)
         # optimizing away comparison for outputs which does not need do be sorted
-        self.net_nonsorted_out_opt(plotnet3_m, nonsorted_out_set)
+        if nonsorted_out_set != None:
+            self.net_nonsorted_out_opt(plotnet3v2_m, nonsorted_out_set)
 
-        return plotnet3_m
+        return plotnet3v2_m
 
-    def net_presort_opt(self, plotnet3, iset):
-        for stage in plotnet3:
+    def net_presort_opt(self, plotnet3v2, iset):
+        for stage in plotnet3v2['plotnet']:
             for substage in stage:
                 for cmp in substage:
                     # if this comparison was not already optimized away
@@ -324,20 +375,23 @@ class SortingUtils:
                             return True
                         # if else, just continues ;)
 
-    def to_list_of_pairs(self, plotnet3):
+    def to_list_of_pairs(self, plotnet3v2, remove_masked = True):
         list_of_pairs = []
-        for stage in plotnet3:
+        for stage in plotnet3v2['plotnet']:
             for substage in stage:
                 for cmp in substage:
-                    # if this comparison was not optimized away
-                    if cmp[2] == 0:
-                        list_of_pairs.append(cmp[:2])
+                    if remove_masked:
+                        # if this comparison was not optimized away
+                        if cmp[2] == 0:
+                            list_of_pairs.append(cmp[:2])
+                    else:
+                        list_of_pairs.append(cmp)
         return list_of_pairs
 
-    def net_unused_out_opt(self, plotnet3, used_out_set_i):
+    def net_unused_out_opt(self, plotnet3v2, used_out_set_i):
         # copying set to preserve it
         used_out_set = used_out_set_i.copy()
-        for stage in reversed(plotnet3):
+        for stage in reversed(plotnet3v2['plotnet']):
             for substage in reversed(stage):
                 for cmp in reversed(substage):
                     # if this comparison was not already optimized away
@@ -351,10 +405,10 @@ class SortingUtils:
                             used_out_set.update(cmp[:2])
                         # if else, just continues ;)
 
-    def net_nonsorted_out_opt(self, plotnet3, nonsorted_out_set_i):
+    def net_nonsorted_out_opt(self, plotnet3v2, nonsorted_out_set_i = set()):
         # copying set to preserve it
         nonsorted_out_set = nonsorted_out_set_i.copy()
-        for stage in reversed(plotnet3):
+        for stage in reversed(plotnet3v2['plotnet']):
             for substage in reversed(stage):
                 for cmp in reversed(substage):
                     # if this comparison was not already optimized away
@@ -495,7 +549,7 @@ class SortingUtils:
     def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1, gen_vhdl = True, method='oddevenp2'):
         file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
         (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
-        [list_of_pairs, net] = self.get_muctpi_sel_net(gen_plots, net_sets, method)
+        [list_of_pairs, net] = self.get_opt_net(gen_plots, net_sets, method)
 
         # validation
         if validation > 0:
@@ -563,15 +617,33 @@ class SortingUtils:
         print('-- total number of registered stages: {n:d}.'.format(n=sum(stages)))
         return stages
 
-    def get_muctpi_sel_net(self, gen_plots, net_sets, method='oddevenp2'):
-        plotnet3 = self.generate_masked_oddevenmerge(*net_sets, method=method)
-        stages = [0] * len(plotnet3)
+    def get_method(self, N, methodin):
+        if methodin == 'best':
+            if N == 16:
+                method = 'vanvoorhis16'
+            elif N==18:
+                method = 'alhajbaddar18'
+            elif N==22:
+                method = 'alhajbaddar22'
+            else:
+                method = 'mergesort'
+        else:
+            method = methodin
+        return method
+
+    def get_opt_net(self, gen_plots, net_sets, method='oddevenp2', generate_pipelined_plots = False):
+        ## Generating and ploting masked net
+        plotnet3 = self.generate_opt_masked_net(*net_sets, method=method)
         I = net_sets[0]
         O = net_sets[1]
         Iceil = 2 ** int(np.ceil(np.log2(I)))
         if gen_plots:
+            stages = [0] * len(plotnet3)
             filename = self.plot_masked_filename_fmt.format(i=I, o=O, m=method)
             self.plot(plotnet3, stages, filename, Iceil)
+
+        ## Optimizing  and ploting optmized net
+        # pruning masked comparisons
         list_of_pairs = self.to_list_of_pairs(plotnet3)
         #number of comparison in optmized network
         c = len(list_of_pairs)
@@ -580,15 +652,13 @@ class SortingUtils:
         # number of stages
         d = len(net)
 
-
-        if gen_plots:
+        if generate_pipelined_plots:
             # creating plotnet object (adding substages)
             plotnet = self.to_plotnet(net)
             # creating plotnet3 (adding a third parameter for each comparison)
             plotnet3 = self.to_plotnet_triple(plotnet)
             n_stages = len(plotnet3)
-            #for i in range(1, n_stages + 1):
-            for i in range(1,2):
+            for i in range(1, n_stages + 1):
                 stages = self.get_stages_cfg(n_stages, i)
                 filename = self.plot_opt_filename_fmt.format(i=I, o=O, D=i, m=method, c=c, d=d)
                 self.plot(plotnet3, stages, filename, I)
@@ -682,7 +752,7 @@ if __name__ == "__main__":
     #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
     I = 32
     net_sets = s.get_net_opt_sets(I = I, O = 16, pI = 16, nO = None)
-    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='oddevenmerge')
+    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='mergesort')
 
 
 
