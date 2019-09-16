@@ -598,8 +598,8 @@ class SortingUtils:
                     print('net sorted:', data)
                     sys.exit()
 
-    def generate_vhdl_pkg(self, net, I):
-        file = open('../../out/vhd/csn_sel_pkg_ref', 'w')
+    def generate_vhdl_pkg(self, net, I, filename='../../out/vhd/csn_sel_pkg_ref'):
+        file = open(filename, 'w')
         cfg_stage_str = []
         reg = ['False', 'True ']
         for i, stage in enumerate(net):
@@ -659,6 +659,7 @@ class SortingUtils:
         return method
 
     def get_opt_net(self, gen_plots, net_sets, method='oddevenp2', generate_pipelined_plots = False):
+        ## Method use din the Sorting Model
         ## Generating and ploting masked net
         plotnet3 = self.generate_opt_masked_net(*net_sets, method=method)
         I = net_sets[0]

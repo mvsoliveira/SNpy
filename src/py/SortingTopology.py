@@ -128,8 +128,11 @@ class SortingTopology:
         plotnet3v2 = self.SU.generate_opt_masked_net(*net_sets, method=self.method)
         # converting net to list of pairs
         list_of_pairs = self.SU.to_list_of_pairs(plotnet3v2, remove_masked = self.remove_masked_pairs)
-        list_of_list_of_pairs = []
+        # generating vhdl
+        net = self.SU.to_stages(list_of_pairs)
+        self.SU.generate_vhdl_pkg(net, ceil_I_R, filename='../../out/vhd/csn_sort')
         # replicating net
+        list_of_list_of_pairs = []
         for r in range(R):
             mymap = list(range(r*ceil_I_R,(r+1)*ceil_I_R))
             list_of_list_of_pairs.append(self.remap_list_of_pairs(list_of_pairs,mymap))
@@ -154,6 +157,12 @@ class SortingTopology:
 
     def generate_R_merge_net(self,R):
         merge_pairs = self.merge_dict['masked_pairs']
+        # generating vhdl
+        opt_net = self.SU.to_stages(merge_pairs)
+        self.SU.generate_vhdl_pkg(opt_net, self.merge_dict['Im'], filename='../../out/vhd/csn_merge')
+        print(self.merge_dict['Im'])
+        print(opt_net)
+        # replicating merge network
         merge_tree_pairs = []
         net = []
         # define donly if R is power of two
@@ -230,7 +239,7 @@ class SortingTopology:
         opt_pairs = self.SU.to_list_of_pairs(plotnetv2, remove_masked=True)
         # validating pairs
         net_sets = self.SU.get_net_opt_sets(I=self.I, O=self.O, pI=None, nO=None)
-        self.SU.list_of_pairs_validation(net_sets=net_sets, list_of_pairsv2=opt_pairs, N=1000)
+        self.SU.list_of_pairs_validation(net_sets=net_sets, list_of_pairsv2=opt_pairs, N=100)
         # generating vhdl files
         c = len(opt_pairs)
         net = self.SU.to_stages(opt_pairs)
@@ -239,8 +248,12 @@ class SortingTopology:
         for i in range(1, d + 1):
             self.SU.get_stages_cfg(d, i)
         print('Generated network with {d:d} levels and {c:d} comparisons'.format(c=c, d=d))
-
-
+        # saving pickle
+        df = pd.DataFrame()
+        df = df.append({'pairs' :  opt_pairs,
+                   'net' : net
+                   }, ignore_index=True)
+        df.to_pickle('../../out/pickle/I{I:03d}O{O:03d}_{m:s}.pickle'.format(I=self.I, O=self.O, m=netv2['method']))
 
 
 
@@ -269,7 +282,8 @@ class SortingTopology:
 
 
 def worker():
-    ST = SortingTopology(I=352,O=16,method='best', generate_plot = False, plot_masked_pairs=True)
+    ST = SortingTopology(I=352,O=16,method='best', generate_plot = False, plot_masked_pairs=False)
+    #ST.get_topology_df()
     ST.generate_R_net(16)
     print('finished')
 

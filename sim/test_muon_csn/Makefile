@@ -16,12 +16,14 @@ VCOM_ARGS=-2008
 # sets timescale to ps if desired, default ns
 #VSIM_ARGS+	=-t 1ps
 # set generics
-export VSIM_ARGS+=-gI=352 -gO=16 -gdelay=5 -gDA=4 -gDB=2
+#export VSIM_ARGS+=-gI=352 -gO=16 -gdelay=5 -gDA=4 -gDB=2 -gD4
+export VSIM_ARGS+=-gI=352 -gO=16 -gD=4
 # vhdl files
 include ./RTLFiles.inc
 # top-level entity name
 #export TOPLEVEL=csn_sel_wrapper
-export TOPLEVEL=csn_sort_88_64
+#export TOPLEVEL=csn_sort_88_64
+export TOPLEVEL=csn_sort_v2
 # python test name
 MODULE=test_muon_csn
 # include to cocotb makefiles

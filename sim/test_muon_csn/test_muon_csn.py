@@ -213,6 +213,7 @@ SM = SortingModel()
 factory = TestFactory(run_test)
 factory.add_option("n", [1000])
 ratio = 1*[[0,1]]
+ratio = 20*[[0,1]] + 40*[[8.0/352,24.0/352]] + 40*[[0.0/352,8.0/352]]
 #ratio = 2000*[[0,1]] + 4000*[[8.0/352,24.0/352]] + 4000*[[0.0/352,8.0/352]]
 random.shuffle(ratio)
 factory.add_option("ratio", ratio)
