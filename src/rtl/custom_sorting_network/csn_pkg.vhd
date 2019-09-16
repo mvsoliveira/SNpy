@@ -58,7 +58,7 @@ package body csn_pkg is
 	function get_cfg(I : integer) return cfg_net_t is
 	begin
 		case I is
-			-- Sherenaz W. Al-Haj Baddar 22-key 12-step sorting network
+			-- Sherenaz W. Al-Haj Baddar 22-key 12-step SORTING network
 			when 22 => return (
 					((a => 20, b => 21, p => False), (a => 18, b => 19, p => False), (a => 16, b => 17, p => False), (a => 14, b => 15, p => False), (a => 12, b => 13, p => False), (a => 10, b => 11, p => False), (a => 8, b => 9, p => False), (a => 6, b => 7, p => False), (a => 4, b => 5, p => False), (a => 2, b => 3, p => False), (a => 0, b => 1, p => False)),
 					((a => 17, b => 19, p => False), (a => 13, b => 15, p => False), (a => 9, b => 11, p => False), (a => 5, b => 7, p => False), (a => 1, b => 3, p => False), (a => 18, b => 20, p => False), (a => 12, b => 14, p => False), (a => 8, b => 10, p => False), (a => 4, b => 6, p => False), (a => 0, b => 2, p => False), (a => 16, b => 21, p => False)),
@@ -73,7 +73,7 @@ package body csn_pkg is
 					((a => 3, b => 4, p => False), (a => 5, b => 6, p => False), (a => 7, b => 8, p => False), (a => 9, b => 10, p => False), (a => 11, b => 12, p => False), (a => 13, b => 14, p => False), (a => 15, b => 16, p => False), (a => 0, b => 21, p => True), (a => 1, b => 20, p => True), (a => 2, b => 19, p => True), (a => 17, b => 18, p => True)),
 					((a => 4, b => 5, p => False), (a => 6, b => 7, p => False), (a => 8, b => 9, p => False), (a => 10, b => 11, p => False), (a => 12, b => 13, p => False), (a => 14, b => 15, p => False), (a => 0, b => 21, p => True), (a => 1, b => 20, p => True), (a => 2, b => 19, p => True), (a => 3, b => 18, p => True), (a => 16, b => 17, p => True))
 				);
-			-- M=16,N=16 Batcher Odd-even merge network, the two 16-key input sequences have to be sorted 
+			-- M=16,N=16 Batcher Odd-even MERGING network, the two 16-key input sequences have to be sorted 
 			when 32 => return (
 					((a => 0, b => 16, p => False), (a => 8, b => 24, p => False), (a => 4, b => 20, p => False), (a => 12, b => 28, p => False), (a => 2, b => 18, p => False), (a => 10, b => 26, p => False), (a => 6, b => 22, p => False), (a => 14, b => 30, p => False), (a => 1, b => 17, p => False), (a => 9, b => 25, p => False), (a => 5, b => 21, p => False), (a => 13, b => 29, p => False), (a => 3, b => 19, p => False), (a => 11, b => 27, p => False), (a => 7, b => 23, p => False), (a => 15, b => 31, p => False)),
 					((a => 8, b => 16, p => False), (a => 12, b => 20, p => False), (a => 10, b => 18, p => False), (a => 14, b => 22, p => False), (a => 9, b => 17, p => False), (a => 13, b => 21, p => False), (a => 11, b => 19, p => False), (a => 15, b => 23, p => False), (a => 0, b => 31, p => True), (a => 1, b => 30, p => True), (a => 2, b => 29, p => True), (a => 3, b => 28, p => True), (a => 4, b => 27, p => True), (a => 5, b => 26, p => True), (a => 6, b => 25, p => True), (a => 7, b => 24, p => True)),
