@@ -56,7 +56,7 @@ architecture rtl of wrapper_csn_sel is
 
 	--constants
 	constant i_width         : integer := I * PT_WIDTH + 1;
-	constant o_width_desired : integer := O * out_word_w;
+	constant o_width_desired : integer := O * word_w;
 	constant log4_o_width    : integer := integer(ceil(log(real(o_width_desired), real(4))));
 	constant o_width         : integer := 4**log4_o_width;
 

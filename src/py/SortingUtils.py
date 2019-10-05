@@ -16,6 +16,7 @@ class SortingUtils:
     stage_fmt = '({stage:s})'
     net_fmt = 'when {i:d} => return (\n{net:s}\n);'
     serial_net_fmt = 'when {i:d} => return {net:s};\n'
+    inline_fmt = None
 
     def oddeven_merge(self, lo, hi, r):
         step = r * 2
@@ -94,7 +95,7 @@ class SortingUtils:
 
     def set_plot_length(self,net):
         self.plot_margin = 8
-        self.number_margin = 0.05
+        self.number_margin = 0.15
         self.plot_stagesp = 4
         self.plot_substagesp = 1
         self.plot_length = 2 * self.plot_margin + 1
@@ -102,7 +103,7 @@ class SortingUtils:
         for s in net:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
-    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1):
+    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1, first_input=1):
         if isinstance(plotnetv2, dict):
             plotnet = plotnetv2['plotnet']
             I = plotnetv2['I']
@@ -126,10 +127,25 @@ class SortingUtils:
         self.set_plot_length(plotnet)
         points = np.ones(self.plot_length)
         # plotting horizontal lines and text
+        # having a different format for each line
+        if not self.inline_fmt:
+            if isinstance(plotnetv2, dict):
+                # finding the maximum number of digits to write identifier for each input line
+                w = int(np.ceil(np.log10(I+first_input)))
+                if 'oddevenmerge' in plotnetv2['method']:
+                    input_fmt = ['$x_{i:d}$'.format(i=i + 1) for i in range(I // 2)]
+                    input_fmt.extend(['$y_{i:d}$'.format(i=i + 1) for i in range(I // 2)])
+                else:
+                    input_fmt = ['$x_{i:d}$'.format(i=i + 1) for i in range(I)]
+        else:
+            input_fmt = self.inline_fmt
+
+
+
         for y in range(I):
             ax.plot(y * points, color='black')
-            ax.text(0,y-self.number_margin,'{y:03d}'.format(y=y),   horizontalalignment='left')
-            ax.text(self.plot_length-1, y-self.number_margin, '{y:03d}'.format(y=y), horizontalalignment='right')
+            ax.text(0,y-self.number_margin,input_fmt[y].format(y=y+first_input),   horizontalalignment='left')
+            ax.text(self.plot_length-1, y-self.number_margin,input_fmt[y].format(y=y+first_input), horizontalalignment='right')
 
         # plotting pairs and stage delimeters
         x = self.plot_margin

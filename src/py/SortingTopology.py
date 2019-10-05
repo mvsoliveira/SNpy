@@ -126,6 +126,7 @@ class SortingTopology:
         net_sets = self.SU.get_net_opt_sets(I=ceil_I_R, O=self.O, pI=None, nO=None)
         # getting net with masked comparisons
         plotnet3v2 = self.SU.generate_opt_masked_net(*net_sets, method=self.method)
+        self.SU.plot(plotnet3v2)
         # converting net to list of pairs
         list_of_pairs = self.SU.to_list_of_pairs(plotnet3v2, remove_masked = self.remove_masked_pairs)
         # generating vhdl
@@ -282,9 +283,9 @@ class SortingTopology:
 
 
 def worker():
-    ST = SortingTopology(I=352,O=16,method='best', generate_plot = False, plot_masked_pairs=False)
+    ST = SortingTopology(I=8,O=8,method='best', generate_plot = False, plot_masked_pairs=False)
     #ST.get_topology_df()
-    ST.generate_R_net(16)
+    ST.generate_R_net(1)
     print('finished')
 
 
