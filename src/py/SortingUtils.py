@@ -296,7 +296,7 @@ class SortingUtils:
         list_of_pairs = None
         if method=='oddevenp2':
             list_of_pairs = list(self.oddeven_merge_sort(Nceil))
-        elif method=='mergeexchange':
+        elif method=='merge-exchange':
             list_of_pairs = list(self.merge_exchange_any(N))
         elif method=='bitonicp2':
             list_of_pairs = self.get_bitonic_list_of_comparisons(Nceil)

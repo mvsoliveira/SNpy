@@ -1,4 +1,5 @@
 from SortingUtils import SortingUtils
+import pandas as pd
 
 SU = SortingUtils()
 SU.plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_{m:s}_thesis.pdf'
@@ -6,7 +7,7 @@ SU.plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_{m:s}_thesis
 # mergesort N= 8
 ###################
 N = 8
-method = 'mergesort'
+method = 'merge-exchange'
 list_of_pairs2 = SU.generate_net_pairs(N, method)
 # finding the stages
 netv2 = SU.to_stages(list_of_pairs2)
@@ -161,6 +162,10 @@ list_of_pairsv2 = {'method' : plotnet3v2['method'],
                           'O' : O,
                           'pairs' : list_of_pairs}
 netv2 = SU.to_stages(list_of_pairsv2)
+pd.DataFrame(netv2['net']).to_excel('baddar22-16.xlsx')
+f = open('baddar22-16.tex','w')
+with f:
+    f.write(pd.DataFrame(netv2['net']).to_latex())
 plotnetv2 = SU.to_plotnet(netv2)
 # creating plotnet3 (adding a third parameter for each comparison)
 plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
@@ -181,6 +186,10 @@ list_of_pairsv2 = {'method' : plotnet3v2['method'],
                           'O' : O,
                           'pairs' : list_of_pairs}
 netv2 = SU.to_stages(list_of_pairsv2)
+pd.DataFrame(netv2['net']).to_excel('oddevenmerge32-16.xlsx')
+f = open('oddevenmerge32-16.tex','w')
+with f:
+    f.write(pd.DataFrame(netv2['net']).to_latex())
 plotnetv2 = SU.to_plotnet(netv2)
 # creating plotnet3 (adding a third parameter for each comparison)
 plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
