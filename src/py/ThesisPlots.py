@@ -84,3 +84,68 @@ plotnetv2 = SU.to_plotnet(netv2)
 # creating plotnet3 (adding a third parameter for each comparison)
 plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
 SU.plot(plotnet3v2)
+
+###################
+# van worhis and badaar
+###################
+
+N = 16
+method = 'vanvoorhis16'
+list_of_pairs2 = SU.generate_net_pairs(N, method)
+# finding the stages
+netv2 = SU.to_stages(list_of_pairs2)
+# creating plotnet object (adding substages)
+plotnetv2 = SU.to_plotnet(netv2)
+# creating plotnet3 (adding a third parameter for each comparison)
+plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
+SU.plot(plotnet3v2)
+
+
+N = 22
+method = 'alhajbaddar22'
+
+list_of_pairs2 = SU.generate_net_pairs(N, method)
+# finding the stages
+netv2 = SU.to_stages(list_of_pairs2)
+# creating plotnet object (adding substages)
+plotnetv2 = SU.to_plotnet(netv2)
+# creating plotnet3 (adding a third parameter for each comparison)
+plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
+SU.plot(plotnet3v2)
+
+
+###################
+# oddevenmerge 32
+###################
+
+N = 32
+O = 16
+method = 'oddevenmerge'
+plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set()), used_out_set=set(range(16)), nonsorted_out_set=None, method=method)
+SU.plot(plotnet3v2)
+
+###################
+# oddevenmerge 8
+###################
+
+N = 6
+O = 6
+method = 'oddevenp2'
+plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set()), used_out_set=set(range(N)), nonsorted_out_set=None, method=method)
+SU.plot(plotnet3v2)
+
+N = 8
+O = 2
+method = 'oddevenp2'
+plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set()), used_out_set=set(range(O)), nonsorted_out_set=None, method=method)
+SU.plot(plotnet3v2)
+
+N = 8
+O = 8
+method = 'oddevenp2'
+plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set(range(4)),set([4,5])), used_out_set=set(range(N)), nonsorted_out_set=set([1,2,3,4,5,6]), method=method)
+SU.plot(plotnet3v2)
+
+
+
+

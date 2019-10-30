@@ -122,6 +122,7 @@ class SortingUtils:
         stages = stages_i.copy()
         stages.insert(0,0)
 
+
         fig, ax = plt.subplots(figsize=(I,I))
         plt.ylim(I+1,-2)
         self.set_plot_length(plotnet)
@@ -133,19 +134,21 @@ class SortingUtils:
                 # finding the maximum number of digits to write identifier for each input line
                 w = int(np.ceil(np.log10(I+first_input)))
                 if 'oddevenmerge' in plotnetv2['method']:
-                    input_fmt = ['$x_{i:d}$'.format(i=i + 1) for i in range(I // 2)]
-                    input_fmt.extend(['$y_{i:d}$'.format(i=i + 1) for i in range(I // 2)])
+                    fmt = '$x_{{{i:0' + '{w:d}'.format(w=w) + 'd}}}$'
+                    input_fmt = [fmt.format(i=i + first_input) for i in range(I// 2)]
+                    fmt = '$y_{{{i:0' + '{w:d}'.format(w=w) + 'd}}}$'
+                    input_fmt.extend([fmt.format(i=i + first_input) for i in range(I // 2)])
                 else:
-                    input_fmt = ['$x_{i:d}$'.format(i=i + 1) for i in range(I)]
+                    fmt = '$x_{{{i:0' + '{w:d}'.format(w=w) + 'd}}}$'
+                    input_fmt = [fmt.format(i=i + first_input) for i in range(I)]
         else:
             input_fmt = self.inline_fmt
 
 
-
         for y in range(I):
             ax.plot(y * points, color='black')
-            ax.text(0,y-self.number_margin,input_fmt[y].format(y=y+first_input),   horizontalalignment='left')
-            ax.text(self.plot_length-1, y-self.number_margin,input_fmt[y].format(y=y+first_input), horizontalalignment='right')
+            ax.text(0,y-self.number_margin,input_fmt[y],   horizontalalignment='left')
+            ax.text(self.plot_length-1, y-self.number_margin,input_fmt[y], horizontalalignment='right')
 
         # plotting pairs and stage delimeters
         x = self.plot_margin
@@ -175,6 +178,7 @@ class SortingUtils:
         plt.savefig(filename, format='pdf', bbox_inches='tight')
         #plt.show()
         plt.close()
+
 
     def flatten(self, l):
         flatten_f = lambda l: [item for sublist in l for item in sublist]
@@ -351,6 +355,9 @@ class SortingUtils:
              (11, 16), (14, 15), (18, 19), (2, 4), (3, 5), (6, 7), (8, 9), (10, 12), (11, 13), (14, 16), (15, 18),
              (17, 19), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16), (17, 18), (4, 5), (6, 7), (8, 9),
              (10, 11), (12, 13), (14, 15), (16, 17)]
+
+        if 'p2' in method:
+            N = Nceil
 
         list_of_pairsv2 = {'method' : method,
                           'I' : N,
