@@ -66,7 +66,7 @@ class SortingUtils:
         if expr:
             x[a], x[b] = x[b], x[a]
 
-    def merge_sort_any(self,length):
+    def merge_exchange_any(self, length):
 
         t = np.math.ceil(np.math.log2(length))
 
@@ -296,8 +296,8 @@ class SortingUtils:
         list_of_pairs = None
         if method=='oddevenp2':
             list_of_pairs = list(self.oddeven_merge_sort(Nceil))
-        elif method=='mergesort':
-            list_of_pairs = list(self.merge_sort_any(N))
+        elif method=='mergeexchange':
+            list_of_pairs = list(self.merge_exchange_any(N))
         elif method=='bitonicp2':
             list_of_pairs = self.get_bitonic_list_of_comparisons(Nceil)
         elif method=='oddevenmerge':
@@ -676,7 +676,7 @@ class SortingUtils:
             elif N==22:
                 method = 'alhajbaddar22'
             else:
-                method = 'mergesort'
+                method = 'mergeexchange'
         else:
             method = methodin
         return method
@@ -803,7 +803,7 @@ if __name__ == "__main__":
     #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
     I = 32
     net_sets = s.get_net_opt_sets(I = I, O = 16, pI = 16, nO = None)
-    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='mergesort')
+    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='mergeexchange')
 
 
 

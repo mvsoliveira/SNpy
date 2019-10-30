@@ -147,5 +147,41 @@ plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set(range(4)),set
 SU.plot(plotnet3v2)
 
 
+###################
+# baddar 22-16
+###################
+
+N = 22
+O = 16
+method = 'best'
+plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set()), used_out_set=set(range(O)), nonsorted_out_set=None, method=method)
+list_of_pairs = SU.to_list_of_pairs(plotnet3v2,remove_masked=True)
+list_of_pairsv2 = {'method' : plotnet3v2['method'],
+                          'I' : N,
+                          'O' : O,
+                          'pairs' : list_of_pairs}
+netv2 = SU.to_stages(list_of_pairsv2)
+plotnetv2 = SU.to_plotnet(netv2)
+# creating plotnet3 (adding a third parameter for each comparison)
+plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
+SU.plot(plotnet3v2)
 
 
+###################
+# odd 32-16
+###################
+
+N = 32
+O = 16
+method = 'oddevenmerge'
+plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set()), used_out_set=set(range(O)), nonsorted_out_set=None, method=method)
+list_of_pairs = SU.to_list_of_pairs(plotnet3v2,remove_masked=True)
+list_of_pairsv2 = {'method' : plotnet3v2['method'],
+                          'I' : N,
+                          'O' : O,
+                          'pairs' : list_of_pairs}
+netv2 = SU.to_stages(list_of_pairsv2)
+plotnetv2 = SU.to_plotnet(netv2)
+# creating plotnet3 (adding a third parameter for each comparison)
+plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
+SU.plot(plotnet3v2)
