@@ -161,11 +161,19 @@ list_of_pairsv2 = {'method' : plotnet3v2['method'],
                           'I' : N,
                           'O' : O,
                           'pairs' : list_of_pairs}
+list_of_pairsv2 = SU.simplify_pairs(list_of_pairsv2,first_in=1)
 netv2 = SU.to_stages(list_of_pairsv2)
+netv2 = SU.sort_net(netv2)
 pd.DataFrame(netv2['net']).to_excel('baddar22-16.xlsx')
 f = open('baddar22-16.tex','w')
+df = pd.DataFrame(netv2['net'])
+df.index += 1
+df.columns += 1
+df = df.replace(pd.np.nan,'-')
+latex = df.to_latex()
+latex = latex.replace((df.columns.size+1)*'l',(df.columns.size+1)*'c')
 with f:
-    f.write(pd.DataFrame(netv2['net']).to_latex())
+    f.write(latex)
 plotnetv2 = SU.to_plotnet(netv2)
 # creating plotnet3 (adding a third parameter for each comparison)
 plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
@@ -185,11 +193,19 @@ list_of_pairsv2 = {'method' : plotnet3v2['method'],
                           'I' : N,
                           'O' : O,
                           'pairs' : list_of_pairs}
+list_of_pairsv2 = SU.simplify_pairs(list_of_pairsv2,first_in=1)
 netv2 = SU.to_stages(list_of_pairsv2)
+netv2 = SU.sort_net(netv2)
 pd.DataFrame(netv2['net']).to_excel('oddevenmerge32-16.xlsx')
 f = open('oddevenmerge32-16.tex','w')
+df = pd.DataFrame(netv2['net'])
+df.index += 1
+df.columns += 1
+df = df.replace(pd.np.nan,'-')
+latex = df.to_latex()
+latex = latex.replace((df.columns.size+1)*'l',(df.columns.size+1)*'c')
 with f:
-    f.write(pd.DataFrame(netv2['net']).to_latex())
+    f.write(latex)
 plotnetv2 = SU.to_plotnet(netv2)
 # creating plotnet3 (adding a third parameter for each comparison)
 plotnet3v2 = SU.to_plotnet_triple(plotnetv2)

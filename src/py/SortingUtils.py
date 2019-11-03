@@ -289,12 +289,12 @@ class SortingUtils:
         pairsv2i['pairs'] = pairsout
         return pairsv2i
 
-    def simplify_pairs(self,pairsv2):
+    def simplify_pairs(self,pairsv2,first_in=0):
         pairsv2i = pairsv2.copy()
         pairs = pairsv2i['pairs']
         merged = list(itertools.chain(*pairs))
         n_set = set(merged)
-        target = list(range(len(n_set)))
+        target = list(range(first_in,first_in+len(n_set)))
         map_a = np.array([None]*(max(n_set)+1))
         map_a[list(n_set)] = target
         pairsout = []
@@ -302,6 +302,14 @@ class SortingUtils:
             pairsout.append((map_a[p[0]],map_a[p[1]]))
         pairsv2i['pairs'] = pairsout
         return pairsv2i
+
+    def sort_net(self,netv2):
+        netv2i = netv2.copy()
+        netout = []
+        for stage in netv2i['net']:
+            netout.append(sorted(stage))
+        netv2i['net'] = netout
+        return netv2i
 
     def opt_pairs_in(self,pairsv2,nI,bottomup=True):
         pairsv2i = pairsv2.copy()
