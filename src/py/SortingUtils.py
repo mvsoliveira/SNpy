@@ -5,6 +5,7 @@ import math as m
 import random
 import sys
 from matplotlib.backends.backend_pdf import PdfPages
+import itertools
 
 class SortingUtils:
     plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
@@ -276,6 +277,46 @@ class SortingUtils:
                     if (minin <= pair[0] <= maxin) or (minin <= pair[1] <= maxin):
                         pair[2] = 1
         return plotnet3v2
+
+    def prum_pair_in(self,pairsv2,imask_list):
+        pairsv2i = pairsv2.copy()
+        pairs = pairsv2i['pairs']
+        pairsout = []
+        for p in pairs:
+            if not ((p[0] in imask_list) or (p[1] in imask_list)):
+                pairsout.append(p)
+        #print(pairsout)
+        pairsv2i['pairs'] = pairsout
+        return pairsv2i
+
+    def simplify_pairs(self,pairsv2):
+        pairsv2i = pairsv2.copy()
+        pairs = pairsv2i['pairs']
+        merged = list(itertools.chain(*pairs))
+        n_set = set(merged)
+        target = list(range(len(n_set)))
+        map_a = np.array([None]*(max(n_set)+1))
+        map_a[list(n_set)] = target
+        pairsout = []
+        for p in pairs:
+            pairsout.append((map_a[p[0]],map_a[p[1]]))
+        pairsv2i['pairs'] = pairsout
+        return pairsv2i
+
+    def opt_pairs_in(self,pairsv2,nI,bottomup=True):
+        pairsv2i = pairsv2.copy()
+        oI = pairsv2i['I']
+        dI = oI - nI
+        if bottomup:
+            imask_list =  list(range(0, int(np.ceil(dI/2)))) + list(range(int(np.ceil(dI/2))+nI, oI))
+        else:
+            imask_list = list(range(nI,oI))
+        prum_pairs = self.prum_pair_in(pairsv2i, imask_list)
+        simp_pairs = self.simplify_pairs(prum_pairs)
+        simp_pairs['I'] = nI
+        simp_pairs['O'] = nI
+        return simp_pairs
+
 
     def prum_masked_list(self, plotnet3):
         return [[[pair for pair in substage if pair[2] == 0] for substage in stage] for stage in plotnet3]
@@ -798,12 +839,23 @@ class SortingUtils:
 
 
 if __name__ == "__main__":
-    s = SortingUtils()
+    SU = SortingUtils()
+    pairsv2 = SU.generate_net_pairs(N=22, methodin='merge-exchange')
+    print(len(pairsv2['pairs']))
+    pairsv2 = SU.opt_pairs_in(pairsv2,22,bottomup=False)
+    print(len(pairsv2['pairs']))
+    netv2 = SU.to_stages(pairsv2)
+    plotnetv2 = SU.to_plotnet(netv2)
+    plotnetv2 = SU.to_plotnet_triple(plotnetv2)
+    SU.plot(plotnetv2)
+    print()
+
+
 
     #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
-    I = 32
-    net_sets = s.get_net_opt_sets(I = I, O = 16, pI = 16, nO = None)
-    s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='mergeexchange')
+    #I = 32
+    #net_sets = s.get_net_opt_sets(I = I, O = 16, pI = 16, nO = None)
+    #s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='mergeexchange')
 
 
 
