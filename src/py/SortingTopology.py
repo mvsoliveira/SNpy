@@ -2,6 +2,8 @@ from SortingUtils import SortingUtils
 import numpy as np
 import pandas as pd
 import multiprocessing as mp
+#import matplotlib as mpl
+#mpl.use("Cairo")
 
 # if True:
 #     for i in range(88,89):
@@ -289,12 +291,28 @@ def worker():
 
     print('finished')
 
+def plotter():
+
+    SU = SortingUtils()
+    df = pd.read_pickle('../../out/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
+    [pairs, net] = [df['pairs'][0], df['net'][0]]
+
+    list_of_pairsv2 = {'method': 'muctpi',
+                       'I': 352,
+                       'O': 16,
+                       'pairs': pairs}
+    netv2 = SU.to_stages(list_of_pairsv2)
+    plotnetv2 = SU.to_plotnet(netv2)
+    plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
+    SU.plot(plotnet3v2,figsize=(4*46.8,4*33.1))
+
+
 
 
 if __name__ == '__main__':
     # using mp for dealing better with memory-hungry processes
     # if the application is finishing unexpectly, do not generate plots
-    proc=mp.Process(target=worker)
+    proc=mp.Process(target=plotter)
     proc.daemon=True
     proc.start()
     proc.join()

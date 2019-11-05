@@ -104,7 +104,7 @@ class SortingUtils:
         for s in net:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
-    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1, first_input=1):
+    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1, first_input=1,figsize=None):
         if isinstance(plotnetv2, dict):
             plotnet = plotnetv2['plotnet']
             I = plotnetv2['I']
@@ -123,8 +123,10 @@ class SortingUtils:
         stages = stages_i.copy()
         stages.insert(0,0)
 
+        if figsize is None:
+            figsize = (I, I)
 
-        fig, ax = plt.subplots(figsize=(I,I))
+        fig, ax = plt.subplots(figsize=figsize)
         plt.ylim(I+1,-2)
         self.set_plot_length(plotnet)
         points = np.ones(self.plot_length)
