@@ -104,7 +104,7 @@ class SortingUtils:
         for s in net:
             self.plot_length += (len(s) - 1) * self.plot_substagesp
 
-    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1, first_input=1,figsize=None):
+    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1, first_input=1,figsize=None,title=None):
         if isinstance(plotnetv2, dict):
             plotnet = plotnetv2['plotnet']
             I = plotnetv2['I']
@@ -177,6 +177,9 @@ class SortingUtils:
         ax.plot((x, x), (-1, I), linestyle=linestyle[stages[-1]], color='gray')
         #ax.margins(0.2)
         ax.set_axis_off()
+        if title is not None:
+            ax.set_title(title,fontsize=120)
+            #fig.suptitle(title, )
         # saving picture
         plt.savefig(filename, format='pdf', bbox_inches='tight')
         #plt.show()

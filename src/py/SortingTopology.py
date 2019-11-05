@@ -20,10 +20,13 @@ import multiprocessing as mp
 #             #print(list_of_pairs)
 
 class SortingTopology:
-    def __init__(self, I, O, method, generate_plot = False, plot_masked_pairs = True):
+    def __init__(self, I, O, method, generate_plot = False, plot_masked_pairs = True, figsize=None, title=None):
         self.SU = SortingUtils()
         self.I = I
         self.O = O
+        self.title = title
+        if figsize is None:
+            self.figsize = (4*46.8,4*33.1)
         self.method = method
         self.generate_plot = generate_plot
         self.remove_masked_pairs = not plot_masked_pairs
@@ -232,12 +235,13 @@ class SortingTopology:
                  'I': self.I,
                  'O': self.O,
                  'net': net}
+        netv2 = self.SU.sort_net(netv2)
         plotnetv2 = self.SU.to_plotnet(netv2)
         if self.remove_masked_pairs:
             plotnetv2 = self.SU.to_plotnet_triple(plotnetv2)
         #self.SU.print_plotnet(plotnetv2['plotnet'])
         if self.generate_plot:
-            self.SU.plot(plotnetv2)
+            self.SU.plot(plotnetv2,figsize=self.figsize,title=self.title)
         # optimizing pairs
         opt_pairs = self.SU.to_list_of_pairs(plotnetv2, remove_masked=True)
         # validating pairs
@@ -273,21 +277,12 @@ class SortingTopology:
 
 
 def worker():
-    ST = SortingTopology(I=352,O=16,method='best', generate_plot = False, plot_masked_pairs=False)
+    ST = SortingTopology(I=352,O=16,method='best', generate_plot = True, plot_masked_pairs=False,
+                         title=None)
+                         #title='352-key input 16-key output MUCTPI Sorting Network')
     #ST.get_topology_df()
-    #ST.generate_R_net(1)
-    SU = SortingUtils()
-    df = pd.read_pickle('../../out/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
-    [pairs, net] = [df['pairs'][0], df['net'][0]]
+    ST.generate_R_net(16)
 
-    list_of_pairsv2 = {'method': 'muctpi',
-                       'I': 352,
-                       'O': 16,
-                       'pairs': pairs}
-    netv2 = SU.to_stages(list_of_pairsv2)
-    plotnetv2 = SU.to_plotnet(netv2)
-    plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
-    SU.plot(plotnet3v2)
 
     print('finished')
 
@@ -297,11 +292,10 @@ def plotter():
     df = pd.read_pickle('../../out/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
     [pairs, net] = [df['pairs'][0], df['net'][0]]
 
-    list_of_pairsv2 = {'method': 'muctpi',
+    netv2 = {'method': 'muctpi',
                        'I': 352,
                        'O': 16,
-                       'pairs': pairs}
-    netv2 = SU.to_stages(list_of_pairsv2)
+                       'net': net}
     plotnetv2 = SU.to_plotnet(netv2)
     plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
     SU.plot(plotnet3v2,figsize=(4*46.8,4*33.1))
@@ -312,7 +306,7 @@ def plotter():
 if __name__ == '__main__':
     # using mp for dealing better with memory-hungry processes
     # if the application is finishing unexpectly, do not generate plots
-    proc=mp.Process(target=plotter)
+    proc=mp.Process(target=worker)
     proc.daemon=True
     proc.start()
     proc.join()
