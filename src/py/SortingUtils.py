@@ -62,7 +62,7 @@ class SortingUtils:
         if reverse==False:
             expr = key(x[a]) > key(x[b])
         else:
-            expr = key(x[a]) < key(x[b])
+            expr = key(x[a]) <= key(x[b])
 
         if expr:
             x[a], x[b] = x[b], x[a]
@@ -670,6 +670,55 @@ class SortingUtils:
                     print('net sorted:', data)
                     sys.exit()
 
+    def merge_xiterator(self,l):
+        ''' merge iterator for (m=x,n=x) merging network'''
+        it = itertools.chain(range(0,1),range(l-1,-1,-1))
+        x=-1
+        for i in it:
+            x += (1 << i)
+            yield x
+
+    def merge_xyiterator(self,l):
+        for x in self.merge_xiterator(l):
+            for y in self.merge_xiterator(l):
+                yield (x << l) + y
+
+
+    def zeroone_validation(self, pairsv2):
+        I = pairsv2['I']
+        O = pairsv2['O']
+        method = pairsv2['method']
+        pairs = pairsv2['pairs']
+        print('Validating network {method:s} with I={I:d} and O={O:d}.'.format(method=method,I=I,O=O))
+        # generating iterator of inputs
+        if  method=='oddevenmerge':
+            it = self.merge_xyiterator(I//2)
+        else:
+            it =  range(2**I)
+        # testing each case
+        for i in it:
+            # Generating data
+            data = [int(x) for x in '{value:0{width:d}b}'.format(width=I,value=i)]
+            # py sorting
+            py_sorted = sorted(data, reverse=True)
+            # comparing and swap
+            for p in pairs: self.compare_and_swap(data, *p[:2], reverse=True)
+            # if there is no nonsorted outputs the output data has to be sorted in the used output range
+            cmp = data[0:O - 1] == py_sorted[0:O - 1]
+            if cmp:
+                if not i%100:
+                    print('Validation iteration {i:d} OK'.format(i=i))
+            else:
+                print('Error: Validation iteration {i:d}'.format(i=i))
+                print('python sorted:', py_sorted)
+                print('net sorted:', data)
+                sys.exit()
+        return True
+
+
+
+
+
     def generate_vhdl_pkg(self, net, I, filename='../../out/vhd/csn_sel_pkg_ref'):
         file = open(filename, 'w')
         cfg_stage_str = []
@@ -725,7 +774,7 @@ class SortingUtils:
             elif N==22:
                 method = 'alhajbaddar22'
             else:
-                method = 'mergeexchange'
+                method = 'merge-exchange'
         else:
             method = methodin
         return method

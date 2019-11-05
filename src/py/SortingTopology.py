@@ -257,18 +257,6 @@ class SortingTopology:
         df.to_pickle('../../out/pickle/I{I:03d}O{O:03d}_{m:s}.pickle'.format(I=self.I, O=self.O, m=netv2['method']))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         # cs = len(list_of_pairs)
         # ds = len(net)
         # Ecs = R * cs
@@ -283,9 +271,22 @@ class SortingTopology:
 
 
 def worker():
-    ST = SortingTopology(I=8,O=8,method='best', generate_plot = False, plot_masked_pairs=False)
+    ST = SortingTopology(I=352,O=16,method='best', generate_plot = False, plot_masked_pairs=False)
     #ST.get_topology_df()
-    ST.generate_R_net(1)
+    #ST.generate_R_net(1)
+    SU = SortingUtils()
+    df = pd.read_pickle('../../out/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
+    [pairs, net] = [df['pairs'][0], df['net'][0]]
+
+    list_of_pairsv2 = {'method': 'muctpi',
+                       'I': 352,
+                       'O': 16,
+                       'pairs': pairs}
+    netv2 = SU.to_stages(list_of_pairsv2)
+    plotnetv2 = SU.to_plotnet(netv2)
+    plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
+    SU.plot(plotnet3v2)
+
     print('finished')
 
 

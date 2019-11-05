@@ -1,25 +1,29 @@
-from SortingUtils import SortingUtils
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
-SU = SortingUtils()
+# comparison exchange function
+def compare_and_swap(x, a, b, key=lambda k: k, reverse=True):
+    if reverse == False:
+        expr = key(x[a]) >= key(x[b])
+    else:
+        expr = key(x[a]) <= key(x[b])
 
-pairsv2 = SU.generate_net_pairs(N=22, methodin='best')
+    if expr:
+        x[a], x[b] = x[b], x[a]
 
-pairs = pairsv2['pairs']
+# reading network
+df = pd.read_pickle('../../out/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
+[pairs, net] = [df['pairs'][0], df['net'][0]]
 
+# creating input data
 data = []
-
-for i in range(22):
+for i in range(352):
     data.append({
         'pt': i%2,
-        'count' : i
+        'roi' : i
     })
 
-print(data)
-for i in pairs: SU.compare_and_swap(data, *i[:2], key = lambda k: k['pt'],reverse=True)
+# sorting using the network
+for i in pairs: compare_and_swap(data, *i[:2], key = lambda k: k['pt'],reverse=True)
 
-
-
+# print the result
 print(data)
