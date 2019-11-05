@@ -62,7 +62,7 @@ class SortingUtils:
         if reverse==False:
             expr = key(x[a]) > key(x[b])
         else:
-            expr = key(x[a]) <= key(x[b])
+            expr = key(x[a]) < key(x[b])
 
         if expr:
             x[a], x[b] = x[b], x[a]
