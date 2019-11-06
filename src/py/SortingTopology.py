@@ -46,8 +46,11 @@ class SortingTopology:
         return [list_of_pairs, net]
 
     def get_merge_dict(self, method = 'oddevenmerge'):
-        Im=2*self.O
-        Om = self.O
+        if self.I == self.O:
+            Im = Om = self.I
+        else:
+            Im=2*self.O
+            Om = self.O
         # getting masked net
         net_sets = self.SU.get_net_opt_sets(I=Im, O=Om, pI=None, nO=None)
         masked_plotnet3v2 = self.SU.generate_opt_masked_net(*net_sets, method)
@@ -276,15 +279,19 @@ class SortingTopology:
 
 
 
-def worker():
+def worker352():
     ST = SortingTopology(I=352,O=16,method='best', generate_plot = True, plot_masked_pairs=False,
                          title=None)
                          #title='352-key input 16-key output MUCTPI Sorting Network')
     #ST.get_topology_df()
     ST.generate_R_net(16)
 
+def worker24():
+    ST = SortingTopology(I=24, O=24, method='best', generate_plot=True, plot_masked_pairs=False,
+                         title=None)
+    # ST.get_topology_df()
+    ST.generate_R_net(2)
 
-    print('finished')
 
 def plotter():
 
@@ -306,7 +313,7 @@ def plotter():
 if __name__ == '__main__':
     # using mp for dealing better with memory-hungry processes
     # if the application is finishing unexpectly, do not generate plots
-    proc=mp.Process(target=worker)
+    proc=mp.Process(target=worker24)
     proc.daemon=True
     proc.start()
     proc.join()

@@ -356,6 +356,17 @@ class SortingUtils:
             list_of_pairs = self.get_bitonic_list_of_comparisons(Nceil)
         elif method=='oddevenmerge':
             list_of_pairs = list(self.oddeven_merge(lo=0, hi=Nceil-1, r=1))
+        elif method == 'shapiro12':
+            list_of_pairs = [
+                (0,1), (2,3), (4,5), (6,7), (8,9), (10,11),
+                (0,2), (1,3), (4,6), (5,7), (8,10), (9,11),
+                (0,4), (1,5), (2,6), (7,11), (9,10),
+                (1,2), (3,7), (4,8), (5,9), (6,10),
+                (0,4), (1,5), (2,6), (3,8), (7,11), (9,10),
+                (1,4), (2,3), (5,6), (7,10), (8,9),
+                (2,4), (3,5), (6,8), (7,9),
+                (3,4), (5,6), (7,8)
+            ]
         elif method == 'vanvoorhis16':
             list_of_pairs = [
             (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15),
@@ -772,7 +783,9 @@ class SortingUtils:
 
     def get_method(self, N, methodin):
         if methodin == 'best':
-            if N == 16:
+            if N == 12:
+                method = 'shapiro12'
+            elif N == 16:
                 method = 'vanvoorhis16'
             elif N==18:
                 method = 'alhajbaddar18'
