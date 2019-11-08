@@ -2,6 +2,7 @@ from SortingUtils import SortingUtils
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from gen_size_depth import *
 
 SU = SortingUtils()
 
@@ -67,6 +68,17 @@ if generate_df:
 
 df = pd.read_pickle('methods.pickle')
 
+for n in range(2,Nf+1):
+    df = df.append({'n': n,
+                'gI': n,
+                'method': 'Knuth equation',
+                'iopt': None,
+                'bottomup': None,
+                'Methods': 'Knuth equation',
+                'c': cM(n),
+                'd': None,
+                }, ignore_index=True)
+
 df = df.replace('bitonicp2_True_True', 'Bitonic mergesort optimization A')
 df = df.replace('bitonicp2_True_False', 'Bitonic mergesort optimization B')
 df = df.replace('oddevenp2_True_True', 'Odd-even mergesort optimization A')
@@ -77,6 +89,7 @@ df.columns = ['Sorting methods', 'bottomup', 'c', 'd', 'gI', 'iopt', 'method', '
 dfc = df.set_index(['n' ,'Sorting methods'])['c'].unstack()
 dfd = df.set_index(['n' ,'Sorting methods'])['d'].unstack()
 
+dfe = dfc[['Merge-exchange sorting', 'Knuth equation', 'Odd-even mergesort optimization A']]
 dfc = dfc[['Odd-even mergesort optimization A', 'Odd-even mergesort optimization B', 'Bitonic mergesort optimization A', 'Bitonic mergesort optimization B', 'Merge-exchange sorting']]
 dfd = dfd[['Odd-even mergesort optimization A', 'Odd-even mergesort optimization B', 'Bitonic mergesort optimization A', 'Bitonic mergesort optimization B', 'Merge-exchange sorting']]
 
@@ -87,12 +100,26 @@ plt.xticks([2]+list(range(step,Nf+1,step)))
 plt.savefig('c.pdf', bbox_inches='tight')
 plt.show()
 
+ax = dfe.plot()
+plt.ylabel('c')
+plt.xticks([2]+list(range(step,Nf+1,step)))
+plt.savefig('e.pdf', bbox_inches='tight')
+plt.show()
+
 ax = dfc.plot()
 plt.ylabel('c')
 plt.xscale('log', basex=2)
 plt.yscale('log', basey=10)
 plt.xticks([2**n for n in range(1,10)])
 plt.savefig('clog.pdf', bbox_inches='tight')
+plt.show()
+
+ax = dfe.plot()
+plt.ylabel('c')
+plt.xscale('log', basex=2)
+plt.yscale('log', basey=10)
+plt.xticks([2**n for n in range(1,10)])
+plt.savefig('elog.pdf', bbox_inches='tight')
 plt.show()
 
 ax = dfd.plot()
@@ -107,7 +134,6 @@ ax = dfd.plot()
 plt.xticks([2]+list(range(step,Nf+1,step)))
 plt.ylabel('d')
 plt.yticks(range(0,51,10))
-ax.tight_layout()
 plt.savefig('d.pdf', bbox_inches='tight')
 plt.show()
 
