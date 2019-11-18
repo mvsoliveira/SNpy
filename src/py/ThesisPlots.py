@@ -133,18 +133,21 @@ N = 6
 O = 6
 method = 'oddevenp2'
 plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set()), used_out_set=set(range(N)), nonsorted_out_set=None, method=method)
+plotnet3v2['plotnet'] = [[[[0, 1, 0], [2, 3, 0], [4, 5, 0], [6, 7, 1]]], [[[0, 2, 0], [4, 6, 1]], [[1, 3, 0], [5, 7, 1]]], [[[1, 2, 0], [5, 6, 1]]], [[[0, 4, 0]], [[1, 5, 0]], [[2, 6, 1]], [[3, 7, 1]]], [[[2, 4, 0]], [[3, 5, 0]]], [[[1, 2, 0], [3, 4, 0], [5, 6, 1]]]]
 SU.plot(plotnet3v2)
 
 N = 8
 O = 2
 method = 'oddevenp2'
 plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set()), used_out_set=set(range(O)), nonsorted_out_set=None, method=method)
+plotnet3v2['plotnet'] = [[[[0, 1, 0], [2, 3, 0], [4, 5, 0], [6, 7, 0]]], [[[0, 2, 0], [4, 6, 0]], [[1, 3, 0], [5, 7, 0]]], [[[1, 2, 0], [5, 6, 0]]], [[[0, 4, 0]], [[1, 5, 0]], [[2, 6, 0]], [[3, 7, 3]]], [[[2, 4, 0]], [[3, 5, 3]]], [[[1, 2, 0], [3, 4, 3], [5, 6, 3]]]]
 SU.plot(plotnet3v2)
 
 N = 8
 O = 8
 method = 'oddevenp2'
 plotnet3v2 = SU.generate_opt_masked_net(N, O, presort_in_sets=(set(range(4)),set([4,5])), used_out_set=set(range(N)), nonsorted_out_set=set([1,2,3,4,5,6]), method=method)
+plotnet3v2['plotnet'] = [[[[0, 1, 2], [2, 3, 2], [4, 5, 2], [6, 7, 0]]], [[[0, 2, 2], [4, 6, 0]], [[1, 3, 2], [5, 7, 0]]], [[[1, 2, 2], [5, 6, 4]]], [[[0, 4, 0]], [[1, 5, 4]], [[2, 6, 4]], [[3, 7, 0]]], [[[2, 4, 4]], [[3, 5, 4]]], [[[1, 2, 4], [3, 4, 4], [5, 6, 4]]]]
 SU.plot(plotnet3v2)
 
 
@@ -161,7 +164,7 @@ list_of_pairsv2 = {'method' : plotnet3v2['method'],
                           'I' : N,
                           'O' : O,
                           'pairs' : list_of_pairs}
-list_of_pairsv2 = SU.simplify_pairs(list_of_pairsv2,first_in=1)
+#list_of_pairsv2 = SU.simplify_pairs(list_of_pairsv2,first_in=1)
 netv2 = SU.to_stages(list_of_pairsv2)
 netv2 = SU.sort_net(netv2)
 pd.DataFrame(netv2['net']).to_excel('baddar22-16.xlsx')
@@ -193,7 +196,7 @@ list_of_pairsv2 = {'method' : plotnet3v2['method'],
                           'I' : N,
                           'O' : O,
                           'pairs' : list_of_pairs}
-list_of_pairsv2 = SU.simplify_pairs(list_of_pairsv2,first_in=1)
+#list_of_pairsv2 = SU.simplify_pairs(list_of_pairsv2,first_in=1)
 netv2 = SU.to_stages(list_of_pairsv2)
 netv2 = SU.sort_net(netv2)
 pd.DataFrame(netv2['net']).to_excel('oddevenmerge32-16.xlsx')
