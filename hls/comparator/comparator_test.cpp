@@ -35,7 +35,7 @@ int main(void)
 			{1,8},
 			{0,2}
 	};
-	compare_exchange(testdata,0,1);
+	compare_main(testdata);
 	err = compare_arrays(expected,testdata);
 	   if (err) {
 		  cout << "!!! TEST FAILED - " << err << endl;;

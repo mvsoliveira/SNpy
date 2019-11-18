@@ -19,5 +19,6 @@ typedef struct {
    } element_t;
 
 
-void compare_exchange(element_t data[N], id_t a, id_t b);
+void compare_exchange(element_t data[N], const int a, const int b);
+void compare_main(element_t data[N]);
 #endif
