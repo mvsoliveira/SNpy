@@ -306,6 +306,8 @@ class SortingUtils:
         for p in pairs:
             pairsout.append((map_a[p[0]],map_a[p[1]]))
         pairsv2i['pairs'] = pairsout
+        pairsv2i['I'] = len(n_set)
+        pairsv2i['O'] = len(n_set)
         return pairsv2i
 
     def sort_net(self,netv2):
@@ -316,18 +318,29 @@ class SortingUtils:
         netv2i['net'] = netout
         return netv2i
 
-    def opt_pairs_in(self,pairsv2,nI,bottomup=True):
+    def opt_pairs_in(self,pairsv2,nI,bottomup=True,validation=False):
         pairsv2i = pairsv2.copy()
+        #print(pairsv2i)
         oI = pairsv2i['I']
         dI = oI - nI
         if bottomup:
-            imask_list =  list(range(0, int(np.ceil(dI/2)))) + list(range(int(np.ceil(dI/2))+nI, oI))
+            imask_list = list(range(0, int(np.ceil(dI/2)))) + list(range(int(-np.floor(dI/2))+oI, oI))
         else:
             imask_list = list(range(nI,oI))
         prum_pairs = self.prum_pair_in(pairsv2i, imask_list)
         simp_pairs = self.simplify_pairs(prum_pairs)
-        simp_pairs['I'] = nI
-        simp_pairs['O'] = nI
+
+        #print(imask_list)
+        #print(simp_pairs)
+        #print(bottomup,nI,oI)
+        if simp_pairs['I'] != nI:
+            print('Simplified pair does not have the required number of elements')
+            sys.exit()
+        if validation:
+            if not self.zeroone_validation(simp_pairs):
+                print('Simplified pairs fails zero-one validation')
+                sys.exit()
+
         return simp_pairs
 
 

@@ -6,11 +6,14 @@ from gen_size_depth import *
 
 SU = SortingUtils()
 
-generate_df = False
+generate_df = True
 Nf = 512
-step = 32
+plotstep = 32 #for plot only
+step = 1 # for points after 128
+nrange = (list(range(2,128))+list(range(128,Nf+1,step)))
 
 if generate_df:
+
 
     df = pd.DataFrame()
 
@@ -36,7 +39,7 @@ if generate_df:
                  'iopt' : False,
                  'bottomup' : None})
 
-    for I in (list(range(2,128))+list(range(128,Nf+1,1))):
+    for I in nrange:
         print('Generating networks with I = {i:d}.'.format(i=I))
         for cfg in cfgs:
             if cfg['iopt']:
@@ -47,7 +50,7 @@ if generate_df:
             pairsv2 = SU.generate_net_pairs(N=gI, methodin=cfg['method'])
 
             if cfg['iopt']:
-                pairsv2 = SU.opt_pairs_in(pairsv2, I, bottomup=cfg['bottomup'])
+                pairsv2 = SU.opt_pairs_in(pairsv2, I, bottomup=cfg['bottomup'],validation=False)
 
             netv2 = SU.to_stages(pairsv2)
 
@@ -96,13 +99,13 @@ dfd = dfd[['Odd-even mergesort optimization A', 'Odd-even mergesort optimization
 
 ax = dfc.plot()
 plt.ylabel('c')
-plt.xticks([2]+list(range(step,Nf+1,step)))
+plt.xticks([2]+list(range(plotstep,Nf+1,plotstep)))
 plt.savefig('c.pdf', bbox_inches='tight')
 plt.show()
 
 ax = dfe.plot()
 plt.ylabel('c')
-plt.xticks([2]+list(range(step,Nf+1,step)))
+plt.xticks([2]+list(range(plotstep,Nf+1,plotstep)))
 plt.savefig('e.pdf', bbox_inches='tight')
 plt.show()
 
@@ -131,7 +134,7 @@ plt.savefig('dlog.pdf', bbox_inches='tight')
 plt.show()
 
 ax = dfd.plot()
-plt.xticks([2]+list(range(step,Nf+1,step)))
+plt.xticks([2]+list(range(plotstep,Nf+1,plotstep)))
 plt.ylabel('d')
 plt.yticks(range(0,51,10))
 plt.savefig('d.pdf', bbox_inches='tight')

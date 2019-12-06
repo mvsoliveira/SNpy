@@ -305,6 +305,7 @@ def plotter():
                        'net': net}
     plotnetv2 = SU.to_plotnet(netv2)
     plotnet3v2 = SU.to_plotnet_triple(plotnetv2)
+    print(plotnetv2)
     SU.plot(plotnet3v2,figsize=(4*46.8,4*33.1))
 
 
@@ -313,7 +314,7 @@ def plotter():
 if __name__ == '__main__':
     # using mp for dealing better with memory-hungry processes
     # if the application is finishing unexpectly, do not generate plots
-    proc=mp.Process(target=worker24)
+    proc=mp.Process(target=plotter)
     proc.daemon=True
     proc.start()
     proc.join()
