@@ -28,6 +28,7 @@ architecture RTL of csn_sort_v2 is
 	signal muon_stage_b : muon_sort_a(0 to O - 1);
 
 	signal source_valid_a : std_logic_vector(0 to 3);
+	signal sink_valid_int   : std_logic;
 	signal sink_valid_b   : std_logic;
 	signal source_valid_b : std_logic;
 
@@ -39,12 +40,25 @@ architecture RTL of csn_sort_v2 is
 
 begin
 
-	id_g : for id in 0 to I - 1 generate
+--	id_g : for id in 0 to I - 1 generate
 
-		muon_cand(id).idx <= std_logic_vector(to_unsigned(id, IDX_WIDTH));
-		muon_cand(id).pt  <= muon_i(id).pt;
+--		muon_cand(id).idx <= std_logic_vector(to_unsigned(id, IDX_WIDTH));
+--		muon_cand(id).pt  <= muon_i(id).pt;
 
-	end generate id_g;
+--	end generate id_g;
+--  sink_valid_int <= sink_valid;
+
+-- for ooc runs
+    process (clk) is
+    begin
+        if rising_edge(clk) then
+            for id in 0 to I - 1 loop
+                sink_valid_int <= sink_valid; 
+                muon_cand(id).idx <= std_logic_vector(to_unsigned(id, IDX_WIDTH));
+                muon_cand(id).pt  <= muon_i(id).pt;                
+            end loop;
+        end if;
+    end process;
 
 
 
@@ -56,7 +70,7 @@ begin
 			)
 			port map(
 				clk          => clk,
-				sink_valid   => sink_valid,
+				sink_valid   => sink_valid_int,
 				source_valid => source_valid_b,
 				muon_i       => muon_cand,
 				muon_o       => muon_stage_b

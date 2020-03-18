@@ -10,12 +10,12 @@ using namespace std;
 #define PT_WIDTH 4
 #define ID_WIDTH 1
 
-typedef ap_uint<PT_WIDTH> pt_t;
-typedef ap_uint<ID_WIDTH> id_t;
+typedef ap_uint<PT_WIDTH> mpt_t;
+typedef ap_uint<ID_WIDTH> mid_t;
 
 typedef struct {
-	id_t  id;
-   pt_t  pt;   
+	mid_t  id;
+   mpt_t  pt;
    } element_t;
 
 
