@@ -6,7 +6,19 @@
 
 using namespace std;
 
-#define N 2
+#define N 4
+
+const int np = 5;
+const int pairs[np][2] =
+{
+		{0,1},
+		{2,3},
+		{0,2},
+		{1,3},
+		{1,2}
+};
+
+
 #define PT_WIDTH 4
 #define ID_WIDTH 1
 
@@ -21,4 +33,7 @@ typedef struct {
 
 void compare_exchange(element_t data[N], const int a, const int b);
 void compare_main(element_t data[N]);
+
+
+
 #endif

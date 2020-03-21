@@ -51,7 +51,7 @@ bool read_element(element_t element[N], ifstream& sti)
 int main ()
 {
   cout << "I am starting..." << endl;
-  const char *stimulus_source = "comparator.dat";
+  const char *stimulus_source = "test.dat";
   ifstream sti (stimulus_source);
 
   bool reading = true;
