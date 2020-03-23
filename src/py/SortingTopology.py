@@ -252,6 +252,7 @@ class SortingTopology:
                  'I': self.I,
                  'O': self.O,
                  'net': net}
+        #sorting net for readability
         netv2 = self.SU.sort_net(netv2)
         plotnetv2 = self.SU.to_plotnet(netv2)
         if self.remove_masked_pairs:
