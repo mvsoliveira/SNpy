@@ -68,6 +68,12 @@ class SortingTopology:
                            'dm' : len(opt_net),
                            'Im' : Im,
                            'Om': Om}
+        # saving pickle
+        df = pd.DataFrame()
+        df = df.append({'pairs' :  masked_pairs,
+                   'net' : opt_net
+                   }, ignore_index=True)
+        df.to_pickle('../../out/pickle/I{I:03d}O{O:03d}_{m:s}.pickle'.format(I=Im, O=Om, m=method))
 
 
 
@@ -140,7 +146,15 @@ class SortingTopology:
         # generating vhdl
         net = self.SU.to_stages(list_of_pairs)
         self.SU.generate_vhdl_pkg(net, ceil_I_R, filename='../../out/vhd/csn_sort')
+        # saving pickle
+        df = pd.DataFrame()
+        df = df.append({'pairs' :  list_of_pairs,
+                   'net' : net
+                   }, ignore_index=True)
+        df.to_pickle('../../out/pickle/I{I:03d}O{O:03d}_{m:s}.pickle'.format(I=ceil_I_R, O=self.O, m=plotnet3v2['method']))
+        ###
         # replicating net
+        ###
         list_of_list_of_pairs = []
         for r in range(R):
             mymap = list(range(r*ceil_I_R,(r+1)*ceil_I_R))
@@ -292,6 +306,12 @@ def worker24():
     # ST.get_topology_df()
     ST.generate_R_net(2)
 
+def worker22():
+    ST = SortingTopology(I=22, O=16, method='best', generate_plot=True, plot_masked_pairs=False,
+                         title=None)
+    # ST.get_topology_df()
+    ST.generate_R_net(1)
+
 
 def plotter():
 
@@ -314,7 +334,7 @@ def plotter():
 if __name__ == '__main__':
     # using mp for dealing better with memory-hungry processes
     # if the application is finishing unexpectly, do not generate plots
-    proc=mp.Process(target=plotter)
+    proc=mp.Process(target=worker352)
     proc.daemon=True
     proc.start()
     proc.join()
