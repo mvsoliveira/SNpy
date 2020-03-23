@@ -17,7 +17,7 @@ void compare_exchange(element_t data[N], element_t temp[N], const int a=0, const
 }
 
 void compare_main(element_t data[N]) {
-#pragma HLS INTERFACE ap_vld port=data
+#pragma HLS INTERFACE ap_none port=data
 #pragma HLS INTERFACE ap_ctrl_none port=return
 #pragma HLS ARRAY_PARTITION variable=data complete dim=1
 
