@@ -10,7 +10,7 @@ class SortingHLS (SortingUtils):
         self.SU = SortingUtils()
         self.I = I
         self.O = O
-        self.N = 10
+        self.N = 1000
         self.ptlen = 4
         self.idxlen = 9
         self.roilen = 8
@@ -32,10 +32,8 @@ class SortingHLS (SortingUtils):
         self.create_header()
         # Creating Stimullus
         self.gen_muon()
-        print(self.muon_cand)
         # Computing expected result
         self.py_net_sort_muon()
-        print(self.py_net_sorted_muon)
         self.create_test()
 
 
