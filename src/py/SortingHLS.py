@@ -60,8 +60,8 @@ class SortingHLS (SortingUtils):
     def create_test(self):
         lines = []
         for i in range(self.N):
-            lines.append(' '.join(['{pt:d}'.format(pt=self.muon_cand[i][_]['pt']) for _ in range(self.I)]) + ' ' +
-            ' '.join(['{id:d} {pt:d}'.format(id=self.py_net_sorted_muon[i][_]['idx'], pt=self.py_net_sorted_muon[i][_]['pt']) for _ in range(self.O)]))
+            lines.append(' '.join(['{pt:d} {roi:d} {flags:d}'.format(pt=self.muon_cand[i][_]['pt'], roi=self.muon_cand[i][_]['roi'], flags=self.muon_cand[i][_]['flags']) for _ in range(self.I)]) + ' ' +
+            ' '.join(['{id:d} {pt:d} {roi:d} {flags:d}'.format(id=self.py_net_sorted_muon[i][_]['idx'], pt=self.py_net_sorted_muon[i][_]['pt'], roi=self.py_net_sorted_muon[i][_]['roi'], flags=self.py_net_sorted_muon[i][_]['flags']) for _ in range(self.O)]))
 
         str = '\n'.join(lines)
         with open('../../out/dat/test_{0:d}_{1:d}.dat'.format(self.I, self.O), 'w') as content_file:
@@ -78,8 +78,8 @@ class SortingHLS (SortingUtils):
             for j in range(self.I):
                 cand.append({'pt': random.randint(0, -1 + 2 ** self.ptlen),
                              'idx': j,
-                             #'roi': random.randint(0, -1 + 2 ** self.roilen),
-                             #'flags': random.randint(0, -1 + 2 ** self.flagslen),
+                             'roi': random.randint(0, -1 + 2 ** self.roilen),
+                             'flags': random.randint(0, -1 + 2 ** self.flagslen),
                              })
 
             self.muon_cand.append(cand)
