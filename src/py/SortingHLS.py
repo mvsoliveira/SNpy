@@ -1,11 +1,20 @@
 from SortingUtils import SortingUtils
+from itertools import chain
+import random
 import pandas as pd
+import copy
 
-class SortingHLS:
+
+class SortingHLS (SortingUtils):
     def __init__(self, I, O, method, generate_plot = False, plot_masked_pairs = True, figsize=None, title=None):
         self.SU = SortingUtils()
         self.I = I
         self.O = O
+        self.N = 10
+        self.ptlen = 4
+        self.idxlen = 9
+        self.roilen = 8
+        self.flagslen = 4
         self.title = title
         if figsize is None:
             self.figsize = (4 * 46.8, 4 * 33.1)
@@ -19,7 +28,18 @@ class SortingHLS:
             net_sets = self.SU.get_net_opt_sets(I=self.I, O=self.O, pI=None, nO=None)
             [self.list_of_pairs, self.net] = self.SU.get_opt_net(gen_plots=self.generate_plot, net_sets=net_sets,
                                                                  method=self.method)
+        # creating header
         self.create_header()
+        # Creating Stimullus
+        self.gen_muon()
+        print(self.muon_cand)
+        # Computing expected result
+        self.py_net_sort_muon()
+        print(self.py_net_sorted_muon)
+        self.create_test()
+
+
+
 
     def create_header(self):
         with open('../../in/cpp/pairs_template.h') as content_file:
@@ -36,6 +56,44 @@ class SortingHLS:
 
         with open('../../out/cpp/pairs_{0:d}_{1:d}.h'.format(self.I,self.O), 'w') as content_file:
             content_file.write(template)
+
+    def create_test(self):
+        lines = []
+        for i in range(self.N):
+            lines.append(' '.join(['{pt:d}'.format(pt=self.muon_cand[i][_]['pt']) for _ in range(self.I)]) + ' ' +
+            ' '.join(['{id:d} {pt:d}'.format(id=self.py_net_sorted_muon[i][_]['idx'], pt=self.py_net_sorted_muon[i][_]['pt']) for _ in range(self.O)]))
+
+        str = '\n'.join(lines)
+        with open('../../out/dat/test_{0:d}_{1:d}.dat'.format(self.I, self.O), 'w') as content_file:
+            content_file.write(str)
+
+
+
+
+
+    def gen_muon(self):
+        self.muon_cand = []
+        for i in range(self.N):
+            cand = []
+            for j in range(self.I):
+                cand.append({'pt': random.randint(0, -1 + 2 ** self.ptlen),
+                             'idx': j,
+                             #'roi': random.randint(0, -1 + 2 ** self.roilen),
+                             #'flags': random.randint(0, -1 + 2 ** self.flagslen),
+                             })
+
+            self.muon_cand.append(cand)
+        pd.DataFrame(self.muon_cand).to_csv('../../out/csv/stim_{0:d}_{1:d}.csv'.format(self.I,self.O))
+
+    def py_net_sort_muon(self):
+        # copying list
+        self.py_net_sorted_muon = copy.deepcopy(self.muon_cand)
+        for i in range(self.N):
+            for j in self.list_of_pairs: self.compare_and_swap(self.py_net_sorted_muon[i], *j, key=lambda k: k['pt'])
+            self.py_net_sorted_muon[i] = self.py_net_sorted_muon[i][0:self.O]
+
+        pd.DataFrame(self.muon_cand).to_csv('../../out/csv/expec_{0:d}_{1:d}.csv'.format(self.I,self.O))
+
 
 
 
