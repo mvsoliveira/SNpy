@@ -12,36 +12,66 @@ using namespace std;
     printf("Contents of structure %s are %ld, %d\n", st_name, st->id, st->pt);
 }*/
 
-bool compare_arrays(element_t expected[N], element_t testdata[N])
+bool compare_arrays(element_t expected[O], element_t computed[O])
 {
-	for (int i=0; i < N; i++)
+	for (int i=0; i < O; i++)
 	{
-		if (expected[i].pt != testdata[i].pt) {
+		if (expected[i].pt != computed[i].pt) {
 			cout << "pt mismatch at index " << i << endl;
 			return true;
 		}
-		if (expected[i].id != testdata[i].id) {
+		if (expected[i].id != computed[i].id) {
 			cout << "id mismatch at index" << i << endl;
+			return true;
+		}
+		if (expected[i].roi != computed[i].roi) {
+			cout << "roi mismatch at index " << i << endl;
+			return true;
+		}
+		if (expected[i].flg != computed[i].flg) {
+			cout << "flags mismatch at index" << i << endl;
 			return true;
 		}
 	}
 	return false;
 }
 
-bool read_element(element_t element[N], ifstream& sti)
+bool read_ielements(ielement_t element[I], ifstream& sti)
 {
-	int32_t id, pt;
-	for (int i=0; i < N; i++)
+	int32_t pt, roi, flg;
+	for (int i=0; i < I; i++)
 	{
-		if (sti >> id >> pt) {
-			element[i].id = id;
+		if (sti >> pt >> roi >> flg) {
 			element[i].pt = pt;
-			cout << "    Element id : " << element[i].id << " Element pt : " << element[i].pt << endl;
-		} else {
-			element[i].id = 0;
-			element[i].pt = 0;
-			return false;
-		}
+			element[i].roi = roi;
+			element[i].flg = flg;
+			cout << "Reading stimulus data for iteration " << i << endl;
+			cout << "    Element pt : " << element[i].pt << endl;
+			cout << "    Element roi : " << element[i].roi << endl;
+			cout << "    Element flg : " << element[i].flg << endl;
+		} else return false;
+
+	}
+	return true;
+}
+
+bool read_oelements(element_t element[O], ifstream& sti)
+{
+	int32_t id, pt, roi, flg;
+	for (int i=0; i < O; i++)
+	{
+		if (sti >> id >> pt >> roi >> flg) {
+			element[i].pt = pt;
+			element[i].id = id;
+			element[i].roi = roi;
+			element[i].flg = flg;
+			cout << "Reading expected data for iteration " << i << endl;
+			cout << "    Element id : " << element[i].id << endl;
+			cout << "    Element pt : " << element[i].pt << endl;
+			cout << "    Element roi : " << element[i].roi << endl;
+			cout << "    Element flg : " << element[i].flg << endl;
+		} else return false;
+
 	}
 	return true;
 }
@@ -51,15 +81,16 @@ bool read_element(element_t element[N], ifstream& sti)
 int main ()
 {
   cout << "I am starting..." << endl;
-  const char *stimulus_source = "test.dat";
+  const char *stimulus_source = "test_352_16.dat";
   ifstream sti (stimulus_source);
 
   bool reading = true;
   bool test_error=false;
   bool error=false;
   int i = 0;
-  element_t testdata[N];
-  element_t expected[N];
+  ielement_t testdata[I];
+  element_t computed[O];
+  element_t expected[O];
 
   if (!sti.is_open())
   {
@@ -70,19 +101,22 @@ int main ()
   {
 	while (reading)
 	{
-		cout << "Iteration " << i << ": Reading test data." << endl;
-		reading = read_element(testdata,sti);
-		cout << "Iteration " << i << ": Reading expected data." << endl;
-		reading = read_element(expected,sti);
+
+		reading = read_ielements(testdata,sti);
+		reading = read_oelements(expected,sti);
 		if (reading) {
-			compare_main(testdata);
-			error = compare_arrays(expected,testdata);
+			const ielement_t* const_destdata = const_cast<const ielement_t*>(testdata);
+			cout << "Sorting stimulus for iteration " << i << endl;
+			compare_main(const_destdata,computed);
+			cout << "Checking result for iteration " << i << endl;
+			error = compare_arrays(expected,computed);
 			if (error) {
-				cout << "Iteration error" << endl;
+				cout << "Iteration error for iteration " << i << endl;
 				test_error = true;
 				// giving up of reading anymore inputs
 				return(1);
 			}
+			cout << "Check successful for iteration " << i << endl;
 			i++;
 		}
 
