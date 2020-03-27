@@ -2,8 +2,7 @@
 #define __COMPARATOR_H__
 
 #include <ap_int.h>
-#include <cmath>
-#include "pairs_352_16.h"
+#include "pairs_22_16.h"
 
 using namespace std;
 
@@ -20,9 +19,14 @@ typedef ap_uint<FLG_WIDTH> mflg_t;
 typedef struct {
     mid_t id;
     mpt_t pt;
+} element_t;
+
+typedef struct {
+    mid_t id;
+    mpt_t pt;
     mroi_t roi;
     mflg_t flg;
-} element_t;
+} oelement_t;
 
 typedef struct {
     mpt_t pt;
@@ -31,6 +35,7 @@ typedef struct {
 } ielement_t;
 
 void compare_exchange(element_t data[I], const int a, const int b);
-void compare_main(const ielement_t idata[I], element_t odata[O]);
+//void compare_exchange(oelement_t data[I], oelement_t temp[I], const int a, const int b);
+void compare_main(const ielement_t idata[I], oelement_t odata[O]);
 
 #endif

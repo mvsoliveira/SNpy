@@ -12,7 +12,7 @@ using namespace std;
     printf("Contents of structure %s are %ld, %d\n", st_name, st->id, st->pt);
 }*/
 
-bool compare_arrays(element_t expected[O], element_t computed[O])
+bool compare_arrays(oelement_t expected[O], oelement_t computed[O])
 {
 	for (int i=0; i < O; i++)
 	{
@@ -45,7 +45,7 @@ bool read_ielements(ielement_t element[I], ifstream& sti)
 			element[i].pt = pt;
 			element[i].roi = roi;
 			element[i].flg = flg;
-			cout << "Reading stimulus data for iteration " << i << endl;
+			cout << "Reading stimulus data for input " << i << endl;
 			cout << "    Element pt : " << element[i].pt << endl;
 			cout << "    Element roi : " << element[i].roi << endl;
 			cout << "    Element flg : " << element[i].flg << endl;
@@ -55,7 +55,7 @@ bool read_ielements(ielement_t element[I], ifstream& sti)
 	return true;
 }
 
-bool read_oelements(element_t element[O], ifstream& sti)
+bool read_oelements(oelement_t element[O], ifstream& sti)
 {
 	int32_t id, pt, roi, flg;
 	for (int i=0; i < O; i++)
@@ -65,7 +65,7 @@ bool read_oelements(element_t element[O], ifstream& sti)
 			element[i].id = id;
 			element[i].roi = roi;
 			element[i].flg = flg;
-			cout << "Reading expected data for iteration " << i << endl;
+			cout << "Reading expected data for output " << i << endl;
 			cout << "    Element id : " << element[i].id << endl;
 			cout << "    Element pt : " << element[i].pt << endl;
 			cout << "    Element roi : " << element[i].roi << endl;
@@ -81,7 +81,7 @@ bool read_oelements(element_t element[O], ifstream& sti)
 int main ()
 {
   cout << "I am starting..." << endl;
-  const char *stimulus_source = "test_352_16.dat";
+  const char *stimulus_source = "test_22_16.dat";
   ifstream sti (stimulus_source);
 
   bool reading = true;
@@ -89,8 +89,8 @@ int main ()
   bool error=false;
   int i = 0;
   ielement_t testdata[I];
-  element_t computed[O];
-  element_t expected[O];
+  oelement_t computed[O];
+  oelement_t expected[O];
 
   if (!sti.is_open())
   {
