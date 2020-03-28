@@ -2,9 +2,13 @@
 #define __COMPARATOR_H__
 
 #include <ap_int.h>
-#include "pairs_352_16.h"
+#include "pairs_22_16_hier.h"
+#include "pairs_32_16_hier.h"
 
 using namespace std;
+
+#define I 352
+#define O 16
 
 #define PT_WIDTH 4
 #define ID_WIDTH 9
@@ -35,6 +39,6 @@ typedef struct {
 } ielement_t;
 
 void compare_exchange(element_t data[I], const int a, const int b);
-void compare_main(const ielement_t idata[I], oelement_t odata[O]);
+void compare_main(ielement_t idata[I], oelement_t odata[O]);
 
 #endif
