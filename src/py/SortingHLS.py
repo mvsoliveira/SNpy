@@ -28,6 +28,8 @@ class SortingHLS (SortingUtils):
             net_sets = self.SU.get_net_opt_sets(I=self.I, O=self.O, pI=None, nO=None)
             [self.list_of_pairs, self.net] = self.SU.get_opt_net(gen_plots=self.generate_plot, net_sets=net_sets,
                                                                  method=self.method)
+
+        self.dependence_test_352()
         # creating header
         self.create_header()
         # Creating Stimullus
@@ -35,6 +37,7 @@ class SortingHLS (SortingUtils):
         # Computing expected result
         self.py_net_sort_muon()
         self.create_test()
+
 
 
 
@@ -65,10 +68,6 @@ class SortingHLS (SortingUtils):
         with open('../../out/dat/test_{0:d}_{1:d}.dat'.format(self.I, self.O), 'w') as content_file:
             content_file.write(str)
 
-
-
-
-
     def gen_muon(self):
         self.muon_cand = []
         for i in range(self.N):
@@ -92,12 +91,33 @@ class SortingHLS (SortingUtils):
 
         pd.DataFrame(self.muon_cand).to_csv('../../out/csv/expec_{0:d}_{1:d}.csv'.format(self.I,self.O))
 
+    def dependence_test_352(self):
+        print(len(self.net))
+        self.test_pairs = []
+        for i in range(16):
+            members = list(range(i*22,(i+1)*22))
+            for j in range(12):
+                for p in self.net[j]:
+                    if p[0] in members:
+                        self.test_pairs.append(p)
+        print(len(self.test_pairs))
+        for j in range(12,32):
+            for p in self.net[j]:
+                self.test_pairs.append(p)
+        self.list_of_pairs = self.test_pairs
+
+        print(len(self.test_pairs))
+
+
+
+
+
 
 
 
 if __name__ == '__main__':
     SH = SortingHLS(I=352, O=16, method='I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
-    SH = SortingHLS(I=22, O=16, method='I022O016_alhajbaddar22.pickle')
-    SH = SortingHLS(I=32, O=16, method='I032O016_oddevenmerge.pickle')
-    SH = SortingHLS(I=4, O=4, method='I004O004_oddevenp2_R_1_oddevenmerge_R_1.pickle')
+    #SH = SortingHLS(I=22, O=16, method='I022O016_alhajbaddar22.pickle')
+    #SH = SortingHLS(I=32, O=16, method='I032O016_oddevenmerge.pickle')
+    #SH = SortingHLS(I=4, O=4, method='I004O004_oddevenp2_R_1_oddevenmerge_R_1.pickle')
 

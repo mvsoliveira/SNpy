@@ -276,7 +276,7 @@ class SortingTopology:
         # saving pickle
         df = pd.DataFrame()
         df = df.append({'pairs' :  opt_pairs,
-                   'net' : net
+                   'net' : netv2['net']
                    }, ignore_index=True)
         df.to_pickle('../../out/pickle/I{I:03d}O{O:03d}_{m:s}.pickle'.format(I=self.I, O=self.O, m=netv2['method']))
 
