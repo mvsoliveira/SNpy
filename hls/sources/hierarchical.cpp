@@ -11,20 +11,20 @@ void compare_exchange(element_t data[I], const int a = 0, const int b = 1)
     }
 }
 
-void sort(element_t data[I], int off) {
-	for (int i = 0; i < npS; i++) {
-		#pragma HLS UNROLL
-		compare_exchange(data, pairsS[i][0]+off, pairsS[i][1]+off);
-	}	
-}
-
-
-void merge(element_t data[I], int lut[IM]) {
-	for (int i = 0; i < npM; i++) {
-		#pragma HLS UNROLL
-		compare_exchange(data, lut[pairsM[i][0]], lut[pairsM[i][1]]);
-	}
-}
+//void sort(element_t data[I], int off) {
+//	for (int i = 0; i < npS; i++) {
+//		#pragma HLS UNROLL
+//		compare_exchange(data, pairsS[i][0]+off, pairsS[i][1]+off);
+//	}
+//}
+//
+//
+//void merge(element_t data[I], int lut[IM]) {
+//	for (int i = 0; i < npM; i++) {
+//		#pragma HLS UNROLL
+//		compare_exchange(data, lut[pairsM[i][0]], lut[pairsM[i][1]]);
+//	}
+//}
 
 
 void compare_main(ielement_t idata[I], oelement_t odata[O])
@@ -46,7 +46,11 @@ void compare_main(ielement_t idata[I], oelement_t odata[O])
     // sorting comparison exchanges
     for (int h = 0; h < R; h++) {
 		#pragma HLS UNROLL
-    	sort(data, h*IS);
+    	//sort(data, h*IS);
+    	for (int i = 0; i < npS; i++) {
+    		#pragma HLS UNROLL
+    		compare_exchange(data, pairsS[i][0]+h*IS, pairsS[i][1]+h*IS);
+    	}
     }
 
     int lut[32];
@@ -60,7 +64,11 @@ void compare_main(ielement_t idata[I], oelement_t odata[O])
     			lut[n] = r*(IS << L)+n;
     			lut[n+16] = (r+1)*(IS << L)+n;
     		}
-    		merge(data,lut);
+    		//merge(data,lut);
+    		for (int i = 0; i < npM; i++) {
+    			#pragma HLS UNROLL
+    			compare_exchange(data, lut[pairsM[i][0]], lut[pairsM[i][1]]);
+    		}
     	}
 
     }
