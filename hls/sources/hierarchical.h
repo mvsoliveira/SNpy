@@ -28,14 +28,14 @@ typedef struct {
 typedef struct {
     mid_t id;
     mpt_t pt;
-//    mroi_t roi;
-//    mflg_t flg;
+    mroi_t roi;
+    mflg_t flg;
 } oelement_t;
 
 typedef struct {
     mpt_t pt;
-//    mroi_t roi;
-//    mflg_t flg;
+    mroi_t roi;
+    mflg_t flg;
 } ielement_t;
 
 void compare_exchange(element_t data[I], const int a, const int b);

@@ -75,13 +75,13 @@ void compare_main(ielement_t idata[I], oelement_t odata[O])
     
 
     // output
-    //int id_temp;
+    int id_temp;
     for (int i = 0; i < O; i++) {
 		#pragma HLS UNROLL
-    	//id_temp = data[i].id;
+    	id_temp = data[i].id;
         odata[i].id = data[i].id;
         odata[i].pt = data[i].pt;
-        //odata[i].roi = idata[id_temp].roi;
-        //odata[i].flg = idata[id_temp].flg;
+        odata[i].roi = idata[id_temp].roi;
+        odata[i].flg = idata[id_temp].flg;
     }
 }
