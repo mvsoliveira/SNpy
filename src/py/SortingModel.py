@@ -25,7 +25,6 @@ class SortingModel:
             [self.list_of_pairs_64, net] = self.SU.get_opt_net(gen_plots=False, net_sets=self.net_sets_64)
         elif self.toplevel == 'work.csn_sort_v2':
             df = pd.read_pickle('../../../in/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
-            print(df)
             [self.list_of_pairs, net] = [df['pairs'][0], df['net'][0]]
         else:
             [self.list_of_pairs, net] = self.SU.get_opt_net(gen_plots=False,

@@ -190,11 +190,11 @@ def run_test(dut, n, ratio, period):
     Pass = True
     for i in range(tb.n):
         for j in range(tb.O):
-            if tb.py_sorted_muon[i][j]['pt'] != tb.sim_sorted_muon[i][j]['pt']:
+            if tb.py_sorted_muon[i][j]['pt'] != tb.sim_sorted_muon[i][j]['pt']:                
                 Pass = False
 
     # checking all data using list of pairs comparison
-    if tb.py_net_sorted_muon != tb.sim_sorted_muon:
+    if tb.py_net_sorted_muon != tb.sim_sorted_muon:       
        Pass = False
 
     # checking flag
@@ -213,7 +213,7 @@ SM = SortingModel()
 factory = TestFactory(run_test)
 factory.add_option("n", [1000])
 ratio = 1*[[0,1]]
-ratio = 20*[[0,1]] + 40*[[8.0/352,24.0/352]] + 40*[[0.0/352,8.0/352]]
+#ratio = 20*[[0,1]] + 40*[[8.0/352,24.0/352]] + 40*[[0.0/352,8.0/352]]
 #ratio = 2000*[[0,1]] + 4000*[[8.0/352,24.0/352]] + 4000*[[0.0/352,8.0/352]]
 random.shuffle(ratio)
 factory.add_option("ratio", ratio)

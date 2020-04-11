@@ -1,4 +1,5 @@
-PYTHONPATH=/d/projects/cocotb/:/c/ProgramData/Anaconda3/python37.zip/:/c/ProgramData/Anaconda3/DLLs/:/c/ProgramData/Anaconda3/Library/bin/:/c/ProgramData/Anaconda3/lib/:/c/ProgramData/Anaconda3/:/c/ProgramData/Anaconda3/lib/site-packages/numpy/:/c/ProgramData/Anaconda3/lib/site-packages/:/c/ProgramData/Anaconda3/lib/site-packages/win32/:/c/ProgramData/Anaconda3/lib/site-packages/win32/lib/:/c/ProgramData/Anaconda3/lib/site-packages/Pythonwin/:/c/ProgramData/Anaconda3:/c/ProgramData/Anaconda3/Library/mingw-w64/bin:/c/ProgramData/Anaconda3/Library/usr/bin:/c/ProgramData/Anaconda3/Scripts
+# setting python bin
+export PYTHON_BIN=python3
 # always generate the same random sequence
 export RANDOM_SEED=1377424946
 # raise an error when trying to read
@@ -17,7 +18,7 @@ VCOM_ARGS=-2008
 #VSIM_ARGS+	=-t 1ps
 # set generics
 #export VSIM_ARGS+=-gI=352 -gO=16 -gdelay=5 -gDA=4 -gDB=2 -gD4
-export VSIM_ARGS+=-gI=352 -gO=16 -gD=4
+export VSIM_ARGS+=-gI=352 -gO=16 -gD=6 -gmux=1 -gin_reg=0
 # vhdl files
 include ./RTLFiles.inc
 # top-level entity name
