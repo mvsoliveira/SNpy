@@ -18,7 +18,7 @@ VCOM_ARGS=-2008
 #VSIM_ARGS+	=-t 1ps
 # set generics
 #export VSIM_ARGS+=-gI=352 -gO=16 -gdelay=5 -gDA=4 -gDB=2 -gD4
-export VSIM_ARGS+=-gI=352 -gO=16 -gD=6 -gmux=1 -gin_reg=0
+export VSIM_ARGS+=-gI=352 -gO=16 -gD=6 -gmux=1 -gin_reg=0 -gflat=0
 # vhdl files
 include ./RTLFiles.inc
 # top-level entity name

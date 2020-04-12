@@ -10,7 +10,8 @@ entity csn_sort_v2 is
     O      : natural := 16;
     D      : natural := 3;  -- delay in clock cycles for pipeline register                
     in_reg : natural := 0;
-    mux    : natural := 1
+    mux    : natural := 1;
+    flat   : natural := 1
     );
 
   port(
@@ -75,17 +76,31 @@ begin
 
 
   -- instantiating network
-  csn_net_1 : entity work.csn_net
-    generic map (
-      I => I,
-      O => O,
-      D => DN)
-    port map (
-      clk          => clk,
-      sink_valid   => sink_valid_int,
-      source_valid => source_valid_b,
-      muon_i       => muon_cand_int,
-      muon_o       => muon_stage_b);
+  net_g : if flat = 1 generate
+    csn_net_1 : entity work.csn_net(flat)
+      generic map (
+        I => I,
+        O => O,
+        D => DN)
+      port map (
+        clk          => clk,
+        sink_valid   => sink_valid_int,
+        source_valid => source_valid_b,
+        muon_i       => muon_cand_int,
+        muon_o       => muon_stage_b);
+  else generate
+    csn_net_1 : entity work.csn_net(hier)
+      generic map (
+        I => I,
+        O => O,
+        D => DN)
+      port map (
+        clk          => clk,
+        sink_valid   => sink_valid_int,
+        source_valid => source_valid_b,
+        muon_i       => muon_cand_int,
+        muon_o       => muon_stage_b);
+  end generate net_g;
 
 
 

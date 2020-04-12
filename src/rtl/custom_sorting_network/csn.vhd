@@ -23,7 +23,7 @@ end entity csn;
 architecture RTL of csn is
 
 	constant cfg_net : cfg_net_t := get_cfg(I);
-	constant stages  : stages_a  := get_stg_off(cfg_net'length, delay, Off);
+	constant stages  : stages_a  := get_stg(352,delay);
 
 	type net_array_t is array (natural range <>) of muon_a(0 to I - 1);
 
@@ -42,7 +42,7 @@ begin
 				generic map(
 					ascending       => False,
 					pass_through    => cfg_net(stage)(pair).p,
-					output_register => stages(stage)
+					output_register => stages(stage+Off)
 				)
 				port map(
 					clk => clk,
@@ -53,7 +53,7 @@ begin
 				);
 				
 			-- valid flags			
-			valid_g : if stages(stage) generate
+			valid_g : if stages(stage+Off) generate
 				process(clk)
 				begin
 					if rising_edge(clk) then

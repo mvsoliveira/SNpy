@@ -44,7 +44,6 @@ package csn_pkg is
   --type cfg_net_t is array (natural range <>, natural range <>) of cmp_cfg;
   function get_cfg(I         : integer) return cfg_net_t;
   function get_stg(I         : integer; D : integer) return stages_a;
-  function get_stg_off(depth : integer; D : integer; Off : integer) return stages_a;
 
   constant empty_cfg : cfg_net_t := (
     ((a => 0, b => 1, p => false), (a => 2, b => 3, p => false)),
@@ -124,12 +123,6 @@ package body csn_pkg is
     end case;
   end function get_cfg;
 
-  function get_stg_off(depth : integer; D : integer; Off : integer) return stages_a is
-    constant stage_a_d : stages_a := get_stg(352, D);
-  begin
-    return stage_a_d(Off to Off+depth-1);
-  end function get_stg_off;
-
   function get_stg(I : integer; D : integer) return stages_a is
   begin
     case I is
@@ -137,6 +130,11 @@ package body csn_pkg is
       -- 4 registers (D=4) is ok for implementing the whole sorting netwrok in the MSP FPGA
       when 352 =>
         case D is
+          when 0 =>
+                                        -- Registered stages configuration
+                                        -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31|;
+            return (false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                                        -- total number of registered stages: 0.        
           when 1 =>
                                         -- Registered stages configuration
                                         -- num -> |     0,     1,     2,     3,     4,     5,     6,     7,     8,     9,    10,    11,    12,    13,    14,    15,    16,    17,    18,    19,    20,    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,    31|;

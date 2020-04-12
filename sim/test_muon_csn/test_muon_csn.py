@@ -8,7 +8,7 @@ import os
 from sys import path
 path.append(os.getcwd() + "/../../../src/py")
 from SortingModel import SortingModel
-
+import numpy as np
 import copy
 
 
@@ -21,7 +21,7 @@ class MyTB(object):
         self.n = n
         self.I = self.dut.I.value
         self.O = self.dut.O.value
-        #self.delay = self.dut.delay.value
+        self.D = self.dut.D.value
         self.val_cand_frac_range = ratio
         self.ptlen = self.dut.muon_i[0].pt.value.n_bits
         self.idxlen = self.dut.muon_i[0].idx.value.n_bits
@@ -87,6 +87,21 @@ class MyTB(object):
                                      })
                     self.sim_sorted_muon.append(cand)
                     i += 1
+    
+    @cocotb.coroutine                
+    def read_signal_offset(self,signal,name):
+        i = 0
+        o = 0
+        offset = []
+        while i < self.n:
+            yield RisingEdge(self.dut.clk)
+            yield ReadOnly()
+            if signal.value.is_resolvable:
+                if signal.value.integer:
+                    offset.append(o)
+                    i += 1
+            o += 1
+        setattr(self,name,offset)
 
 
     def gen_muon(self):
@@ -180,9 +195,14 @@ def run_test(dut, n, ratio, period):
     cocotb.fork(Clock(dut.clk, 10).start())
     stim_thread = cocotb.fork(tb.stim_muon(period))
     read_thread = cocotb.fork(tb.read_muon())
-
+    sink_thread = cocotb.fork(tb.read_signal_offset(tb.dut.sink_valid,'sink_valid_off'))
+    source_thread = cocotb.fork(tb.read_signal_offset(tb.dut.source_valid,'source_valid_off'))
+    
+   
     yield stim_thread.join()
     yield read_thread.join()
+    yield sink_thread.join()
+    yield source_thread.join()    
 
     if tb.n <= 10:
        tb.print_muon()
@@ -192,12 +212,33 @@ def run_test(dut, n, ratio, period):
         for j in range(tb.O):
             if tb.py_sorted_muon[i][j]['pt'] != tb.sim_sorted_muon[i][j]['pt']:                
                 Pass = False
+    if Pass:
+        tb.dut._log.info('pT-only check successful')
+    else:
+        tb.dut._log.error('pT-only check failed')
+        
 
     # checking all data using list of pairs comparison
     if tb.py_net_sorted_muon != tb.sim_sorted_muon:       
        Pass = False
+       tb.dut._log.error('Sorting network model check failed')
+    else:
+        tb.dut._log.info('Sorting network model check successful')
+    
+       
+    # checking phase offset between sink and source valid
+    latency = [a_i - b_i for a_i, b_i in zip(tb.source_valid_off, tb.sink_valid_off)]
+    latency = np.array(latency)
+    fail_iterations = np.where(latency != tb.D)[0]
+    
+    if fail_iterations.size:
+        Pass = False
+        tb.dut._log.error('Latency check failed at iterations {0:s}.'.format(' ,'.join(['{0:d}'.format(i) for i in fail_iterations])))
+    else:
+        tb.dut._log.info('Latency check successful')
+        
 
-    # checking flag
+    # checking combined tests flag
     if not Pass:
         raise TestFailure("Muon sorting failed, look the print report.")
     else:
