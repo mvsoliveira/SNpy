@@ -1,12 +1,12 @@
 
-proc create_run_I_O_D {I O D} {
+proc create_run {I O D mux flat in_reg rebuilt} {
 
-puts "Creating run with I = $I, O = $O, D = $D"
+puts "Creating run with I = $I, O = $O, D = $D mux = $mux, flat= $flat, in_reg = $in_reg, rebuilt= $rebuilt"
 
-set runname [format "I%03d_O%03d_D%03d_CSN_SEL_PIPE" $I $O $D]
+set runname [format "I%03d_O%03d_D%03d_M%01d_F%01d_IR%01d_R%01d" $I $O $D $mux $flat $in_reg $rebuilt]
 
 create_run Synth_$runname -flow {Vivado Synthesis 2018}
-create_run Impl_$runname -parent_run Synth_$runname -flow {Vivado Implementation 2018}
+create_run Impl_$runname -parent_run Synth_$runname -flow {Vivado Implementation 2019}
 current_run [get_runs Impl_$runname]
 set_property -name {STEPS.SYNTH_DESIGN.ARGS.MORE OPTIONS} -value "-generic I=$I -generic O=$O -generic delay=$D" -objects [get_runs Synth_$runname]
 set_property STEPS.SYNTH_DESIGN.ARGS.FLATTEN_HIERARCHY none [get_runs Synth_$runname]
