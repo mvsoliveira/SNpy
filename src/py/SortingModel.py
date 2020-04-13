@@ -24,7 +24,12 @@ class SortingModel:
             self.net_sets_64 = self.SU.get_muctpi_opt_sets(64)
             [self.list_of_pairs_64, net] = self.SU.get_opt_net(gen_plots=False, net_sets=self.net_sets_64)
         elif self.toplevel == 'work.csn_sort_v2':
-            df = pd.read_pickle('../../../in/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
+            SORTING_PATH = os.environ['SORTING_PATH']
+            if SORTING_PATH:
+                path = SORTING_PATH+'/in/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle'
+            else:
+                path = '../../../in/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle'
+            df = pd.read_pickle(path)
             [self.list_of_pairs, net] = [df['pairs'][0], df['net'][0]]
         else:
             [self.list_of_pairs, net] = self.SU.get_opt_net(gen_plots=False,

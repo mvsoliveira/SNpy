@@ -5,8 +5,6 @@ from cocotb.result import TestFailure, TestSuccess
 from cocotb.regression import TestFactory
 import random
 import os
-from sys import path
-path.append(os.getcwd() + "/../../../src/py")
 from SortingModel import SortingModel
 import numpy as np
 import copy
@@ -22,6 +20,7 @@ class MyTB(object):
         self.I = self.dut.I.value
         self.O = self.dut.O.value
         self.D = self.dut.D.value
+        self.in_reg = self.dut.in_reg.value
         self.val_cand_frac_range = ratio
         self.ptlen = self.dut.muon_i[0].pt.value.n_bits
         self.idxlen = self.dut.muon_i[0].idx.value.n_bits
@@ -229,7 +228,8 @@ def run_test(dut, n, ratio, period):
     # checking phase offset between sink and source valid
     latency = [a_i - b_i for a_i, b_i in zip(tb.source_valid_off, tb.sink_valid_off)]
     latency = np.array(latency)
-    fail_iterations = np.where(latency != tb.D)[0]
+    exp_latency = tb.D + tb.in_reg
+    fail_iterations = np.where(latency != exp_latency)[0]
     
     if fail_iterations.size:
         Pass = False
@@ -252,11 +252,11 @@ def run_test(dut, n, ratio, period):
 # Generating Tests
 SM = SortingModel()
 factory = TestFactory(run_test)
-factory.add_option("n", [1000])
+factory.add_option("n", [100])
 ratio = 1*[[0,1]]
 #ratio = 20*[[0,1]] + 40*[[8.0/352,24.0/352]] + 40*[[0.0/352,8.0/352]]
 #ratio = 2000*[[0,1]] + 4000*[[8.0/352,24.0/352]] + 4000*[[0.0/352,8.0/352]]
 random.shuffle(ratio)
 factory.add_option("ratio", ratio)
-factory.add_option("period", [1,4,7])
+factory.add_option("period", [1,4])
 factory.generate_tests()
