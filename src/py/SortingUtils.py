@@ -1,951 +1,351 @@
-import sys
-import numpy as np
-import matplotlib.pyplot as plt
-import math as m
+import time
+import os
+import multiprocessing
 import random
 import sys
-from matplotlib.backends.backend_pdf import PdfPages
-import itertools
 
-class SortingUtils:
-    plot_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{i:03d}.pdf'
-    plot_bitonic_filename_fmt = '../../out/pdf/plot_bitonic_I{i:03d}_O{i:03d}.pdf'
-    plot_masked_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_{m:s}_masked.pdf'
-    plot_opt_filename_fmt = '../../out/pdf/plot_I{i:03d}_O{o:03d}_D{D:03d}_{m:s}_c{c:d}_d{d:d}_opt.pdf'
-    plot_dpi = 300
-    cfg_fmt = '(a => {a:<3}, b => {b:<3}, p => {p:s})'
-    stage_fmt = '({stage:s})'
-    net_fmt = 'when {i:d} => return (\n{net:s}\n);'
-    serial_net_fmt = 'when {i:d} => return {net:s};\n'
-    inline_fmt = None
-
-    def oddeven_merge(self, lo, hi, r):
-        step = r * 2
-        if step < hi - lo:
-            for bar in self.oddeven_merge(lo, hi, step):
-                yield bar
-            for bar in self.oddeven_merge(lo + r, hi, step):
-                yield bar
-            for bar in [(i, i + r) for i in range(lo + r, hi - r, step)]:
-                yield bar
-        else:
-            yield (lo, lo + r)
-
-
-    def oddeven_merge_sort_range(self, lo, hi):
-        """ sort the part of x with indices between lo and hi.
-
-        Note: endpoints (lo and hi) are included.
-        """
-        if (hi - lo) >= 1:
-            # if there is more than one element, split the input
-            # down the middle and first sort the first and second
-            # half, followed by merging them.
-            mid = lo + ((hi - lo) // 2)
-            for bar in self.oddeven_merge_sort_range(lo, mid):
-                yield bar
-            for bar in self.oddeven_merge_sort_range(mid + 1, hi):
-                yield bar
-            for bar in self.oddeven_merge(lo, hi, 1):
-                yield bar
-
-
-    def oddeven_merge_sort(self, length):
-        """ "length" is the length of the list to be sorted.
-        Returns a list of pairs of indices starting with 0 """
-
-        for bar in self.oddeven_merge_sort_range(0, length - 1):
-            yield bar
-
-    def compare_and_swap(self, x, a, b, key=lambda k:k, reverse = True):
-
-        if reverse==False:
-            expr = key(x[a]) > key(x[b])
-        else:
-            expr = key(x[a]) <= key(x[b])
-
-        if expr:
-            x[a], x[b] = x[b], x[a]
-
-    def merge_exchange_any(self, length):
-
-        t = np.math.ceil(np.math.log2(length))
-
-        p = 2 ** (t - 1)
-
-        while p > 0:
-            q = 2 ** (t - 1)
-            r = 0
-            d = p
-            toM3 = True
-
-            #while d > 0:
-            while toM3:
-                # step M3
-                for i in range(length - d):
-                    if i & p == r:
-                        yield (i, i + d)
-                if q != p:
-                    d = q - p
-                    q //= 2
-                    r = p
-                    toM3 = True
-                else:
-                    toM3 = False
-            p //= 2
-
-    def set_plot_length(self,net):
-        self.plot_margin = 8
-        self.number_margin = 0.15
-        self.plot_stagesp = 4
-        self.plot_substagesp = 1
-        self.plot_length = 2 * self.plot_margin + 1
-        self.plot_length += (len(net) - 1) * self.plot_stagesp
-        for s in net:
-            self.plot_length += (len(s) - 1) * self.plot_substagesp
-
-    def plot(self, plotnetv2, stages_i=None, filename=None, I=None, first_stage=1, first_input=1,figsize=None,title=None):
-        if isinstance(plotnetv2, dict):
-            plotnet = plotnetv2['plotnet']
-            I = plotnetv2['I']
-            O = plotnetv2['O']
-            method = plotnetv2['method']
-            stages_i = [0] * len(plotnet)
-            filename = self.plot_masked_filename_fmt.format(i=I, o=O, m=method)
-        else:
-            plotnet = plotnetv2
-
-
-        color = ['black', 'red', 'blue', 'magenta', 'green']
-        linestyle = ['dotted', 'dashed']
-
-        # the first line delimiter is always 0 as cannot be a register
-        stages = stages_i.copy()
-        stages.insert(0,0)
-
-        if figsize is None:
-            figsize = (I, I)
-
-        fig, ax = plt.subplots(figsize=figsize)
-        plt.ylim(I+1,-2)
-        self.set_plot_length(plotnet)
-        points = np.ones(self.plot_length)
-        # plotting horizontal lines and text
-        # having a different format for each line
-        if not self.inline_fmt:
-            if isinstance(plotnetv2, dict):
-                # finding the maximum number of digits to write identifier for each input line
-                w = int(np.ceil(np.log10(I+first_input)))
-                if 'oddevenmerge' in plotnetv2['method']:
-                    fmt = '$x_{{{i:0' + '{w:d}'.format(w=w) + 'd}}}$'
-                    input_fmt = [fmt.format(i=i + first_input) for i in range(I// 2)]
-                    fmt = '$y_{{{i:0' + '{w:d}'.format(w=w) + 'd}}}$'
-                    input_fmt.extend([fmt.format(i=i + first_input) for i in range(I // 2)])
-                else:
-                    fmt = '$x_{{{i:0' + '{w:d}'.format(w=w) + 'd}}}$'
-                    input_fmt = [fmt.format(i=i + first_input) for i in range(I)]
-        else:
-            input_fmt = self.inline_fmt
-
-
-        for y in range(I):
-            ax.plot(y * points, color='black')
-            ax.text(0,y-self.number_margin,input_fmt[y],   horizontalalignment='left')
-            ax.text(self.plot_length-1, y-self.number_margin,input_fmt[y], horizontalalignment='right')
-
-        # plotting pairs and stage delimeters
-        x = self.plot_margin
-        for i,s in enumerate(plotnet):
-            x -= self.plot_stagesp / 2
-            # plotting stage line delimeter
-            ax.plot((x, x), (-1, I), linestyle=linestyle[stages[i]], color='gray')
-            # plotting stage number
-            curr_stage_half_spacing = ((len(s) - 1) * self.plot_substagesp + self.plot_stagesp) / 2
-            x += curr_stage_half_spacing
-            ax.text(x, -1, '{y:d}'.format(y=i+first_stage), horizontalalignment='center', verticalalignment='top')
-            ax.text(x, I, '{y:d}'.format(y=i+first_stage), horizontalalignment='center', verticalalignment='baseline')
-            x -= curr_stage_half_spacing
-            x += self.plot_stagesp / 2
-            # plotting substages
-            for sub in s:
-                for pair in sub:
-                    ax.plot((x,x),pair[:2],color=color[pair[2]], marker='o')
-                x += self.plot_substagesp
-            x += self.plot_stagesp - self.plot_substagesp
-        # plotting last stage delimeter
-        x -= self.plot_stagesp / 2
-        ax.plot((x, x), (-1, I), linestyle=linestyle[stages[-1]], color='gray')
-        #ax.margins(0.2)
-        ax.set_axis_off()
-        if title is not None:
-            ax.set_title(title,fontsize=120)
-            #fig.suptitle(title, )
-        # saving picture
-        plt.savefig(filename, format='pdf', bbox_inches='tight')
-        #plt.show()
-        plt.close()
-
-
-    def flatten(self, l):
-        flatten_f = lambda l: [item for sublist in l for item in sublist]
-        return flatten_f(l)
-
-    def to_stages(self,list_of_pairsv2):
-        net = [[]]
-        if isinstance(list_of_pairsv2, dict):
-            list_of_pairs = list_of_pairsv2['pairs']
-        else:
-            list_of_pairs = list_of_pairsv2
-
-        for pair in list_of_pairs:
-            done = False
-            s = 0
-            while not done:
-                present = False
-                futurepresent = False
-                if len(net[s]) > 0:
-                    for p in net[s]:
-                        if (pair[0] in p[:2]) or (pair[1] in p[:2]):
-                            present = True
-
-                if not present:
-                    ## Is it present in the future?
-                    future_pairs = self.flatten(net[s+1:])
-                    for p in future_pairs:
-                        if (pair[0] in p[:2]) or (pair[1] in p[:2]):
-                            futurepresent = True
-
-                if (not present) and (not futurepresent):
-                    net[s].append(pair)
-                    done = True
-                else:
-                    if s+2 > len(net):
-                        net.append([pair])
-                        done = True
-                    else:
-                        s += 1
-
-        if isinstance(list_of_pairsv2, dict):
-            netv2 = {'method': list_of_pairsv2['method'],
-                     'I': list_of_pairsv2['I'],
-                     'O': list_of_pairsv2['O'],
-                     'net': net}
-            return netv2
-        else:
-            return net
-
-
-
-    def to_plotnet(self,netv2):
-        net = netv2['net']
-        # single substages solution
-        #net = [[[p] for p in item] for item in net]
-        # avoiding overlaps
-        plotnet=[]
-        for stage in net:
-            substages = [[]]
-            substage_ranges = [[]]
-            for pair in stage:
-                done = False
-                s = 0
-                prange = [i for i in range(pair[0], pair[1] + 1)]
-                while not done:
-                    if not set(prange).intersection(set(substage_ranges[s])):
-                        substages[s].append(pair)
-                        for i in range(pair[0], pair[1] + 1):
-                            substage_ranges[s].append(i)
-                        done = True
-                    elif s + 2 > len(substages):
-                        substages.append([pair])
-                        substage_ranges.append([i for i in range(pair[0], pair[1] + 1)])
-                        done = True
-                    else:
-                        s += 1
-            plotnet.append(substages)
-
-        plotnetv2 = {'method': netv2['method'],
-                 'I': netv2['I'],
-                 'O': netv2['O'],
-                 'plotnet': plotnet}
-        return plotnetv2
-
-    def to_plotnet_triple(self,plotnetv2):
-        new_plotnet = [[[list(pair) + [0] for pair in substage] for substage in stage] for stage in plotnetv2['plotnet']]
-        plotnetv2['plotnet'] = new_plotnet
-        return plotnetv2
-
-
-    def mask_net_in(self,plotnet3v2,minin, maxin):
-        for stage in plotnet3v2['plotnet']:
-            for substage in stage:
-                for pair in substage:
-                    if (minin <= pair[0] <= maxin) or (minin <= pair[1] <= maxin):
-                        pair[2] = 1
-        return plotnet3v2
-
-    def prum_pair_in(self,pairsv2,imask_list):
-        pairsv2i = pairsv2.copy()
-        pairs = pairsv2i['pairs']
-        pairsout = []
-        for p in pairs:
-            if not ((p[0] in imask_list) or (p[1] in imask_list)):
-                pairsout.append(p)
-        #print(pairsout)
-        pairsv2i['pairs'] = pairsout
-        return pairsv2i
-
-    def simplify_pairs(self,pairsv2,first_in=0):
-        pairsv2i = pairsv2.copy()
-        pairs = pairsv2i['pairs']
-        merged = list(itertools.chain(*pairs))
-        n_set = set(merged)
-        target = list(range(first_in,first_in+len(n_set)))
-        map_a = np.array([None]*(max(n_set)+1))
-        map_a[list(n_set)] = target
-        pairsout = []
-        for p in pairs:
-            pairsout.append((map_a[p[0]],map_a[p[1]]))
-        pairsv2i['pairs'] = pairsout
-        pairsv2i['I'] = len(n_set)
-        pairsv2i['O'] = len(n_set)
-        return pairsv2i
-
-    def sort_net(self,netv2):
-        netv2i = netv2.copy()
-        netout = []
-        for stage in netv2i['net']:
-            netout.append(sorted(stage))
-        netv2i['net'] = netout
-        return netv2i
-
-    def opt_pairs_in(self,pairsv2,nI,bottomup=True,validation=False):
-        pairsv2i = pairsv2.copy()
-        #print(pairsv2i)
-        oI = pairsv2i['I']
-        dI = oI - nI
-        if bottomup:
-            imask_list = list(range(0, int(np.ceil(dI/2)))) + list(range(int(-np.floor(dI/2))+oI, oI))
-        else:
-            imask_list = list(range(nI,oI))
-        prum_pairs = self.prum_pair_in(pairsv2i, imask_list)
-        simp_pairs = self.simplify_pairs(prum_pairs)
-
-        #print(imask_list)
-        #print(simp_pairs)
-        #print(bottomup,nI,oI)
-        if simp_pairs['I'] != nI:
-            print('Simplified pair does not have the required number of elements')
-            sys.exit()
-        if validation:
-            if not self.zeroone_validation(simp_pairs):
-                print('Simplified pairs fails zero-one validation')
-                sys.exit()
-
-        return simp_pairs
-
-
-    def prum_masked_list(self, plotnet3):
-        return [[[pair for pair in substage if pair[2] == 0] for substage in stage] for stage in plotnet3]
-
-    def print_plotnet(self,plotnet):
-        for (i,s) in enumerate(plotnet):
-            for (j,sub) in enumerate(s):
-                print('Stage ({i:04d},{j:04d}) : {sub:s}'.format(i=i, j=j, sub=str(sub)))
-
-    def generate_oddevenmerge_plots(self,values):
-        for i, N in enumerate(values):
-            self.generate_reduced_oddevenmerge_plot(N)
-
-    def generate_net_pairs(self, N, methodin):
-        # finding best method if required
-        method = self.get_method(N, methodin)
-        Nceil = 2 ** int(np.ceil(np.log2(N)))
-        list_of_pairs = None
-        if method=='oddevenp2':
-            list_of_pairs = list(self.oddeven_merge_sort(Nceil))
-        elif method=='merge-exchange':
-            list_of_pairs = list(self.merge_exchange_any(N))
-        elif method=='bitonicp2':
-            list_of_pairs = self.get_bitonic_list_of_comparisons(Nceil)
-        elif method=='oddevenmerge':
-            list_of_pairs = list(self.oddeven_merge(lo=0, hi=Nceil-1, r=1))
-        elif method == 'shapiro12':
-            list_of_pairs = [
-                (0,1), (2,3), (4,5), (6,7), (8,9), (10,11),
-                (0,2), (1,3), (4,6), (5,7), (8,10), (9,11),
-                (0,4), (1,5), (2,6), (7,11), (9,10),
-                (1,2), (3,7), (4,8), (5,9), (6,10),
-                (0,4), (1,5), (2,6), (3,8), (7,11), (9,10),
-                (1,4), (2,3), (5,6), (7,10), (8,9),
-                (2,4), (3,5), (6,8), (7,9),
-                (3,4), (5,6), (7,8)
-            ]
-        elif method == 'vanvoorhis16':
-            list_of_pairs = [
-            (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15),
-            (0, 2), (1, 3), (4, 6), (5, 7), (8, 10), (9, 11), (12, 14), (13, 15),
-            (0, 4), (1, 5), (2, 6), (3, 7), (8, 12), (9, 13), (10, 14), (11, 15),
-            (0, 8), (1, 9), (2, 10), (3, 11), (4, 12), (5, 13), (6, 14), (7, 15),
-            (1, 2), (3, 12), (13, 14), (7, 11), (4, 8), (5, 10), (6, 9),
-            (1, 4), (2, 8), (3, 10), (5, 9), (6, 12), (7, 13), (11, 14),
-            (2, 4), (3, 5), (6, 8), (7, 9), (10, 12), (11, 13),
-            (3, 6), (5, 8), (7, 10), (9, 12),
-            (3, 4), (5, 6), (7, 8), (9, 10), (11, 12)]
-        elif method == 'alhajbaddar18':
-            list_of_pairs = [
-            (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15), (16, 17),
-            (0, 2), (1, 3), (4, 6), (5, 7), (8, 10), (9, 11), (12, 17), (13, 14), (15, 16),
-            (0, 4), (1, 5), (2, 6), (3, 7), (9, 10), (8, 12), (11, 16), (13, 15), (14, 17),
-            (7, 16), (6, 17), (3, 5), (10, 14), (11, 12), (9, 15), (2, 4), (1, 13), (0, 8),
-            (16, 17), (7, 14), (5, 12), (3, 15), (6, 13), (4, 10), (2, 11), (8, 9), (0, 1),
-            (1, 8), (14, 16), (6, 9), (7, 13), (5, 11), (3, 10), (4, 15),
-            (4, 8), (14, 15), (5, 9), (7, 11), (1, 2), (12, 16), (3, 6), (10, 13),
-            (5, 8), (11, 14), (2, 3), (12, 13), (6, 7), (9, 10),
-            (7, 9), (3, 5), (12, 14), (2, 4), (13, 15), (6, 8), (10, 11),
-            (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
-            (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
-        elif method == 'alhajbaddar22':
-            # The id of the comparator lines are from bottom to top in her Thesis. Therefore this first list, commented
-            #  and extracted from the CE-list in her thesis looks different than the one illustrated in her Thesis.
-            # The second list, acctually being used here, is a flipped upside-down list in such a way that the network
-            # looks the same as the one illustrated in her thesis.
-            # list_of_pairs = [
-            # (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (12, 13), (14, 15), (16, 17), (18, 19), (20, 21),
-            # (2, 4), (1, 3), (0, 5), (6, 8), (7, 9), (10, 12), (11, 13), (14, 16), (15, 17), (18, 20), (19, 21),
-            # (6, 10), (7, 11), (8, 12), (9, 13), (14, 18), (15, 19), (16, 20), (17, 21), (3, 5), (1, 4), (0, 2),
-            # (9, 17), (7, 15), (11, 19), (8, 16), (3, 12), (0, 10), (1, 18), (5, 20), (13, 21), (6, 14), (2, 4),
-            # (0, 7), (17, 20), (3, 15), (9, 18), (2, 11), (4, 16), (5, 10), (1, 8), (12, 19), (13, 14),
-            # (20, 21), (0, 6), (3, 8), (12, 18), (2, 13), (14, 16), (5, 9), (10, 15), (4, 7), (11, 17),
-            # (16, 20), (18, 19), (15, 17), (12, 14), (10, 11), (7, 9), (8, 13), (4, 5), (1, 3), (2, 6),
-            # (19, 20), (16, 17), (15, 18), (11, 14), (9, 13), (10, 12), (7, 8), (3, 5), (4, 6), (1, 2),
-            # (18, 19), (14, 16), (13, 15), (11, 12), (8, 9), (5, 10), (6, 7), (2, 3),
-            # (17, 19), (16, 18), (14, 15), (12, 13), (9, 11), (8, 10), (5, 7), (3, 6), (2, 4),
-            # (17, 18), (15, 16), (13, 14), (11, 12), (9, 10), (7, 8), (5, 6), (3, 4),
-            # (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5)]
-            list_of_pairs = [(20, 21), (18, 19), (16, 17), (14, 15), (12, 13), (10, 11), (8, 9), (6, 7), (4, 5), (2, 3), (0, 1),
-             (17, 19), (18, 20), (16, 21), (13, 15), (12, 14), (9, 11), (8, 10), (5, 7), (4, 6), (1, 3), (0, 2),
-             (11, 15), (10, 14), (9, 13), (8, 12), (3, 7), (2, 6), (1, 5), (0, 4), (16, 18), (17, 20), (19, 21),
-             (4, 12), (6, 14), (2, 10), (5, 13), (9, 18), (11, 21), (3, 20), (1, 16), (0, 8), (7, 15), (17, 19),
-             (14, 21), (1, 4), (6, 18), (3, 12), (10, 19), (5, 17), (11, 16), (13, 20), (2, 9), (7, 8), (0, 1),
-             (15, 21), (13, 18), (3, 9), (8, 19), (5, 7), (12, 16), (6, 11), (14, 17), (4, 10), (1, 5), (2, 3), (4, 6),
-             (7, 9), (10, 11), (12, 14), (8, 13), (16, 17), (18, 20), (15, 19), (1, 2), (4, 5), (3, 6), (7, 10),
-             (8, 12), (9, 11), (13, 14), (16, 18), (15, 17), (19, 20), (2, 3), (5, 7), (6, 8), (9, 10), (12, 13),
-             (11, 16), (14, 15), (18, 19), (2, 4), (3, 5), (6, 7), (8, 9), (10, 12), (11, 13), (14, 16), (15, 18),
-             (17, 19), (3, 4), (5, 6), (7, 8), (9, 10), (11, 12), (13, 14), (15, 16), (17, 18), (4, 5), (6, 7), (8, 9),
-             (10, 11), (12, 13), (14, 15), (16, 17)]
-
-        if 'p2' in method:
-            N = Nceil
-
-        list_of_pairsv2 = {'method' : method,
-                          'I' : N,
-                          'O' : N,
-                          'pairs' : list_of_pairs}
-
-        return list_of_pairsv2
-
-
-
-    def generate_opt_masked_net(self, N, O, presort_in_sets=(set()), used_out_set=None, nonsorted_out_set=None, method='oddevenp2'):
-        # finding next power2 size
-        Nceil = 2 ** int(np.ceil(np.log2(N)))
-        # getting list of pairs
-        list_of_pairs2 = self.generate_net_pairs(N, method)
-        # finding the stages
-        netv2 = self.to_stages(list_of_pairs2)
-        # creating plotnet object (adding substages)
-        plotnetv2 = self.to_plotnet(netv2)
-        # creating plotnet3 (adding a third parameter for each comparison)
-        plotnet3v2 = self.to_plotnet_triple(plotnetv2)
-        # masking unused inputs
-        plotnet3v2_m = self.mask_net_in(plotnet3v2, N, Nceil-1)
-        # masking comparators from presorted inputs
-        for iset in presort_in_sets:
-            self.net_presort_opt(plotnet3v2_m, iset)
-        # optimizing away unused outputs
-        if used_out_set == None:
-            used_out_set = set(range(O))
-        self.net_unused_out_opt(plotnet3v2_m, used_out_set)
-        # optimizing away comparison for outputs which does not need do be sorted
-        if nonsorted_out_set != None:
-            self.net_nonsorted_out_opt(plotnet3v2_m, nonsorted_out_set)
-
-        return plotnet3v2_m
-
-    def net_presort_opt(self, plotnet3v2, iset):
-        for stage in plotnet3v2['plotnet']:
-            for substage in stage:
-                for cmp in substage:
-                    # if this comparison was not already optimized away
-                    if cmp[2] == 0:
-                        # if the two members of the comparison belongs to the presorted set
-                        if len(iset.intersection(cmp[:2])) == 2:
-                            # optimize them away
-                            cmp[2] = 2
-                        # if one of members intersects with an input outside the set, do not look further anymore
-                        elif len(iset.intersection(cmp[:2])) == 1:
-                            return True
-                        # if else, just continues ;)
-
-    def to_list_of_pairs(self, plotnet3v2, remove_masked = True):
-        list_of_pairs = []
-        for stage in plotnet3v2['plotnet']:
-            for substage in stage:
-                for cmp in substage:
-                    if remove_masked:
-                        # if this comparison was not optimized away
-                        if cmp[2] == 0:
-                            list_of_pairs.append(cmp[:2])
-                    else:
-                        list_of_pairs.append(cmp)
-        return list_of_pairs
-
-    def net_unused_out_opt(self, plotnet3v2, used_out_set_i):
-        # copying set to preserve it
-        used_out_set = used_out_set_i.copy()
-        for stage in reversed(plotnet3v2['plotnet']):
-            for substage in reversed(stage):
-                for cmp in reversed(substage):
-                    # if this comparison was not already optimized away
-                    if cmp[2] == 0:
-                        # if none of two members of the comparison belongs to the used out set
-                        if len(used_out_set.intersection(cmp[:2])) == 0:
-                            # optimize them away
-                            cmp[2] = 3
-                        # if one used output intersects with an unused output, threat this output as an used one
-                        elif len(used_out_set.intersection(cmp[:2])) == 1:
-                            used_out_set.update(cmp[:2])
-                        # if else, just continues ;)
-
-    def net_nonsorted_out_opt(self, plotnet3v2, nonsorted_out_set_i = set()):
-        # copying set to preserve it
-        nonsorted_out_set = nonsorted_out_set_i.copy()
-        for stage in reversed(plotnet3v2['plotnet']):
-            for substage in reversed(stage):
-                for cmp in reversed(substage):
-                    # if this comparison was not already optimized away
-                    if cmp[2] == 0:
-                        # if both of two members of the comparison belongs to the non sorted out set
-                        if len(nonsorted_out_set.intersection(cmp[:2])) == 2:
-                            # optimize them away
-                            cmp[2] = 4
-                        # if one unsorted output intersects with another output, discard this output from the unsorted set
-                        elif len(nonsorted_out_set.intersection(cmp[:2])) == 1:
-                            nonsorted_out_set.discard(cmp[0])
-                            nonsorted_out_set.discard(cmp[1])
-                        # if else, just continues ;)
-
-    def get_muctpi_presort_in_sets(self, I):
-        rpc = [2]
-        tgc = [4]
-
-        if   I==352:
-            all = 32 * rpc + 72 * tgc
-        elif I==88:
-            all = 32 * rpc + 6 * tgc
-        elif I==64:
-            cand = [16]
-            all = 4 * cand
-        else:
-            all=[]
-
-        presort_in_sets = []
-        i = 0
-        for cand_sec in all:
-            presort_in_sets.append(set(range(i, i + cand_sec)))
-            i += cand_sec
-        return presort_in_sets
-
-
-
-    def get_muctpi_opt_sets(self, I, O = 16, presort=True):
-        if presort:
-            presort_in_sets = self.get_muctpi_presort_in_sets(I)
-        else:
-            presort_in_sets = [set()]
-        used_out_set = set(range(O))
-        #nonsorted_out_set = set(range(64))
-        nonsorted_out_set = set()
-        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
-
-    def get_net_opt_sets(self, I, O = None, pI = None, nO = None):
-        if not O:
-            O = I
-
-        if pI:
-            presort_in_sets = []
-            for i in range(0,I,pI):
-                presort_in_sets.append(set(range(i, i + pI)))
-        else:
-            presort_in_sets = [set()]
-
-        used_out_set = set(range(O))
-
-        if nO:
-            nonsorted_out_set = set(range(nO))
-        else:
-            nonsorted_out_set = set()
-
-        return (I, O, presort_in_sets, used_out_set, nonsorted_out_set)
-
-
-
-    def generate_reduced_oddevenmerge(self, N):
-        reduced_pairs = self.generate_oddevenmerge_list_of_pairs(N)
-        net = self.to_stages(reduced_pairs)
-        return net
-
-    def generate_oddevenmerge_list_of_pairs(self, N):
-        Nceil = 2 ** int(np.ceil(np.log2(N)))
-        list_of_pairs = list(self.oddeven_merge_sort(Nceil))
-        reduced_pairs = [p for p in list_of_pairs if not (p[0] > N - 1 or p[1] > N - 1)]
-        return reduced_pairs
-
-
-
-    def generate_reduced_oddevenmerge_plot(self, N):
-        filename = self.plot_filename_fmt.format(i=N, o=N)
-        net = self.generate_reduced_oddevenmerge(N)
-        print('Number of stages for reduced net N={N:03d} = {stages:d}'.format(N=N,stages=len(net)))
-        plotnet = self.to_plotnet(net)
-        plotnet3 = self.to_plotnet_triple(plotnet)
-        self.plot(plotnet3, filename, N)
-
-    def generate_reduced_bitonic_plot(self, N):
-        filename = self.plot_bitonic_filename_fmt.format(i=N, o=N)
-        list_of_comparisons = self.get_bitonic_list_of_comparisons(N)
-        net = self.to_stages(list_of_comparisons)
-        stages = self.get_stages_cfg(len(net))
-        print('Number of stages for reduced net N={N:03d} = {stages:d}'.format(N=N,stages=len(net)))
-        plotnet = self.to_plotnet(net)
-        plotnet3 = self.to_plotnet_triple(plotnet)
-        self.plot(plotnet3, stages, filename, N)
-
-
-    def in_list(self, list_of_lists, item):
-        for list_ in list_of_lists:
-            if item in list_:
-                return True
-        return False
-
-    def find_missing(self, s, I):
-        values = range(0, I, 1)
-        missing = []
-        for v in values:
-            if not self.in_list(s, v):
-                missing.append(v)
-        return missing
-
-    def find_missing_pairs(self, stages, I):
-        s = self.find_missing(stages, I)
-        pairs = []
-        while s:
-            pairs.append([s.pop(0), s.pop()])
-        return pairs
-
-    def generate_csn_pkg(self, values):
-        file = open('../../out/vhd/csn_pkg_ref', 'w')
-        for i, N in enumerate(values):
-            net = self.generate_reduced_oddevenmerge(N)
-            cfg_stage_str = []
-            for stage in net:
-                cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
-                missing = self.find_missing_pairs(stage, N)
-                cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
-                cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
-
-            file.write(self.net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
-
-        file.close()
-
-    def list_of_pairs_validation(self, net_sets, list_of_pairsv2, N):
-        (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
-        if isinstance(list_of_pairsv2, dict):
-            list_of_pairs = list_of_pairsv2['pairs']
-        else:
-            list_of_pairs = list_of_pairsv2
-
-
-        # validation
-        if N > 0:
-            print('Validating sorting network I={I:d}'.format(I=I))
-            print('Pre-sorting input set: {P:s}'.format(P=str(presort_in_sets)))
-            print('Used output range len: {O:d} set: {U:s}'.format(O=O, U=str(used_out_set)))
-            print('Non-sorted output range set: {S:s}'.format(S=str(nonsorted_out_set)))
-
-            for v in range(N):
-                # Getting random data
-                data = [random.randint(0, 2 ** 30) for _ in range(I)]
-                # Sorting random data
-                py_sorted = sorted(data, reverse=True)
-                # Pre sorting inputs for required sets
-                if presort_in_sets != [set()]:
-                    for s in presort_in_sets:
-                        data[min(s):max(s) + 1] = sorted(data[min(s):max(s) + 1], reverse=True)
-                # Sorting data using the list of pairs
-                for i in list_of_pairs: self.compare_and_swap(data, *i[:2], reverse=True)
-                # if there is no nonsorted outputs the output data has to be sorted in the used output range
-                if nonsorted_out_set == set():
-                    cmp = data[0:O - 1] == py_sorted[0:O - 1]
-                else:
-                    # else the output data has to contain the same data but not sorted
-                    cmp = sorted(data[0:O - 1], reverse=True) == py_sorted[0:O - 1]
-                # checking the comparison value
-                if cmp:
-                    print('Validation iteration {v:04d} OK'.format(v=v))
-                else:
-                    print('Error: Validation iteration {v:04d}'.format(v=v))
-                    print('python sorted:', py_sorted)
-                    print('net sorted:', data)
-                    sys.exit()
-
-    def merge_xiterator(self,l):
-        ''' merge iterator for (m=x,n=x) merging network'''
-        it = itertools.chain(range(0,1),range(l-1,-1,-1))
-        x=-1
-        for i in it:
-            x += (1 << i)
-            yield x
-
-    def merge_xyiterator(self,l):
-        for x in self.merge_xiterator(l):
-            for y in self.merge_xiterator(l):
-                yield (x << l) + y
-
-
-    def zeroone_validation(self, pairsv2):
-        I = pairsv2['I']
-        O = pairsv2['O']
-        method = pairsv2['method']
-        pairs = pairsv2['pairs']
-        print('Validating network {method:s} with I={I:d} and O={O:d}.'.format(method=method,I=I,O=O))
-        # generating iterator of inputs
-        if  method=='oddevenmerge':
-            it = self.merge_xyiterator(I//2)
-        else:
-            it =  range(2**I)
-        # testing each case
-        for i in it:
-            # Generating data
-            data = [int(x) for x in '{value:0{width:d}b}'.format(width=I,value=i)]
-            # py sorting
-            py_sorted = sorted(data, reverse=True)
-            # comparing and swap
-            for p in pairs: self.compare_and_swap(data, *p[:2], reverse=True)
-            # if there is no nonsorted outputs the output data has to be sorted in the used output range
-            cmp = data[0:O - 1] == py_sorted[0:O - 1]
-            if cmp:
-                if not i%100:
-                    print('Validation iteration {i:d} OK'.format(i=i))
-            else:
-                print('Error: Validation iteration {i:d}'.format(i=i))
-                print('python sorted:', py_sorted)
-                print('net sorted:', data)
-                sys.exit()
-        return True
-
-
-
-
-
-    def generate_vhdl_pkg(self, net, I, filename='../../out/vhd/csn_sel_pkg_ref'):
-        file = open(filename, 'w')
-        cfg_stage_str = []
-        reg = ['False', 'True ']
-        for i, stage in enumerate(net):
-            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in stage]
-            missing = self.find_missing_pairs(stage, I)
-            cfg_stage += [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='True ') for p in missing]
-            cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
-
-        file.write(self.net_fmt.format(i=I, net=',\n'.join(cfg_stage_str)))
-
-        file.close()
-
-    def generate_csn_sel_pkg(self, net_sets, gen_plots = False, validation = -1, gen_vhdl = True, method='oddevenp2'):
-
-        (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = net_sets
-        [list_of_pairs, net] = self.get_opt_net(gen_plots, net_sets, method)
-
-        # validating network
-        self.list_of_pairs_validation(net_sets, list_of_pairs, validation)
-
-        # Generating vhdl package
-        if gen_vhdl:
-            self.generate_vhdl_pkg(net)
-
-
-    def generate_csn_serial_pkg(self, values):
-        file = open('../../out/vhd/csn_serial_pkg_ref', 'w')
-        for i, N in enumerate(values):
-            list_of_pairs = self.generate_oddevenmerge_list_of_pairs(N)
-            cfg_stage_str = []
-            cfg_stage = [self.cfg_fmt.format(a=str(p[0]), b=str(p[1]), p='False') for p in list_of_pairs]
-            cfg_stage_str.append(self.stage_fmt.format(stage=', '.join(cfg_stage)))
-            file.write(self.serial_net_fmt.format(i=N, net=',\n'.join(cfg_stage_str)))
-
-    def get_stages_cfg(self, n_stages, n_regs):
-        reg = ['False', 'True']
-        stages = self.distribute_equally_spaced(1, 0, n_regs+1, n_stages+1)[1:]
-        print('when {s:d} =>'.format(s=n_regs))
-        print('-- Registered stages configuration')
-        print('-- num -> | {a:s}|;'.format(a=', '.join(['{i:>5d}'.format(i=i) for i in range(len(stages))])))
-        print('return    ( {a:s});'.format(a=', '.join(['{s:>5s}'.format(s=reg[s]) for s in stages])))
-        print('-- total number of registered stages: {n:d}.'.format(n=sum(stages)))
-        return stages
-
-    def get_method(self, N, methodin):
-        if methodin == 'best':
-            if N == 12:
-                method = 'shapiro12'
-            elif N == 16:
-                method = 'vanvoorhis16'
-            elif N==18:
-                method = 'alhajbaddar18'
-            elif N==22:
-                method = 'alhajbaddar22'
-            else:
-                method = 'merge-exchange'
-        else:
-            method = methodin
-        return method
-
-    def get_opt_net(self, gen_plots, net_sets, method='oddevenp2', generate_pipelined_plots = False):
-        ## Method use din the Sorting Model
-        ## Generating and ploting masked net
-        plotnet3 = self.generate_opt_masked_net(*net_sets, method=method)
-        I = net_sets[0]
-        O = net_sets[1]
-        Iceil = 2 ** int(np.ceil(np.log2(I)))
-        if gen_plots:
-            stages = [0] * len(plotnet3)
-            filename = self.plot_masked_filename_fmt.format(i=I, o=O, m=method)
-            self.plot(plotnet3, stages, filename, Iceil)
-
-        ## Optimizing  and ploting optmized net
-        # pruning masked comparisons
-        list_of_pairs = self.to_list_of_pairs(plotnet3)
-        #number of comparison in optmized network
-        c = len(list_of_pairs)
-        # finding the stages
-        net = self.to_stages(list_of_pairs)
-        # number of stages
-        d = len(net)
-
-        if generate_pipelined_plots:
-            # creating plotnet object (adding substages)
-            plotnet = self.to_plotnet(net)
-            # creating plotnet3 (adding a third parameter for each comparison)
-            plotnet3 = self.to_plotnet_triple(plotnet)
-            n_stages = len(plotnet3)
-            for i in range(1, n_stages + 1):
-                stages = self.get_stages_cfg(n_stages, i)
-                filename = self.plot_opt_filename_fmt.format(i=I, o=O, D=i, m=method, c=c, d=d)
-                self.plot(plotnet3, stages, filename, I)
-        return [list_of_pairs, net]
-
-
-    def get_bitonic_list_of_comparisons(self, N):
-        def gen_bitonic_sortnet(n, start):
-            def copy_net(net, dy, dt=0):
-                return [[v[0] + dy, v[1] + dy, v[2] + dt] for v in net]
-
-            def gen_halfclean(n, start):
-                return [[i, i + n // 2, start + i] for i in range(n // 2)]
-
-            def gen_bitonic(n, start):
-                if n == 2:
-                    return gen_halfclean(n, start)
-                else:
-                    L = gen_halfclean(n, start)
-                    R1 = gen_bitonic(n // 2, start + n // 2)
-                    R2 = copy_net(R1, n // 2)
-                    return L + R1 + R2
-
-            def gen_right(n, start):
-                L = [[i, n - i - 1, start + i] for i in range(n // 2)]
-                R1 = gen_bitonic(n // 2, start + n // 2)
-                R2 = copy_net(R1, n // 2)
-                return L + R1 + R2
-
-            if n == 2:
-                return gen_halfclean(n, start)
-            else:
-                L1 = gen_bitonic_sortnet(n // 2, 0)
-                maxt = max([v[2] for v in L1])
-                L1 = copy_net(L1, 0, start - 1 - maxt - 1)
-                L2 = copy_net(L1, n // 2)
-                R = gen_right(n, start)
-                return L1 + L2 + R
-
-        def get_bitonic_sort(n):
-            net = gen_bitonic_sortnet(n, 0)
-            mint = min([v[2] for v in net])
-            for v in net:
-                v[2] -= mint
-            R = {}
-            for v in net:
-                if v[2] not in R:
-                    R[v[2]] = []
-                R[v[2]].append((v[0], v[1]))
-            return R
-
-        data = get_bitonic_sort(N)
-        list_of_comparisons = []
-        for key, d in data.items():
-            #print(key, d)
-            list_of_comparisons.extend(d)
-        return list_of_comparisons
-
-    def keep_average_int(self, inc,hist):
-        avg = np.mean(hist)
-
-        if avg > inc:
-            int_inc = np.floor(inc)
-        else:
-            int_inc = np.ceil(inc)
-
-        hist.append(int_inc)
-        return int(int_inc)
-
-    def distribute_equally_spaced(self, item, remaining, n, length):
-        #having always the item in the borders
-        if length < n:
-            return -1
-        else:
-            data = [item] + [remaining]*(length-2) + [item]
-            if n > 2:
-                step = (length-2+1)/(n-2+1)
-                step_hist = [np.round(step)]
-                i = 0
-                for j in range(n-2):
-                    i += self.keep_average_int(step,step_hist)
-                    data[i] = item
-
-            return data
-
-
-
-if __name__ == "__main__":
-    SU = SortingUtils()
-    pairsv2 = SU.generate_net_pairs(N=22, methodin='merge-exchange')
-    print(len(pairsv2['pairs']))
-    pairsv2 = SU.opt_pairs_in(pairsv2,22,bottomup=False)
-    print(len(pairsv2['pairs']))
-    netv2 = SU.to_stages(pairsv2)
-    plotnetv2 = SU.to_plotnet(netv2)
-    plotnetv2 = SU.to_plotnet_triple(plotnetv2)
-    SU.plot(plotnetv2)
-    print()
-
-
-
-    #net_sets = (I, O, presort_in_sets, used_out_set, nonsorted_out_set) = s.get_muctpi_sort_opt_sets(352)
-    #I = 32
-    #net_sets = s.get_net_opt_sets(I = I, O = 16, pI = 16, nO = None)
-    #s.generate_csn_sel_pkg(net_sets, gen_plots = True, validation = 2**10, gen_vhdl = False, method='mergeexchange')
-
-
-
-
-
+maxvalue = 2**352
+iterations = 2**30
+I = 352
+O = 16
+method = 'MUCTPI'
+pairs = [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9], [10, 11], [12, 13], [14, 15], [16, 17], [18, 19], [20, 21],
+         [22, 23], [24, 25], [26, 27], [28, 29], [30, 31], [32, 33], [34, 35], [36, 37], [38, 39], [40, 41],
+         [42, 43], [44, 45], [46, 47], [48, 49], [50, 51], [52, 53], [54, 55], [56, 57], [58, 59], [60, 61],
+         [62, 63], [64, 65], [66, 67], [68, 69], [70, 71], [72, 73], [74, 75], [76, 77], [78, 79], [80, 81],
+         [82, 83], [84, 85], [86, 87], [88, 89], [90, 91], [92, 93], [94, 95], [96, 97], [98, 99], [100, 101],
+         [102, 103], [104, 105], [106, 107], [108, 109], [110, 111], [112, 113], [114, 115], [116, 117], [118, 119],
+         [120, 121], [122, 123], [124, 125], [126, 127], [128, 129], [130, 131], [132, 133], [134, 135], [136, 137],
+         [138, 139], [140, 141], [142, 143], [144, 145], [146, 147], [148, 149], [150, 151], [152, 153], [154, 155],
+         [156, 157], [158, 159], [160, 161], [162, 163], [164, 165], [166, 167], [168, 169], [170, 171], [172, 173],
+         [174, 175], [176, 177], [178, 179], [180, 181], [182, 183], [184, 185], [186, 187], [188, 189], [190, 191],
+         [192, 193], [194, 195], [196, 197], [198, 199], [200, 201], [202, 203], [204, 205], [206, 207], [208, 209],
+         [210, 211], [212, 213], [214, 215], [216, 217], [218, 219], [220, 221], [222, 223], [224, 225], [226, 227],
+         [228, 229], [230, 231], [232, 233], [234, 235], [236, 237], [238, 239], [240, 241], [242, 243], [244, 245],
+         [246, 247], [248, 249], [250, 251], [252, 253], [254, 255], [256, 257], [258, 259], [260, 261], [262, 263],
+         [264, 265], [266, 267], [268, 269], [270, 271], [272, 273], [274, 275], [276, 277], [278, 279], [280, 281],
+         [282, 283], [284, 285], [286, 287], [288, 289], [290, 291], [292, 293], [294, 295], [296, 297], [298, 299],
+         [300, 301], [302, 303], [304, 305], [306, 307], [308, 309], [310, 311], [312, 313], [314, 315], [316, 317],
+         [318, 319], [320, 321], [322, 323], [324, 325], [326, 327], [328, 329], [330, 331], [332, 333], [334, 335],
+         [336, 337], [338, 339], [340, 341], [342, 343], [344, 345], [346, 347], [348, 349], [350, 351], [0, 2],
+         [4, 6], [8, 10], [12, 14], [16, 21], [22, 24], [26, 28], [30, 32], [34, 36], [38, 43], [44, 46], [48, 50],
+         [52, 54], [56, 58], [60, 65], [66, 68], [70, 72], [74, 76], [78, 80], [82, 87], [88, 90], [92, 94],
+         [96, 98], [100, 102], [104, 109], [110, 112], [114, 116], [118, 120], [122, 124], [126, 131], [132, 134],
+         [136, 138], [140, 142], [144, 146], [148, 153], [154, 156], [158, 160], [162, 164], [166, 168], [170, 175],
+         [176, 178], [180, 182], [184, 186], [188, 190], [192, 197], [198, 200], [202, 204], [206, 208], [210, 212],
+         [214, 219], [220, 222], [224, 226], [228, 230], [232, 234], [236, 241], [242, 244], [246, 248], [250, 252],
+         [254, 256], [258, 263], [264, 266], [268, 270], [272, 274], [276, 278], [280, 285], [286, 288], [290, 292],
+         [294, 296], [298, 300], [302, 307], [308, 310], [312, 314], [316, 318], [320, 322], [324, 329], [330, 332],
+         [334, 336], [338, 340], [342, 344], [346, 351], [1, 3], [5, 7], [9, 11], [13, 15], [17, 19], [23, 25],
+         [27, 29], [31, 33], [35, 37], [39, 41], [45, 47], [49, 51], [53, 55], [57, 59], [61, 63], [67, 69],
+         [71, 73], [75, 77], [79, 81], [83, 85], [89, 91], [93, 95], [97, 99], [101, 103], [105, 107], [111, 113],
+         [115, 117], [119, 121], [123, 125], [127, 129], [133, 135], [137, 139], [141, 143], [145, 147], [149, 151],
+         [155, 157], [159, 161], [163, 165], [167, 169], [171, 173], [177, 179], [181, 183], [185, 187], [189, 191],
+         [193, 195], [199, 201], [203, 205], [207, 209], [211, 213], [215, 217], [221, 223], [225, 227], [229, 231],
+         [233, 235], [237, 239], [243, 245], [247, 249], [251, 253], [255, 257], [259, 261], [265, 267], [269, 271],
+         [273, 275], [277, 279], [281, 283], [287, 289], [291, 293], [295, 297], [299, 301], [303, 305], [309, 311],
+         [313, 315], [317, 319], [321, 323], [325, 327], [331, 333], [335, 337], [339, 341], [343, 345], [347, 349],
+         [18, 20], [40, 42], [62, 64], [84, 86], [106, 108], [128, 130], [150, 152], [172, 174], [194, 196],
+         [216, 218], [238, 240], [260, 262], [282, 284], [304, 306], [326, 328], [348, 350], [0, 4], [8, 12],
+         [16, 18], [19, 21], [22, 26], [30, 34], [38, 40], [41, 43], [44, 48], [52, 56], [60, 62], [63, 65],
+         [66, 70], [74, 78], [82, 84], [85, 87], [88, 92], [96, 100], [104, 106], [107, 109], [110, 114],
+         [118, 122], [126, 128], [129, 131], [132, 136], [140, 144], [148, 150], [151, 153], [154, 158], [162, 166],
+         [170, 172], [173, 175], [176, 180], [184, 188], [192, 194], [195, 197], [198, 202], [206, 210], [214, 216],
+         [217, 219], [220, 224], [228, 232], [236, 238], [239, 241], [242, 246], [250, 254], [258, 260], [261, 263],
+         [264, 268], [272, 276], [280, 282], [283, 285], [286, 290], [294, 298], [302, 304], [305, 307], [308, 312],
+         [316, 320], [324, 326], [327, 329], [330, 334], [338, 342], [346, 348], [349, 351], [1, 5], [9, 13],
+         [17, 20], [23, 27], [31, 35], [39, 42], [45, 49], [53, 57], [61, 64], [67, 71], [75, 79], [83, 86],
+         [89, 93], [97, 101], [105, 108], [111, 115], [119, 123], [127, 130], [133, 137], [141, 145], [149, 152],
+         [155, 159], [163, 167], [171, 174], [177, 181], [185, 189], [193, 196], [199, 203], [207, 211], [215, 218],
+         [221, 225], [229, 233], [237, 240], [243, 247], [251, 255], [259, 262], [265, 269], [273, 277], [281, 284],
+         [287, 291], [295, 299], [303, 306], [309, 313], [317, 321], [325, 328], [331, 335], [339, 343], [347, 350],
+         [2, 6], [10, 14], [24, 28], [32, 36], [46, 50], [54, 58], [68, 72], [76, 80], [90, 94], [98, 102],
+         [112, 116], [120, 124], [134, 138], [142, 146], [156, 160], [164, 168], [178, 182], [186, 190], [200, 204],
+         [208, 212], [222, 226], [230, 234], [244, 248], [252, 256], [266, 270], [274, 278], [288, 292], [296, 300],
+         [310, 314], [318, 322], [332, 336], [340, 344], [3, 7], [11, 15], [25, 29], [33, 37], [47, 51], [55, 59],
+         [69, 73], [77, 81], [91, 95], [99, 103], [113, 117], [121, 125], [135, 139], [143, 147], [157, 161],
+         [165, 169], [179, 183], [187, 191], [201, 205], [209, 213], [223, 227], [231, 235], [245, 249], [253, 257],
+         [267, 271], [275, 279], [289, 293], [297, 301], [311, 315], [319, 323], [333, 337], [341, 345], [0, 8],
+         [9, 18], [22, 30], [31, 40], [44, 52], [53, 62], [66, 74], [75, 84], [88, 96], [97, 106], [110, 118],
+         [119, 128], [132, 140], [141, 150], [154, 162], [163, 172], [176, 184], [185, 194], [198, 206], [207, 216],
+         [220, 228], [229, 238], [242, 250], [251, 260], [264, 272], [273, 282], [286, 294], [295, 304], [308, 316],
+         [317, 326], [330, 338], [339, 348], [1, 16], [17, 19], [23, 38], [39, 41], [45, 60], [61, 63], [67, 82],
+         [83, 85], [89, 104], [105, 107], [111, 126], [127, 129], [133, 148], [149, 151], [155, 170], [171, 173],
+         [177, 192], [193, 195], [199, 214], [215, 217], [221, 236], [237, 239], [243, 258], [259, 261], [265, 280],
+         [281, 283], [287, 302], [303, 305], [309, 324], [325, 327], [331, 346], [347, 349], [2, 10], [11, 21],
+         [24, 32], [33, 43], [46, 54], [55, 65], [68, 76], [77, 87], [90, 98], [99, 109], [112, 120], [121, 131],
+         [134, 142], [143, 153], [156, 164], [165, 175], [178, 186], [187, 197], [200, 208], [209, 219], [222, 230],
+         [231, 241], [244, 252], [253, 263], [266, 274], [275, 285], [288, 296], [297, 307], [310, 318], [319, 329],
+         [332, 340], [341, 351], [3, 20], [25, 42], [47, 64], [69, 86], [91, 108], [113, 130], [135, 152],
+         [157, 174], [179, 196], [201, 218], [223, 240], [245, 262], [267, 284], [289, 306], [311, 328], [333, 350],
+         [4, 12], [26, 34], [48, 56], [70, 78], [92, 100], [114, 122], [136, 144], [158, 166], [180, 188],
+         [202, 210], [224, 232], [246, 254], [268, 276], [290, 298], [312, 320], [334, 342], [5, 13], [27, 35],
+         [49, 57], [71, 79], [93, 101], [115, 123], [137, 145], [159, 167], [181, 189], [203, 211], [225, 233],
+         [247, 255], [269, 277], [291, 299], [313, 321], [335, 343], [6, 14], [28, 36], [50, 58], [72, 80],
+         [94, 102], [116, 124], [138, 146], [160, 168], [182, 190], [204, 212], [226, 234], [248, 256], [270, 278],
+         [292, 300], [314, 322], [336, 344], [7, 15], [29, 37], [51, 59], [73, 81], [95, 103], [117, 125],
+         [139, 147], [161, 169], [183, 191], [205, 213], [227, 235], [249, 257], [271, 279], [293, 301], [315, 323],
+         [337, 345], [1, 4], [5, 17], [23, 26], [27, 39], [45, 48], [49, 61], [67, 70], [71, 83], [89, 92],
+         [93, 105], [111, 114], [115, 127], [133, 136], [137, 149], [155, 158], [159, 171], [177, 180], [181, 193],
+         [199, 202], [203, 215], [221, 224], [225, 237], [243, 246], [247, 259], [265, 268], [269, 281], [287, 290],
+         [291, 303], [309, 312], [313, 325], [331, 334], [335, 347], [2, 9], [10, 19], [24, 31], [32, 41], [46, 53],
+         [54, 63], [68, 75], [76, 85], [90, 97], [98, 107], [112, 119], [120, 129], [134, 141], [142, 151],
+         [156, 163], [164, 173], [178, 185], [186, 195], [200, 207], [208, 217], [222, 229], [230, 239], [244, 251],
+         [252, 261], [266, 273], [274, 283], [288, 295], [296, 305], [310, 317], [318, 327], [332, 339], [340, 349],
+         [3, 12], [13, 20], [25, 34], [35, 42], [47, 56], [57, 64], [69, 78], [79, 86], [91, 100], [101, 108],
+         [113, 122], [123, 130], [135, 144], [145, 152], [157, 166], [167, 174], [179, 188], [189, 196], [201, 210],
+         [211, 218], [223, 232], [233, 240], [245, 254], [255, 262], [267, 276], [277, 284], [289, 298], [299, 306],
+         [311, 320], [321, 328], [333, 342], [343, 350], [6, 18], [28, 40], [50, 62], [72, 84], [94, 106],
+         [116, 128], [138, 150], [160, 172], [182, 194], [204, 216], [226, 238], [248, 260], [270, 282], [292, 304],
+         [314, 326], [336, 348], [7, 8], [11, 16], [29, 30], [33, 38], [51, 52], [55, 60], [73, 74], [77, 82],
+         [95, 96], [99, 104], [117, 118], [121, 126], [139, 140], [143, 148], [161, 162], [165, 170], [183, 184],
+         [187, 192], [205, 206], [209, 214], [227, 228], [231, 236], [249, 250], [253, 258], [271, 272], [275, 280],
+         [293, 294], [297, 302], [315, 316], [319, 324], [337, 338], [341, 346], [14, 21], [36, 43], [58, 65],
+         [80, 87], [102, 109], [124, 131], [146, 153], [168, 175], [190, 197], [212, 219], [234, 241], [256, 263],
+         [278, 285], [300, 307], [322, 329], [344, 351], [0, 1], [3, 9], [12, 16], [22, 23], [25, 31], [34, 38],
+         [44, 45], [47, 53], [56, 60], [66, 67], [69, 75], [78, 82], [88, 89], [91, 97], [100, 104], [110, 111],
+         [113, 119], [122, 126], [132, 133], [135, 141], [144, 148], [154, 155], [157, 163], [166, 170], [176, 177],
+         [179, 185], [188, 192], [198, 199], [201, 207], [210, 214], [220, 221], [223, 229], [232, 236], [242, 243],
+         [245, 251], [254, 258], [264, 265], [267, 273], [276, 280], [286, 287], [289, 295], [298, 302], [308, 309],
+         [311, 317], [320, 324], [330, 331], [333, 339], [342, 346], [4, 10], [13, 18], [26, 32], [35, 40],
+         [48, 54], [57, 62], [70, 76], [79, 84], [92, 98], [101, 106], [114, 120], [123, 128], [136, 142],
+         [145, 150], [158, 164], [167, 172], [180, 186], [189, 194], [202, 208], [211, 216], [224, 230], [233, 238],
+         [246, 252], [255, 260], [268, 274], [277, 282], [290, 296], [299, 304], [312, 318], [321, 326], [334, 340],
+         [343, 348], [5, 7], [8, 19], [27, 29], [30, 41], [49, 51], [52, 63], [71, 73], [74, 85], [93, 95],
+         [96, 107], [115, 117], [118, 129], [137, 139], [140, 151], [159, 161], [162, 173], [181, 183], [184, 195],
+         [203, 205], [206, 217], [225, 227], [228, 239], [247, 249], [250, 261], [269, 271], [272, 283], [291, 293],
+         [294, 305], [313, 315], [316, 327], [335, 337], [338, 349], [6, 11], [14, 17], [28, 33], [36, 39],
+         [50, 55], [58, 61], [72, 77], [80, 83], [94, 99], [102, 105], [116, 121], [124, 127], [138, 143],
+         [146, 149], [160, 165], [168, 171], [182, 187], [190, 193], [204, 209], [212, 215], [226, 231], [234, 237],
+         [248, 253], [256, 259], [270, 275], [278, 281], [292, 297], [300, 303], [314, 319], [322, 325], [336, 341],
+         [344, 347], [15, 21], [37, 43], [59, 65], [81, 87], [103, 109], [125, 131], [147, 153], [169, 175],
+         [191, 197], [213, 219], [235, 241], [257, 263], [279, 285], [301, 307], [323, 329], [345, 351], [1, 5],
+         [7, 9], [10, 11], [12, 14], [15, 19], [23, 27], [29, 31], [32, 33], [34, 36], [37, 41], [45, 49], [51, 53],
+         [54, 55], [56, 58], [59, 63], [67, 71], [73, 75], [76, 77], [78, 80], [81, 85], [89, 93], [95, 97],
+         [98, 99], [100, 102], [103, 107], [111, 115], [117, 119], [120, 121], [122, 124], [125, 129], [133, 137],
+         [139, 141], [142, 143], [144, 146], [147, 151], [155, 159], [161, 163], [164, 165], [166, 168], [169, 173],
+         [177, 181], [183, 185], [186, 187], [188, 190], [191, 195], [199, 203], [205, 207], [208, 209], [210, 212],
+         [213, 217], [221, 225], [227, 229], [230, 231], [232, 234], [235, 239], [243, 247], [249, 251], [252, 253],
+         [254, 256], [257, 261], [265, 269], [271, 273], [274, 275], [276, 278], [279, 283], [287, 291], [293, 295],
+         [296, 297], [298, 300], [301, 305], [309, 313], [315, 317], [318, 319], [320, 322], [323, 327], [331, 335],
+         [337, 339], [340, 341], [342, 344], [345, 349], [2, 3], [4, 6], [8, 13], [16, 17], [18, 20], [24, 25],
+         [26, 28], [30, 35], [38, 39], [40, 42], [46, 47], [48, 50], [52, 57], [60, 61], [62, 64], [68, 69],
+         [70, 72], [74, 79], [82, 83], [84, 86], [90, 91], [92, 94], [96, 101], [104, 105], [106, 108], [112, 113],
+         [114, 116], [118, 123], [126, 127], [128, 130], [134, 135], [136, 138], [140, 145], [148, 149], [150, 152],
+         [156, 157], [158, 160], [162, 167], [170, 171], [172, 174], [178, 179], [180, 182], [184, 189], [192, 193],
+         [194, 196], [200, 201], [202, 204], [206, 211], [214, 215], [216, 218], [222, 223], [224, 226], [228, 233],
+         [236, 237], [238, 240], [244, 245], [246, 248], [250, 255], [258, 259], [260, 262], [266, 267], [268, 270],
+         [272, 277], [280, 281], [282, 284], [288, 289], [290, 292], [294, 299], [302, 303], [304, 306], [310, 311],
+         [312, 314], [316, 321], [324, 325], [326, 328], [332, 333], [334, 336], [338, 343], [346, 347], [348, 350],
+         [1, 2], [3, 6], [7, 10], [13, 14], [15, 17], [19, 20], [23, 24], [25, 28], [29, 32], [35, 36], [37, 39],
+         [41, 42], [45, 46], [47, 50], [51, 54], [57, 58], [59, 61], [63, 64], [67, 68], [69, 72], [73, 76],
+         [79, 80], [81, 83], [85, 86], [89, 90], [91, 94], [95, 98], [101, 102], [103, 105], [107, 108], [111, 112],
+         [113, 116], [117, 120], [123, 124], [125, 127], [129, 130], [133, 134], [135, 138], [139, 142], [145, 146],
+         [147, 149], [151, 152], [155, 156], [157, 160], [161, 164], [167, 168], [169, 171], [173, 174], [177, 178],
+         [179, 182], [183, 186], [189, 190], [191, 193], [195, 196], [199, 200], [201, 204], [205, 208], [211, 212],
+         [213, 215], [217, 218], [221, 222], [223, 226], [227, 230], [233, 234], [235, 237], [239, 240], [243, 244],
+         [245, 248], [249, 252], [255, 256], [257, 259], [261, 262], [265, 266], [267, 270], [271, 274], [277, 278],
+         [279, 281], [283, 284], [287, 288], [289, 292], [293, 296], [299, 300], [301, 303], [305, 306], [309, 310],
+         [311, 314], [315, 318], [321, 322], [323, 325], [327, 328], [331, 332], [333, 336], [337, 340], [343, 344],
+         [345, 347], [349, 350], [4, 5], [8, 12], [16, 18], [26, 27], [30, 34], [38, 40], [48, 49], [52, 56],
+         [60, 62], [70, 71], [74, 78], [82, 84], [92, 93], [96, 100], [104, 106], [114, 115], [118, 122],
+         [126, 128], [136, 137], [140, 144], [148, 150], [158, 159], [162, 166], [170, 172], [180, 181], [184, 188],
+         [192, 194], [202, 203], [206, 210], [214, 216], [224, 225], [228, 232], [236, 238], [246, 247], [250, 254],
+         [258, 260], [268, 269], [272, 276], [280, 282], [290, 291], [294, 298], [302, 304], [312, 313], [316, 320],
+         [324, 326], [334, 335], [338, 342], [346, 348], [9, 11], [31, 33], [53, 55], [75, 77], [97, 99],
+         [119, 121], [141, 143], [163, 165], [185, 187], [207, 209], [229, 231], [251, 253], [273, 275], [295, 297],
+         [317, 319], [339, 341], [2, 3], [5, 7], [9, 10], [11, 16], [18, 19], [24, 25], [27, 29], [31, 32],
+         [33, 38], [40, 41], [46, 47], [49, 51], [53, 54], [55, 60], [62, 63], [68, 69], [71, 73], [75, 76],
+         [77, 82], [84, 85], [90, 91], [93, 95], [97, 98], [99, 104], [106, 107], [112, 113], [115, 117],
+         [119, 120], [121, 126], [128, 129], [134, 135], [137, 139], [141, 142], [143, 148], [150, 151], [156, 157],
+         [159, 161], [163, 164], [165, 170], [172, 173], [178, 179], [181, 183], [185, 186], [187, 192], [194, 195],
+         [200, 201], [203, 205], [207, 208], [209, 214], [216, 217], [222, 223], [225, 227], [229, 230], [231, 236],
+         [238, 239], [244, 245], [247, 249], [251, 252], [253, 258], [260, 261], [266, 267], [269, 271], [273, 274],
+         [275, 280], [282, 283], [288, 289], [291, 293], [295, 296], [297, 302], [304, 305], [310, 311], [313, 315],
+         [317, 318], [319, 324], [326, 327], [332, 333], [335, 337], [339, 340], [341, 346], [348, 349], [6, 8],
+         [12, 13], [14, 15], [28, 30], [34, 35], [36, 37], [50, 52], [56, 57], [58, 59], [72, 74], [78, 79],
+         [80, 81], [94, 96], [100, 101], [102, 103], [116, 118], [122, 123], [124, 125], [138, 140], [144, 145],
+         [146, 147], [160, 162], [166, 167], [168, 169], [182, 184], [188, 189], [190, 191], [204, 206], [210, 211],
+         [212, 213], [226, 228], [232, 233], [234, 235], [248, 250], [254, 255], [256, 257], [270, 272], [276, 277],
+         [278, 279], [292, 294], [298, 299], [300, 301], [314, 316], [320, 321], [322, 323], [336, 338], [342, 343],
+         [344, 345], [2, 4], [6, 7], [8, 9], [10, 12], [14, 16], [24, 26], [28, 29], [30, 31], [32, 34], [36, 38],
+         [46, 48], [50, 51], [52, 53], [54, 56], [58, 60], [68, 70], [72, 73], [74, 75], [76, 78], [80, 82],
+         [90, 92], [94, 95], [96, 97], [98, 100], [102, 104], [112, 114], [116, 117], [118, 119], [120, 122],
+         [124, 126], [134, 136], [138, 139], [140, 141], [142, 144], [146, 148], [156, 158], [160, 161], [162, 163],
+         [164, 166], [168, 170], [178, 180], [182, 183], [184, 185], [186, 188], [190, 192], [200, 202], [204, 205],
+         [206, 207], [208, 210], [212, 214], [222, 224], [226, 227], [228, 229], [230, 232], [234, 236], [244, 246],
+         [248, 249], [250, 251], [252, 254], [256, 258], [266, 268], [270, 271], [272, 273], [274, 276], [278, 280],
+         [288, 290], [292, 293], [294, 295], [296, 298], [300, 302], [310, 312], [314, 315], [316, 317], [318, 320],
+         [322, 324], [332, 334], [336, 337], [338, 339], [340, 342], [344, 346], [3, 5], [11, 13], [15, 18],
+         [25, 27], [33, 35], [37, 40], [47, 49], [55, 57], [59, 62], [69, 71], [77, 79], [81, 84], [91, 93],
+         [99, 101], [103, 106], [113, 115], [121, 123], [125, 128], [135, 137], [143, 145], [147, 150], [157, 159],
+         [165, 167], [169, 172], [179, 181], [187, 189], [191, 194], [201, 203], [209, 211], [213, 216], [223, 225],
+         [231, 233], [235, 238], [245, 247], [253, 255], [257, 260], [267, 269], [275, 277], [279, 282], [289, 291],
+         [297, 299], [301, 304], [311, 313], [319, 321], [323, 326], [333, 335], [341, 343], [345, 348], [3, 4],
+         [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [25, 26], [27, 28], [29, 30], [31, 32], [33, 34],
+         [35, 36], [37, 38], [47, 48], [49, 50], [51, 52], [53, 54], [55, 56], [57, 58], [59, 60], [69, 70],
+         [71, 72], [73, 74], [75, 76], [77, 78], [79, 80], [81, 82], [91, 92], [93, 94], [95, 96], [97, 98],
+         [99, 100], [101, 102], [103, 104], [113, 114], [115, 116], [117, 118], [119, 120], [121, 122], [123, 124],
+         [125, 126], [135, 136], [137, 138], [139, 140], [141, 142], [143, 144], [145, 146], [147, 148], [157, 158],
+         [159, 160], [161, 162], [163, 164], [165, 166], [167, 168], [169, 170], [179, 180], [181, 182], [183, 184],
+         [185, 186], [187, 188], [189, 190], [191, 192], [201, 202], [203, 204], [205, 206], [207, 208], [209, 210],
+         [211, 212], [213, 214], [223, 224], [225, 226], [227, 228], [229, 230], [231, 232], [233, 234], [235, 236],
+         [245, 246], [247, 248], [249, 250], [251, 252], [253, 254], [255, 256], [257, 258], [267, 268], [269, 270],
+         [271, 272], [273, 274], [275, 276], [277, 278], [279, 280], [289, 290], [291, 292], [293, 294], [295, 296],
+         [297, 298], [299, 300], [301, 302], [311, 312], [313, 314], [315, 316], [317, 318], [319, 320], [321, 322],
+         [323, 324], [333, 334], [335, 336], [337, 338], [339, 340], [341, 342], [343, 344], [345, 346], [4, 5],
+         [6, 7], [8, 9], [10, 11], [12, 13], [14, 15], [26, 27], [28, 29], [30, 31], [32, 33], [34, 35], [36, 37],
+         [48, 49], [50, 51], [52, 53], [54, 55], [56, 57], [58, 59], [70, 71], [72, 73], [74, 75], [76, 77],
+         [78, 79], [80, 81], [92, 93], [94, 95], [96, 97], [98, 99], [100, 101], [102, 103], [114, 115], [116, 117],
+         [118, 119], [120, 121], [122, 123], [124, 125], [136, 137], [138, 139], [140, 141], [142, 143], [144, 145],
+         [146, 147], [158, 159], [160, 161], [162, 163], [164, 165], [166, 167], [168, 169], [180, 181], [182, 183],
+         [184, 185], [186, 187], [188, 189], [190, 191], [202, 203], [204, 205], [206, 207], [208, 209], [210, 211],
+         [212, 213], [224, 225], [226, 227], [228, 229], [230, 231], [232, 233], [234, 235], [246, 247], [248, 249],
+         [250, 251], [252, 253], [254, 255], [256, 257], [268, 269], [270, 271], [272, 273], [274, 275], [276, 277],
+         [278, 279], [290, 291], [292, 293], [294, 295], [296, 297], [298, 299], [300, 301], [312, 313], [314, 315],
+         [316, 317], [318, 319], [320, 321], [322, 323], [334, 335], [336, 337], [338, 339], [340, 341], [342, 343],
+         [344, 345], [0, 22], [44, 66], [88, 110], [132, 154], [176, 198], [220, 242], [264, 286], [308, 330],
+         [1, 23], [45, 67], [89, 111], [133, 155], [177, 199], [221, 243], [265, 287], [309, 331], [2, 24],
+         [46, 68], [90, 112], [134, 156], [178, 200], [222, 244], [266, 288], [310, 332], [3, 25], [47, 69],
+         [91, 113], [135, 157], [179, 201], [223, 245], [267, 289], [311, 333], [4, 26], [48, 70], [92, 114],
+         [136, 158], [180, 202], [224, 246], [268, 290], [312, 334], [5, 27], [49, 71], [93, 115], [137, 159],
+         [181, 203], [225, 247], [269, 291], [313, 335], [6, 28], [50, 72], [94, 116], [138, 160], [182, 204],
+         [226, 248], [270, 292], [314, 336], [7, 29], [51, 73], [95, 117], [139, 161], [183, 205], [227, 249],
+         [271, 293], [315, 337], [8, 30], [52, 74], [96, 118], [140, 162], [184, 206], [228, 250], [272, 294],
+         [316, 338], [9, 31], [53, 75], [97, 119], [141, 163], [185, 207], [229, 251], [273, 295], [317, 339],
+         [10, 32], [54, 76], [98, 120], [142, 164], [186, 208], [230, 252], [274, 296], [318, 340], [11, 33],
+         [55, 77], [99, 121], [143, 165], [187, 209], [231, 253], [275, 297], [319, 341], [12, 34], [56, 78],
+         [100, 122], [144, 166], [188, 210], [232, 254], [276, 298], [320, 342], [13, 35], [57, 79], [101, 123],
+         [145, 167], [189, 211], [233, 255], [277, 299], [321, 343], [14, 36], [58, 80], [102, 124], [146, 168],
+         [190, 212], [234, 256], [278, 300], [322, 344], [15, 37], [59, 81], [103, 125], [147, 169], [191, 213],
+         [235, 257], [279, 301], [323, 345], [8, 22], [52, 66], [96, 110], [140, 154], [184, 198], [228, 242],
+         [272, 286], [316, 330], [9, 23], [53, 67], [97, 111], [141, 155], [185, 199], [229, 243], [273, 287],
+         [317, 331], [10, 24], [54, 68], [98, 112], [142, 156], [186, 200], [230, 244], [274, 288], [318, 332],
+         [11, 25], [55, 69], [99, 113], [143, 157], [187, 201], [231, 245], [275, 289], [319, 333], [12, 26],
+         [56, 70], [100, 114], [144, 158], [188, 202], [232, 246], [276, 290], [320, 334], [13, 27], [57, 71],
+         [101, 115], [145, 159], [189, 203], [233, 247], [277, 291], [321, 335], [14, 28], [58, 72], [102, 116],
+         [146, 160], [190, 204], [234, 248], [278, 292], [322, 336], [15, 29], [59, 73], [103, 117], [147, 161],
+         [191, 205], [235, 249], [279, 293], [323, 337], [4, 8], [12, 22], [48, 52], [56, 66], [92, 96], [100, 110],
+         [136, 140], [144, 154], [180, 184], [188, 198], [224, 228], [232, 242], [268, 272], [276, 286], [312, 316],
+         [320, 330], [5, 9], [13, 23], [49, 53], [57, 67], [93, 97], [101, 111], [137, 141], [145, 155], [181, 185],
+         [189, 199], [225, 229], [233, 243], [269, 273], [277, 287], [313, 317], [321, 331], [6, 10], [14, 24],
+         [50, 54], [58, 68], [94, 98], [102, 112], [138, 142], [146, 156], [182, 186], [190, 200], [226, 230],
+         [234, 244], [270, 274], [278, 288], [314, 318], [322, 332], [7, 11], [15, 25], [51, 55], [59, 69],
+         [95, 99], [103, 113], [139, 143], [147, 157], [183, 187], [191, 201], [227, 231], [235, 245], [271, 275],
+         [279, 289], [315, 319], [323, 333], [2, 4], [6, 8], [10, 12], [14, 22], [46, 48], [50, 52], [54, 56],
+         [58, 66], [90, 92], [94, 96], [98, 100], [102, 110], [134, 136], [138, 140], [142, 144], [146, 154],
+         [178, 180], [182, 184], [186, 188], [190, 198], [222, 224], [226, 228], [230, 232], [234, 242], [266, 268],
+         [270, 272], [274, 276], [278, 286], [310, 312], [314, 316], [318, 320], [322, 330], [3, 5], [7, 9],
+         [11, 13], [15, 23], [47, 49], [51, 53], [55, 57], [59, 67], [91, 93], [95, 97], [99, 101], [103, 111],
+         [135, 137], [139, 141], [143, 145], [147, 155], [179, 181], [183, 185], [187, 189], [191, 199], [223, 225],
+         [227, 229], [231, 233], [235, 243], [267, 269], [271, 273], [275, 277], [279, 287], [311, 313], [315, 317],
+         [319, 321], [323, 331], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 22], [45, 46],
+         [47, 48], [49, 50], [51, 52], [53, 54], [55, 56], [57, 58], [59, 66], [89, 90], [91, 92], [93, 94],
+         [95, 96], [97, 98], [99, 100], [101, 102], [103, 110], [133, 134], [135, 136], [137, 138], [139, 140],
+         [141, 142], [143, 144], [145, 146], [147, 154], [177, 178], [179, 180], [181, 182], [183, 184], [185, 186],
+         [187, 188], [189, 190], [191, 198], [221, 222], [223, 224], [225, 226], [227, 228], [229, 230], [231, 232],
+         [233, 234], [235, 242], [265, 266], [267, 268], [269, 270], [271, 272], [273, 274], [275, 276], [277, 278],
+         [279, 286], [309, 310], [311, 312], [313, 314], [315, 316], [317, 318], [319, 320], [321, 322], [323, 330],
+         [0, 44], [88, 132], [176, 220], [264, 308], [1, 45], [89, 133], [177, 221], [265, 309], [2, 46], [90, 134],
+         [178, 222], [266, 310], [3, 47], [91, 135], [179, 223], [267, 311], [4, 48], [92, 136], [180, 224],
+         [268, 312], [5, 49], [93, 137], [181, 225], [269, 313], [6, 50], [94, 138], [182, 226], [270, 314],
+         [7, 51], [95, 139], [183, 227], [271, 315], [8, 52], [96, 140], [184, 228], [272, 316], [9, 53], [97, 141],
+         [185, 229], [273, 317], [10, 54], [98, 142], [186, 230], [274, 318], [11, 55], [99, 143], [187, 231],
+         [275, 319], [12, 56], [100, 144], [188, 232], [276, 320], [13, 57], [101, 145], [189, 233], [277, 321],
+         [14, 58], [102, 146], [190, 234], [278, 322], [15, 59], [103, 147], [191, 235], [279, 323], [8, 44],
+         [96, 132], [184, 220], [272, 308], [9, 45], [97, 133], [185, 221], [273, 309], [10, 46], [98, 134],
+         [186, 222], [274, 310], [11, 47], [99, 135], [187, 223], [275, 311], [12, 48], [100, 136], [188, 224],
+         [276, 312], [13, 49], [101, 137], [189, 225], [277, 313], [14, 50], [102, 138], [190, 226], [278, 314],
+         [15, 51], [103, 139], [191, 227], [279, 315], [4, 8], [12, 44], [92, 96], [100, 132], [180, 184],
+         [188, 220], [268, 272], [276, 308], [5, 9], [13, 45], [93, 97], [101, 133], [181, 185], [189, 221],
+         [269, 273], [277, 309], [6, 10], [14, 46], [94, 98], [102, 134], [182, 186], [190, 222], [270, 274],
+         [278, 310], [7, 11], [15, 47], [95, 99], [103, 135], [183, 187], [191, 223], [271, 275], [279, 311],
+         [2, 4], [6, 8], [10, 12], [14, 44], [90, 92], [94, 96], [98, 100], [102, 132], [178, 180], [182, 184],
+         [186, 188], [190, 220], [266, 268], [270, 272], [274, 276], [278, 308], [3, 5], [7, 9], [11, 13], [15, 45],
+         [91, 93], [95, 97], [99, 101], [103, 133], [179, 181], [183, 185], [187, 189], [191, 221], [267, 269],
+         [271, 273], [275, 277], [279, 309], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 44],
+         [89, 90], [91, 92], [93, 94], [95, 96], [97, 98], [99, 100], [101, 102], [103, 132], [177, 178],
+         [179, 180], [181, 182], [183, 184], [185, 186], [187, 188], [189, 190], [191, 220], [265, 266], [267, 268],
+         [269, 270], [271, 272], [273, 274], [275, 276], [277, 278], [279, 308], [0, 88], [176, 264], [1, 89],
+         [177, 265], [2, 90], [178, 266], [3, 91], [179, 267], [4, 92], [180, 268], [5, 93], [181, 269], [6, 94],
+         [182, 270], [7, 95], [183, 271], [8, 96], [184, 272], [9, 97], [185, 273], [10, 98], [186, 274], [11, 99],
+         [187, 275], [12, 100], [188, 276], [13, 101], [189, 277], [14, 102], [190, 278], [15, 103], [191, 279],
+         [8, 88], [184, 264], [9, 89], [185, 265], [10, 90], [186, 266], [11, 91], [187, 267], [12, 92], [188, 268],
+         [13, 93], [189, 269], [14, 94], [190, 270], [15, 95], [191, 271], [4, 8], [12, 88], [180, 184], [188, 264],
+         [5, 9], [13, 89], [181, 185], [189, 265], [6, 10], [14, 90], [182, 186], [190, 266], [7, 11], [15, 91],
+         [183, 187], [191, 267], [2, 4], [6, 8], [10, 12], [14, 88], [178, 180], [182, 184], [186, 188], [190, 264],
+         [3, 5], [7, 9], [11, 13], [15, 89], [179, 181], [183, 185], [187, 189], [191, 265], [1, 2], [3, 4], [5, 6],
+         [7, 8], [9, 10], [11, 12], [13, 14], [15, 88], [177, 178], [179, 180], [181, 182], [183, 184], [185, 186],
+         [187, 188], [189, 190], [191, 264], [0, 176], [1, 177], [2, 178], [3, 179], [4, 180], [5, 181], [6, 182],
+         [7, 183], [8, 184], [9, 185], [10, 186], [11, 187], [12, 188], [13, 189], [14, 190], [15, 191], [8, 176],
+         [9, 177], [10, 178], [11, 179], [12, 180], [13, 181], [14, 182], [15, 183], [4, 8], [12, 176], [5, 9],
+         [13, 177], [6, 10], [14, 178], [7, 11], [15, 179], [2, 4], [6, 8], [10, 12], [14, 176], [3, 5], [7, 9],
+         [11, 13], [15, 177], [1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 176]]
+
+# comparison exchange function
+def compare_and_swap(x, a, b, key=lambda k: k, reverse=True):
+    if reverse == False:
+        expr = key(x[a]) >= key(x[b])
+    else:
+        expr = key(x[a]) <= key(x[b])
+
+    if expr:
+        x[a], x[b] = x[b], x[a]
+
+
+def zeroone_it(v):
+    # Formatting data
+    data = [int(x) for x in '{value:0{width:d}b}'.format(width=I, value=v)]
+    # py sorting
+    py_sorted = sorted(data, reverse=True)
+    # comparing and swap
+    for p in pairs: compare_and_swap(data, *p[:2], reverse=True)
+    # if there is no nonsorted outputs the output data has to be sorted in the used output range
+    cmp = data[0:O - 1] == py_sorted[0:O - 1]
+    if not cmp:
+        print('Failed with value: {v:d}'.format(v=v))
+
+def random_g(maxvalue,l):
+	for i in range(l):
+		yield random.randint(0,maxvalue)
+
+class random_g2:
+
+    """Iterator for random number."""
+
+    def __init__(self, maxvalue=0,l=0):
+        self.maxvalue = maxvalue
+	self.l = l
+	self.count = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+	if self.count >= self.l:
+		raise StopIteration
+	else:
+		self.count += 1
+	        return random.randint(0,maxvalue)
+    def next(self):
+	if self.count >= self.l:
+	   raise StopIteration
+	else:
+	     self.count += 1
+             return random.randint(0,maxvalue)
+
+    def __len__(self):
+	return self.l
+
+# reading network
+#df = pd.read_pickle('../../out/pickle/I352O016_alhajbaddar22_R_16_oddevenmerge_R_16.pickle')
+#[pairs, net] = [df['pairs'][0], df['net'][0]]
+if __name__ == '__main__':
+    pool = multiprocessing.Pool(multiprocessing.cpu_count()//2)
+    print('Validating network {method:s} with I={I:d}, O={O:d}, max value={m:d}, iterations={i:d}.'.format(method=method, I=I, O=O, m=maxvalue, i=iterations))
+    start = time.time()
+    g = random_g2(maxvalue-1,iterations)
+    pool.map(zeroone_it, g, chunksize=2**10)
+    end = time.time()
+    elapsed = end-start
+    print('Finished validation network {method:s} with I={I:d} and O={O:d}.\nElapsed: {e:f} seconds.'.format(method=method, I=I, O=O, e=elapsed))
