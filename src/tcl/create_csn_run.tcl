@@ -23,10 +23,10 @@ if {$rebuilt == 1} {
 
 set Is [list 352]
 set Os [list 16]
-set Ds [range 3 8]
-set muxs [list 0 1]
-set flats [list 0]
-set in_regs [list 0]
+set Ds [range 16 15]
+set muxs [list 1]
+set flats [list 1]
+set in_regs [list 0 1]
 set rebuilts [list 0 1]
 
 

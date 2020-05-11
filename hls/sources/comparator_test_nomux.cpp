@@ -4,7 +4,7 @@
 #include <ap_int.h>
 #include <stdint.h>
 //#include "hierarchical.h"
-#include "sorting_withmux.h"
+#include "sorting_nomux.h"
 using namespace std;
 
 const char *stimulus_source = "test_352_16.dat";
