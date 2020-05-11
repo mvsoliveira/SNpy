@@ -19,16 +19,17 @@ VCOM_ARGS=-2008
 # sets timescale to ps if desired, default ns
 #VSIM_ARGS+	=-t 1ps
 # set generics
-#export VSIM_ARGS+=-gI=352 -gO=16 -gdelay=5 -gDA=4 -gDB=2 -gD4
-export VSIM_ARGS+=-gI=352 -gO=16 -gD=6 -gmux=1 -gin_reg=1 -gflat=0
+#generic is taken from Makefile from one of the nested folders
 # vhdl files
-include ./RTLFiles.inc
+VHDL_SOURCES += $(PWD)/../../src/rtl/custom_sorting_network/csn_pkg.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/custom_sorting_network/csn_cmp.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/custom_sorting_network/csn.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/custom_sorting_network/csn_net.vhd
+VHDL_SOURCES += $(PWD)/../../src/rtl/custom_sorting_network/csn_sort_v2.vhd
 # top-level entity name
-#export TOPLEVEL=csn_sel_wrapper
-#export TOPLEVEL=csn_sort_88_64
 export TOPLEVEL=csn_sort_v2
 # python test name
-MODULE=test_muon_csn
+MODULE="test_muon_csn"
 # include to cocotb makefiles
 include $(shell cocotb-config --makefiles)/Makefile.inc
 include $(shell cocotb-config --makefiles)/Makefile.sim
