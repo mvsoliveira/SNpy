@@ -3,7 +3,7 @@ proc range {from to {step 1}} {
 }
 
 
-open_project -reset sorting_nomux
+open_project sorting_nomux
 set_top compare_main
 add_files ../../sources/sorting_nomux.cpp
 add_files ../../sources/sorting_nomux.h
@@ -24,7 +24,7 @@ set Ds [range 4 8]
 set IIs [list 1 4]
 set muxs [list 0]
 set flats [list 1]
-set in_regs [list 1]
+set in_regs [list 0]
 set rebuilts [list 0]
 
 
@@ -48,9 +48,11 @@ foreach I $Is {
 							if {$in_reg == 1} {
 								set_directive_interface -mode ap_none -register "compare_main" idata
 								set_directive_latency -max [expr $D + 1] "compare_main"
+								set_directive_latency -min [expr $D + 1] "compare_main"
 							} else	{
 							        set_directive_interface -mode ap_none "compare_main" idata
 								set_directive_latency -max $D "compare_main"
+								set_directive_latency -min $D "compare_main"
 							}
 														
 							set_directive_interface -mode ap_none -register "compare_main" odata

@@ -20,11 +20,11 @@ add_files -tb ../../sources/comparator_test_withmux.cpp -cflags "-Wno-unknown-pr
 
 set Is [list 352]
 set Os [list 16]
-set Ds [range 4 5]
-set IIs [list 1]
+set Ds [list 8 7 6 5 4 3 2 1]
+set IIs [list 4]
 set muxs [list 1]
 set flats [list 1]
-set in_regs [list 0 1]
+set in_regs [list 1]
 set rebuilts [list 0]
 
 

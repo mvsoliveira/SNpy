@@ -3,15 +3,15 @@ proc range {from to {step 1}} {
 }
 
 
-open_project sorting_withmux
+open_project sorting_nomux
 set_top compare_main
-add_files ../../sources/sorting_withmux.cpp
-add_files ../../sources/sorting_withmux.h
+add_files ../../sources/sorting_nomux.cpp
+add_files ../../sources/sorting_nomux.h
 add_files ../../sources/pairs_352_16.h
 add_files -tb ../../dat/test_352_16.dat -cflags "-Wno-unknown-pragmas" -csimflags "-Wno-unknown-pragmas"
 add_files -tb ../../dat/test_22_16.dat -cflags "-Wno-unknown-pragmas" -csimflags "-Wno-unknown-pragmas"
 add_files -tb ../../sources/test.dat -cflags "-Wno-unknown-pragmas" -csimflags "-Wno-unknown-pragmas"
-add_files -tb ../../sources/comparator_test_withmux.cpp -cflags "-Wno-unknown-pragmas" -csimflags "-Wno-unknown-pragmas"
+add_files -tb ../../sources/comparator_test_nomux.cpp -cflags "-Wno-unknown-pragmas" -csimflags "-Wno-unknown-pragmas"
 
 
 
@@ -20,9 +20,9 @@ add_files -tb ../../sources/comparator_test_withmux.cpp -cflags "-Wno-unknown-pr
 
 set Is [list 352]
 set Os [list 16]
-set Ds [range 4 5]
-set IIs [list 1]
-set muxs [list 1]
+set Ds [list 8 7 6 5 4 3 2 1]
+set IIs [list 1 4]
+set muxs [list 0]
 set flats [list 1]
 set in_regs [list 0 1]
 set rebuilts [list 0]
