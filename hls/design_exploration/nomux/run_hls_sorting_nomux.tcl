@@ -20,7 +20,7 @@ add_files -tb ../../sources/comparator_test_nomux.cpp -cflags "-Wno-unknown-prag
 
 set Is [list 352]
 set Os [list 16]
-set Ds [range 4 8]
+set Ds [list 8 7]
 set IIs [list 1 4]
 set muxs [list 0]
 set flats [list 1]
@@ -47,12 +47,10 @@ foreach I $Is {
 							set_directive_pipeline -II $II "compare_main"
 							if {$in_reg == 1} {
 								set_directive_interface -mode ap_none -register "compare_main" idata
-								set_directive_latency -max [expr $D + 1] "compare_main"
-								set_directive_latency -min [expr $D + 1] "compare_main"
+								set_directive_latency -min [expr $D + 1] -max [expr $D + 1] "compare_main"
 							} else	{
 							        set_directive_interface -mode ap_none "compare_main" idata
-								set_directive_latency -max $D "compare_main"
-								set_directive_latency -min $D "compare_main"
+								set_directive_latency -min $D -max $D "compare_main"
 							}
 														
 							set_directive_interface -mode ap_none -register "compare_main" odata

@@ -20,12 +20,12 @@ add_files -tb ../../sources/comparator_test_withmux.cpp -cflags "-Wno-unknown-pr
 
 set Is [list 352]
 set Os [list 16]
-set Ds [range 4 5]
-set IIs [list 1]
+set Ds [list 8]
+set IIs [list 4]
 set muxs [list 1]
 set flats [list 1]
-set in_regs [list 0 1]
-set rebuilts [list 0]
+set in_regs [list 0]
+set rebuilts [list 1]
 
 
 foreach I $Is {
@@ -47,12 +47,10 @@ foreach I $Is {
 							set_directive_pipeline -II $II "compare_main"
 							if {$in_reg == 1} {
 								set_directive_interface -mode ap_none -register "compare_main" idata
-								set_directive_latency -max [expr $D + 1] "compare_main"
-								set_directive_latency -min [expr $D + 1] "compare_main"
+								set_directive_latency -min [expr $D + 1] -max [expr $D + 1] "compare_main"
 							} else	{
 							        set_directive_interface -mode ap_none "compare_main" idata
-								set_directive_latency -max $D "compare_main"
-								set_directive_latency -min $D "compare_main"
+								set_directive_latency -min $D -max $D "compare_main"
 							}
 														
 							set_directive_interface -mode ap_none -register "compare_main" odata
