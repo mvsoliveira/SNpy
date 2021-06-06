@@ -8,7 +8,11 @@
 #ifndef SUM_H_
 #define SUM_H_
 
+#ifdef __INTELFPGA_COMPILER__
 #include "HLS/ac_int.h"
+#else
+#include "ref/ac_int.h"
+#endif
 
 using namespace std;
 
