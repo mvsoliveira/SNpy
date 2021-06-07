@@ -1,4 +1,5 @@
-SOURCE_FILES  := sum.cpp 
+include Debug/src/subdir.mk
+SOURCE_FILES  := $(CPP_SRCS)
 override HLS_CXX_FLAGS := $(HLS_CXX_FLAGS)
 SIM?=1
 PR?=0  
@@ -15,8 +16,8 @@ else
 endif
 
 ifeq ($(MAKECMDGOALS),)
-  $(info No target specified, defaulting to test-x86-64)
-  $(info Available targets: test-x86-64, fpga, test-gpp, clean)
+  $(info No target specified, defaulting to x86-64)
+  $(info Available targets: x86-64, fpga, test-gpp, clean)
 endif
 
 # Any tools installed with HLS can be found relative to the location of i++
@@ -24,7 +25,7 @@ HLS_INSTALL_DIR := $(shell which i++ | sed 's|/bin/i++||g')
 
 # Run the i++ x86 test by default
 .PHONY: default
-default: test-x86-64
+default: x86-64
 
 # Compile the component and testbench using g++ and run them as a regular program
 .PHONY: test-gpp
@@ -37,13 +38,13 @@ test-gpp: $(SOURCE_FILES)
 	@echo "+-------------------------------------+"
 
 # Run the testbench and the component as a regular program
-.PHONY: test-x86-64
-test-x86-64: CXXFLAGS := $(CXXFLAGS) $(HLS_CXX_FLAGS) -march=x86-64 -o test-x86-64
-test-x86-64: $(SOURCE_FILES)
+.PHONY: x86-64
+x86-64: CXXFLAGS := $(CXXFLAGS) $(HLS_CXX_FLAGS) -march=x86-64 -o x86-64
+x86-64: $(SOURCE_FILES)
 	$(CXX) $(SOURCE_FILES) $(CXXFLAGS)
-	@echo "+----------------------------------------+"
-	@echo "| Run ./test-x86-64 to execute the test. |"
-	@echo "+----------------------------------------+"
+	@echo "+-----------------------------------+"
+	@echo "| Run ./x86-64 to execute the test. |"
+	@echo "+-----------------------------------+"
 
 # Run a simulation with the C testbench and verilog component
 .PHONY: fpga
@@ -61,9 +62,9 @@ endif
 fpga: CXXFLAGS := $(CXXFLAGS) $(HLS_CXX_FLAGS) -march=$(DEVICE) -o fpga 
 fpga: $(SOURCE_FILES)
 	$(CXX) $(SOURCE_FILES) $(CXXFLAGS)
-	@echo "+--------------------------------------+"
-	@echo "| Run ./test-fpga to execute the test. |"
-	@echo "+--------------------------------------+"
+	@echo "+---------------------------------+"
+	@echo "| Run ./fpga to execute the test. |"
+	@echo "+---------------------------------+"
 	
 
 # Clean up temprary and delivered files
@@ -71,7 +72,7 @@ CLEAN_FILES := test-gpp \
                test-gpp.prj \
                fpga \
                fpga.prj \
-               test-x86-64 \
-               test-x86-64.prj
+               x86-64 \
+               x86-64.prj
 clean:
 	-$(RM) $(CLEAN_FILES)
