@@ -35,8 +35,16 @@ typedef struct {
     mflg_t flg;
 } ielement_t;
 
+typedef struct {
+	oelement_t data[O];
+} oelement_s_t;
+
+typedef struct {
+	ielement_t idata[I];
+} ielement_s_t;
+
 void compare_exchange(oelement_t data[I], const int a, const int b);
-void compare_main(const ielement_t idata[I], oelement_t odata[O]);
+oelement_s_t compare_main(const ielement_s_t in);
 
 #endif
 

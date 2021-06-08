@@ -13,6 +13,7 @@ bool compare_arrays(oelement_t expected[O], oelement_t computed[O])
 	{
 		if (expected[i].pt != computed[i].pt) {
 			cout << "pt mismatch at index " << i << endl;
+			cout << "expected " << expected[i].pt << " found " << computed[i].pt << endl;
 			return true;
 		}
 		if (expected[i].id != computed[i].id) {
@@ -83,10 +84,14 @@ int main ()
   bool test_error=false;
   bool error=false;
   int i = 0;
-  int i_max = 50;
+  int i_max = 2;
   ielement_t testdata[I];
   oelement_t computed[O];
   oelement_t expected[O];
+
+  ielement_s_t testdata2;
+  oelement_s_t computed2;
+  oelement_s_t expected2;
 
   if (!sti.is_open())
   {
@@ -98,14 +103,14 @@ int main ()
 	while (reading)
 	{
 
-		reading = read_ielements(testdata,sti);
-		reading = read_oelements(expected,sti);
+		reading = read_ielements(testdata2.idata,sti);
+		reading = read_oelements(expected2.data,sti);
 		if (reading) {
-			//const ielement_t* const_destdata = const_cast<const ielement_t*>(testdata);
+			//const ielement_t* const_destdata = const_cast<const ielement_t*>(testdata.idata);
 			cout << "Sorting stimulus for iteration " << i << endl;
-			compare_main(testdata,computed);
+			computed2 = compare_main(testdata2);
 			cout << "Checking result for iteration " << i << endl;
-			error = compare_arrays(expected,computed);
+			error = compare_arrays(expected2.data,computed2.data);
 			if (error) {
 				cout << "Iteration error for iteration " << i << endl;
 				test_error = true;
