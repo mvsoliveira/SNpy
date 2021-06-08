@@ -5,7 +5,7 @@
 #include "sorting_nomux.h"
 using namespace std;
 
-const char *stimulus_source = "dat/test_4_4.dat";
+const char *stimulus_source = "dat/test_352_16.dat";
 
 bool compare_arrays(oelement_t expected[O], oelement_t computed[O])
 {
@@ -84,7 +84,7 @@ int main ()
   bool test_error=false;
   bool error=false;
   int i = 0;
-  int i_max = 2;
+  int i_max = 100;
   ielement_t testdata[I];
   oelement_t computed[O];
   oelement_t expected[O];
