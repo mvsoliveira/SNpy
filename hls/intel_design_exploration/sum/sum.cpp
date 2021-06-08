@@ -32,7 +32,6 @@ int main()
 	x.m[1].a = 5; x.m[1].b = 6; x.m[1].c = 7; x.m[1].d = 8;
 	ihc_hls_enqueue(&y,&sum,x);
 	ihc_hls_component_run_all(&sum);
-//cout<<"The sum is : "<< y << " \n";
 	printf("The sum is : %d\n", y.to_int());
 	return (y.to_int()==48);
 }

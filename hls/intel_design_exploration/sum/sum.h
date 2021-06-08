@@ -18,6 +18,7 @@ using namespace std;
 
 #define SUMI_WIDTH 28
 #define SUMO_WIDTH 30
+#define SUMN 2
 
 
 typedef ac_int<SUMI_WIDTH, false> sumi_t;
@@ -33,7 +34,7 @@ typedef struct {
 
 
 typedef struct {
-	sumi_s_t m[2];
+	sumi_s_t m[SUMN];
 } sumi_s_v_s_t;
 
 
