@@ -32,5 +32,10 @@ typedef struct {
 } sumi_s_t;
 
 
+typedef struct {
+	sumi_s_t m[2];
+} sumi_s_v_s_t;
+
+
 
 #endif /* SUM_H_ */

@@ -58,7 +58,7 @@ endif
 ifeq ($(PR),1)
   fpga: HLS_CXX_FLAGS := $(HLS_CXX_FLAGS) --quartus-compile
 endif
-fpga: CXXFLAGS := $(CXXFLAGS) $(HLS_CXX_FLAGS) -march=$(DEVICE) -o fpga 
+fpga: CXXFLAGS := $(CXXFLAGS) $(HLS_CXX_FLAGS) -march=$(DEVICE) -o fpga --clock 160MHz
 fpga: $(SOURCE_FILES)
 	$(CXX) $(SOURCE_FILES) $(CXXFLAGS)
 	@echo "+--------------------------------------+"
