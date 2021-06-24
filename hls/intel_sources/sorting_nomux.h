@@ -8,7 +8,7 @@
 #else
 #include "ref/ac_int.h"
 #endif
-#include "pairs_352_16.h"
+#include "pairs_22_16.h"
 
 using namespace std;
 

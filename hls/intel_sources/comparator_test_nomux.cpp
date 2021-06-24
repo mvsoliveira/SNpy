@@ -5,7 +5,7 @@
 #include "sorting_nomux.h"
 using namespace std;
 
-const char *stimulus_source = "dat/test_352_16.dat";
+const char *stimulus_source = "dat/test_22_16.dat";
 
 bool compare_arrays(oelement_t expected[O], oelement_t computed[O])
 {
